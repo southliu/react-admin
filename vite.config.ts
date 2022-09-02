@@ -10,4 +10,7 @@ export default defineConfig({
       '#': '/types'
     }
   },
+  server: {
+    open: true
+  }
 })

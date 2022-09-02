@@ -7,8 +7,15 @@ import "uno.css"
 import "nprogress/nprogress.css"
 import "@/assets/css/scrollbar.less"
 
+// antd
+import { ConfigProvider } from 'antd'
+import 'antd/dist/antd.css'
+import zhCN from 'antd/es/locale/zh_CN'
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Router />
+    <ConfigProvider locale={zhCN}>
+      <Router />
+    </ConfigProvider>
   </React.StrictMode>
 )

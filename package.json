@@ -47,8 +47,7 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-purge-icons": "^0.9.0",
     "vite-plugin-style-import": "^2.0.0",
-    "vitest": "^0.22.1",
-    "windicss-analysis": "^0.3.5"
+    "vitest": "^0.22.1"
   },
   "husky": {
     "hooks": {
