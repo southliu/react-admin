@@ -1,9 +1,12 @@
-import type { ILoginData } from "./model"
+import type { ILoginData } from './model'
 import type { FormProps } from 'antd'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 import { Form, Button, Input } from 'antd'
-import { useState } from "react"
-import { PASSWORD_RULE } from "@/utils/config"
+import { useState } from 'react'
+import { PASSWORD_RULE } from '@/utils/config'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { login } from '@/servers/login'
+import { useToken } from '@/hooks/useToken'
 import Logo from '@/assets/images/logo.png'
 
 function Login() {
@@ -14,7 +17,17 @@ function Login() {
    * @param values - 表单数据
    */
   const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
-    console.log('handleFinish:', values)
+    try {
+      setLoading(true)
+      const { data } = await login(values)
+      const { data: { token, user, permissions } } = data
+      const { setToken } = useToken()
+      setToken(token)
+      console.log('user:', user)
+      console.log('permissions:', permissions)
+    } finally {
+      setLoading(false)
+    }
   }
 
   /**
@@ -31,8 +44,7 @@ function Login() {
       <Link to="/">to home</Link>
 
       <div className="bg-light-400 w-screen h-screen relative">
-        <div className="
-          box
+        <div className={`
           w-300px
           h-290px
           p-30px
@@ -43,7 +55,7 @@ function Login() {
           top-1/2
           -translate-x-1/2
           -translate-y-1/2
-        ">
+        `}>
          <div className="pb-30px pt-10px flex items-center justify-center">
             <img
               className="mr-2 object-contain"
@@ -59,6 +71,10 @@ function Login() {
             autoComplete="on"
             onFinish={handleFinish}
             onFinishFailed={handleFinishFailed}
+            initialValues={{
+              username: 'admin',
+              password: 'admin123456'
+            }}
           >
             <Form.Item
               name="username"
@@ -69,6 +85,7 @@ function Login() {
                 placeholder="用户名"
                 data-test="username"
                 auto-complete="username"
+                addonBefore={<UserOutlined />}
               />
             </Form.Item>
 
@@ -81,19 +98,17 @@ function Login() {
             >
               <Input.Password
                 placeholder="密码"
-                allow-clear="true"
-                data-test="password"
-                auto-complete="current-password"
+                autoComplete="current-password"
+                addonBefore={<LockOutlined />}
               />
             </Form.Item>
 
             <Form.Item>
               <Button
                 type="primary"
-                html-type="submit"
+                htmlType="submit"
                 className="w-full mt-5px rounded-5px tracking-2px"
                 loading={loading}
-                // disabled={formState.username === '' || formState.password.length < 6}
               >
                 登录
               </Button>

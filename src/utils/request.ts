@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { router } from '@/router'
+// import { router } from '@/router'
 import { message } from 'antd'
 import { useToken } from '@/hooks/useToken'
 
@@ -33,7 +33,7 @@ const handleError = (error: string, content?: string) => {
 /** 权限不足 */
 const handleNotPermission = () => {
   useToken().removeToken()
-  router.push('/login')
+  // router.push('/login')
 }
 
 // 请求拦截

@@ -2,6 +2,10 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import Router from "./router"
 
+// 状态管理
+import { Provider } from 'react-redux'
+import { store } from './stores'
+
 // 样式
 import "uno.css"
 import "nprogress/nprogress.css"
@@ -15,7 +19,9 @@ import zhCN from 'antd/es/locale/zh_CN'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ConfigProvider locale={zhCN}>
-      <Router />
+      <Provider store = {store}>
+        <Router />
+      </Provider>
     </ConfigProvider>
   </React.StrictMode>
 )
