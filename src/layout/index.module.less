@@ -1,0 +1,71 @@
+@import '@/assets/css/default.less';
+
+.header {
+  position: fixed;
+  flex-direction: column;
+  top: 0;
+  left: @layout_left;
+  right: 0;
+  height: @layout_top;
+  border-bottom: 1px solid #eee;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.headerCloseMenu {
+  left: @layout_left_close !important;
+}
+
+.headerDriver {
+  border-bottom: 1px solid #eee;
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  background-color: #000;
+  width: @layout_left;
+}
+
+.menuClose {
+  width: @layout_left_close !important;
+}
+
+.con {
+  position: fixed;
+  left: @layout_left;
+  top: @layout_top;
+  right: 0;
+  bottom: 0;
+}
+
+.conCloseMenu {
+  left: @layout_left_close;
+}
+
+.conMaximize {
+  left: 0 !important;
+  top: calc(@layout_top / 2);
+}
+
+.headerNone {
+  left: 0 !important;
+  height: calc(@layout_top / 2)
+}
+
+.none {
+  display: none !important;
+}
+
+.menuNone {
+  width: 0 !important;
+}
+
+.conPhone {
+  left: 0 !important;
+}
+
+.headerPhone {
+  left: 0 !important;
+}

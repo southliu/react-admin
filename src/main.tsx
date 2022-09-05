@@ -19,7 +19,7 @@ import zhCN from 'antd/es/locale/zh_CN'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ConfigProvider locale={zhCN}>
-      <Provider store = {store}>
+      <Provider store={store}>
         <Router />
       </Provider>
     </ConfigProvider>

@@ -18,6 +18,13 @@ export default defineConfig(({ mode }) => {
         '#': '/types'
       }
     },
+    css: {
+      preprocessorOptions: {
+        less: {
+          javascriptEnabled: true
+        },
+      },
+    },
     server: {
       open: true,
       port: VITE_SERVER_PORT,

@@ -1,16 +1,29 @@
 import type { ILoginData } from './model'
 import type { FormProps } from 'antd'
-import { Link } from 'react-router-dom'
+import type { AppDispatch } from '@/stores'
 import { Form, Button, Input } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PASSWORD_RULE } from '@/utils/config'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { login } from '@/servers/login'
 import { useToken } from '@/hooks/useToken'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { setPermissions, setUserInfo } from '@/stores/user'
 import Logo from '@/assets/images/logo.png'
 
 function Login() {
+  const navigate = useNavigate()
+  const dispatch: AppDispatch = useDispatch()
+  const { getToken, setToken } = useToken()
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    // 如果存在token，则直接进入页面
+    if (getToken()) {
+      navigate('/dashboard')
+    } 
+  }, [])
 
   /**
    * 处理登录
@@ -21,10 +34,10 @@ function Login() {
       setLoading(true)
       const { data } = await login(values)
       const { data: { token, user, permissions } } = data
-      const { setToken } = useToken()
       setToken(token)
-      console.log('user:', user)
-      console.log('permissions:', permissions)
+      dispatch(setUserInfo(user))
+      dispatch(setPermissions(permissions))
+      navigate('/dashboard')
     } finally {
       setLoading(false)
     }
@@ -40,9 +53,6 @@ function Login() {
 
   return (
     <>
-      <div>Login</div>
-      <Link to="/">to home</Link>
-
       <div className="bg-light-400 w-screen h-screen relative">
         <div className={`
           w-300px

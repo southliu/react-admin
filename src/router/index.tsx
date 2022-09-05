@@ -3,17 +3,28 @@ import {
   Routes,
   Route
 } from "react-router-dom"
-import App from "@/pages/test"
+import Layout from "@/layout"
 import Login from "@/pages/login"
-import Dashboard from "@/pages/dashboard"
+import NotFound from "@/pages/errors/404"
+import { menus } from "@/menus"
 
 function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
         <Route path="login" element={<Login />} />
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Layout />}>
+          {
+            menus.map(item => (
+              <Route
+                key={item.path}
+                path={item.path}
+                element={<item.element />}
+              />
+            ))
+          }
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )
