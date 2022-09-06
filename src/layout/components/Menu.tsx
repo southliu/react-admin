@@ -11,6 +11,7 @@ import {
   MenuUnfoldOutlined,
   PieChartOutlined,
 } from '@ant-design/icons'
+import styles from '../index.module.less'
 
 type MenuItem = Required<MenuProps>['items'][number]
 function getItem(
@@ -58,17 +59,16 @@ function LayoutMenu() {
   }
 
   return (
-    <div className='w-256px'>
-      <Menu
-        onClick={onClick}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
-        mode="inline"
-        theme="dark"
-        inlineCollapsed={collapsed}
-        items={items}
-      />
-    </div>
+    <Menu
+      className={styles.menu}
+      onClick={onClick}
+      defaultSelectedKeys={['1']}
+      defaultOpenKeys={['sub1']}
+      mode="inline"
+      theme="dark"
+      inlineCollapsed={collapsed}
+      items={items}
+    />
   )
 }
 

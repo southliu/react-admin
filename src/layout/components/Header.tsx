@@ -19,6 +19,8 @@ import {
   ExclamationCircleOutlined
 } from '@ant-design/icons'
 import Avatar from '@/assets/images/avatar.png'
+import styles from '../index.module.less'
+import Fullscreen from '@/components/Fullscreen'
 
 type IMenuItem = 'password' | 'logout'
 
@@ -81,18 +83,25 @@ function Header() {
 
   return (
     <header
-      className="flex items-center justify-between px-6 py-6px box-border transition-all"
+      className={`
+        flex
+        items-center
+        justify-between
+        px-6
+        py-6px
+        box-border
+        transition-all
+        ${styles.headerDriver}
+      `}
     >
-      <div className="header-left">
-        <div className="text-lg cursor-pointer" onClick={() => dispatch(toggleCollapsed(!collapsed))}>
-          { collapsed && <MenuUnfoldOutlined /> }
-          { !collapsed && <MenuFoldOutlined /> }
-        </div>
+      <div className="text-lg cursor-pointer" onClick={() => dispatch(toggleCollapsed(!collapsed))}>
+        { collapsed && <MenuUnfoldOutlined /> }
+        { !collapsed && <MenuFoldOutlined /> }
       </div>
       
-      <div className="header-right flex items-center">
-      {/* <GlobalSearch />
-      <Fullscreen /> */}
+      <div className="flex items-center">
+      {/* <GlobalSearch /> */}
+      <Fullscreen />
       <Dropdown
         className="min-w-50px"
         overlay={menu}

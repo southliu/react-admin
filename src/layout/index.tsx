@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import Menu from './components/Menu'
 import Header from './components/Header'
+import Tabs from './components/Tabs'
 import styles from './index.module.less'
 
 function Layout() {
@@ -19,17 +20,16 @@ function Layout() {
   }, [])
 
   return (
-    <>
-      <div className={styles.header}>
+    <div id="layout" className='w-h-full bg-white'>
+      <div className={`${styles.header}`}>
         <Header />
+        <Tabs />
       </div>
-      <div className={styles.headerDriver}>
-        <Menu />
-      </div>
+      <Menu />
       <div className={styles.con}>
         <Outlet />
       </div>
-    </>
+    </div>
   )
 }
 

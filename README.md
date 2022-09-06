@@ -10,7 +10,7 @@ git clone https://github.com/Southliu/react-admin.git
 - 选择目录
 
 ```bash
-cd vue-vite-admin
+cd react-admin
 ```
 
 - 安装全局依赖依赖，存在则不用安装

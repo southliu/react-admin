@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@iconify/iconify": "^2.2.1",
     "@reduxjs/toolkit": "^1.8.5",
-    "antd": "^4.22.7",
+    "ahooks": "^3.7.0",
+    "antd": "^4.23.0",
     "axios": "^0.27.2",
     "crypto-js": "^4.1.1",
     "echarts": "^5.3.3",
@@ -27,7 +27,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
-    "@iconify/json": "^2.1.96",
+    "@iconify/react": "^3.2.2",
     "@types/crypto-js": "^4.1.1",
     "@types/node": "^18.7.9",
     "@types/nprogress": "^0.2.0",
