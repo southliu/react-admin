@@ -3,13 +3,22 @@ import type { PluginOption } from 'vite'
 import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import Unocss from 'unocss/vite'
 import react from '@vitejs/plugin-react'
-import windiCSS from 'vite-plugin-windicss'
+import WindiCSS from 'vite-plugin-windicss'
+import Pages from 'vite-plugin-pages'
 
 export function createVitePlugins() {
   // 插件参数
-  const vitePlugins: (PluginOption[])[] = [
+  const vitePlugins: PluginOption[] = [
     react(),
-    windiCSS(),
+    WindiCSS(),
+    Pages({
+      resolver: 'react',
+      exclude: [
+        '**/components/**/*',
+        '**/tests/**/*',
+        '**/__test__/**/*'
+      ]
+    }),
     Unocss({
       presets: [
         presetUno(), 

@@ -17,11 +17,16 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "types": [
+      "vite/client",
+      "vite-plugin-pages/client-react"
+    ],
     "paths": {
       "@/*": ["src/*"],
       "#/*": ["types/*"]
     }
   },
   "include": ["src", "build"],
+  "exclude": ["dist", "node_modules", "cypress"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

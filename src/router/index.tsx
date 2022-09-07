@@ -1,31 +1,22 @@
 import {
   BrowserRouter,
-  Routes,
-  Route
+  useRoutes
 } from "react-router-dom"
-import Layout from "@/layout"
-import Login from "@/pages/login"
-import NotFound from "@/pages/errors/404"
-import { menus } from "@/menus"
+import { Suspense } from 'react'
+import routes from '~react-pages'
 
 function Router() {
+  const App = () => {
+    return (
+      <Suspense fallback={<p>Loading...</p>}>
+        {useRoutes(routes)}
+      </Suspense>
+    )
+  }
+
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="login" element={<Login />} />
-        <Route path="/" element={<Layout />}>
-          {
-            menus.map(item => (
-              <Route
-                key={item.path}
-                path={item.path}
-                element={<item.element />}
-              />
-            ))
-          }
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <App />
     </BrowserRouter>
   )
 }

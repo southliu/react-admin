@@ -1,11 +1,11 @@
 import Layout from '@/layout'
 
-function Dashboard() {
+function Home() {
   return (
     <Layout>
-      <div>Dashboard</div>
+      <div>Home</div>
     </Layout>
   )
 }
 
-export default Dashboard
+export default Home
