@@ -13,6 +13,7 @@ export function createVitePlugins() {
     WindiCSS(),
     Pages({
       resolver: 'react',
+      importMode: 'async',
       exclude: [
         '**/components/**/*',
         '**/tests/**/*',

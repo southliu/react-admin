@@ -1,8 +1,10 @@
-import Layout from '@/layout'
 
 function User() {
   return (
-    <Layout>User</Layout>
+    <div>
+      User
+      <input />
+    </div>
   )
 }
 

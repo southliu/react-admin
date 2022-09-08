@@ -1,4 +1,3 @@
-import Layout from '@/layout'
 import styles from './index.module.less'
 
 interface IProps {
@@ -11,25 +10,23 @@ function Content(props: IProps) {
   const { topSlot, contentSlot, footerSlot } = props
 
   return (
-    <Layout>
-      <div
-        className={`h-full px-2 py-3 box-border ${styles.bg}`}
-      >
-        <div id="container" className="h-full bg-white relative overflow-auto">
-          <div id="top">
-            { topSlot }
-          </div>
-    
-          <div id="content" className="p-5 overflow-auto">
-            { contentSlot }
-          </div>
-    
-          <div id="footer">
-            { footerSlot }
-          </div>
+    <div
+      className={`h-full px-2 py-3 box-border ${styles.bg}`}
+    >
+      <div id="container" className="h-full bg-white relative overflow-auto">
+        <div id="top">
+          { topSlot }
+        </div>
+  
+        <div id="content" className="p-5 overflow-auto">
+          { contentSlot }
+        </div>
+  
+        <div id="footer">
+          { footerSlot }
         </div>
       </div>
-    </Layout>
+    </div>
   )
 }
 

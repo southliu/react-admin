@@ -1,8 +1,10 @@
-import Layout from '@/layout'
 
 function Menu() {
   return (
-    <Layout>Menu</Layout>
+    <div>
+      Menu
+      <input />
+    </div>
   )
 }
 
