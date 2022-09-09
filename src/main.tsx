@@ -16,6 +16,11 @@ import { ConfigProvider } from 'antd'
 import 'antd/dist/antd.css'
 import zhCN from 'antd/es/locale/zh_CN'
 
+// 关闭loading
+if (document?.getElementById('first')) {
+  (document.getElementById('first') as HTMLElement).style.display = 'none'
+}
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ConfigProvider locale={zhCN}>

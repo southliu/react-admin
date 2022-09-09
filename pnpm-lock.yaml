@@ -17,7 +17,7 @@ specifiers:
   '@unocss/preset-icons': ^0.45.9
   '@unocss/preset-uno': ^0.45.9
   '@vitejs/plugin-react': ^2.0.1
-  ahooks: ^3.7.0
+  ahooks: ^3.7.1
   antd: ^4.23.0
   axios: ^0.27.2
   cross-env: ^7.0.3
@@ -45,7 +45,7 @@ specifiers:
 dependencies:
   '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
   '@reduxjs/toolkit': 1.8.5_kkwg4cbsojnjnupd3btipussee
-  ahooks: 3.7.0_react@18.2.0
+  ahooks: 3.7.1_react@18.2.0
   antd: 4.23.0_biqbaboplfbrettd7655fr4n2y
   axios: 0.27.2
   crypto-js: 4.1.1
@@ -1214,8 +1214,8 @@ packages:
     resolution: {integrity: sha512-V7uUvAwnimu6eh/PED4mCDjE7tokeZQLKlxg9lCTMPhN+NjsSbtdacByVlR1oluXQzD3MOw55wylDmQo4+S9ZQ==}
     dev: false
 
-  /ahooks/3.7.0_react@18.2.0:
-    resolution: {integrity: sha512-IOZ6IpVeAd7aWtV2O+dBmCQc0aHt+WPG3B5tPHnVVcPnEq9FDJxx8IIA5hLxN4lRa1m1ZMx6pOE2rrYW7bjU6A==}
+  /ahooks/3.7.1_react@18.2.0:
+    resolution: {integrity: sha512-9fooKjhScNyJaIPnlWd13LkY1gQYqv3BqwSA9ynHg1ZUtDqAICuCRoedV97ylrEL6QqI4zeq3bO3lQxkfWVNcg==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0

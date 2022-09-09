@@ -21,6 +21,7 @@ import {
 import Avatar from '@/assets/images/avatar.png'
 import styles from '../index.module.less'
 import Fullscreen from '@/components/Fullscreen'
+import GlobalSearch from '@/components/GlobalSearch'
 
 type IMenuItem = 'password' | 'logout'
 
@@ -100,7 +101,7 @@ function Header() {
       </div>
       
       <div className="flex items-center">
-      {/* <GlobalSearch /> */}
+      <GlobalSearch />
       <Fullscreen />
       <Dropdown
         className="min-w-50px"
