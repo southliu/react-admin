@@ -16,7 +16,7 @@ function Login() {
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
   const { getToken, setToken } = useToken()
-  const [loading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
     // 如果存在token，则直接进入页面
@@ -118,7 +118,7 @@ function Login() {
                 type="primary"
                 htmlType="submit"
                 className="w-full mt-5px rounded-5px tracking-2px"
-                loading={loading}
+                loading={isLoading}
               >
                 登录
               </Button>

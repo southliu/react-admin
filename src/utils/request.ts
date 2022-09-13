@@ -23,7 +23,7 @@ const request = axios.create({
  * @param content - 自定义内容
  */
 const handleError = (error: string, content?: string) => {
-  console.log('错误信息:', error)
+  console.error('错误信息:', error)
   message.error({
     content: content || error || '服务器错误',
     key: 'error'

@@ -47,7 +47,6 @@ function Header() {
 
   /** 点击菜单 */
   const onClick: MenuProps['onClick'] = e => {
-    console.log('click ', e)
     switch (e.key as IMenuItem) {
       case 'logout':
         handleLogout()
@@ -68,7 +67,6 @@ function Header() {
 
   /** 退出登录 */
   const handleLogout = () => {
-    console.log('out')
     Modal.confirm({
       title: '温馨提示',
       icon: <ExclamationCircleOutlined />,

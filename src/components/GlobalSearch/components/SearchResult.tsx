@@ -45,8 +45,6 @@ function SearchResult(props: IProps) {
         </div>
       }
 
-      { active }
-
       {
         list?.length > 0 &&
         <div className="mt-5">

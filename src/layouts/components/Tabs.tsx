@@ -19,7 +19,6 @@ function LayoutTabs() {
    * @param key - 唯一值
    */
   const onChange = (key: string) => {
-    console.log('key:', key)
     setActiveKey(key)
   }
 
@@ -84,7 +83,7 @@ function LayoutTabs() {
                 justify-center
                 text-lg
                 cursor-pointer
-                ${refresh && 'animate-spin'}
+                ${refresh ? 'animate-spin' : ''}
               `}
               onClick={() => setRefresh(true)}
               icon="ant-design:reload-outlined"

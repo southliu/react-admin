@@ -1,4 +1,5 @@
 import type { ISearchMenuValue } from '@/menus/utils/helper'
+import { Ref, useImperativeHandle } from 'react'
 import { InputRef } from 'antd'
 import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 import { Modal, Input } from 'antd'
@@ -11,22 +12,36 @@ import { searchMenuValue } from '@/menus/utils/helper'
 import SearchResult from './SearchResult'
 import SearchFooter from './SearchFooter'
 
-interface IProps {
-  visible: boolean;
+export interface ISearchModal {
   toggle: () => void;
+}
+
+interface IProps {
+  modalRef: Ref<ISearchModal>;
 }
 
 function SearchModal(props: IProps) {
   const navigate = useNavigate()
   const inputRef = useRef<InputRef>(null)
-  const { visible, toggle } = props
+  const { modalRef } = props
   const [value, setValue] = useState('') // 输入框值
   const [active, setActive] = useState('') // 选中值
   const [list, setList] = useState<ISearchMenuValue[]>([])
+  const [isVisible, setVisible] = useState(false)
+
+  // 抛出外部方法
+  useImperativeHandle(
+    modalRef,
+    () => ({
+      toggle: () => {
+        setVisible(!isVisible)
+      }
+    })
+  )
 
   // 聚焦输入框
   useEffect(() => {
-    if (visible) {
+    if (isVisible) {
       // 转为宏任务聚焦输入框
       setTimeout(() => {
         inputRef.current?.focus({
@@ -41,7 +56,7 @@ function SearchModal(props: IProps) {
       setActive('')
       setList([])
     })
-  }, [visible])
+  }, [isVisible])
 
   /**
    * 更改选中值
@@ -51,11 +66,16 @@ function SearchModal(props: IProps) {
     setActive(value)
   }
 
+  /** 关闭模态框 */
+  const onClose = () => {
+    setVisible(false)
+  }
+
   /** 点击回车 */
   const onPressEnter = () => {
     if (active) {
       navigate(active)
-      toggle()
+      onClose()
     }
   }
 
@@ -68,6 +88,9 @@ function SearchModal(props: IProps) {
     if (searchValue?.length) {
       setActive((searchValue as ISearchMenuValue[])[0].key)
       setList(searchValue as ISearchMenuValue[])
+    } else {
+      setActive('')
+      setList([])
     }
   }, { wait: 200 })
 
@@ -85,11 +108,9 @@ function SearchModal(props: IProps) {
    * 键盘上事件
    */
   const onArrowUp = () => {
-    console.log('onArrowUp', list.length, visible)
     // 列表为空则退出
-    if (!list.length || !visible) return null
+    if (!list.length) return null
     const index = list.findIndex(item => item.key === active)
-    console.log('up:', index, active)
     // 最上层则不操作
     if (index === 0) return null
     const newActive = list[index - 1].key
@@ -100,31 +121,41 @@ function SearchModal(props: IProps) {
    * 键盘下事件
    */
   const onArrowDown = () => {
-    console.log('onArrowDown', list.length, visible)
     // 列表为空则退出
-    if (!list.length || !visible) return null
+    if (!list.length) return null
     const len = list.length - 1
     const index = list.findIndex(item => item.key === active)
-    console.log('down:', index, active)
     // 最下层则不操作
     if (index === len) return null
     const newActive = list[index + 1].key
     setActive(newActive)
   }
-
   // 监听按键
-  useKeyStroke({
+  const { onKeyDown } = useKeyStroke({
     ArrowUp: onArrowUp,
     ArrowDown: onArrowDown,
     Enter: onPressEnter,
   })
 
+  // 当列表值变化时监听按键事件
+  useEffect(() => {
+    if (list.length) {
+      // 监听按键
+      window.addEventListener('keydown', onKeyDown)
+
+      return (() => {
+        // 退出清空监听
+        window.removeEventListener('keydown', onKeyDown)
+      })
+    }
+  }, [list, active])
+
   return (
     <Modal
       className="rounded-100px"
-      visible={visible}
+      open={isVisible}
       closable={false}
-      onCancel={toggle}
+      onCancel={onClose}
       footer={<SearchFooter />}
     >
       <Input
@@ -143,7 +174,7 @@ function SearchModal(props: IProps) {
       <SearchResult
         list={list}
         active={active}
-        onCancel={toggle}
+        onCancel={onClose}
         changActive={changActive}
       />
     </Modal>

@@ -7,7 +7,6 @@ const menuSlice = createSlice({
   },
   reducers: {
     toggleCollapsed: (state, action) => {
-      console.log('action.payload:', action.payload)
       state.collapsed = !!action.payload
     }
   }

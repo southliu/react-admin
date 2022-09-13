@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import type { ISearchModal } from './components/SearchModal'
+import { useRef } from 'react'
 import { SearchOutlined } from '@ant-design/icons'
 import { Tooltip } from 'antd'
 import SearchModal from './components/SearchModal'
@@ -7,16 +8,11 @@ import SearchModal from './components/SearchModal'
  * @description: 全局搜索菜单组件
  */
 function GlobalSearch() {
-  const [isVisible, setVisible] = useState(false)
-
-  /** 点击搜索 */
-  const onClick = () => {
-    setVisible(true)
-  }
+  const modalRef = useRef<ISearchModal>(null)
 
   /** 切换显示 */
   const toggle = () => {
-    setVisible(!isVisible)
+    modalRef.current?.toggle()
   }
 
   return (
@@ -24,13 +20,12 @@ function GlobalSearch() {
       <Tooltip title='搜索'>
         <SearchOutlined
           className="text-lg mr-3"
-          onClick={onClick}
+          onClick={toggle}
         />
       </Tooltip>
 
       <SearchModal
-        visible={isVisible}
-        toggle={toggle}
+        modalRef={modalRef}
       />
     </>
   )

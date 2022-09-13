@@ -5,7 +5,7 @@ import { useState } from "react"
  * @param initValue - 初始化状态
  */
 export function useLoading(initValue = false) {
-  const [loading, setLoading] = useState(Boolean(initValue))
+  const [isLoading, setLoading] = useState(Boolean(initValue))
 
   const startLoading = () => {
     setLoading(true)
@@ -16,11 +16,11 @@ export function useLoading(initValue = false) {
   }
 
   const toggleLoading = () => {
-    setLoading(!loading)
+    setLoading(!isLoading)
   }
 
   return {
-    loading,
+    isLoading,
     startLoading,
     endLoading,
     toggleLoading

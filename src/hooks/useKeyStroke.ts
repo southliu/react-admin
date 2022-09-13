@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 /**
  * 键盘按键事件
  * @param options
@@ -11,16 +10,6 @@ interface IOptions {
   Enter?: () => void;
 }
 export function useKeyStroke(options: IOptions) {
-  useEffect(() => {
-    // 监听按键
-    window.addEventListener('keydown', onKeyDown)
-
-    return (() => {
-      // 退出清空监听
-      window.removeEventListener('keydown', onKeyDown)
-    })
-  }, [])
-
   /**
    * 点击按键
    * @param even - 按键事件
@@ -56,4 +45,6 @@ export function useKeyStroke(options: IOptions) {
         break
     }
   }
+
+  return { onKeyDown }
 }

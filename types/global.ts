@@ -9,7 +9,7 @@ export interface ISearchData {
 // 新增数据
 export interface ICreateData {
   id: string;
-  visible: boolean;
+  isVisible: boolean;
   title: string;
   data: IFormData;
 }
