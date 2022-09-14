@@ -13,6 +13,11 @@ function LayoutMenu() {
   const location = useLocation()
   const [openKey, setOpenKey] = useState(['Dashboard'])
 
+  // 是否窗口最大化
+  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
+  // 菜单是否收缩
+  const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
+
   // 处理默认展开
   useEffect(() => {
     const { pathname } = location
@@ -24,9 +29,6 @@ function LayoutMenu() {
       setOpenKey([newOpenKey])
     }
   }, [])
-
-  // 菜单是否收缩
-  const collapsed = useSelector((state: RootState) => state.menu.collapsed)
 
   /** 
    * 点击菜单
@@ -50,13 +52,14 @@ function LayoutMenu() {
       className={`
         transition-all
         ${styles.menu}
-        ${collapsed ? styles.menuClose : ''}
+        ${isCollapsed ? styles.menuClose : ''}
+        ${isMaximize ? styles.menuNone : ''}
       `}
       selectedKeys={[location.pathname]}
       openKeys={openKey}
       mode="inline"
       theme="dark"
-      inlineCollapsed={collapsed}
+      inlineCollapsed={isCollapsed}
       items={menus}
       onClick={onClick}
       onOpenChange={onOpenChange}

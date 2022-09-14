@@ -64,7 +64,7 @@ function SearchResult(props: IProps) {
                 shadow-md
                 border
                 border-light-500
-                ${ active === item.key ? 'bg-blue-500 text-white' : '' }
+                ${active === item.key ? 'bg-blue-500 text-white' : ''}
               `}
               onClick={() => onclick(item.key)}
               onMouseEnter={() => onMouseEnter(item.key)}

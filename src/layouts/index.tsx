@@ -17,11 +17,11 @@ function Layout(props: IProps) {
   const navigate = useNavigate()
   const { getToken } = useToken()
   const token = getToken()
-  // const [maximize, setMaximize] = useState(false) // 是否窗口最大化
-  // const [isPhone, setPhone] = useState(false) // 是否是手动端
 
+  // 是否窗口最大化
+  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   // 菜单是否收缩
-  const collapsed = useSelector((state: RootState) => state.menu.collapsed)
+  const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
 
   useEffect(() => {
     // 如果没有token，则返回登录页
@@ -35,13 +35,22 @@ function Layout(props: IProps) {
       <div className={`
         transition-all
         ${styles.header}
-        ${collapsed ? styles.headerCloseMenu : ''}
+        ${isCollapsed ? styles.headerCloseMenu : ''}
+        ${isMaximize ? styles.headerNone : ''}
       `}>
         <Header />
         <Tabs />
       </div>
       <Menu />
-      <div className={styles.con}>
+      <div
+        className={`
+          overflow-hidden
+          bg-white
+          transition-all
+          ${styles.con}
+          ${isMaximize ? styles.conMaximize : ''}
+        `}
+      >
         <Outlet />
         { props.children }
       </div>

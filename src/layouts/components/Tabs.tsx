@@ -1,18 +1,23 @@
 import type { TabsProps } from 'antd'
+import type { RootState } from '@/stores'
 import { useState } from 'react'
-import { Tabs, Tooltip } from 'antd'
-import { Icon } from '@iconify/react'
+import { Tabs } from 'antd'
 import styles from '../index.module.less'
+import TabRefresh from './TabRefresh'
+import TabMaximize from './TabMaximize'
+import TabOptions from './TabOptions'
+import { useSelector } from 'react-redux'
 
 const defaultPanes = new Array(2).fill(null).map((_, index) => {
   const id = String(index + 1)
-  return { label: `标签 ${id}`, children: `Content of Tab Pane ${index + 1}`, key: id }
+  return { label: `标签 ${id}`, key: id }
 })
 
 function LayoutTabs() {
   const [activeKey, setActiveKey] = useState(defaultPanes[0].key)
   const [items, setItems] = useState(defaultPanes)
-  const [refresh, setRefresh] = useState(false) // 重新加载
+  // 是否窗口最大化
+  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
 
   /** 
    * 处理更改
@@ -47,8 +52,22 @@ function LayoutTabs() {
     }
   }
 
+  // 标签栏功能
+  const tabOptions = [
+    { element: <TabRefresh /> },
+    { element: <TabOptions /> },
+    { element: <TabMaximize /> }
+  ]
+
   return (
-    <div className="flex items-center justify-between mx-2 transition-all">
+    <div className={`
+      flex
+      items-center
+      justify-between
+      mx-2
+      transition-all
+      ${isMaximize ? styles.conMaximize : ''}
+    `}>
       <Tabs
         hideAdd
         className="w-full h-34px py-0"
@@ -63,33 +82,27 @@ function LayoutTabs() {
         }}
       />
       
-      <div>
-        <div className={`
-          ${styles.leftDivide}
-          divide-solid
-          w-36px
-          h-36px
-          text-#00000073
-          hover:text-#404040
-          flex
-          place-content-center
-          items-center
-        `}>
-          <Tooltip title="重新加载" placement="bottom">
-            <Icon
+      <div className='flex'>
+        {
+          tabOptions.map((item, index) => (
+            <div
+              key={index}
               className={`
+                ${styles.leftDivide}
+                divide-solid
+                w-36px
+                h-36px
+                text-#00000073
+                hover:text-#404040
                 flex
+                place-content-center
                 items-center
-                justify-center
-                text-lg
-                cursor-pointer
-                ${refresh ? 'animate-spin' : ''}
               `}
-              onClick={() => setRefresh(true)}
-              icon="ant-design:reload-outlined"
-            />
-          </Tooltip>
-        </div>
+            >
+              { item.element }
+            </div>
+          ))
+        }
       </div>
     </div>
   )

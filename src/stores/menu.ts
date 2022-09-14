@@ -3,11 +3,11 @@ import { createSlice } from '@reduxjs/toolkit'
 const menuSlice = createSlice({
   name: 'menu',
   initialState: {
-    collapsed: false
+    isCollapsed: false
   },
   reducers: {
     toggleCollapsed: (state, action) => {
-      state.collapsed = !!action.payload
+      state.isCollapsed = !!action.payload
     }
   }
 })

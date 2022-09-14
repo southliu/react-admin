@@ -26,10 +26,12 @@ import GlobalSearch from '@/components/GlobalSearch'
 type IMenuItem = 'password' | 'logout'
 
 function Header() {
-  const collapsed = useSelector((state: RootState) => state.menu.collapsed)
+  const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
   const username = useSelector((state: RootState) => state.user.userInfo.username)
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
+  // 是否窗口最大化
+  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
 
   // 下拉菜单内容
   const menuList: ItemType[] = [
@@ -91,11 +93,12 @@ function Header() {
         box-border
         transition-all
         ${styles.headerDriver}
+        ${isMaximize ? styles.none : ''}
       `}
     >
-      <div className="text-lg cursor-pointer" onClick={() => dispatch(toggleCollapsed(!collapsed))}>
-        { collapsed && <MenuUnfoldOutlined /> }
-        { !collapsed && <MenuFoldOutlined /> }
+      <div className="text-lg cursor-pointer" onClick={() => dispatch(toggleCollapsed(!isCollapsed))}>
+        { isCollapsed && <MenuUnfoldOutlined /> }
+        { !isCollapsed && <MenuFoldOutlined /> }
       </div>
       
       <div className="flex items-center">
