@@ -7,12 +7,13 @@ export function configPageImportPlugin() {
   return [
     Pages({
       resolver: 'react',
-      importMode: 'async',
+      importMode: 'sync',
       routeStyle: 'next',
       exclude: [
         '**/components/**/*',
         '**/tests/**/*',
-        '**/__test__/**/*'
+        '**/__test__/**/*',
+        '**/*.ts'
       ],
     })
   ]

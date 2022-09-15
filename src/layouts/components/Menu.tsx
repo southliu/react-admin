@@ -1,19 +1,21 @@
 import type { MenuProps } from 'antd'
-import { useEffect, useState } from 'react'
+import type { AppDispatch } from '@/stores'
+import { useEffect } from 'react'
 import { Menu } from 'antd'
 import { RootState } from '@/stores'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { menus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { firstCapitalize } from '@/utils/utils'
+import { setOpenKey } from '@/stores/menu'
 import styles from '../index.module.less'
 import Logo from '@/assets/images/logo.svg'
 
 function LayoutMenu() {
   const navigate = useNavigate()
   const location = useLocation()
-  const [openKey, setOpenKey] = useState(['Dashboard'])
-
+  const dispatch: AppDispatch = useDispatch()
+  const openKey = useSelector((state: RootState) => state.menu.openKey)
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   // 菜单是否收缩
@@ -27,7 +29,9 @@ function LayoutMenu() {
     if (arr.length > 2) {
       // 取第一个单词大写为新展开菜单key
       const newOpenKey = firstCapitalize(arr[1])
-      setOpenKey([newOpenKey])
+      if (newOpenKey !== openKey?.[0]) {
+        dispatch(setOpenKey([newOpenKey]))
+      }
     }
   }, [])
 
@@ -44,8 +48,8 @@ function LayoutMenu() {
    * @param openKey - 展开键值
    */
   const onOpenChange = (openKey: string[]) => {
-    const value = openKey.length ? [openKey[openKey.length - 1]] : []
-    setOpenKey(value)
+    const newOpenKey = openKey.length ? [openKey[openKey.length - 1]] : []
+    dispatch(setOpenKey(newOpenKey))
   }
 
   return (

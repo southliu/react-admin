@@ -1,5 +1,4 @@
 import type { RootState } from '@/stores'
-import type { ReactNode } from 'react'
 import { useToken } from '@/hooks/useToken'
 import { useEffect } from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
@@ -9,11 +8,7 @@ import Header from './components/Header'
 import Tabs from './components/Tabs'
 import styles from './index.module.less'
 
-interface IProps {
-  children?: ReactNode;
-}
-
-function Layout(props: IProps) {
+function Layout() {
   const navigate = useNavigate()
   const { getToken } = useToken()
   const token = getToken()
@@ -52,7 +47,6 @@ function Layout(props: IProps) {
         `}
       >
         <Outlet />
-        { props.children }
       </div>
     </div>
   )
