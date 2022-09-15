@@ -122,30 +122,6 @@ function Header() {
            <span className="ml-2 text-15px min-w-50px truncate">{ username || 'south-admin' }</span>
         </div>
       </Dropdown>
-      {/* <Dropdown className="min-w-50px">
-        <div className="ant-dropdown-link flex items-center cursor-pointer" @click.prevent>
-          // <img
-          //   className="rounded-1/2 overflow-hidden object-cover bg-light-500"
-          //   :src="Avatar"
-          //   :width="27"
-          //   :height="27"
-          //   alt="头像"
-          // >
-          <span className="ml-2 text-15px min-w-50px truncate">{{ username || 'south-admin' }}</span>
-        </div>
-        <template #overlay>
-          <Menu @click="onClickDropdown">
-            <Menu.Item :key="Dropdowns.update">
-              <FormOutlined className="mr-1" />
-              <span>修改密码</span>
-            </Menu.Item>
-            <Menu.Item :key="Dropdowns.logout">
-              <LogoutOutlined className="mr-1" />
-              <span>退出登录</span>
-            </Menu.Item>
-          </Menu>
-        </template>
-      </Dropdown> */}
     </div>
     </header>
   )

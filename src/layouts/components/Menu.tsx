@@ -1,4 +1,5 @@
 import type { MenuProps } from 'antd'
+import { useEffect, useState } from 'react'
 import { Menu } from 'antd'
 import { RootState } from '@/stores'
 import { useSelector } from 'react-redux'
@@ -6,7 +7,7 @@ import { menus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { firstCapitalize } from '@/utils/utils'
 import styles from '../index.module.less'
-import { useEffect, useState } from 'react'
+import Logo from '@/assets/images/logo.svg'
 
 function LayoutMenu() {
   const navigate = useNavigate()
@@ -48,22 +49,53 @@ function LayoutMenu() {
   }
 
   return (
-    <Menu
+    <div 
       className={`
         transition-all
         ${styles.menu}
         ${isCollapsed ? styles.menuClose : ''}
         ${isMaximize ? styles.menuNone : ''}
       `}
-      selectedKeys={[location.pathname]}
-      openKeys={openKey}
-      mode="inline"
-      theme="dark"
-      inlineCollapsed={isCollapsed}
-      items={menus}
-      onClick={onClick}
-      onOpenChange={onOpenChange}
-    />
+    >
+      <div className={`
+        text-white
+        flex
+        content-center
+        px-5
+        py-2
+        cursor-pointer
+        ${isCollapsed ? 'justify-center' : ''}
+      `}>
+        <img
+          src={Logo}
+          width={30}
+          height={30}
+          className="object-contain"
+          alt="logo"
+        />
+        
+        <span className={`
+          text-white
+          ml-3
+          text-xl
+          font-bold
+          truncate
+          ${isCollapsed ? 'hidden' : ''}
+        `}>
+          后台管理系统
+        </span>
+      </div>
+      <Menu
+        selectedKeys={[location.pathname]}
+        openKeys={openKey}
+        mode="inline"
+        theme="dark"
+        inlineCollapsed={isCollapsed}
+        items={menus}
+        onClick={onClick}
+        onOpenChange={onOpenChange}
+      />
+    </div>
   )
 }
 

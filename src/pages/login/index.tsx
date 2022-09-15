@@ -10,7 +10,7 @@ import { useToken } from '@/hooks/useToken'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setPermissions, setUserInfo } from '@/stores/user'
-import Logo from '@/assets/images/logo.png'
+import Logo from '@/assets/images/logo.svg'
 
 function Login() {
   const navigate = useNavigate()
