@@ -1,30 +1,41 @@
 import type { TabsProps } from 'antd'
-import type { RootState } from '@/stores'
-import { useState } from 'react'
-import { Tabs } from 'antd'
+import type { AppDispatch, RootState } from '@/stores'
+import { useEffect } from 'react'
+import { getMenuByKey } from '@/menus/utils/helper'
+import { menus } from '@/menus'
+import { Tabs, Dropdown } from 'antd'
+import { useLocation } from 'react-router-dom'
+import { setActiveKey, addItems } from '@/stores/tabs'
+import { useDispatch, useSelector } from 'react-redux'
 import styles from '../index.module.less'
 import TabRefresh from './TabRefresh'
 import TabMaximize from './TabMaximize'
 import TabOptions from './TabOptions'
-import { useSelector } from 'react-redux'
-
-const defaultPanes = new Array(2).fill(null).map((_, index) => {
-  const id = String(index + 1)
-  return { label: `标签 ${id}`, key: id }
-})
+import DropdownMenu from './DropdownMenu'
 
 function LayoutTabs() {
-  const [activeKey, setActiveKey] = useState(defaultPanes[0].key)
-  const [items, setItems] = useState(defaultPanes)
+  const location = useLocation()
+  const dispatch: AppDispatch = useDispatch()
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
+  const items = useSelector((state: RootState) => state.tabs.items)
+  const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
 
+  useEffect(() => {
+    // 当值为空时匹配路由
+    if (items.length === 0) {
+      const newItems = getMenuByKey(menus, location.pathname)
+      dispatch(setActiveKey(newItems.key))
+      dispatch(addItems(newItems))
+    }
+  }, [])
+  
   /** 
    * 处理更改
    * @param key - 唯一值
    */
   const onChange = (key: string) => {
-    setActiveKey(key)
+    dispatch(setActiveKey(key))
   }
 
   /** 
@@ -36,9 +47,9 @@ function LayoutTabs() {
     const newPanes = items.filter(pane => pane.key !== targetKey)
     if (newPanes.length && targetKey === activeKey) {
       const { key } = newPanes[targetIndex === newPanes.length ? targetIndex - 1 : targetIndex]
-      setActiveKey(key)
+      dispatch(setActiveKey(key))
     }
-    setItems(newPanes)
+    dispatch(addItems(newPanes))
   }
 
   /** 
@@ -59,6 +70,23 @@ function LayoutTabs() {
     { element: <TabMaximize /> }
   ]
 
+  // 二次封装标签
+  const renderTabBar: TabsProps['renderTabBar'] = (tabBarProps, DefaultTabBar) => (
+    <DefaultTabBar {...tabBarProps}>
+      { node => (
+        <Dropdown
+          key={node.key}
+          overlay={<DropdownMenu />}
+          trigger={['contextMenu']}
+        >
+          <div className='mr-3px'>
+            { node }
+          </div>
+        </Dropdown>
+      ) }
+    </DefaultTabBar>
+  )
+
   return (
     <div className={`
       flex
@@ -70,16 +98,13 @@ function LayoutTabs() {
     `}>
       <Tabs
         hideAdd
-        className="w-full h-34px py-0"
+        className="w-full h-30px py-0"
         onChange={onChange}
         activeKey={activeKey}
         type="editable-card"
         onEdit={onEdit}
         items={items}
-        tabBarStyle={{
-          height: '34px',
-          marginTop: '3px'
-        }}
+        renderTabBar={renderTabBar}
       />
       
       <div className='flex'>

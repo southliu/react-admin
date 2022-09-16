@@ -13,8 +13,9 @@ import "@/assets/css/scrollbar.less"
 
 // antd
 import { ConfigProvider } from 'antd'
-import 'antd/dist/antd.css'
 import zhCN from 'antd/es/locale/zh_CN'
+import 'antd/dist/antd.css'
+import '@/assets/css/antd.less'
 
 // 关闭loading
 if (document?.getElementById('first')) {

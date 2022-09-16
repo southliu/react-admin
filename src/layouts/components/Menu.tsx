@@ -8,6 +8,8 @@ import { menus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { firstCapitalize } from '@/utils/utils'
 import { setOpenKey } from '@/stores/menu'
+import { getMenuByKey } from '@/menus/utils/helper'
+import { addItems, setActiveKey } from '@/stores/tabs'
 import styles from '../index.module.less'
 import Logo from '@/assets/images/logo.svg'
 
@@ -41,6 +43,9 @@ function LayoutMenu() {
    */
   const onClick: MenuProps['onClick'] = e => {
     navigate(e.key)
+    const newTab = getMenuByKey(menus, e.key)
+    dispatch(setActiveKey(newTab.key))
+    dispatch(addItems(newTab))
   }
 
   /**

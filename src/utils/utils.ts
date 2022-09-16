@@ -9,6 +9,14 @@ export function firstCapitalize(str: string): string {
 }
 
 /**
+ * 金额格式化3000->3,000
+ * @param amount - 金额
+ */
+export function amountFormatter(amount: number) {
+  return `${amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
+/**
  * 过滤空数据
  * @param obj - 传入对象
  */
