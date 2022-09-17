@@ -1,10 +1,14 @@
+import type { RootState } from '@/stores'
 import { useState } from 'react'
 import { Dropdown } from 'antd'
 import { Icon } from '@iconify/react'
+import { useSelector } from 'react-redux'
 import DropdownMenu from './DropdownMenu'
 
 function TabOptions() {
   const [isOpen, setOpen] = useState(false)
+  // 当前选中的key
+  const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
 
   /**
    * 菜单显示变化
@@ -17,7 +21,7 @@ function TabOptions() {
   return (
     <Dropdown
       trigger={['click']}
-      overlay={<DropdownMenu />}
+      overlay={<DropdownMenu activeKey={activeKey} />}
       onOpenChange={onOpenChange}
     >
       <Icon

@@ -23,7 +23,7 @@ import styles from '../index.module.less'
 import Fullscreen from '@/components/Fullscreen'
 import GlobalSearch from '@/components/GlobalSearch'
 
-type IMenuItem = 'password' | 'logout'
+type IMenuKey = 'password' | 'logout'
 
 function Header() {
   const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
@@ -49,7 +49,7 @@ function Header() {
 
   /** 点击菜单 */
   const onClick: MenuProps['onClick'] = e => {
-    switch (e.key as IMenuItem) {
+    switch (e.key as IMenuKey) {
       case 'logout':
         handleLogout()
         break

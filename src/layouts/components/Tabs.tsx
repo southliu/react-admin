@@ -4,31 +4,54 @@ import { useEffect } from 'react'
 import { getMenuByKey } from '@/menus/utils/helper'
 import { menus } from '@/menus'
 import { Tabs, Dropdown } from 'antd'
-import { useLocation } from 'react-router-dom'
-import { setActiveKey, addItems } from '@/stores/tabs'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { setActiveKey, addTabs, closeTabs } from '@/stores/tabs'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from '../index.module.less'
 import TabRefresh from './TabRefresh'
 import TabMaximize from './TabMaximize'
 import TabOptions from './TabOptions'
 import DropdownMenu from './DropdownMenu'
+import { firstCapitalize } from '@/utils/utils'
+import { setOpenKey } from '@/stores/menu'
 
 function LayoutTabs() {
+  const navigate = useNavigate()
   const location = useLocation()
   const dispatch: AppDispatch = useDispatch()
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
-  const items = useSelector((state: RootState) => state.tabs.items)
+  const tabs = useSelector((state: RootState) => state.tabs.tabs)
   const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
+  // 菜单展开值
+  const openKey = useSelector((state: RootState) => state.menu.openKey)
 
   useEffect(() => {
     // 当值为空时匹配路由
-    if (items.length === 0) {
+    if (tabs.length === 0) {
+      if (location.pathname === '/') return
       const newItems = getMenuByKey(menus, location.pathname)
       dispatch(setActiveKey(newItems.key))
-      dispatch(addItems(newItems))
+      dispatch(addTabs(newItems))
     }
   }, [])
+
+  useEffect(() => {
+    // 当选中贴标签不等于当前路由则跳转
+    if (activeKey && activeKey !== location.pathname) {
+      navigate(activeKey)
+
+      // 处理菜单展开
+      const arr = activeKey.split('/')
+      if (arr.length > 1) {
+        // 取第一个单词大写为新展开菜单key
+        const newOpenKey = firstCapitalize(arr[1])
+        if (newOpenKey !== openKey?.[0]) {
+          dispatch(setOpenKey([newOpenKey]))
+        }
+      }
+    }
+  }, [activeKey])
   
   /** 
    * 处理更改
@@ -43,13 +66,7 @@ function LayoutTabs() {
    * @param targetKey - 目标key值
    */
   const remove = (targetKey: string) => {
-    const targetIndex = items.findIndex(pane => pane.key === targetKey)
-    const newPanes = items.filter(pane => pane.key !== targetKey)
-    if (newPanes.length && targetKey === activeKey) {
-      const { key } = newPanes[targetIndex === newPanes.length ? targetIndex - 1 : targetIndex]
-      dispatch(setActiveKey(key))
-    }
-    dispatch(addItems(newPanes))
+    dispatch(closeTabs(targetKey))
   }
 
   /** 
@@ -76,7 +93,7 @@ function LayoutTabs() {
       { node => (
         <Dropdown
           key={node.key}
-          overlay={<DropdownMenu />}
+          overlay={<DropdownMenu activeKey={node.key as string} />}
           trigger={['contextMenu']}
         >
           <div className='mr-3px'>
@@ -103,7 +120,7 @@ function LayoutTabs() {
         activeKey={activeKey}
         type="editable-card"
         onEdit={onEdit}
-        items={items}
+        items={tabs}
         renderTabBar={renderTabBar}
       />
       
