@@ -1,0 +1,31 @@
+.animation {
+  animation: shake .6s ease-in-out infinite alternate;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(-1px)
+  }
+  
+  10% {
+    transform: translate(2px, 1px)
+  }
+  
+  30% {
+    transform: translate(-3px, 2px)
+  }
+  
+  35% {
+    transform: translate(2px, -3px);
+    filter: blur(4px)
+  }
+  
+  45% {
+    transform: translate(2px, 2px) skewY(-8deg) scaleX(.96);
+    filter: blur(0)
+  }
+  
+  50% {
+    transform: translate(-3px, 1px)
+  }
+}

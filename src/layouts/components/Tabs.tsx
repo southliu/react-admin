@@ -12,7 +12,7 @@ import TabRefresh from './TabRefresh'
 import TabMaximize from './TabMaximize'
 import TabOptions from './TabOptions'
 import DropdownMenu from './DropdownMenu'
-import { firstCapitalize } from '@/utils/utils'
+import { firstCapitalize } from '@/utils/helper'
 import { setOpenKey } from '@/stores/menu'
 
 function LayoutTabs() {
@@ -31,8 +31,10 @@ function LayoutTabs() {
     if (tabs.length === 0) {
       if (location.pathname === '/') return
       const newItems = getMenuByKey(menus, location.pathname)
-      dispatch(setActiveKey(newItems.key))
-      dispatch(addTabs(newItems))
+      if (newItems.key) {
+        dispatch(setActiveKey(newItems.key))
+        dispatch(addTabs(newItems))
+      }
     }
   }, [])
 

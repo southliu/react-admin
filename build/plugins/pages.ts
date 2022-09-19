@@ -9,11 +9,13 @@ export function configPageImportPlugin() {
       resolver: 'react',
       importMode: 'sync',
       routeStyle: 'next',
+      extensions: ['tsx', 'jsx'],
       exclude: [
         '**/components/**/*',
+        '**/utils/**/*',
+        '**/hooks/**/*',
         '**/tests/**/*',
-        '**/__test__/**/*',
-        '**/*.ts'
+        '**/__test__/**/*'
       ],
     })
   ]

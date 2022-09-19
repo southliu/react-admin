@@ -1,4 +1,4 @@
-import type { DefaultOptionType } from 'ant-design-vue/lib/select'
+import type { DefaultOptionType } from 'antd/lib/select'
 import type { IServerResult } from '#/global'
 import { request } from '@/utils/request'
 
