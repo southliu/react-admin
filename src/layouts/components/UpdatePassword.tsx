@@ -89,7 +89,10 @@ function UpdatePassword(props: IProps) {
           name="password"
           rules={[{ required: true, message: '请输入密码!' }]}
         >
-          <Input.Password placeholder={PLEASE_ENTER} />
+          <Input.Password
+            placeholder={PLEASE_ENTER}
+            autoComplete="password"
+          />
         </Form.Item>
 
         <Form.Item
@@ -97,7 +100,10 @@ function UpdatePassword(props: IProps) {
           name="confirmPassword"
           rules={[{ required: true, message: '请输入确认密码!' }]}
         >
-          <Input.Password placeholder={PLEASE_ENTER} />
+          <Input.Password
+            placeholder={PLEASE_ENTER}
+            autoComplete="confirmPassword"
+          />
         </Form.Item>
       </Form>
     </BasicModal>

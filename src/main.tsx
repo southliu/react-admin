@@ -1,4 +1,3 @@
-import React from "react"
 import ReactDOM from "react-dom/client"
 import Router from "./router"
 
@@ -23,11 +22,9 @@ if (document?.getElementById('first')) {
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <ConfigProvider locale={zhCN}>
-      <Provider store={store}>
-        <Router />
-      </Provider>
-    </ConfigProvider>
-  </React.StrictMode>
+  <ConfigProvider locale={zhCN}>
+    <Provider store={store}>
+      <Router />
+    </Provider>
+  </ConfigProvider>
 )

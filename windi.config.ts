@@ -27,12 +27,13 @@ export default defineConfig({
       },
       alias: {
         'w-h-full': 'w-full h-full',
-        'fixed-all-full': 'fixed left-0 right-0 top-0 bottom-0'
+        'fixed-full': 'fixed left-0 right-0 top-0 bottom-0',
+        'absolute-full': 'absolute left-0 right-0 top-0 bottom-0',
       }
     },
     include: [
       'index.html',
-      'src/**/*.{vue,html,jsx,tsx}',
+      'src/**/*.{html,jsx,tsx}',
     ],
     exclude: [
       'node_modules/**/*',

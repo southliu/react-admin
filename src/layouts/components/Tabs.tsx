@@ -113,16 +113,20 @@ function LayoutTabs() {
       transition-all
       ${isMaximize ? styles.conMaximize : ''}
     `}>
-      <Tabs
-        hideAdd
-        className="w-full h-30px py-0"
-        onChange={onChange}
-        activeKey={activeKey}
-        type="editable-card"
-        onEdit={onEdit}
-        items={tabs}
-        renderTabBar={renderTabBar}
-      />
+      {
+        tabs.length > 0 ?
+        <Tabs
+          hideAdd
+          className="w-full h-30px py-0"
+          onChange={onChange}
+          activeKey={activeKey}
+          type="editable-card"
+          onEdit={onEdit}
+          items={tabs}
+          renderTabBar={renderTabBar}
+        />
+        : <span></span>
+      }
       
       <div className='flex'>
         {
