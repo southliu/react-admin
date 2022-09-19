@@ -26,7 +26,7 @@ function Layout() {
   }, [])
 
   return (
-    <div id="layout" className='w-h-full bg-white'>
+    <div id="layout" className='bg-white'>
       <div className={`
         transition-all
         ${styles.header}

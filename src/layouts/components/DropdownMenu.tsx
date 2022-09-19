@@ -1,7 +1,7 @@
 import type { MenuProps } from 'antd'
-import type { AppDispatch } from '@/stores'
+import type { AppDispatch, RootState } from '@/stores'
 import { Menu } from 'antd'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { closeLeft, closeOther, closeRight, closeTabs } from '@/stores/tabs'
 import {
   RedoOutlined,
@@ -18,35 +18,6 @@ enum ITabEnums {
   CLOSE_RIGHT = 'close_right' // 关闭右侧
 }
 
-// 菜单项
-const items = [
-  {
-    key: ITabEnums.REFRESH,
-    label: '重新加载',
-    icon: <RedoOutlined className="mr-5px transform rotate-270" />
-  },
-  {
-    key: ITabEnums.CLOSE_CURRENT,
-    label: '关闭标签',
-    icon: <CloseOutlined className="mr-5px" />
-  },
-  {
-    key: ITabEnums.CLOSE_OTHER,
-    label: '关闭其他',
-    icon: <VerticalAlignMiddleOutlined className="mr-5px transform rotate-90" />
-  },
-  {
-    key: ITabEnums.CLOSE_LEFT,
-    label: '关闭左侧',
-    icon: <VerticalAlignTopOutlined className="mr-5px transform rotate-270" />
-  },
-  {
-    key: ITabEnums.CLOSE_RIGHT,
-    label: '关闭右侧',
-    icon: <VerticalAlignTopOutlined className="mr-5px transform rotate-90" />
-  }
-]
-
 interface IProps {
   activeKey: string;
 }
@@ -54,6 +25,41 @@ interface IProps {
 function DropdownMenu(props: IProps) {
   const { activeKey } = props
   const dispatch: AppDispatch = useDispatch()
+  const tabs = useSelector((state: RootState) => state.tabs.tabs)
+  const index = tabs.findIndex(item => item.key === activeKey)
+
+  // 菜单项
+  const items = [
+    {
+      key: ITabEnums.REFRESH,
+      label: '重新加载',
+      icon: <RedoOutlined className="mr-5px transform rotate-270" />
+    },
+    {
+      key: ITabEnums.CLOSE_CURRENT,
+      label: '关闭标签',
+      disabled: tabs.length <= 1,
+      icon: <CloseOutlined className="mr-5px" />
+    },
+    {
+      key: ITabEnums.CLOSE_OTHER,
+      label: '关闭其他',
+      disabled: tabs.length <= 1,
+      icon: <VerticalAlignMiddleOutlined className="mr-5px transform rotate-90" />
+    },
+    {
+      key: ITabEnums.CLOSE_LEFT,
+      label: '关闭左侧',
+      disabled: index === 0,
+      icon: <VerticalAlignTopOutlined className="mr-5px transform rotate-270" />
+    },
+    {
+      key: ITabEnums.CLOSE_RIGHT,
+      label: '关闭右侧',
+      disabled: index === tabs.length - 1,
+      icon: <VerticalAlignTopOutlined className="mr-5px transform rotate-90" />
+    }
+  ]
 
   /** 点击菜单 */
   const onClick: MenuProps['onClick'] = e => {
