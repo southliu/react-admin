@@ -9,12 +9,13 @@ import Draggable from 'react-draggable'
 // 重写ModalProps
 interface IProps extends Omit<ModalProps, 'open' | 'onCancel'> {
   isOpen: boolean;
+  isLoading?: boolean;
   children: ReactNode;
   onCancel: () => void;
 }
 
-function BaseModal(props: IProps) {
-  const { isOpen } = props
+function BasicModal(props: IProps) {
+  const { isOpen, isLoading } = props
   const draggleRef = useRef<HTMLDivElement>(null)
   const [isDisabled, setDisabled] = useState(false)
   const [isFullscreen, setFullscreen] = useState(false)
@@ -115,10 +116,11 @@ function BaseModal(props: IProps) {
       width={isFullscreen ? '100%' : props.width || 520}
       wrapClassName={isFullscreen ? 'full-modal' : ''}
       modalRender={modalRender}
+      confirmLoading={!!isLoading}
     >
       { props.children }
     </Modal>
   )
 }
 
-export default BaseModal
+export default BasicModal

@@ -73,3 +73,9 @@ git push
 ```
   npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
 ```
+
+## 关于封装
+  1. 功能扩展，在原有的api上拓展。
+  2. 功能整合，合并两个或两个以上组件的api。
+  3. 样式统一，避免后期样式变动，导致牵一发而动全身。
+  4. 公共组件二次封装使用**Basic**开头，便于区分。

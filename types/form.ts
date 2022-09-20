@@ -1,11 +1,14 @@
 import type {
   InputProps,
+  InputNumberProps,
   SelectProps,
   TreeSelectProps,
   RadioProps,
   DatePickerProps,
   UploadProps,
-  RateProps
+  RateProps,
+  CheckboxProps,
+  SliderSingleProps
 } from "antd"
 import type { IAllDataType } from './public'
 import type { DefaultOptionType } from 'antd/lib/select'
@@ -50,7 +53,7 @@ type ISliderComponents = 'Slider'
 type ICustomizeComponents = 'Customize'
 
 // 富文本编辑器
-type IEditorComponents = 'WangEditor'
+type IEditorComponents = ''
 
 // 密码强度组件
 type IPasswordStrength = 'PasswordStrength'
@@ -84,14 +87,15 @@ export type IApiTreeSelectProps = IApiParam & TreeSelectProps
 
 // 组件参数
 export type IComponentProps = InputProps |
+                              InputNumberProps |
                               SelectProps |
                               TreeSelectProps |
-                              // CheckboxGroupProps |
+                              CheckboxProps |
                               RadioProps |
                               DatePickerProps |
                               UploadProps |
                               RateProps |
-                              // SliderProps |
+                              SliderSingleProps |
                               IApiSelectProps |
                               IApiTreeSelectProps
                               // IWangEditorProps

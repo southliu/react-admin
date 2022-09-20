@@ -5,7 +5,7 @@ import { Form, Input, message } from 'antd'
 import { PLEASE_ENTER } from '@/utils/config'
 import { updatePassword } from '@/servers/login'
 import { useLoading } from '@/hooks/useLoading'
-import BasicModal from '@/components/Modal'
+import BasicModal from '@/components/Modal/BasicModal'
 
 export interface IPasswordModal {
   open: () => void;

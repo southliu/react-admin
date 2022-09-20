@@ -5,7 +5,7 @@ import { useState } from "react"
  * @param initValue - 初始化状态
  */
 export function useCreateLoading(initValue = false) {
-  const [createLoading, setCreateLoading] = useState(Boolean(initValue))
+  const [isCreateLoading, setCreateLoading] = useState(Boolean(initValue))
 
   const startCreateLoading = () => {
     setCreateLoading(true)
@@ -16,11 +16,11 @@ export function useCreateLoading(initValue = false) {
   }
 
   const toggleCreateLoading = () => {
-    setCreateLoading(!createLoading)
+    setCreateLoading(!isCreateLoading)
   }
 
   return {
-    createLoading,
+    isCreateLoading,
     startCreateLoading,
     endCreateLoading,
     toggleCreateLoading
