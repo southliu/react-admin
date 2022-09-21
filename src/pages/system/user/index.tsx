@@ -1,14 +1,16 @@
 import type { IFormData } from '#/form'
+import type { IFormFn } from '@/components/Form/BasicForm'
 import { useRef, useState } from 'react'
 import { createList, searchList } from './data'
+import { message } from 'antd'
 import { useLoading } from '@/hooks/useLoading'
 import { useCreateLoading } from '@/hooks/useCreateLoading'
 import { createSystemUser, getSystemUserPage, updateSystemUser } from '@/servers/systems/user'
 import { ADD_TITLE } from '@/utils/config'
 import BasicSearch from '@/components/Search/BasicSearch'
 import BasicModal from '@/components/Modal/BasicModal'
-import BasicForm, { IFormFn } from '@/components/Form/BasicForm'
-import { message } from 'antd'
+import BasicForm from '@/components/Form/BasicForm'
+import BasicTable from '@/components/Table/BasicTable'
 
 // 初始化新增数据
 const initCreate = {
@@ -46,6 +48,7 @@ function User() {
     try {
       startLoading()
       const { data: { data } } = await getSystemUserPage(query)
+      console.log('data:', data)
       const { items, total } = data
       console.log('items:', items)
       console.log('total:', total)
@@ -74,17 +77,13 @@ function User() {
    * @param values - 表单返回数据
    */
   const handleCreate = async (values: IFormData) => {
-    console.log('values:', values)
     try {
       startCreateLoading()
       const functions = () => createId ? updateSystemUser(createId, values) : createSystemUser(values)
       const { data } = await functions()
       getPage()
       setCreateOpen(false)
-      // creates.id = ''
-      // creates.isVisible = false
-      // creates.data = initCreate
-      // createFormRef.value?.handleReset()
+      createFormRef.current?.handleReset()
       message.success(data?.message || '操作成功')
     } finally {
       endCreateLoading()
@@ -100,7 +99,8 @@ function User() {
         onCreate={onCreate}
         handleFinish={handleSearch}
       />
-      <input />
+      
+      <BasicTable />
 
       <BasicModal
         title={createTitle}

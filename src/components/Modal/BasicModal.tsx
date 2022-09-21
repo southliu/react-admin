@@ -34,6 +34,7 @@ function BasicModal(props: IProps) {
       top: -targetRect.top + uiData.y,
       bottom: clientHeight - (targetRect.bottom - uiData.y),
     })
+    console.log('bounds:', bounds)
   }
 
   /** 鼠标拖拽结束 */
@@ -45,6 +46,7 @@ function BasicModal(props: IProps) {
 
   /** 最大化 */
   const onFullscreen = () => {
+    if (!isFullscreen) setBounds({ left: 0, top: 0, bottom: 0, right: 0 })
     setFullscreen(!isFullscreen)
   }
 
@@ -109,14 +111,15 @@ function BasicModal(props: IProps) {
 
   return (
     <Modal
-      {...props}
-      closable={false}
       open={isOpen}
-      title={titleRender}
+      closable={false}
+      maskClosable={false}
       width={isFullscreen ? '100%' : props.width || 520}
       wrapClassName={isFullscreen ? 'full-modal' : ''}
-      modalRender={modalRender}
       confirmLoading={!!isLoading}
+      modalRender={modalRender}
+      {...props}
+      title={titleRender}
     >
       { props.children }
     </Modal>

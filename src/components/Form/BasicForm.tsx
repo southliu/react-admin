@@ -7,6 +7,7 @@ import { Form } from 'antd'
 import { getComponent } from '../Form/utils/componentMap'
 
 export interface IFormFn {
+  handleReset: () => void;
   handleSubmit: () => void;
 }
 
@@ -36,6 +37,10 @@ function BasicForm(props: IProps) {
   useImperativeHandle(
     formRef,
     () => ({
+      /** 重置表单 */
+      handleReset: () => {
+        form.resetFields()
+      },
       /** 提交表单  */
       handleSubmit: () => {
         form.submit()
@@ -64,8 +69,8 @@ function BasicForm(props: IProps) {
       <Form
         name="basic"
         form={form}
-        labelCol={labelCol ? labelCol : { span: 8 }}
-        wrapperCol={wrapperCol ? wrapperCol : { span: 16 }}
+        labelCol={labelCol ? labelCol : { span: 6 }}
+        wrapperCol={wrapperCol ? wrapperCol : { span: 15 }}
         initialValues={data}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
