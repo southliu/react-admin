@@ -4,7 +4,7 @@ import { message } from 'antd'
 import { useToken } from '@/hooks/useToken'
 
 // 生成环境所用的接口
-const prefixUrl = (import.meta.env.VITE_BASE_URL as string)
+const prefixUrl = import.meta.env.VITE_BASE_URL as string
 
 // 请求列表(防重复提交)
 const requestList: string[] = []

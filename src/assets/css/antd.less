@@ -22,3 +22,25 @@
     flex: 1;
   }
 }
+
+.react-resizable {
+  position: relative;
+  background-clip: padding-box;
+}
+
+.react-resizable-handle {
+  position: absolute;
+  right: -5px;
+  bottom: 0;
+  z-index: 1;
+  width: 10px;
+  height: 100%;
+  cursor: col-resize;
+}
+
+.zebra {
+  .ant-table-row:nth-child(2n),
+  .ant-table-row:nth-child(2n) > .ant-table-cell {
+    background-color: #fcfcfc;
+  }
+}

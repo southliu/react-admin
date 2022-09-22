@@ -14,6 +14,7 @@ export function configPageImportPlugin() {
         '**/components/**/*',
         '**/utils/**/*',
         '**/hooks/**/*',
+        '**/data.tsx',
         '**/tests/**/*',
         '**/__test__/**/*'
       ],

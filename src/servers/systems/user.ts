@@ -1,3 +1,4 @@
+import type { IFormData } from '#/form'
 import type { IPageServerResult, IPaginationData } from '#/global'
 import { request } from '@/utils/request'
 
@@ -9,8 +10,8 @@ enum API {
  * 获取分页数据
  * @param data - 请求数据
  */
-export function getSystemUserPage(data: Partial<unknown> & IPaginationData) {
-  return request.get<IPageServerResult<unknown[]>>(
+export function getSystemUserPage(data: Partial<IFormData> & IPaginationData) {
+  return request.get<IPageServerResult<IFormData[]>>(
     `${API.URL}/index`,
     { params: data }
   )
@@ -28,7 +29,7 @@ export function getSystemUserById(id: string) {
  * 新增数据
  * @param data - 请求数据
  */
-export function createSystemUser(data: unknown) {
+export function createSystemUser(data: IFormData) {
   return request.post(API.URL, data)
 }
 
@@ -37,7 +38,7 @@ export function createSystemUser(data: unknown) {
  * @param id - 修改id值
  * @param data - 请求数据
  */
-export function updateSystemUser(id: string, data: unknown) {
+export function updateSystemUser(id: string, data: IFormData) {
   return request.put(`${API.URL}/${id}`, data)
 }
 

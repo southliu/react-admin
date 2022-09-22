@@ -1,4 +1,5 @@
 import type { IFormList } from '#/form'
+import type { ITableColumn, ITableOptions } from '#/global'
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
 import { OPEN_CLOSE } from '@/utils/constants'
 
@@ -54,45 +55,51 @@ export const createList: IFormList[] = [
 ]
 
 // 表格数据
-// export const tableColumns: VxeGridPropTypes.Columns = [
-//   {
-//     title: 'ID',
-//     field: 'id'
-//   },
-//   {
-//     title: '用户名',
-//     field: 'username'
-//   },
-//   {
-//     title: '姓名',
-//     field: 'real_name'
-//   },
-//   {
-//     title: '角色',
-//     field: 'roles_name'
-//   },
-//   {
-//     title: '手机号',
-//     field: 'phone'
-//   },
-//   {
-//     title: '邮箱',
-//     field: 'email'
-//   },
-//   {
-//     title: '状态',
-//     field: 'status',
-//     slots: {
-//       default: ({ row }) => [
-//         h('span', { innerHTML: row.status ? '开启' : '关闭' })
-//       ]
-//     }
-//   },
-//   {
-//     title: '操作',
-//     field: 'operate',
-//     minWidth: 160,
-//     showOverflow: false,
-//     slots: { default: 'operate' }
-//   },
-// ]
+export const tableColumns = (options: ITableOptions): ITableColumn => {
+  return [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      width: 200
+    },
+    {
+      title: '用户名',
+      dataIndex: 'username',
+      width: 200
+    },
+    {
+      title: '姓名',
+      dataIndex: 'real_name',
+      width: 200
+    },
+    {
+      title: '角色',
+      dataIndex: 'roles_name',
+      width: 200
+    },
+    {
+      title: '手机号',
+      dataIndex: 'phone',
+      width: 200
+    },
+    {
+      title: '邮箱',
+      dataIndex: 'email',
+      width: 200
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      width: 200,
+      render: (value: boolean) => (
+        <span>{ value ? '开启' : '关闭' }</span>
+      )
+    },
+    {
+      title: '操作',
+      dataIndex: 'operate',
+      width: 200,
+      render: (value, record) => options(value, record)
+    },
+  ]
+}

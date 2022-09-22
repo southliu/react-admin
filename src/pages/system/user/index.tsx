@@ -1,8 +1,9 @@
 import type { IFormData } from '#/form'
 import type { IFormFn } from '@/components/Form/BasicForm'
-import { useRef, useState } from 'react'
-import { createList, searchList } from './data'
-import { message } from 'antd'
+import type { ITableOptions } from '#/global'
+import { useEffect, useRef, useState } from 'react'
+import { createList, searchList, tableColumns } from './data'
+import { Button, message } from 'antd'
 import { useLoading } from '@/hooks/useLoading'
 import { useCreateLoading } from '@/hooks/useCreateLoading'
 import { createSystemUser, getSystemUserPage, updateSystemUser } from '@/servers/systems/user'
@@ -28,10 +29,14 @@ function User() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   // const [tableTotal, setTableTotal] = useState(1)
-  // const [Tables, setTables] = useState<IFormData>([])
+  const [tableData, setTableData] = useState<IFormData[]>([])
 
   const { isLoading, startLoading, endLoading } = useLoading()
   const { isCreateLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
+
+  useEffect(() => {
+    getPage()
+  }, [])
 
   /** 获取表格数据 */
   const getPage = async () => {
@@ -48,10 +53,9 @@ function User() {
     try {
       startLoading()
       const { data: { data } } = await getSystemUserPage(query)
-      console.log('data:', data)
       const { items, total } = data
-      console.log('items:', items)
       console.log('total:', total)
+      setTableData(items)
       // tables.data = items
       // tables.total = total
     } finally {
@@ -90,6 +94,18 @@ function User() {
     }
   }
 
+  /**
+   * 操作
+   */
+  const options: ITableOptions = (value, record) => (
+    <>
+      <Button className='mr-5px' onClick={onCreate}>
+        新增
+      </Button>
+      <span>{ (record as { id: string }).id }</span>
+    </>
+  )
+
   return (
     <>
       <BasicSearch
@@ -100,7 +116,10 @@ function User() {
         handleFinish={handleSearch}
       />
       
-      <BasicTable />
+      <BasicTable
+        columns={tableColumns(options)}
+        dataSource={tableData}
+      />
 
       <BasicModal
         title={createTitle}
