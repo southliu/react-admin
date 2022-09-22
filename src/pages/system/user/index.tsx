@@ -13,6 +13,11 @@ import BasicModal from '@/components/Modal/BasicModal'
 import BasicForm from '@/components/Form/BasicForm'
 import BasicTable from '@/components/Table/BasicTable'
 
+// 当前行数据
+export interface IRowData {
+  id: string;
+}
+
 // 初始化新增数据
 const initCreate = {
   status: 1,
@@ -97,12 +102,12 @@ function User() {
   /**
    * 操作
    */
-  const options: ITableOptions = (value, record) => (
+  const options: ITableOptions<IRowData> = (value, record) => (
     <>
       <Button className='mr-5px' onClick={onCreate}>
         新增
       </Button>
-      <span>{ (record as { id: string }).id }</span>
+      <span>{ record.id }</span>
     </>
   )
 

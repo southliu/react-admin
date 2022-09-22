@@ -1,5 +1,6 @@
 import type { IFormList } from '#/form'
 import type { ITableColumn, ITableOptions } from '#/global'
+import type { IRowData } from './index'
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
 import { OPEN_CLOSE } from '@/utils/constants'
 
@@ -55,7 +56,7 @@ export const createList: IFormList[] = [
 ]
 
 // 表格数据
-export const tableColumns = (options: ITableOptions): ITableColumn => {
+export const tableColumns = (options: ITableOptions<IRowData>): ITableColumn => {
   return [
     {
       title: 'ID',
@@ -99,7 +100,7 @@ export const tableColumns = (options: ITableOptions): ITableColumn => {
       title: '操作',
       dataIndex: 'operate',
       width: 200,
-      render: (value, record) => options(value, record)
+      render: (value, record) => options(value, record as { id: string })
     },
   ]
 }

@@ -1,4 +1,3 @@
-import type { IFormData } from './form'
 import type { ColumnsType } from 'antd/lib/table'
 
 // 接口响应数据
@@ -23,7 +22,7 @@ export interface IPaginationData {
 }
 
 // 表格列数据
-export type ITableColumn = ColumnsType<object>
+export type ITableColumn<T = object> = ColumnsType<T>
 
 // 表格操作
-export type ITableOptions = (value: unknown, record: object) => JSX.Element
+export type ITableOptions<T = object> = (value: unknown, record: T) => JSX.Element
