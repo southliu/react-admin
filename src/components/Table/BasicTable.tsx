@@ -6,13 +6,14 @@ import { useMemo, useState } from 'react'
 import ResizableTitle from './components/ResizableTitle'
 import useVirtualTable from './hooks/useVirtual'
 
-interface IProps extends TableProps<object> {
+interface IProps extends Omit<TableProps<object>, 'bordered'> {
+  isBordered?: boolean; // 是否开启边框
   isZebra?: boolean; // 是否开启斑马线
   isVirtual?: boolean; // 是否开启虚拟滚动
 }
 
 function BasicTable(props: IProps) {
-  const { isZebra, isVirtual } = props
+  const { isZebra, isBordered, isVirtual } = props
   const [columns, setColumns] = useState(props.columns as ColumnsType<object>)
 
   /**
@@ -38,38 +39,44 @@ function BasicTable(props: IProps) {
     }),
   }))
 
-  const virtualComponents = useVirtualTable({
+  const virtualOptions = useVirtualTable({
     height: 350 // 设置可视高度
   })
 
-  console.log('virtualComponents:', virtualComponents)
+  console.log('virtualComponents:', virtualOptions)
 
-  const components = useMemo(() => {
+  const virtualComponents = useMemo(() => {
     return {
       header: {
         cell: ResizableTitle,
       },
       body: {
-        wrapper: virtualComponents.body.wrapper
+        wrapper: virtualOptions.body.wrapper
       },
-      table: virtualComponents.table
+      table: virtualOptions.table
     }
-  }, [virtualComponents])
+  }, [virtualOptions])
+
+  const components = isVirtual !== false ? virtualComponents : {
+    header: {
+      cell: ResizableTitle,
+    }
+  }
 
   return (
-    <div className={`p-10px ${isZebra !== false ? 'zebra' : ''}`}>
+    <div className={`
+      p-10px
+      ${isBordered !== false ? 'bordered' : ''}
+      ${isZebra !== false ? 'zebra' : ''}
+    `}>
       <Table
-        bordered
         size='small'
         rowKey='id'
         pagination={false}
         {...props}
+        bordered={isBordered !== false}
         scroll={{ ...props.scroll, y: 350 }}
-        components={isVirtual !== false ? components : {
-          header: {
-            cell: ResizableTitle,
-          }
-        }}
+        components={components}
         columns={mergeColumns}
       />
     </div>

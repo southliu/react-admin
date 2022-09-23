@@ -74,7 +74,7 @@ const ScrollContext = createContext<ScrollContextProps>({
   renderLen: 1,
   start: 0,
   offsetStart: 0,
-  rowHeight: 40,
+  rowHeight: 35,
   totalLen: 0
 })
 
