@@ -60,8 +60,20 @@ function User() {
       const { data: { data } } = await getSystemUserPage(query)
       const { items, total } = data
       console.log('total:', total)
-      setTableData(items)
-      // tables.data = items
+      const arr = new Array(1000).fill(0).map((item, index) => {
+        return {
+          id: index + 1,
+          username: 'test',
+          children: new Array(100).fill(0).map((_, i) => {
+            return {
+              id: i * 1000,
+              username: 'children'
+            }
+          })
+        }
+      })
+      setTableData(arr)
+      // setTableData(items)
       // tables.total = total
     } finally {
       endLoading()

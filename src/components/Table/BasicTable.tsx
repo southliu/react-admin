@@ -2,48 +2,17 @@ import type { ResizeCallbackData } from 'react-resizable'
 import type { ColumnsType, ColumnType } from 'antd/es/table'
 import type { TableProps } from 'antd'
 import { Table } from 'antd'
-import { Resizable } from 'react-resizable'
-import { useState } from 'react'
-
-/** 自定义拖拽  */
-const ResizableTitle = (
-  props: React.HTMLAttributes<unknown> & {
-    onResize: (e: React.SyntheticEvent<Element>, data: ResizeCallbackData) => void
-    width: number
-  },
-) => {
-  const { onResize, width, ...restProps } = props
-
-  if (!width) {
-    return <th {...restProps} />
-  }
-
-  return (
-    <Resizable
-      width={width}
-      height={0}
-      handle={
-        <span
-          className="react-resizable-handle"
-          onClick={e => {
-            e.stopPropagation()
-          }}
-        />
-      }
-      onResize={onResize}
-      draggableOpts={{ enableUserSelectHack: false }}
-    >
-      <th {...restProps} />
-    </Resizable>
-  )
-}
+import { useMemo, useState } from 'react'
+import ResizableTitle from './components/ResizableTitle'
+import useVirtualTable from './hooks/useVirtual'
 
 interface IProps extends TableProps<object> {
   isZebra?: boolean; // 是否开启斑马线
+  isVirtual?: boolean; // 是否开启虚拟滚动
 }
 
 function BasicTable(props: IProps) {
-  const { isZebra } = props
+  const { isZebra, isVirtual } = props
   const [columns, setColumns] = useState(props.columns as ColumnsType<object>)
 
   /**
@@ -69,6 +38,24 @@ function BasicTable(props: IProps) {
     }),
   }))
 
+  const virtualComponents = useVirtualTable({
+    height: 350 // 设置可视高度
+  })
+
+  console.log('virtualComponents:', virtualComponents)
+
+  const components = useMemo(() => {
+    return {
+      header: {
+        cell: ResizableTitle,
+      },
+      body: {
+        wrapper: virtualComponents.body.wrapper
+      },
+      table: virtualComponents.table
+    }
+  }, [virtualComponents])
+
   return (
     <div className={`p-10px ${isZebra !== false ? 'zebra' : ''}`}>
       <Table
@@ -77,7 +64,8 @@ function BasicTable(props: IProps) {
         rowKey='id'
         pagination={false}
         {...props}
-        components={{
+        scroll={{ ...props.scroll, y: 350 }}
+        components={isVirtual !== false ? components : {
           header: {
             cell: ResizableTitle,
           }

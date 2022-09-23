@@ -129,6 +129,8 @@
         "no-fallthrough": "warn",
         "no-extra-boolean-cast": "warn",
         "no-case-declarations": "off",
-        "no-async-promise-executor": "warn"
+        "no-async-promise-executor": "warn",
+        // 禁止使用后缀运算符的非空断言"!"
+        "@typescript-eslint/no-non-null-assertion": "warn"
     }
 }

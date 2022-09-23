@@ -25,4 +25,4 @@ export interface IPaginationData {
 export type ITableColumn<T = object> = ColumnsType<T>
 
 // 表格操作
-export type ITableOptions<T = object> = (value: unknown, record: T) => JSX.Element
+export type ITableOptions<T = object> = (value: unknown, record: T, index?: number) => JSX.Element
