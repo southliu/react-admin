@@ -12,6 +12,7 @@ import BasicSearch from '@/components/Search/BasicSearch'
 import BasicModal from '@/components/Modal/BasicModal'
 import BasicForm from '@/components/Form/BasicForm'
 import BasicTable from '@/components/Table/BasicTable'
+import BasicPagination from '@/components/Pagination/BasicPagination'
 
 // 当前行数据
 export interface IRowData {
@@ -33,7 +34,7 @@ function User() {
   const [createData, setCreateData] = useState<IFormData>(initCreate)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
-  // const [tableTotal, setTableTotal] = useState(1)
+  const [total, setTotal] = useState(1)
   const [tableData, setTableData] = useState<IFormData[]>([])
 
   const { isLoading, startLoading, endLoading } = useLoading()
@@ -44,7 +45,7 @@ function User() {
   }, [])
 
   /** 获取表格数据 */
-  const getPage = async () => {
+  const getPage = () => {
     handleSearch(searchData)
   }
 
@@ -59,7 +60,8 @@ function User() {
       startLoading()
       const { data: { data } } = await getSystemUserPage(query)
       const { items, total } = data
-      console.log('total:', total)
+      console.log('items:', items)
+      setTotal(total || 50)
       const arr = new Array(1000).fill(0).map((item, index) => {
         return {
           id: index + 1,
@@ -123,6 +125,15 @@ function User() {
     </>
   )
 
+  /**
+   * 处理分页
+   */
+  const onChangePagination = (page: number, pageSize: number) => {
+    setPage(page)
+    setPageSize(pageSize)
+    handleSearch({ ...searchData, page, pageSize })
+  }
+
   return (
     <>
       <BasicSearch
@@ -136,6 +147,14 @@ function User() {
       <BasicTable
         columns={tableColumns(options)}
         dataSource={tableData}
+      />
+
+      <BasicPagination
+        isLoading={isLoading}
+        defaultCurrent={page}
+        defaultPageSize={pageSize}
+        total={total}
+        onChange={onChangePagination}
       />
 
       <BasicModal

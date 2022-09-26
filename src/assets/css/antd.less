@@ -2,6 +2,7 @@
   padding: 5px 16px 8px !important;
 }
 
+/* 全屏:开始 */
 .full-modal {
   .ant-modal {
     position: absolute;
@@ -22,7 +23,9 @@
     flex: 1;
   }
 }
+/* 全屏:结束 */
 
+/* 表格列拖拽:开始 */
 .react-resizable {
   position: relative;
   background-clip: padding-box;
@@ -37,16 +40,46 @@
   height: 100%;
   cursor: col-resize;
 }
+/* 表格列拖拽:结束 */
 
+/* 斑马线:开始 */
 .zebra {
   .ant-table-row:nth-child(2n),
   .ant-table-row:nth-child(2n) > .ant-table-cell {
     background-color: #fcfcfc;
   }
 }
+/* 斑马线:结束 */
 
+/* 边框:开始 */
 .bordered {
   .ant-table-tbody > tr > td {
     border-right: 1px solid #f0f0f0;
   }
 }
+/* 边框:结束 */
+
+/* 分页:开始 */
+.ant-pagination-item {
+  background-color: #f4f4f5 !important;
+  margin-right: 7px !important;
+}
+
+.ant-pagination-item-active {
+  background-color: #0960bd!important;
+}
+
+.ant-pagination-item-active a {
+  color: #fff !important;
+}
+
+.ant-pagination-prev {
+  margin-right: 7px !important;
+  background-color: #f4f4f5 !important;
+}
+
+.ant-pagination-next {
+  margin-right: 7px !important;
+  background-color: #f4f4f5 !important;
+}
+/* 分页:结束 */
