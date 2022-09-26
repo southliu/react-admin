@@ -3,9 +3,19 @@ import type { ITableColumn, ITableOptions } from '#/global'
 import type { IRowData } from './index'
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
 import { OPEN_CLOSE } from '@/utils/constants'
+import { getGames } from '@/servers/platform/game'
 
 // 搜索数据
 export const searchList: IFormList[] = [
+  {
+    label: '游戏',
+    name: 'game',
+    component: 'ApiSelect',
+    wrapperCol: 250,
+    componentProps: {
+      api: getGames,
+    }
+  },
   {
     label: '年龄',
     name: 'age',
@@ -61,32 +71,34 @@ export const tableColumns = (options: ITableOptions<IRowData>): ITableColumn => 
     {
       title: 'ID',
       dataIndex: 'id',
-      width: 200
+      width: 400,
+      fixed: 'left'
     },
     {
       title: '用户名',
       dataIndex: 'username',
-      width: 200
+      width: 400,
+      fixed: 'left'
     },
     {
       title: '姓名',
       dataIndex: 'real_name',
-      width: 200
+      width: 400
     },
     {
       title: '角色',
       dataIndex: 'roles_name',
-      width: 200
+      width: 400
     },
     {
       title: '手机号',
       dataIndex: 'phone',
-      width: 200
+      width: 400
     },
     {
       title: '邮箱',
       dataIndex: 'email',
-      width: 200
+      width: 400
     },
     {
       title: '状态',
@@ -100,6 +112,7 @@ export const tableColumns = (options: ITableOptions<IRowData>): ITableColumn => 
       title: '操作',
       dataIndex: 'operate',
       width: 200,
+      fixed: 'right',
       render: (value, record) => options(value, record as { id: string })
     },
   ]

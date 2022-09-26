@@ -10,6 +10,7 @@ import type {
   CheckboxProps,
   SliderSingleProps
 } from "antd"
+import type { Key, ReactNode } from "react"
 import type { IAllDataType } from './public'
 import type { DefaultOptionType } from 'antd/lib/select'
 import type { RuleObject } from 'antd/lib/form'
@@ -71,7 +72,14 @@ export type IComponentType = IDefaultDataComponents |
                           IEditorComponents |
                           IPasswordStrength
 
-export type IApi = (params?: unknown) => Promise<DefaultOptionType[]>
+export interface IApiResult extends Omit<DefaultOptionType, 'value'> {
+  label: ReactNode;
+  title?: ReactNode;
+  key?: Key;
+  value?: string | number;
+}
+
+export type IApi = (params?: unknown) => Promise<(IApiResult)[]>
 
 // api参数
 interface IApiParam {
@@ -98,7 +106,6 @@ export type IComponentProps = InputProps |
                               SliderSingleProps |
                               IApiSelectProps |
                               IApiTreeSelectProps
-                              // IWangEditorProps
 
 // 表单规则
 export type IFormRule = RuleObject & {

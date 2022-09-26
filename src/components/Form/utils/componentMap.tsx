@@ -14,6 +14,8 @@ import {
   Slider,
   Upload
 } from 'antd'
+import ApiSelect from '@/components/Select/ApiSelect'
+import ApiTreeSelect from '@/components/Select/ApiTreeSelect'
 
 const componentMap = new Map()
 
@@ -32,6 +34,8 @@ componentMap.set('DatePicker', DatePicker)
 componentMap.set('Rate', Rate)
 componentMap.set('Slider', Slider)
 componentMap.set('Upload', Upload)
+componentMap.set('ApiSelect', ApiSelect)
+componentMap.set('ApiTreeSelect', ApiTreeSelect)
 
 /**
  * 获取组件

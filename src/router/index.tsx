@@ -1,9 +1,7 @@
 import { RouteObject } from "react-router-dom"
 import { BrowserRouter, useRoutes } from "react-router-dom"
-import { Suspense } from "react"
 import { layoutRoutes } from "./utils/helper"
 import routes from '~react-pages'
-import Loading from "@/layouts/components/Loading"
 import Layout from '@/layouts'
 import Login from '@/pages/login'
 
@@ -25,9 +23,9 @@ function Router() {
 
   const App = () => {
     return (
-      <Suspense fallback={<Loading />}>
+      <>
         { useRoutes(newRoutes) }
-      </Suspense>
+      </>
     )
   }
 

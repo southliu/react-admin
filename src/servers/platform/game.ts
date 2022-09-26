@@ -1,4 +1,4 @@
-import type { DefaultOptionType } from 'antd/lib/select'
+import type { IApiResult } from '#/form'
 import type { IServerResult } from '#/global'
 import { request } from '@/utils/request'
 import { recursiveData } from '@/utils/helper'
@@ -14,12 +14,12 @@ interface IResult {
   children?: IResult[];
 }
 
-export function getGames(data?: unknown): Promise<DefaultOptionType[]> {
+export function getGames(data?: unknown): Promise<IApiResult[]> {
   return new Promise((resolve, reject) => {
     request.get<IServerResult<IResult[]>>(`${API.COMMON_URL}/games`, { params: data }).then(res => {
 
       // 递归数据
-     const result = recursiveData<IResult, DefaultOptionType>(res?.data?.data, item => {
+     const result = recursiveData<IResult, IApiResult>(res?.data?.data, item => {
         const { id, name } = item
         const filterData = {
           value: id,
