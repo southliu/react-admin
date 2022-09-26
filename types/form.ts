@@ -14,8 +14,7 @@ import type { Key, ReactNode } from "react"
 import type { IAllDataType } from './public'
 import type { DefaultOptionType } from 'antd/lib/select'
 import type { RuleObject } from 'antd/lib/form'
-// import type { IBusinessComponentType } from '@/components/Business'
-// import type { IWangEditorProps } from '@/components/WangEditor/model'
+import type { IBusinessComponents } from "@/components/Business"
 
 // 数据类型
 export type IFormData = Record<string, IAllDataType>
@@ -27,7 +26,6 @@ type IDefaultDataComponents = 'Input' |
                               'InputPassword' |
                               'AutoComplete' |
                               'customize'
-                              // IBusinessComponentType
 
 // 下拉组件
 type ISelectComponents = 'Select' | 'TreeSelect' | 'ApiSelect' | 'ApiTreeSelect'
@@ -70,7 +68,8 @@ export type IComponentType = IDefaultDataComponents |
                           IRateComponents |
                           ISliderComponents |
                           IEditorComponents |
-                          IPasswordStrength
+                          IPasswordStrength |
+                          IBusinessComponents
 
 export interface IApiResult extends Omit<DefaultOptionType, 'value'> {
   label: ReactNode;
@@ -79,7 +78,7 @@ export interface IApiResult extends Omit<DefaultOptionType, 'value'> {
   value?: string | number;
 }
 
-export type IApi = (params?: unknown) => Promise<(IApiResult)[]>
+export type IApi = (params?: object) => Promise<(IApiResult)[]>
 
 // api参数
 interface IApiParam {

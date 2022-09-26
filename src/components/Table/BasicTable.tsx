@@ -43,8 +43,6 @@ function BasicTable(props: IProps) {
     height: 350 // 设置可视高度
   })
 
-  console.log('virtualComponents:', virtualOptions)
-
   const virtualComponents = useMemo(() => {
     return {
       header: {

@@ -3,18 +3,20 @@ import type { ITableColumn, ITableOptions } from '#/global'
 import type { IRowData } from './index'
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
 import { OPEN_CLOSE } from '@/utils/constants'
-import { getGames } from '@/servers/platform/game'
 
 // 搜索数据
 export const searchList: IFormList[] = [
   {
     label: '游戏',
     name: 'game',
-    component: 'ApiSelect',
-    wrapperCol: 250,
-    componentProps: {
-      api: getGames,
-    }
+    component: 'GameSelect',
+    wrapperCol: 250
+  },
+  {
+    label: '公司',
+    name: 'partner',
+    component: 'PartnerSelect',
+    wrapperCol: 250
   },
   {
     label: '年龄',

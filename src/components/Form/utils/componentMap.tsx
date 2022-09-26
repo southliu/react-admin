@@ -14,8 +14,9 @@ import {
   Slider,
   Upload
 } from 'antd'
-import ApiSelect from '@/components/Select/ApiSelect'
-import ApiTreeSelect from '@/components/Select/ApiTreeSelect'
+import ApiSelect from '@/components/Selects/ApiSelect'
+import ApiTreeSelect from '@/components/Selects/ApiTreeSelect'
+import { CreateBusiness } from '@/components/Business'
 
 const componentMap = new Map()
 
@@ -36,6 +37,9 @@ componentMap.set('Slider', Slider)
 componentMap.set('Upload', Upload)
 componentMap.set('ApiSelect', ApiSelect)
 componentMap.set('ApiTreeSelect', ApiTreeSelect)
+
+// 业务组件注入
+CreateBusiness()
 
 /**
  * 获取组件
