@@ -13,6 +13,7 @@ export function configPageImportPlugin() {
       exclude: [
         '**/components/**/*',
         '**/utils/**/*',
+        '**/lib/**/*',
         '**/hooks/**/*',
         '**/data.tsx',
         '**/tests/**/*',

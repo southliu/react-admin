@@ -5,6 +5,7 @@ import { Button, FormProps } from 'antd'
 import { Form } from 'antd'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons'
 import { getComponent } from '../Form/utils/componentMap'
+import { handleValuePropName } from '../Form/utils/helper'
 
 interface IProps {
   list: IFormList[];
@@ -74,6 +75,7 @@ function BasicSearch(props: IProps) {
               labelCol={{ style: { width: item.labelCol } }}
               wrapperCol={{ style: { width: item.wrapperCol } }}
               rules={item.rules}
+              valuePropName={handleValuePropName(item.component)}
             >
               { getComponent(item) }
             </Form.Item>

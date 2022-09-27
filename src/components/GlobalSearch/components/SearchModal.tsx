@@ -1,5 +1,5 @@
 import type { ISearchMenuValue } from '@/menus/utils/helper'
-import { Ref, useImperativeHandle } from 'react'
+import { Ref, useImperativeHandle, useLayoutEffect } from 'react'
 import { InputRef } from 'antd'
 import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 import { Modal, Input } from 'antd'
@@ -40,14 +40,11 @@ function SearchModal(props: IProps) {
   )
 
   // 聚焦输入框
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isVisible) {
-      // 转为宏任务聚焦输入框
-      setTimeout(() => {
-        inputRef.current?.focus({
-          cursor: 'end'
-        })
-      }, 0)
+      inputRef.current?.focus({
+        cursor: 'end'
+      })
     }
 
     // 退出时清空数据

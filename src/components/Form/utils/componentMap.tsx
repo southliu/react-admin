@@ -48,6 +48,7 @@ CreateBusiness()
 export function getComponent(item: IFormList) {
   const { component, componentProps } = item
   const Comp = componentMap.get(component)
+
   return (
     <Comp
       {...initCompProps(component)}

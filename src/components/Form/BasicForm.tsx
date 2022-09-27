@@ -5,6 +5,7 @@ import { useImperativeHandle } from 'react'
 import { FormProps } from 'antd'
 import { Form } from 'antd'
 import { getComponent } from '../Form/utils/componentMap'
+import { handleValuePropName } from './utils/helper'
 
 export interface IFormFn {
   handleReset: () => void;
@@ -89,6 +90,7 @@ function BasicForm(props: IProps) {
               name={item.name}
               rules={!item.hidden ? item.rules : []}
               className={item.hidden ? '!hidden' : ''}
+              valuePropName={handleValuePropName(item.component)}
             >
               { getComponent(item) }
             </Form.Item>
