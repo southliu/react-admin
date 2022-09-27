@@ -67,8 +67,11 @@ export const createList: IFormList[] = [
   }
 ]
 
-// 表格数据
-export const tableColumns = (options: ITableOptions<IRowData>): ITableColumn => {
+/**
+ * 表格数据
+ * @param optionRender - 渲染操作函数
+ */
+export const tableColumns = (optionRender: ITableOptions<IRowData>): ITableColumn => {
   return [
     {
       title: 'ID',
@@ -115,7 +118,7 @@ export const tableColumns = (options: ITableOptions<IRowData>): ITableColumn => 
       dataIndex: 'operate',
       width: 200,
       fixed: 'right',
-      render: (value, record) => options(value, record as { id: string })
+      render: (value, record) => optionRender(value, record as { id: string })
     },
   ]
 }

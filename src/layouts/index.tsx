@@ -39,7 +39,7 @@ function Layout() {
       <Menu />
       <div
         className={`
-          overflow-hidden
+          overflow-auto
           bg-white
           transition-all
           ${styles.con}

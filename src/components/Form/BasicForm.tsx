@@ -1,4 +1,4 @@
-import type { ReactNode, Ref } from 'react'
+import { ReactNode, Ref, useEffect } from 'react'
 import type { IFormData, IFormList } from '#/form'
 import type { ColProps } from 'antd'
 import { useImperativeHandle } from 'react'
@@ -47,6 +47,11 @@ function BasicForm(props: IProps) {
       }
     })
   )
+
+  // 监听传入表单数据，如果变化则替换表单
+  useEffect(() => {
+    form.setFieldsValue(props.data)
+  }, [props.data])
 
   /**
    * 提交表单

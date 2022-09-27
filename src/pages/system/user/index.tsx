@@ -3,11 +3,18 @@ import type { IFormFn } from '@/components/Form/BasicForm'
 import type { ITableOptions } from '#/global'
 import { useEffect, useRef, useState } from 'react'
 import { createList, searchList, tableColumns } from './data'
-import { Button, message } from 'antd'
+import { message } from 'antd'
 import { useLoading } from '@/hooks/useLoading'
 import { useCreateLoading } from '@/hooks/useCreateLoading'
-import { createSystemUser, getSystemUserPage, updateSystemUser } from '@/servers/systems/user'
-import { ADD_TITLE } from '@/utils/config'
+import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
+import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
+import {
+  createSystemUser,
+  deleteSystemUser,
+  getSystemUserById,
+  getSystemUserPage,
+  updateSystemUser
+} from '@/servers/systems/user'
 import BasicSearch from '@/components/Search/BasicSearch'
 import BasicModal from '@/components/Modal/BasicModal'
 import BasicForm from '@/components/Form/BasicForm'
@@ -21,8 +28,7 @@ export interface IRowData {
 
 // 初始化新增数据
 const initCreate = {
-  status: 1,
-  user: { name: { test: '1234' } }
+  status: 1
 }
 
 function User() {
@@ -60,23 +66,8 @@ function User() {
       startLoading()
       const { data: { data } } = await getSystemUserPage(query)
       const { items, total } = data
-      console.log('items:', items)
-      setTotal(total || 50)
-      const arr = new Array(1000).fill(0).map((item, index) => {
-        return {
-          id: index + 1,
-          username: 'test',
-          children: new Array(100).fill(0).map((_, i) => {
-            return {
-              id: i * 1000,
-              username: 'children'
-            }
-          })
-        }
-      })
-      setTableData(arr)
-      // setTableData(items)
-      // tables.total = total
+      setTotal(total)
+      setTableData(items)
     } finally {
       endLoading()
     }
@@ -88,6 +79,25 @@ function User() {
     setCreateTitle(ADD_TITLE)
     setCreateId('')
     setCreateData(initCreate)
+  }
+
+  /**
+   * 点击编辑
+   * @param id - 唯一值
+   */
+  const onUpdate = async (id: string) => {
+    setCreateOpen(true)
+    setCreateTitle(EDIT_TITLE(id))
+    setCreateId(id)
+    setCreateData(initCreate)
+
+    try {
+      startCreateLoading()
+      const { data: { data } } = await getSystemUserById(id as string)
+      setCreateData(data)
+    } finally {
+      endCreateLoading()
+    }
   }
 
   /** 表格提交 */
@@ -114,25 +124,52 @@ function User() {
   }
 
   /**
-   * 操作
+   * 点击删除
+   * @param id - 唯一值
    */
-  const options: ITableOptions<IRowData> = (value, record) => (
-    <>
-      <Button className='mr-5px' onClick={onCreate}>
-        新增
-      </Button>
-      <span>{ record.id }</span>
-    </>
-  )
+  const onDelete = async (id: string) => {
+    try {
+      startLoading()
+      const { data } = await deleteSystemUser(id as string)
+      if (data?.code === 200) {
+        message.success(data?.message || '删除成功')
+        getPage()
+      }
+    } finally {
+      endLoading()
+    }
+  }
 
   /**
    * 处理分页
+   * @param page - 当前页数
+   * @param pageSize - 每页条数
    */
   const onChangePagination = (page: number, pageSize: number) => {
     setPage(page)
     setPageSize(pageSize)
     handleSearch({ ...searchData, page, pageSize })
   }
+
+  /**
+   * 渲染操作
+   * @param value - 当前值
+   * @param record - 当前行参数
+   */
+  const optionRender: ITableOptions<IRowData> = (value, record) => (
+    <>
+      <UpdateBtn
+        className='mr-5px'
+        isLoading={isLoading}
+        onClick={() => onUpdate(record.id)}
+      />
+      <DeleteBtn
+        className='mr-5px'
+        isLoading={isLoading}
+        handleDelete={() => onDelete(record.id)}
+      />
+    </>
+  )
 
   return (
     <>
@@ -145,7 +182,7 @@ function User() {
       />
       
       <BasicTable
-        columns={tableColumns(options)}
+        columns={tableColumns(optionRender)}
         dataSource={tableData}
       />
 
@@ -160,8 +197,7 @@ function User() {
       <BasicModal
         title={createTitle}
         isOpen={isCreateOpen}
-        confirmLoading={isLoading}
-        isLoading={isCreateLoading}
+        confirmLoading={isCreateLoading}
         onOk={createSubmit}
         onCancel={() => setCreateOpen(false)}
       >

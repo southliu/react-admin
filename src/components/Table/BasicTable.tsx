@@ -40,7 +40,7 @@ function BasicTable(props: IProps) {
   }))
 
   const virtualOptions = useVirtualTable({
-    height: 350 // 设置可视高度
+    height: 450 // 设置可视高度
   })
 
   const virtualComponents = useMemo(() => {
@@ -73,7 +73,7 @@ function BasicTable(props: IProps) {
         pagination={false}
         {...props}
         bordered={isBordered !== false}
-        scroll={{ ...props.scroll, y: 350 }}
+        scroll={{ ...props.scroll, y: 450 }}
         components={components}
         columns={mergeColumns}
       />

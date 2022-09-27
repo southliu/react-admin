@@ -17,12 +17,10 @@ function ApiTreeSelect(props: IProps) {
   const [isLoading, setLoading] = useState(false)
   const [options, setOptions] = useState<TreeSelectProps['treeData']>([])
 
-  // 过滤掉api和params
-  const params: Partial<IProps> = {
-    ...props,
-    api: undefined,
-    params: undefined
-  }
+  // 清除自定义属性
+  const params: Partial<IProps> = { ...props }
+  delete params.api
+  delete params.params
 
   /** 获取接口数据 */
   const getApiData = async () => {

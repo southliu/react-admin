@@ -99,7 +99,6 @@ function BasicSearch(props: IProps) {
           <Form.Item>
             <Button
               type="primary"
-              htmlType="submit"
               icon={<PlusOutlined />}
               onClick={onCreate}
           >

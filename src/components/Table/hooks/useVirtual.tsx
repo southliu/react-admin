@@ -230,6 +230,7 @@ function VTable(props: any): JSX.Element {
       ref={wrapTableRef}
       style={{
         width: '100%',
+        minHeight: 200,
         position: 'relative',
         height: tableHeight,
         boxSizing: 'border-box',

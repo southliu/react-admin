@@ -9,13 +9,12 @@ import Draggable from 'react-draggable'
 // 重写ModalProps
 interface IProps extends Omit<ModalProps, 'open' | 'onCancel'> {
   isOpen: boolean;
-  isLoading?: boolean;
   children: ReactNode;
   onCancel: () => void;
 }
 
 function BasicModal(props: IProps) {
-  const { isOpen, isLoading } = props
+  const { isOpen } = props
   const draggleRef = useRef<HTMLDivElement>(null)
   const [isDisabled, setDisabled] = useState(false)
   const [isFullscreen, setFullscreen] = useState(false)
@@ -34,7 +33,6 @@ function BasicModal(props: IProps) {
       top: -targetRect.top + uiData.y,
       bottom: clientHeight - (targetRect.bottom - uiData.y),
     })
-    console.log('bounds:', bounds)
   }
 
   /** 鼠标拖拽结束 */
@@ -116,7 +114,6 @@ function BasicModal(props: IProps) {
       maskClosable={false}
       width={isFullscreen ? '100%' : props.width || 520}
       wrapClassName={isFullscreen ? 'full-modal' : ''}
-      confirmLoading={!!isLoading}
       modalRender={modalRender}
       {...props}
       title={titleRender}
