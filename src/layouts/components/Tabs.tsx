@@ -2,7 +2,7 @@ import type { TabsProps } from 'antd'
 import type { AppDispatch, RootState } from '@/stores'
 import { useEffect } from 'react'
 import { getMenuByKey } from '@/menus/utils/helper'
-import { menus } from '@/menus'
+import { defaultMenus } from '@/menus'
 import { Tabs, Dropdown } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setActiveKey, addTabs, closeTabs } from '@/stores/tabs'
@@ -19,10 +19,10 @@ function LayoutTabs() {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch: AppDispatch = useDispatch()
-  // 是否窗口最大化
-  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   const tabs = useSelector((state: RootState) => state.tabs.tabs)
   const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
+  // 是否窗口最大化
+  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   // 菜单展开值
   const openKey = useSelector((state: RootState) => state.menu.openKey)
 
@@ -30,7 +30,7 @@ function LayoutTabs() {
     // 当值为空时匹配路由
     if (tabs.length === 0) {
       if (location.pathname === '/') return
-      const newItems = getMenuByKey(menus, location.pathname)
+      const newItems = getMenuByKey(defaultMenus, location.pathname)
       if (newItems.key) {
         dispatch(setActiveKey(newItems.key))
         dispatch(addTabs(newItems))

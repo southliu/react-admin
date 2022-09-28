@@ -1,3 +1,4 @@
+import type { SubMenuType } from 'antd/lib/menu/hooks/useItems'
 import type { ColumnsType } from 'antd/lib/table'
 
 // 接口响应数据
@@ -19,6 +20,16 @@ export interface IPageServerResult<T = unknown> {
 export interface IPaginationData {
   page: number;
   pageSize: number;
+}
+
+// 侧边菜单
+export interface ISideMenu extends Omit<SubMenuType, 'children' | 'label' | 'icon'> {
+  label: string;
+  key: string;
+  icon?: React.ReactNode | string;
+  rule?: string; // 路由权限
+  keepAlive?: boolean; // 是否开启keepAlive
+  children?: ISideMenu[];
 }
 
 // 表格列数据

@@ -1,5 +1,5 @@
 import type { AppDispatch } from '@/stores'
-import { menus } from '@/menus'
+import { defaultMenus } from '@/menus'
 import { getMenuByKey } from '@/menus/utils/helper'
 import { addTabs, setActiveKey } from '@/stores/tabs'
 import { Button } from 'antd'
@@ -14,7 +14,7 @@ function NotFound() {
   /** 跳转首页 */
   const goIndex = () => {
     navigate('/dashboard')
-    const newItems = getMenuByKey(menus, '/dashboard')
+    const newItems = getMenuByKey(defaultMenus, '/dashboard')
     if (newItems.key) {
       dispatch(setActiveKey(newItems.key))
       dispatch(addTabs(newItems))

@@ -22,8 +22,6 @@ export const permissionsToArray = (permissions: IPermissions[]): string[] => {
  * @param permissions - 权限
  */
 export const checkPermission = (value: string, permissions: string[]): boolean => {
-  if (!permissions || permissions.length === 0) {
-return false
-}
+  if (!permissions || permissions.length === 0) return false
   return permissions.includes(value)
 }

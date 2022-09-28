@@ -10,6 +10,7 @@ import { useToken } from '@/hooks/useToken'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setPermissions, setUserInfo } from '@/stores/user'
+import { permissionsToArray } from '@/utils/permissions'
 import Logo from '@/assets/images/logo.svg'
 
 function Login() {
@@ -34,9 +35,10 @@ function Login() {
       setLoading(true)
       const { data } = await login(values)
       const { data: { token, user, permissions } } = data
+      const newPermissions = permissionsToArray(permissions)
       setToken(token)
       dispatch(setUserInfo(user))
-      dispatch(setPermissions(permissions))
+      dispatch(setPermissions(newPermissions))
       navigate('/dashboard')
     } finally {
       setLoading(false)

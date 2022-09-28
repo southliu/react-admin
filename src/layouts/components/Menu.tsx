@@ -1,14 +1,15 @@
 import type { MenuProps } from 'antd'
+import type { ISideMenu } from '#/global'
 import type { AppDispatch } from '@/stores'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Menu } from 'antd'
 import { RootState } from '@/stores'
 import { useDispatch, useSelector } from 'react-redux'
-import { menus } from '@/menus'
+import { defaultMenus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { firstCapitalize } from '@/utils/helper'
 import { setOpenKey } from '@/stores/menu'
-import { getMenuByKey } from '@/menus/utils/helper'
+import { filterMenus, getMenuByKey } from '@/menus/utils/helper'
 import { addTabs, setActiveKey } from '@/stores/tabs'
 import styles from '../index.module.less'
 import Logo from '@/assets/images/logo.svg'
@@ -17,11 +18,13 @@ function LayoutMenu() {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch: AppDispatch = useDispatch()
+  const [menus, setMenus] = useState<ISideMenu[]>([])
   const openKey = useSelector((state: RootState) => state.menu.openKey)
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   // 菜单是否收缩
   const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
+  const permissions = useSelector((state: RootState) => state.user.permissions)
 
   // 处理默认展开
   useEffect(() => {
@@ -36,6 +39,14 @@ function LayoutMenu() {
       }
     }
   }, [])
+
+  // 过滤没权限菜单
+  useEffect(() => {
+    if (permissions.length > 0) {
+      const newMenus = filterMenus(defaultMenus, permissions)
+      setMenus(newMenus || [])
+    }
+  }, [permissions])
 
   /** 
    * 点击菜单

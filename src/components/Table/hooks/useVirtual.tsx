@@ -11,7 +11,7 @@ interface initialStateProps {
 
 const initialState: initialStateProps = {
   // 行高度
-  rowHeight: 35,
+  rowHeight: 46,
   // 当前的scrollTop
   curScrollTop: 0,
   // 可滚动区域的高度
@@ -74,7 +74,7 @@ const ScrollContext = createContext<ScrollContextProps>({
   renderLen: 1,
   start: 0,
   offsetStart: 0,
-  rowHeight: 35,
+  rowHeight: 46,
   totalLen: 0
 })
 
@@ -230,7 +230,6 @@ function VTable(props: any): JSX.Element {
       ref={wrapTableRef}
       style={{
         width: '100%',
-        minHeight: 200,
         position: 'relative',
         height: tableHeight,
         boxSizing: 'border-box',

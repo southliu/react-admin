@@ -1,18 +1,24 @@
-import type { RootState } from '@/stores'
+import type { AppDispatch, RootState } from '@/stores'
 import { useToken } from '@/hooks/useToken'
 import { useEffect } from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getPermissions } from '@/servers/permissions'
+import { permissionsToArray } from '@/utils/permissions'
+import { setPermissions, setUserInfo } from '@/stores/user'
 import Menu from './components/Menu'
 import Header from './components/Header'
 import Tabs from './components/Tabs'
 import styles from './index.module.less'
 
 function Layout() {
+  const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
   const { getToken } = useToken()
   const token = getToken()
 
+  // 用户ID
+  const userId = useSelector((state: RootState) => state.user.userInfo.id)
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   // 菜单是否收缩
@@ -23,7 +29,27 @@ function Layout() {
     if (!token) {
       navigate('/login')
     }
+
+    // 当用户信息缓存不存在时则重新获取
+    if (token && !userId) {
+      getUserInfo()
+    }
   }, [])
+
+  /** 获取用户信息和权限 */
+  const getUserInfo = async () => {
+    try {
+      const { data } = await getPermissions({ refresh_cache: false })
+      if (data) {
+        const { data: { user, permissions } } = data
+        const newPermissions = permissionsToArray(permissions)
+        dispatch(setUserInfo(user))
+        dispatch(setPermissions(newPermissions))
+      }
+    } catch(err) {
+      console.error('获取用户信息失败：', err)
+    }
+  }
 
   return (
     <div id="layout" className='bg-white'>

@@ -1,11 +1,11 @@
-import type { ISearchMenuValue } from '@/menus/utils/helper'
+import type { ISideMenu } from '#/global'
 import { Ref, useImperativeHandle, useLayoutEffect } from 'react'
 import { InputRef } from 'antd'
 import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 import { Modal, Input } from 'antd'
 import { Icon } from '@iconify/react'
 import { useDebounceFn } from 'ahooks'
-import { menus } from '@/menus'
+import { defaultMenus } from '@/menus'
 import { useNavigate } from 'react-router-dom'
 import { useKeyStroke } from '@/hooks/useKeyStroke'
 import { searchMenuValue } from '@/menus/utils/helper'
@@ -26,7 +26,7 @@ function SearchModal(props: IProps) {
   const { modalRef } = props
   const [value, setValue] = useState('') // 输入框值
   const [active, setActive] = useState('') // 选中值
-  const [list, setList] = useState<ISearchMenuValue[]>([])
+  const [list, setList] = useState<ISideMenu[]>([])
   const [isVisible, setVisible] = useState(false)
 
   // 抛出外部方法
@@ -81,10 +81,10 @@ function SearchModal(props: IProps) {
    * @param value - 搜索值
    */
   const debounceSearch = useDebounceFn((value: string) => {
-    const searchValue = searchMenuValue(menus, value)
+    const searchValue = searchMenuValue(defaultMenus, value)
     if (searchValue?.length) {
-      setActive((searchValue as ISearchMenuValue[])[0].key)
-      setList(searchValue as ISearchMenuValue[])
+      setActive((searchValue as ISideMenu[])[0].key)
+      setList(searchValue as ISideMenu[])
     } else {
       setActive('')
       setList([])

@@ -16,11 +16,6 @@ import zhCN from 'antd/es/locale/zh_CN'
 import 'antd/dist/antd.css'
 import '@/assets/css/antd.less'
 
-// 关闭loading
-if (document?.getElementById('first')) {
-  (document.getElementById('first') as HTMLElement).style.display = 'none'
-}
-
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ConfigProvider locale={zhCN}>
     <Provider store={store}>
@@ -28,3 +23,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </Provider>
   </ConfigProvider>
 )
+
+// 关闭loading
+if (document?.getElementById('first')) {
+  (document.getElementById('first') as HTMLElement).style.display = 'none'
+}

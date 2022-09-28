@@ -1,9 +1,8 @@
-import type { MenuProps } from 'antd'
-import type { MenuItemType } from 'antd/lib/menu/hooks/useItems'
+import type { ISideMenu } from '#/global'
 import { Icon } from '@iconify/react'
 import { systems } from './systems'
 
-export const menus: MenuProps['items'] = [
+export const defaultMenus: ISideMenu[] = [
   {
     label: '仪表盘',
     key: 'Dashboard',
@@ -12,8 +11,9 @@ export const menus: MenuProps['items'] = [
       {
         label: '数据总览',
         key: '/dashboard',
+        rule: '/dashboard',
       }
     ]
   },
-  ...systems as MenuItemType[]
+  ...systems as ISideMenu[]
 ]

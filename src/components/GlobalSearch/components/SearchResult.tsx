@@ -1,9 +1,9 @@
-import type { ISearchMenuValue } from '@/menus/utils/helper'
+import type { ISideMenu } from '#/global'
 import { Icon } from '@iconify/react'
 import { useNavigate } from 'react-router-dom'
 
 interface IProps {
-  list: ISearchMenuValue[]; // 列表
+  list: ISideMenu[]; // 列表
   active: string; // 选中值
   onCancel: () => void; // 关闭模态框
   changActive: (value: string) => void; // 更改选中值

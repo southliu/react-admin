@@ -1,7 +1,7 @@
-import type { MenuProps } from 'antd'
+import type { ISideMenu } from '#/global'
 import { Icon } from '@iconify/react'
 
-export const systems: MenuProps['items'] = [
+export const systems: ISideMenu[] = [
   {
     label: '系统管理',
     key: 'System',
@@ -9,11 +9,13 @@ export const systems: MenuProps['items'] = [
     children: [
       {
         label: '用户管理',
-        key: '/system/user'
+        key: '/system/user',
+        rule: '/authority/user'
       },
       {
         label: '菜单管理',
-        key: '/system/menu'
+        key: '/system/menu',
+        rule: '/authority/menu2'
       },
     ]
   }
