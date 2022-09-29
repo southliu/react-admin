@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { store } from './stores'
 
 // 样式
-import "uno.css"
+import 'virtual:uno.css'
 import "nprogress/nprogress.css"
 import "@/assets/css/scrollbar.less"
 

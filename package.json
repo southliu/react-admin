@@ -42,7 +42,6 @@
     "@typescript-eslint/parser": "^5.35.1",
     "@unocss/preset-attributify": "^0.45.9",
     "@unocss/preset-icons": "^0.45.9",
-    "@unocss/preset-uno": "^0.45.9",
     "@vitejs/plugin-react": "^2.0.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.22.0",
