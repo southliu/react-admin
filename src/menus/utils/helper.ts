@@ -3,11 +3,13 @@ import type { ISideMenu } from '#/global'
 /**
  * 搜索相应菜单值
  * @param menus - 菜单
+ * @param permissions - 权限列表
  * @param value - 匹配值
  * @param result - 返回值
  */
 export function searchMenuValue(
   menus: ISideMenu[] | undefined,
+  permissions: string[],
   value: string,
   result: ISideMenu[] = []
 ): ISideMenu[] {
@@ -19,12 +21,16 @@ export function searchMenuValue(
       // 递归子数组，返回结果
       const childResult = searchMenuValue(
         menus[i].children,
+        permissions,
         value,
         result
       )
       // 当子数组返回值有值时则合并数组
       if (childResult) result.concat(childResult)
-    } else if ((menus[i]?.label as string)?.includes(value)) {
+    } else if (
+      menus[i]?.label?.includes(value) &&
+      permissions?.includes(menus[i].rule || '')
+    ) {
       // 匹配到value值时添加到result中
       const { label, key } = menus[i]
       result.push({ label, key})
@@ -37,11 +43,13 @@ export function searchMenuValue(
 /**
  * 根据key获取菜单当前值
  * @param menus - 菜单
+ * @param permissions - 权限列表
  * @param key - 路由值
  * @param result - 返回值
  */
 export function getMenuByKey(
   menus: ISideMenu[] | undefined,
+  permissions: string[],
   key: string,
   result = { label: '', key: '' }
 ) {
@@ -53,12 +61,16 @@ export function getMenuByKey(
       // 递归子数组，返回结果
       const childResult = getMenuByKey(
         menus[i].children,
+        permissions,
         key,
         result
       )
       // 当子数组返回值
       if (childResult.key) result = childResult
-    } else if (menus[i]?.key === key) {
+    } else if (
+      menus[i]?.key === key &&
+      permissions?.includes(menus[i].rule || '')
+    ) {
       const { label, key } = menus[i]
       if (key) result = { label, key }
     }

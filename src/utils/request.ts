@@ -1,5 +1,4 @@
 import axios from 'axios'
-// import { router } from '@/router'
 import { message } from 'antd'
 import { useToken } from '@/hooks/useToken'
 
@@ -28,12 +27,6 @@ const handleError = (error: string, content?: string) => {
     content: content || error || '服务器错误',
     key: 'error'
   })
-}
-
-/** 权限不足 */
-const handleNotPermission = () => {
-  useToken().removeToken()
-  // router.push('/login')
 }
 
 // 请求拦截
@@ -72,14 +65,12 @@ request.interceptors.response.use(
     // 后端框架错误提醒
     if (res?.code === 0) {
       handleError(res?.message, '权限不足，请重新登录')
-      handleNotPermission()
       return Promise.reject(response)
     }
 
     // 权限不足
     if (res?.code === 601) {
       handleError(res?.message)
-      handleNotPermission()
       return Promise.reject(response)
     }
 

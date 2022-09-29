@@ -54,7 +54,7 @@ function LayoutMenu() {
    */
   const onClick: MenuProps['onClick'] = e => {
     navigate(e.key)
-    const newTab = getMenuByKey(menus, e.key)
+    const newTab = getMenuByKey(menus, permissions, e.key)
     dispatch(setActiveKey(newTab.key))
     dispatch(addTabs(newTab))
   }

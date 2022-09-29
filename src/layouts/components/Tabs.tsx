@@ -21,6 +21,7 @@ function LayoutTabs() {
   const dispatch: AppDispatch = useDispatch()
   const tabs = useSelector((state: RootState) => state.tabs.tabs)
   const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
+  const permissions = useSelector((state: RootState) => state.user.permissions)
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   // 菜单展开值
@@ -28,15 +29,19 @@ function LayoutTabs() {
 
   useEffect(() => {
     // 当值为空时匹配路由
-    if (tabs.length === 0) {
+    if (tabs.length === 0 && permissions.length > 0) {
       if (location.pathname === '/') return
-      const newItems = getMenuByKey(defaultMenus, location.pathname)
+      const newItems = getMenuByKey(
+        defaultMenus,
+        permissions,
+        location.pathname
+      )
       if (newItems.key) {
         dispatch(setActiveKey(newItems.key))
         dispatch(addTabs(newItems))
       }
     }
-  }, [])
+  }, [permissions])
 
   useEffect(() => {
     // 当选中贴标签不等于当前路由则跳转

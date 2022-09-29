@@ -1,4 +1,5 @@
 import type { ISideMenu } from '#/global'
+import type { RootState } from '@/stores'
 import { Ref, useImperativeHandle, useLayoutEffect } from 'react'
 import { InputRef } from 'antd'
 import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
@@ -6,6 +7,7 @@ import { Modal, Input } from 'antd'
 import { Icon } from '@iconify/react'
 import { useDebounceFn } from 'ahooks'
 import { defaultMenus } from '@/menus'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useKeyStroke } from '@/hooks/useKeyStroke'
 import { searchMenuValue } from '@/menus/utils/helper'
@@ -28,6 +30,7 @@ function SearchModal(props: IProps) {
   const [active, setActive] = useState('') // 选中值
   const [list, setList] = useState<ISideMenu[]>([])
   const [isVisible, setVisible] = useState(false)
+  const permissions = useSelector((state: RootState) => state.user.permissions)
 
   // 抛出外部方法
   useImperativeHandle(
@@ -81,7 +84,7 @@ function SearchModal(props: IProps) {
    * @param value - 搜索值
    */
   const debounceSearch = useDebounceFn((value: string) => {
-    const searchValue = searchMenuValue(defaultMenus, value)
+    const searchValue = searchMenuValue(defaultMenus, permissions, value)
     if (searchValue?.length) {
       setActive((searchValue as ISideMenu[])[0].key)
       setList(searchValue as ISideMenu[])

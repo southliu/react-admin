@@ -1,11 +1,14 @@
 import type { IFormData } from '#/form'
+import type { RootState } from '@/stores'
+import type { IPagePermission, ITableOptions } from '#/global'
 import type { IFormFn } from '@/components/Form/BasicForm'
-import type { ITableOptions } from '#/global'
 import { useEffect, useRef, useState } from 'react'
 import { createList, searchList, tableColumns } from './data'
 import { message } from 'antd'
 import { useLoading } from '@/hooks/useLoading'
 import { useCreateLoading } from '@/hooks/useCreateLoading'
+import { useSelector } from 'react-redux'
+import { checkPermission } from '@/utils/permissions'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import {
@@ -15,6 +18,7 @@ import {
   getSystemUserPage,
   updateSystemUser
 } from '@/servers/systems/user'
+import BasicContent from '@/components/Content/BasicContent'
 import BasicSearch from '@/components/Search/BasicSearch'
 import BasicModal from '@/components/Modal/BasicModal'
 import BasicForm from '@/components/Form/BasicForm'
@@ -42,9 +46,21 @@ function User() {
   const [pageSize, setPageSize] = useState(20)
   const [total, setTotal] = useState(1)
   const [tableData, setTableData] = useState<IFormData[]>([])
+  const permissions = useSelector((state: RootState) => state.user.permissions)
 
   const { isLoading, startLoading, endLoading } = useLoading()
   const { isCreateLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
+
+  // 权限前缀
+  const permissionPrefix = '/authority/user'
+  
+  // 权限
+  const pagePermission: IPagePermission = {
+    page: checkPermission(`${permissionPrefix}/index`, permissions),
+    create: checkPermission(`${permissionPrefix}/create`, permissions),
+    update: checkPermission(`${permissionPrefix}/update`, permissions),
+    delete: checkPermission(`${permissionPrefix}/delete`, permissions)
+  }
 
   useEffect(() => {
     getPage()
@@ -158,58 +174,67 @@ function User() {
    */
   const optionRender: ITableOptions<IRowData> = (value, record) => (
     <>
-      <UpdateBtn
-        className='mr-5px'
-        isLoading={isLoading}
-        onClick={() => onUpdate(record.id)}
-      />
-      <DeleteBtn
-        className='mr-5px'
-        isLoading={isLoading}
-        handleDelete={() => onDelete(record.id)}
-      />
+      {
+        pagePermission.update === true &&
+        <UpdateBtn
+          className='mr-5px'
+          isLoading={isLoading}
+          onClick={() => onUpdate(record.id)}
+        />
+      }
+      {
+        pagePermission.delete === true &&
+        <DeleteBtn
+          className='mr-5px'
+          isLoading={isLoading}
+          handleDelete={() => onDelete(record.id)}
+        />
+      }
     </>
   )
 
   return (
-    <>
-      <BasicSearch
-        list={searchList}
-        data={searchData}
-        isLoading={isLoading}
-        onCreate={onCreate}
-        handleFinish={handleSearch}
-      />
-      
-      <BasicTable
-        columns={tableColumns(optionRender)}
-        dataSource={tableData}
-      />
-
-      <BasicPagination
-        isLoading={isLoading}
-        defaultCurrent={page}
-        defaultPageSize={pageSize}
-        total={total}
-        onChange={onChangePagination}
-      />
-
-      <BasicModal
-        title={createTitle}
-        isOpen={isCreateOpen}
-        confirmLoading={isCreateLoading}
-        onOk={createSubmit}
-        onCancel={() => setCreateOpen(false)}
-      >
-        <BasicForm
-          formRef={createFormRef}
-          list={createList}
-          data={createData}
-          labelCol={{ span: 6 }}
-          handleFinish={handleCreate}
+    <BasicContent isPermission={pagePermission.page}>
+      <>
+        <BasicSearch
+          list={searchList}
+          data={searchData}
+          isLoading={isLoading}
+          isCreate={pagePermission.create}
+          onCreate={onCreate}
+          handleFinish={handleSearch}
         />
-      </BasicModal>
-    </>
+        
+        <BasicTable
+          columns={tableColumns(optionRender)}
+          dataSource={tableData}
+        />
+
+        <BasicPagination
+          isLoading={isLoading}
+          defaultCurrent={page}
+          defaultPageSize={pageSize}
+          total={total}
+          onChange={onChangePagination}
+        />
+
+        <BasicModal
+          title={createTitle}
+          isOpen={isCreateOpen}
+          confirmLoading={isCreateLoading}
+          onOk={createSubmit}
+          onCancel={() => setCreateOpen(false)}
+        >
+          <BasicForm
+            formRef={createFormRef}
+            list={createList}
+            data={createData}
+            labelCol={{ span: 6 }}
+            handleFinish={handleCreate}
+          />
+        </BasicModal>
+      </>
+    </BasicContent>
   )
 }
 

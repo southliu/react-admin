@@ -32,6 +32,12 @@ export interface ISideMenu extends Omit<SubMenuType, 'children' | 'label' | 'ico
   children?: ISideMenu[];
 }
 
+// 页面权限
+export interface IPagePermission {
+  page: boolean;
+  [key: string]: boolean;
+}
+
 // 表格列数据
 export type ITableColumn<T = object> = ColumnsType<T>
 

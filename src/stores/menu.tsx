@@ -1,10 +1,8 @@
-import type { ISideMenu } from '#/global'
 import { createSlice } from '@reduxjs/toolkit'
 
 const menuSlice = createSlice({
   name: 'menu',
   initialState: {
-    menus: [] as ISideMenu[],
     isCollapsed: false,
     openKey: ['Dashboard'], // 菜单展开项
   },
@@ -14,17 +12,13 @@ const menuSlice = createSlice({
     },
     setOpenKey: (state, action) => {
       state.openKey = action.payload
-    },
-    setMenus: (state, action) => {
-      state.menus = action.payload
     }
   }
 })
 
 export const {
   toggleCollapsed,
-  setOpenKey,
-  setMenus
+  setOpenKey
 } = menuSlice.actions
 
 export default menuSlice.reducer
