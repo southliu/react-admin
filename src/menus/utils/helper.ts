@@ -99,8 +99,12 @@ export function filterMenus(
       )
       if (children?.length) menus[i].children = children
     }
+
     // 有权限或有子数据累加
-    if (hasPermission(menus[i], permissions) || menus[i].children?.length) {
+    if (
+      hasPermission(menus[i], permissions) ||
+      menus[i].children?.length
+    ) {
       result.push(menus[i])
     }
   }
@@ -124,11 +128,3 @@ function hasPermission(route: ISideMenu, permissions: string[]): boolean {
 function hasChildren(route: ISideMenu): boolean {
   return Boolean(route?.children?.length)
 }
-
-/**
- * 是否有图标
- * @param route - 路由
- */
-// function hasIcon(route: ISideMenu): boolean {
-//   return Boolean(route?.icon)
-// }

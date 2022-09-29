@@ -3,7 +3,7 @@ import type { TreeSelectProps } from 'antd'
 import { TreeSelect } from 'antd'
 import { useState } from 'react'
 import { MAX_TAG_COUNT, PLEASE_SELECT } from '@/utils/config'
-import Loading from '../Loading'
+import Loading from './components/Loading'
 
 interface IProps extends TreeSelectProps {
   api: IApi;

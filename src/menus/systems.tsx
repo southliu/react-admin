@@ -15,7 +15,7 @@ export const systems: ISideMenu[] = [
       {
         label: '菜单管理',
         key: '/system/menu',
-        rule: '/authority/menu2'
+        rule: '/authority/menu'
       },
     ]
   }

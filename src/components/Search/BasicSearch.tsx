@@ -72,6 +72,7 @@ function BasicSearch(props: IProps) {
               key={`${item.name}`}
               label={item.label}
               name={item.name}
+              className='!mb-5px'
               labelCol={{ style: { width: item.labelCol } }}
               wrapperCol={{ style: { width: item.wrapperCol } }}
               rules={item.rules}

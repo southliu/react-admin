@@ -12,11 +12,11 @@ import { checkPermission } from '@/utils/permissions'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import {
-  createSystemUser,
-  deleteSystemUser,
-  getSystemUserById,
-  getSystemUserPage,
-  updateSystemUser
+  createUser,
+  deleteUser,
+  getUserById,
+  getUserPage,
+  updateUser
 } from '@/servers/systems/user'
 import BasicContent from '@/components/Content/BasicContent'
 import BasicSearch from '@/components/Search/BasicSearch'
@@ -63,8 +63,8 @@ function User() {
   }
 
   useEffect(() => {
-    getPage()
-  }, [])
+    if (pagePermission.page) getPage()
+  }, [permissions])
 
   /** 获取表格数据 */
   const getPage = () => {
@@ -80,7 +80,7 @@ function User() {
     const query = { page, pageSize, ...values }
     try {
       startLoading()
-      const { data: { data } } = await getSystemUserPage(query)
+      const { data: { data } } = await getUserPage(query)
       const { items, total } = data
       setTotal(total)
       setTableData(items)
@@ -109,7 +109,7 @@ function User() {
 
     try {
       startCreateLoading()
-      const { data: { data } } = await getSystemUserById(id as string)
+      const { data: { data } } = await getUserById(id as string)
       setCreateData(data)
     } finally {
       endCreateLoading()
@@ -128,7 +128,7 @@ function User() {
   const handleCreate = async (values: IFormData) => {
     try {
       startCreateLoading()
-      const functions = () => createId ? updateSystemUser(createId, values) : createSystemUser(values)
+      const functions = () => createId ? updateUser(createId, values) : createUser(values)
       const { data } = await functions()
       getPage()
       setCreateOpen(false)
@@ -146,7 +146,7 @@ function User() {
   const onDelete = async (id: string) => {
     try {
       startLoading()
-      const { data } = await deleteSystemUser(id as string)
+      const { data } = await deleteUser(id as string)
       if (data?.code === 200) {
         message.success(data?.message || '删除成功')
         getPage()

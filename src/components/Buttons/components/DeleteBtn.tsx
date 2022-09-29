@@ -35,7 +35,7 @@ function DeleteBtn(props: IProps) {
     <Button
       danger
       {...params}
-      loading={isLoading}
+      loading={!!isLoading}
       onClick={showConfirm}
     >
       删除

@@ -7,18 +7,6 @@ import { OPEN_CLOSE } from '@/utils/constants'
 // 搜索数据
 export const searchList: IFormList[] = [
   {
-    label: '游戏',
-    name: 'game',
-    component: 'GameSelect',
-    wrapperCol: 250
-  },
-  {
-    label: '公司',
-    name: 'partner',
-    component: 'PartnerSelect',
-    wrapperCol: 250
-  },
-  {
     label: '年龄',
     name: 'age',
     component: 'InputNumber'
@@ -118,7 +106,7 @@ export const tableColumns = (optionRender: ITableOptions<IRowData>): ITableColum
       dataIndex: 'operate',
       width: 200,
       fixed: 'right',
-      render: (value, record) => optionRender(value, record as { id: string })
+      render: (value, record) => optionRender(value, record as IRowData)
     },
   ]
 }

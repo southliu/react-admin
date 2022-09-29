@@ -7,13 +7,13 @@ import { Tabs, Dropdown } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setActiveKey, addTabs, closeTabs } from '@/stores/tabs'
 import { useDispatch, useSelector } from 'react-redux'
+import { firstCapitalize } from '@/utils/helper'
+import { setOpenKey } from '@/stores/menu'
 import styles from '../index.module.less'
 import TabRefresh from './TabRefresh'
 import TabMaximize from './TabMaximize'
 import TabOptions from './TabOptions'
 import DropdownMenu from './DropdownMenu'
-import { firstCapitalize } from '@/utils/helper'
-import { setOpenKey } from '@/stores/menu'
 
 function LayoutTabs() {
   const navigate = useNavigate()

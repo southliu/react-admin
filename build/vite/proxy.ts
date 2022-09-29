@@ -15,7 +15,6 @@ export function createProxy(list: ProxyList = []) {
     res[`^${prefix}`] = {
       target,
       changeOrigin: true,
-      // ws: true,
       rewrite: path => path.replace(new RegExp(`^${prefix}`), ''),
     }
   }

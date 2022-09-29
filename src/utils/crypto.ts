@@ -1,10 +1,12 @@
 import type { IAllDataType } from '#/public'
 import { encrypt, decrypt } from 'crypto-js/aes'
+import { CRYPTO_SECRET } from './config'
 import UTF8 from 'crypto-js/enc-utf8'
 import md5 from 'crypto-js/md5'
 
-// 加密密钥
-const CRYPTO_SECRET = '__Vite_Admin_Secret__'
+/**
+ * @description: 加密/解密封装，secret值建议从后台接口获取
+ */
 
 /**
  * 加密

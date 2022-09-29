@@ -15,7 +15,7 @@ function UpdateBtn(props: IProps) {
   return (
     <Button
       {...params}
-      loading={isLoading}
+      loading={!!isLoading}
     >
       编辑
     </Button>

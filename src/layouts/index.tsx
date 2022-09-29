@@ -1,6 +1,6 @@
 import type { AppDispatch, RootState } from '@/stores'
 import { useToken } from '@/hooks/useToken'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPermissions } from '@/servers/permissions'
@@ -9,6 +9,7 @@ import { setPermissions, setUserInfo } from '@/stores/user'
 import Menu from './components/Menu'
 import Header from './components/Header'
 import Tabs from './components/Tabs'
+import Loading from './components/Loading'
 import styles from './index.module.less'
 
 function Layout() {
@@ -16,7 +17,10 @@ function Layout() {
   const navigate = useNavigate()
   const { getToken } = useToken()
   const token = getToken()
+  const [isLoading, setLoading] = useState(false)
 
+  // 权限
+  const permissions = useSelector((state: RootState) => state.user.permissions)
   // 用户ID
   const userId = useSelector((state: RootState) => state.user.userInfo.id)
   // 是否窗口最大化
@@ -39,6 +43,7 @@ function Layout() {
   /** 获取用户信息和权限 */
   const getUserInfo = async () => {
     try {
+      setLoading(true)
       const { data } = await getPermissions({ refresh_cache: false })
       if (data) {
         const { data: { user, permissions } } = data
@@ -46,8 +51,8 @@ function Layout() {
         dispatch(setUserInfo(user))
         dispatch(setPermissions(newPermissions))
       }
-    } catch(err) {
-      console.error('获取用户信息失败：', err)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -72,7 +77,12 @@ function Layout() {
           ${isMaximize ? styles.conMaximize : ''}
         `}
       >
-        <Outlet />
+        { isLoading && <Loading /> }
+        {
+          !isLoading &&
+          permissions.length > 0 &&
+          <Outlet />
+         }
       </div>
     </div>
   )

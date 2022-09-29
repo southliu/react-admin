@@ -3,14 +3,14 @@ import type { IPageServerResult, IPaginationData } from '#/global'
 import { request } from '@/utils/request'
 
 enum API {
-  URL = '/authority/user',
+  URL = '/authority/user'
 }
 
 /**
  * 获取分页数据
  * @param data - 请求数据
  */
-export function getSystemUserPage(data: Partial<IFormData> & IPaginationData) {
+export function getUserPage(data: Partial<IFormData> & IPaginationData) {
   return request.get<IPageServerResult<IFormData[]>>(
     `${API.URL}/index`,
     { params: data }
@@ -21,7 +21,7 @@ export function getSystemUserPage(data: Partial<IFormData> & IPaginationData) {
  * 根据ID获取数据
  * @param id - ID
  */
-export function getSystemUserById(id: string) {
+export function getUserById(id: string) {
   return request.get(`${API.URL}/${id}`)
 }
 
@@ -29,7 +29,7 @@ export function getSystemUserById(id: string) {
  * 新增数据
  * @param data - 请求数据
  */
-export function createSystemUser(data: IFormData) {
+export function createUser(data: IFormData) {
   return request.post(API.URL, data)
 }
 
@@ -38,7 +38,7 @@ export function createSystemUser(data: IFormData) {
  * @param id - 修改id值
  * @param data - 请求数据
  */
-export function updateSystemUser(id: string, data: IFormData) {
+export function updateUser(id: string, data: IFormData) {
   return request.put(`${API.URL}/${id}`, data)
 }
 
@@ -46,6 +46,6 @@ export function updateSystemUser(id: string, data: IFormData) {
  * 删除
  * @param id - 删除id值
  */
-export function deleteSystemUser(id: string) {
+export function deleteUser(id: string) {
   return request.delete(`${API.URL}/${id}`)
 }
