@@ -45,6 +45,7 @@ export function searchMenuValue(
  * @param menus - 菜单
  * @param permissions - 权限列表
  * @param key - 路由值
+ * @param fatherNav - 父级面包屑
  * @param result - 返回值
  */
 interface IGetMenuByKeyResult {
@@ -56,21 +57,33 @@ export function getMenuByKey(
   menus: ISideMenu[] | undefined,
   permissions: string[],
   key: string,
-  currentNav: string[] = [],
+  fatherNav: string[] = [],
   result: IGetMenuByKeyResult = { label: '', key: '', nav: [] }
 ) {
-  for (let i = 0; i < menus.length; i++) {
-    if (!menus?.length || !key || result.key) return result
+  if (!menus?.length) return result
 
+  for (let i = 0; i < menus.length; i++) {
+    if (!key || result.key) return result
+
+    // 递归前删除面包屑前一步错误路径
+    if (
+      i > 0 &&
+      fatherNav.length > 0 &&
+      menus[i]?.children?.length &&
+      result.label !== fatherNav[fatherNav.length - 1]
+    ) {
+      fatherNav.pop()
+    }
+
+    // 过滤子数据中值
     if (menus[i]?.children?.length) {
-      currentNav.pop()
-      const list = [menus[i].label].concat(currentNav)
+      fatherNav.push(menus[i].label)
       // 递归子数组，返回结果
       const childResult = getMenuByKey(
         menus[i].children,
         permissions,
         key,
-        currentNav = list,
+        fatherNav,
         result
       )
       // 当子数组返回值
@@ -79,9 +92,9 @@ export function getMenuByKey(
       menus[i]?.key === key &&
       permissions?.includes(menus[i].rule || '')
     ) {
-      currentNav.push(menus[i].label)
+      fatherNav.push(menus[i].label)
       const { label, key } = menus[i]
-      if (key) result = { label, key, nav: currentNav }
+      if (key) result = { label, key, nav: fatherNav }
     }
   }
 

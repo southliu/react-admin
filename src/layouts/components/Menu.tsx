@@ -65,8 +65,7 @@ function LayoutMenu() {
    * @param openKey - 展开键值
    */
   const onOpenChange = (openKey: string[]) => {
-    const newOpenKey = openKey.length ? [openKey[openKey.length - 1]] : []
-    dispatch(setOpenKey(newOpenKey))
+    dispatch(setOpenKey(openKey))
   }
 
   return (

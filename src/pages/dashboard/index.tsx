@@ -34,8 +34,7 @@ function Dashboard() {
     const query = { ...values }
     try {
       startLoading()
-      const { data: { data } } = await getDataTrends(query)
-      console.log('data:', data)
+      await getDataTrends(query)
     } finally {
       endLoading()
     }
