@@ -25,6 +25,7 @@ import styles from '../index.module.less'
 import Fullscreen from '@/components/Fullscreen'
 import GlobalSearch from '@/components/GlobalSearch'
 import UpdatePassword from './UpdatePassword'
+import Nav from './Nav'
 
 type IMenuKey = 'password' | 'logout'
 
@@ -35,6 +36,7 @@ function Header() {
   const navigate = useNavigate()
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
+  const nav = useSelector((state: RootState) => state.tabs.nav)
   const passwordRef = useRef<IPasswordModal>(null)
 
   // 下拉菜单内容
@@ -105,35 +107,42 @@ function Header() {
           ${isMaximize ? styles.none : ''}
         `}
       >
-        <div className="text-lg cursor-pointer" onClick={() => dispatch(toggleCollapsed(!isCollapsed))}>
-          { isCollapsed && <MenuUnfoldOutlined /> }
-          { !isCollapsed && <MenuFoldOutlined /> }
+        <div className="flex item-center">
+          <div className="text-lg cursor-pointer" onClick={() => dispatch(toggleCollapsed(!isCollapsed))}>
+            { isCollapsed && <MenuUnfoldOutlined /> }
+            { !isCollapsed && <MenuFoldOutlined /> }
+          </div>
+
+          <Nav
+            className="ml-15px"
+            list={nav}
+          />
         </div>
         
         <div className="flex items-center">
-        <GlobalSearch />
-        <Fullscreen />
-        <Dropdown
-          className="min-w-50px"
-          overlay={menu}
-        >
-          <div
-            className="ant-dropdown-link flex items-center cursor-pointer"
-            onClick={e => e.preventDefault()}
+          <GlobalSearch />
+          <Fullscreen />
+          <Dropdown
+            className="min-w-50px"
+            overlay={menu}
           >
-            <img
-              src={Avatar}
-              width={27}
-              height={27}
-              alt="头像"
-              className="rounded-1/2 overflow-hidden object-cover bg-light-500"
-            />
-            <span className="ml-2 text-15px min-w-50px truncate">
-              { username || 'south-admin' }
-            </span>
-          </div>
-        </Dropdown>
-      </div>
+            <div
+              className="ant-dropdown-link flex items-center cursor-pointer"
+              onClick={e => e.preventDefault()}
+            >
+              <img
+                src={Avatar}
+                width={27}
+                height={27}
+                alt="头像"
+                className="rounded-1/2 overflow-hidden object-cover bg-light-500"
+              />
+              <span className="ml-2 text-15px min-w-50px truncate">
+                { username || 'south-admin' }
+              </span>
+            </div>
+          </Dropdown>
+        </div>
       </header>
 
       <UpdatePassword passwordRef={passwordRef} />

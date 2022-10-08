@@ -49,7 +49,7 @@ function SearchResult(props: IProps) {
         list?.length > 0 &&
         <div className="mt-5">
           {
-            list.map(item => (
+            list?.map(item => (
             <div
               key={item.key}
               className={`

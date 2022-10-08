@@ -5,7 +5,7 @@ import { getMenuByKey } from '@/menus/utils/helper'
 import { defaultMenus } from '@/menus'
 import { Tabs, Dropdown } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { setActiveKey, addTabs, closeTabs } from '@/stores/tabs'
+import { setActiveKey, addTabs, closeTabs, setNav } from '@/stores/tabs'
 import { useDispatch, useSelector } from 'react-redux'
 import { firstCapitalize } from '@/utils/helper'
 import { setOpenKey } from '@/stores/menu'
@@ -38,6 +38,7 @@ function LayoutTabs() {
       )
       if (newItems.key) {
         dispatch(setActiveKey(newItems.key))
+        dispatch(setNav(newItems.nav))
         dispatch(addTabs(newItems))
       }
     }
@@ -137,7 +138,7 @@ function LayoutTabs() {
       
       <div className='flex'>
         {
-          tabOptions.map((item, index) => (
+          tabOptions?.map((item, index) => (
             <div
               key={index}
               className={`

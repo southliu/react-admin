@@ -33,7 +33,7 @@ export function searchMenuValue(
     ) {
       // 匹配到value值时添加到result中
       const { label, key } = menus[i]
-      result.push({ label, key})
+      result.push({ label, key })
     }
   }
 
@@ -47,22 +47,30 @@ export function searchMenuValue(
  * @param key - 路由值
  * @param result - 返回值
  */
+interface IGetMenuByKeyResult {
+  label: string;
+  key: string;
+  nav: string[];
+}
 export function getMenuByKey(
   menus: ISideMenu[] | undefined,
   permissions: string[],
   key: string,
-  result = { label: '', key: '' }
+  currentNav: string[] = [],
+  result: IGetMenuByKeyResult = { label: '', key: '', nav: [] }
 ) {
-  if (!menus?.length || !key || result.key) return result
-
   for (let i = 0; i < menus.length; i++) {
-    // 如果存在子数组则递归
+    if (!menus?.length || !key || result.key) return result
+
     if (menus[i]?.children?.length) {
+      currentNav.pop()
+      const list = [menus[i].label].concat(currentNav)
       // 递归子数组，返回结果
       const childResult = getMenuByKey(
         menus[i].children,
         permissions,
         key,
+        currentNav = list,
         result
       )
       // 当子数组返回值
@@ -71,8 +79,9 @@ export function getMenuByKey(
       menus[i]?.key === key &&
       permissions?.includes(menus[i].rule || '')
     ) {
+      currentNav.push(menus[i].label)
       const { label, key } = menus[i]
-      if (key) result = { label, key }
+      if (key) result = { label, key, nav: currentNav }
     }
   }
 

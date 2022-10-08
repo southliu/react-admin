@@ -83,7 +83,7 @@ function BasicForm(props: IProps) {
         autoComplete="off"
       >
         {
-          list.map(item => (
+          list?.map(item => (
             <Form.Item
               key={`${item.name}`}
               label={item.label}

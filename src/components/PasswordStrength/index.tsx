@@ -35,7 +35,7 @@ function PasswordStrength(props: IProps) {
   return (
     <div className="flex items-center">
       {
-        arr.map(item => (
+        arr?.map(item => (
           <div
             key={item}
             className={`

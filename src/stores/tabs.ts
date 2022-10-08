@@ -11,6 +11,7 @@ const tabsSlice = createSlice({
   initialState: {
     isMaximize: false,
     activeKey: '',
+    nav: [] as string[],
     tabs: [] as Tab[]
   },
   reducers: {
@@ -19,6 +20,9 @@ const tabsSlice = createSlice({
     },
     setActiveKey: (state, action) => {
       state.activeKey = action.payload
+    },
+    setNav: (state, action) => {
+      state.nav = action.payload
     },
     /** 添加标签  */
     addTabs: (state, action) => {
@@ -102,6 +106,7 @@ const tabsSlice = createSlice({
 export const {
   toggleMaximize,
   setActiveKey,
+  setNav,
   addTabs,
   closeTabs,
   closeLeft,
