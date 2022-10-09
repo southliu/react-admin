@@ -1,6 +1,6 @@
 import type { TimeRangePickerProps } from 'antd'
 import { TimePicker } from 'antd'
-import moment, { isMoment } from 'moment'
+import moment from 'moment'
 
 const { RangePicker } = TimePicker
 
@@ -11,8 +11,8 @@ function BasicTimePicker(props: TimeRangePickerProps) {
   // 如果值不是moment类型则进行转换
   if (
     value?.length === 2 &&
-    !isMoment(value?.[0]) &&
-    !isMoment(value?.[1])
+    !moment.isMoment(value?.[0]) &&
+    !moment.isMoment(value?.[1])
   ) {
     params.value = [moment(value[0]), moment(value[1])]
   }

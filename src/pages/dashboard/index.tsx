@@ -1,13 +1,14 @@
 import type { IFormData } from '#/form'
-import { isMoment, Moment } from 'moment'
+import type { Moment } from 'moment'
 import { useEffect, useState } from 'react'
 import { useLoading } from '@/hooks/useLoading'
 import { getDataTrends } from '@/servers/dashboard'
 import { searchList } from './data'
+import { DATE_FORMAT } from '@/utils/constants'
+import moment from 'moment'
 import BasicSearch from '@/components/Search/BasicSearch'
 import Line from './components/Line'
 import Block from './components/Block'
-import { DATE_FORMAT } from '@/utils/constants'
 
 function Dashboard() {
   const { isLoading, startLoading, endLoading } = useLoading()
@@ -38,8 +39,8 @@ function Dashboard() {
     // 时间过滤
     if (
       (values.pay_date as [Moment, Moment])?.length === 2 &&
-      isMoment((values.pay_date as [Moment, Moment])[0]) &&
-      isMoment((values.pay_date as [Moment, Moment])[1])
+      moment.isMoment((values.pay_date as [Moment, Moment])[0]) &&
+      moment.isMoment((values.pay_date as [Moment, Moment])[1])
     ) {
       values.pay_date = [
         (values.pay_date as [Moment, Moment])[0].format(DATE_FORMAT),
