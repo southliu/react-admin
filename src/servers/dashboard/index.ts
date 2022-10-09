@@ -1,4 +1,4 @@
-import type { IServerResult } from '#/global'
+import type { IServerResult } from '#/public'
 import { request } from '@/utils/request'
 
 /**

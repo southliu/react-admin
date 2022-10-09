@@ -48,11 +48,18 @@ export function initCompProps(component: IComponentType): IComponentProps {
     case 'CheckboxGroup':
       return {}
 
-    // 时间
+    // 日期
     case 'DatePicker':
       return {
         placeholder: PLEASE_SELECT,
         format: DATE_FORMAT,
+      }
+
+    // 日期区间
+    case 'RangePicker':
+      return {
+        placeholder: [PLEASE_SELECT, PLEASE_SELECT],
+        format: [DATE_FORMAT, DATE_FORMAT],
       }
 
     // 时间
@@ -60,6 +67,13 @@ export function initCompProps(component: IComponentType): IComponentProps {
       return {
         placeholder: PLEASE_SELECT,
         format: TIME_FORMAT,
+      }
+
+    // 时间区间
+    case 'TimeRangePicker':
+      return {
+        placeholder: [PLEASE_SELECT, PLEASE_SELECT],
+        format: [TIME_FORMAT, TIME_FORMAT],
       }
     
     default:

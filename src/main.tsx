@@ -17,9 +17,9 @@ import 'antd/dist/antd.css'
 import '@/assets/css/antd.less'
 
 // 时间设为中文
-import dayjs from 'dayjs'
-import 'dayjs/locale/zh-cn'
-dayjs.locale('zh-cn')
+import moment from 'moment'
+import 'moment/dist/locale/zh-cn'
+moment.locale('zh-cn')
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ConfigProvider locale={zhCN}>

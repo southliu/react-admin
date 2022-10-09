@@ -1,5 +1,5 @@
 import type { IFormList } from "#/form"
-import type { ITableColumn, ITableOptions } from '#/global'
+import type { ITableColumn, ITableOptions } from '#/public'
 import type { IRowData } from './index'
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
 import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from '@/utils/constants'

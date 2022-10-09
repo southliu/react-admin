@@ -1,4 +1,4 @@
-import type { ISideMenu } from '#/global'
+import type { ISideMenu } from '#/public'
 import type { RootState } from '@/stores'
 import { Ref, useImperativeHandle, useLayoutEffect } from 'react'
 import { InputRef } from 'antd'

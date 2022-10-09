@@ -1,5 +1,5 @@
 import type { MenuProps } from 'antd'
-import type { ISideMenu } from '#/global'
+import type { ISideMenu } from '#/public'
 import type { AppDispatch } from '@/stores'
 import { useEffect, useState } from 'react'
 import { Menu } from 'antd'

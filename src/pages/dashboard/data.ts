@@ -1,15 +1,13 @@
 import type { IFormList } from "#/form"
-import { DATE_FORMAT } from "@/utils/constants"
 
 // 搜索数据
 export const searchList: IFormList[] = [
   {
     label: '日期',
     name: 'pay_date',
-    component: 'DatePicker',
+    component: 'RangePicker',
     componentProps: {
       allowClear: false,
-      format: DATE_FORMAT
     }
   },
   {

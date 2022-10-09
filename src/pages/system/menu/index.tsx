@@ -1,6 +1,6 @@
 import type { IFormData } from '#/form'
 import type { RootState } from '@/stores'
-import type { IPagePermission, ITableOptions } from '#/global'
+import type { IPagePermission, ITableOptions } from '#/public'
 import type { IFormFn } from '@/components/Form/BasicForm'
 import { useEffect, useRef, useState } from 'react'
 import { searchList, createList, tableColumns } from './data'

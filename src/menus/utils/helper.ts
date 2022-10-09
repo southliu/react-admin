@@ -1,4 +1,4 @@
-import type { ISideMenu } from '#/global'
+import type { ISideMenu } from '#/public'
 
 /**
  * 搜索相应菜单值

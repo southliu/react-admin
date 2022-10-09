@@ -1,5 +1,5 @@
 import type { IApiResult } from '#/form'
-import type { IServerResult } from '#/global'
+import type { IServerResult } from '#/public'
 import { request } from '@/utils/request'
 import { recursiveData } from '@/utils/helper'
 

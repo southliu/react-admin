@@ -9,13 +9,16 @@ import {
   Checkbox,
   Radio,
   Switch,
-  DatePicker,
   Rate,
   Slider,
   Upload
 } from 'antd'
 import ApiSelect from '@/components/Selects/ApiSelect'
 import ApiTreeSelect from '@/components/Selects/ApiTreeSelect'
+import BasicDatePicker from '@/components/Dates/BasicDatePicker'
+import BasicRangePicker from '@/components/Dates/BasicRangePicker'
+import BasicTimePicker from '@/components/Dates/BasicTimePicker'
+import BasicTimeRangePicker from '@/components/Dates/BasicTimeRangePicker'
 import { CreateBusiness } from '@/components/Business'
 
 const componentMap = new Map()
@@ -31,10 +34,13 @@ componentMap.set('Checkbox', Checkbox)
 componentMap.set('CheckboxGroup', Checkbox.Group)
 componentMap.set('RadioGroup', Radio.Group)
 componentMap.set('Switch', Switch)
-componentMap.set('DatePicker', DatePicker)
 componentMap.set('Rate', Rate)
 componentMap.set('Slider', Slider)
 componentMap.set('Upload', Upload)
+componentMap.set('DatePicker', BasicDatePicker)
+componentMap.set('RangePicker', BasicRangePicker)
+componentMap.set('TimePicker', BasicTimePicker)
+componentMap.set('TimeRangePicker', BasicTimeRangePicker)
 componentMap.set('ApiSelect', ApiSelect)
 componentMap.set('ApiTreeSelect', ApiTreeSelect)
 

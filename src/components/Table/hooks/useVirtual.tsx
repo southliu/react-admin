@@ -164,7 +164,6 @@ function VTable(props: any): JSX.Element {
         temp = 0
       } else {
         const tempRenderLen = ((tableScrollY / state.rowHeight) | 0) + 1 + 2
-        // console.log('tempRenderLen', tempRenderLen)
         temp = tempRenderLen > totalLen ? totalLen : tempRenderLen
       }
     }

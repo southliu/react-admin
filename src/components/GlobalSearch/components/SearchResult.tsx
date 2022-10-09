@@ -1,4 +1,4 @@
-import type { ISideMenu } from '#/global'
+import type { ISideMenu } from '#/public'
 import { Icon } from '@iconify/react'
 import { useNavigate } from 'react-router-dom'
 
