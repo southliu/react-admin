@@ -1,5 +1,6 @@
 import type { IComponentProps, IComponentType } from '#/form'
 import { PLEASE_ENTER, PLEASE_SELECT } from '@/utils/config'
+import { DATE_FORMAT, TIME_FORMAT } from '@/utils/constants'
 
 /**
  * 处理子节点的值的属性
@@ -46,6 +47,20 @@ export function initCompProps(component: IComponentType): IComponentProps {
     // 勾选框组
     case 'CheckboxGroup':
       return {}
+
+    // 时间
+    case 'DatePicker':
+      return {
+        placeholder: PLEASE_SELECT,
+        format: DATE_FORMAT,
+      }
+
+    // 时间
+    case 'TimePicker':
+      return {
+        placeholder: PLEASE_SELECT,
+        format: TIME_FORMAT,
+      }
     
     default:
       return {

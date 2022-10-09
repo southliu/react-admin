@@ -15,7 +15,8 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': '/src',
-        '#': '/types'
+        '#': '/types',
+        'rc-picker/es/generate/moment': 'rc-picker/es/generate/dayjs'
       }
     },
     css: {

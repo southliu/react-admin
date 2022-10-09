@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# 测试覆盖率
+/coverage/
+
+stats.html

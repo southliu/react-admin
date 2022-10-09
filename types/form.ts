@@ -5,6 +5,7 @@ import type {
   TreeSelectProps,
   RadioProps,
   DatePickerProps,
+  TimePickerProps,
   UploadProps,
   RateProps,
   CheckboxProps,
@@ -37,7 +38,7 @@ type ICheckboxComponents = 'Checkbox' | 'CheckboxGroup'
 type IRadioComponents = 'RadioGroup' | 'Switch'
 
 // 时间组件
-type ITimeComponents = 'DatePicker' | 'RangePicker'
+type ITimeComponents = 'DatePicker' | 'TimePicker'
 
 // 上传组件
 type IUploadComponents = 'Upload'
@@ -100,6 +101,7 @@ export type IComponentProps = InputProps |
                               CheckboxProps |
                               RadioProps |
                               DatePickerProps |
+                              TimePickerProps |
                               UploadProps |
                               RateProps |
                               SliderSingleProps |

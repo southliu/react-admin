@@ -2,8 +2,10 @@
 import type { PluginOption } from 'vite'
 import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import { configPageImportPlugin } from './pages'
-import Unocss from 'unocss/vite'
+import { visualizer } from 'rollup-plugin-visualizer'
 import react from '@vitejs/plugin-react'
+import Unocss from 'unocss/vite'
+import viteCompression from 'vite-plugin-compression'
 
 export function createVitePlugins() {
   // 插件参数
@@ -16,6 +18,13 @@ export function createVitePlugins() {
         presetIcons()
       ],
     }),
+    // 包分析
+    visualizer({
+      gzipSize: true,
+      brotliSize: true,
+    }),
+    // 压缩包
+    viteCompression(),
     // 自动生成路由
     configPageImportPlugin(),
   ]
