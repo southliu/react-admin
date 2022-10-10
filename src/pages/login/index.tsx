@@ -96,7 +96,7 @@ function Login() {
                 allow-clear="true"
                 placeholder="用户名"
                 data-test="username"
-                auto-complete="username"
+                autoComplete="username"
                 addonBefore={<UserOutlined />}
               />
             </Form.Item>
