@@ -6,7 +6,10 @@ function VirtualScroll() {
   const Row = (
     { index, style }: { index: number, style: CSSProperties }
   ) => (
-    <div className={index % 2 ? "bg-#f8f8f0" : ""} style={style}>
+    <div
+      className={`text-center ${index % 2 ? "bg-#f8f8f0" : ""}`}
+      style={style}
+    >
       Row {index}
     </div>
   )

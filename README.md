@@ -37,6 +37,15 @@ pnpm dev
 pnpm build
 ```
 
+## 计划
+
+- [ ] 主题换肤功能
+- [ ] 密码强度显示
+- [ ] 修复多层菜单刷新展开
+- [ ] 菜单同层级只能展开一个
+- [ ] 表格虚拟滚动优化
+- [ ] keepalive功能
+
 ## 图标(iconify)
 
 - 参考 [iconify官方地址](https://icon-sets.iconify.design/)
