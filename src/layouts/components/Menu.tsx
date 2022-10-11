@@ -30,13 +30,24 @@ function LayoutMenu() {
   useEffect(() => {
     const { pathname } = location
     const arr = pathname.split('/')
+
     // 当路由长度大于2时说明不是默认数据总览
     if (arr.length > 2) {
       // 取第一个单词大写为新展开菜单key
-      const newOpenKey = firstCapitalize(arr[1])
-      if (newOpenKey !== openKey?.[0]) {
-        dispatch(setOpenKey([newOpenKey]))
+      const firstKey = firstCapitalize(arr[1])
+      const newOpenKey = [firstKey]
+
+      // 当路由处于多级目录时
+      if (arr.length > 3) {
+        let str = '/' + arr[1]
+        for (let i = 2; i < arr.length - 1; i++) {
+          str += '/' + arr[i]
+          newOpenKey.push(str)
+        }
       }
+
+      // 更改默认展开
+      dispatch(setOpenKey(newOpenKey))
     }
   }, [])
 
