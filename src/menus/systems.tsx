@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react'
 export const systems: ISideMenu[] = [
   {
     label: '系统管理',
-    key: 'System',
+    key: 'system',
     icon: <Icon icon='ion:settings-outline' />,
     children: [
       {

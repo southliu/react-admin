@@ -6,7 +6,7 @@ import { demo } from './demo'
 export const defaultMenus: ISideMenu[] = [
   {
     label: '仪表盘',
-    key: 'Dashboard',
+    key: 'dashboard',
     icon: <Icon icon='la:tachometer-alt' />,
     children: [
       {

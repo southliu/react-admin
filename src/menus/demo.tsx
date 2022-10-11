@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react'
 export const demo: ISideMenu[] = [
   {
     label: '组件',
-    key: 'Demo',
+    key: 'demo',
     icon: <Icon icon='fluent:box-20-regular' />,
     children: [
       {
@@ -38,6 +38,18 @@ export const demo: ISideMenu[] = [
               {
                 label: '层级3',
                 key: '/demo/level1/level2/level3',
+                rule: '/demo/watermark',
+              }
+            ]
+          },
+          
+          {
+            label: '层级2-2',
+            key: '/demo/level1/level22',
+            children: [
+              {
+                label: '层级3',
+                key: '/demo/level1/level22/level32',
                 rule: '/demo/watermark',
               }
             ]

@@ -7,7 +7,6 @@ import { RootState } from '@/stores'
 import { useDispatch, useSelector } from 'react-redux'
 import { defaultMenus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { firstCapitalize } from '@/utils/helper'
 import { setOpenKey } from '@/stores/menu'
 import { filterMenus, getMenuByKey } from '@/menus/utils/helper'
 import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
@@ -34,7 +33,7 @@ function LayoutMenu() {
     // 当路由长度大于2时说明不是默认数据总览
     if (arr.length > 2) {
       // 取第一个单词大写为新展开菜单key
-      const firstKey = firstCapitalize(arr[1])
+      const firstKey = arr[1]
       const newOpenKey = [firstKey]
 
       // 当路由处于多级目录时
@@ -72,11 +71,48 @@ function LayoutMenu() {
   }
 
   /**
+   * 对比当前展开目录是否是同一层级
+   * @param arr - 当前展开目录
+   * @param lastArr - 最后展开的目录
+   */
+  const diffOpenMenu = (arr: string[],lastArr: string[]) => {
+    let result = true
+
+    for (let j = 0; j < arr.length; j++) {
+      if (arr[j] !== lastArr[j]) {
+        result = false
+        break
+      }
+    }
+
+    return result
+  }
+
+  /**
    * 展开/关闭回调
    * @param openKey - 展开键值
    */
   const onOpenChange = (openKey: string[]) => {
-    dispatch(setOpenKey(openKey))
+    const newOpenKey: string[] = []
+    let last = '' // 最后一个目录结构
+
+    // 当目录有展开值
+    if (openKey.length > 0) {
+      last = openKey[openKey.length - 1]
+      const lastArr: string[] = last.split('/')
+      if (lastArr.length > 1) lastArr.shift()
+      newOpenKey.push(last)
+
+    // 对比当前展开目录是否是同一层级
+    for (let i = openKey.length - 2; i >= 0; i--) {
+        const arr = openKey[i].split('/')
+        if (arr.length > 1) arr.shift()
+        const hasOpenKey = diffOpenMenu(arr, lastArr)
+        if (hasOpenKey) newOpenKey.unshift(openKey[i])
+      }
+    }
+
+    dispatch(setOpenKey(newOpenKey))
   }
 
   return (
