@@ -41,18 +41,6 @@ export const demo: ISideMenu[] = [
                 rule: '/demo/watermark',
               }
             ]
-          },
-          
-          {
-            label: '层级2-2',
-            key: '/demo/level1/level22',
-            children: [
-              {
-                label: '层级3',
-                key: '/demo/level1/level22/level32',
-                rule: '/demo/watermark',
-              }
-            ]
           }
         ]
       },

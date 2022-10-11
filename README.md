@@ -43,6 +43,7 @@ pnpm build
 - [ ] 密码强度显示
 - [ ] 表格虚拟滚动优化
 - [ ] keepalive功能
+- [ ] useCallback和useMemo优化
 - [ ] 打包分包
 
 ## 图标(iconify)

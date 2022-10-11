@@ -75,7 +75,7 @@ function LayoutMenu() {
    * @param arr - 当前展开目录
    * @param lastArr - 最后展开的目录
    */
-  const diffOpenMenu = (arr: string[],lastArr: string[]) => {
+  const diffOpenMenu = (arr: string[], lastArr: string[]) => {
     let result = true
 
     for (let j = 0; j < arr.length; j++) {
@@ -100,13 +100,13 @@ function LayoutMenu() {
     if (openKey.length > 0) {
       last = openKey[openKey.length - 1]
       const lastArr: string[] = last.split('/')
-      if (lastArr.length > 1) lastArr.shift()
+      if (lastArr.length > 1) lastArr.shift() // 去除首个空字符串
       newOpenKey.push(last)
 
-    // 对比当前展开目录是否是同一层级
-    for (let i = openKey.length - 2; i >= 0; i--) {
+      // 对比当前展开目录是否是同一层级
+      for (let i = openKey.length - 2; i >= 0; i--) {
         const arr = openKey[i].split('/')
-        if (arr.length > 1) arr.shift()
+        if (arr.length > 1) arr.shift() // 去除首个空字符串
         const hasOpenKey = diffOpenMenu(arr, lastArr)
         if (hasOpenKey) newOpenKey.unshift(openKey[i])
       }
@@ -119,6 +119,7 @@ function LayoutMenu() {
     <div 
       className={`
         transition-all
+        overflow-auto
         ${styles.menu}
         ${isCollapsed ? styles.menuClose : ''}
         ${isMaximize ? styles.menuNone : ''}

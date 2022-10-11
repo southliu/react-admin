@@ -65,18 +65,8 @@ export function getMenuByKey(
   for (let i = 0; i < menus.length; i++) {
     if (!key || result.key) return result
 
-    // 递归前删除面包屑前一步错误路径
-    if (
-      i > 0 &&
-      fatherNav.length > 0 &&
-      menus[i]?.children?.length &&
-      result.label !== fatherNav[fatherNav.length - 1]
-    ) {
-      fatherNav.pop()
-    }
-
     // 过滤子数据中值
-    if (menus[i]?.children?.length) {
+    if (hasChildren(menus[i])) {
       fatherNav.push(menus[i].label)
       // 递归子数组，返回结果
       const childResult = getMenuByKey(
@@ -87,7 +77,12 @@ export function getMenuByKey(
         result
       )
       // 当子数组返回值
-      if (childResult.key) result = childResult
+      if (childResult.key) {
+        result = childResult
+      } else {
+        // 下次递归前删除面包屑前一步错误路径
+        fatherNav.pop()
+      }
     } else if (
       menus[i]?.key === key &&
       permissions?.includes(menus[i].rule || '')
