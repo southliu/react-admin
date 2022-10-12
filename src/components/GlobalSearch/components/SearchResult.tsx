@@ -1,5 +1,6 @@
 import type { ISideMenu } from '#/public'
 import { Icon } from '@iconify/react'
+import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom'
 
 interface IProps {
@@ -71,7 +72,22 @@ function SearchResult(props: IProps) {
             >
             <div className="flex items-center">
               <Icon className="text-lg mr-1" icon="gg:menu-boxed" />
-              <span>{ item.label }</span>
+                {
+                  item.nav && item.nav?.length > 0 &&
+                  item.nav.map((item, index) => (
+                    <Fragment key={item}>
+                      {
+                        index > 0 &&
+                        <span className='mx-5px'>&gt;</span>
+                      }
+                      <span>{ item }</span>
+                    </Fragment>
+                  ))
+                }
+                {
+                  !item.nav &&
+                  <span>{ item.label }</span>
+                }
               </div>
               <Icon className="icon text-20px p-2px mr-5px" icon="ant-design:enter-outlined" />
             </div>

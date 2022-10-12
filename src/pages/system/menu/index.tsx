@@ -2,7 +2,7 @@ import type { IFormData } from '#/form'
 import type { RootState } from '@/stores'
 import type { IPagePermission, ITableOptions } from '#/public'
 import type { IFormFn } from '@/components/Form/BasicForm'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { searchList, createList, tableColumns } from './data'
 import { message } from 'antd'
 import { useLoading } from '@/hooks/useLoading'
@@ -55,12 +55,14 @@ function User() {
   const permissionPrefix = '/authority/menu'
 
   // 权限
-  const pagePermission: IPagePermission = {
-    page: checkPermission(`${permissionPrefix}/index`, permissions),
-    create: checkPermission(`${permissionPrefix}/create`, permissions),
-    update: checkPermission(`${permissionPrefix}/update`, permissions),
-    delete: checkPermission(`${permissionPrefix}/delete`, permissions)
-  }
+  const pagePermission: IPagePermission = useMemo(() => {
+    return {
+      page: checkPermission(`${permissionPrefix}/index`, permissions),
+      create: checkPermission(`${permissionPrefix}/create`, permissions),
+      update: checkPermission(`${permissionPrefix}/update`, permissions),
+      delete: checkPermission(`${permissionPrefix}/delete`, permissions)
+    }
+  }, [permissions])
 
   useEffect(() => {
     if (pagePermission.page) getPage()
@@ -169,10 +171,10 @@ function User() {
 
   /**
    * 渲染操作
-   * @param value - 当前值
+   * @param _ - 当前值
    * @param record - 当前行参数
    */
-  const optionRender: ITableOptions<IRowData> = (value, record) => (
+  const optionRender: ITableOptions<IRowData> = (_, record) => (
     <>
       {
         pagePermission.update === true &&

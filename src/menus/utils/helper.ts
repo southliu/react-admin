@@ -5,38 +5,98 @@ import type { ISideMenu } from '#/public'
  * @param menus - 菜单
  * @param permissions - 权限列表
  * @param value - 匹配值
+ * @param currentPath - 当前路径
  * @param result - 返回值
  */
+interface IMenuPath {
+  label: string;
+  path: string[];
+}
 export function searchMenuValue(
   menus: ISideMenu[] | undefined,
   permissions: string[],
   value: string,
+  currentPath: IMenuPath[] = [],
   result: ISideMenu[] = []
 ): ISideMenu[] {
   if (!menus?.length || !value) return []
 
   for (let i = 0; i < menus.length; i++) {
     // 如果存在子数组则递归
-    if (menus[i]?.children?.length) {
+    if (hasChildren(menus[i])) {
+      currentPath.push({
+        label: menus[i].label,
+        path: splitPath(menus[i].key)
+      })
+
       // 递归子数组，返回结果
       const childResult = searchMenuValue(
         menus[i].children,
         permissions,
         value,
+        currentPath,
         result
       )
+
       // 当子数组返回值有值时则合并数组
-      if (childResult) result.concat(childResult)
+      if (childResult.length) {
+        result.concat(childResult)
+      } else {
+        currentPath.pop()
+      }
     } else if (
       menus[i]?.label?.includes(value) &&
-      permissions?.includes(menus[i].rule || '')
+      hasPermission(menus[i], permissions)
     ) {
+      currentPath.push({
+        label: menus[i].label,
+        path: splitPath(menus[i].key)
+      })
+      const nav = matchPath(menus[i].key, currentPath)
+
       // 匹配到value值时添加到result中
       const { label, key } = menus[i]
-      result.push({ label, key })
+      result.push({ label, key, nav })
     }
   }
 
+  return result
+}
+
+/**
+ * 匹配路径内的字段
+ * @param path - 路径
+ * @param arr - 路径经过数组
+ */
+function matchPath(path: string, arr: IMenuPath[]): string[] {
+  const result: string[] = []
+
+  // 分割路径
+  const pathArr = splitPath(path)
+  let left = 0
+  const right = pathArr.length
+
+  for (let i = 0; i < arr.length; i++) {
+    const { path } = arr[i]
+    if (path?.[left] === pathArr[left]) {
+      result.push(arr[i].label)
+      left++
+    }
+    if (left === right) return result
+  }
+
+  return result
+}
+
+/**
+ * 分割路径且去除首个字符串
+ * @param path - 路径
+ */
+export function splitPath(path: string): string[] {
+  // 分割路径
+  const result = path.split('/')
+  // 去除第一个空字符串
+  if (result?.[0] === '') result.shift()
   return result
 }
 
@@ -68,6 +128,7 @@ export function getMenuByKey(
     // 过滤子数据中值
     if (hasChildren(menus[i])) {
       fatherNav.push(menus[i].label)
+
       // 递归子数组，返回结果
       const childResult = getMenuByKey(
         menus[i].children,
@@ -76,6 +137,7 @@ export function getMenuByKey(
         fatherNav,
         result
       )
+
       // 当子数组返回值
       if (childResult.key) {
         result = childResult
@@ -85,7 +147,7 @@ export function getMenuByKey(
       }
     } else if (
       menus[i]?.key === key &&
-      permissions?.includes(menus[i].rule || '')
+      hasPermission(menus[i], permissions)
     ) {
       fatherNav.push(menus[i].label)
       const { label, key } = menus[i]
@@ -110,17 +172,17 @@ export function filterMenus(
   for (let i = 0; i < menus.length; i++) {
     // 处理子数组
     if (hasChildren(menus[i])) {
-      const children = filterMenus(
+      const result = filterMenus(
         menus[i].children as ISideMenu[],
         permissions
       )
-      if (children?.length) menus[i].children = children
+      if (result?.length) menus[i].children = result
     }
 
     // 有权限或有子数据累加
     if (
       hasPermission(menus[i], permissions) ||
-      menus[i].children?.length
+      hasChildren(menus[i])
     ) {
       result.push(menus[i])
     }

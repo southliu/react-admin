@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { defaultMenus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { setOpenKey } from '@/stores/menu'
-import { filterMenus, getMenuByKey } from '@/menus/utils/helper'
+import { filterMenus, getMenuByKey, splitPath } from '@/menus/utils/helper'
 import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
 import styles from '../index.module.less'
 import Logo from '@/assets/images/logo.svg'
@@ -99,14 +99,12 @@ function LayoutMenu() {
     // 当目录有展开值
     if (openKey.length > 0) {
       last = openKey[openKey.length - 1]
-      const lastArr: string[] = last.split('/')
-      if (lastArr.length > 1) lastArr.shift() // 去除首个空字符串
+      const lastArr: string[] = splitPath(last)
       newOpenKey.push(last)
 
       // 对比当前展开目录是否是同一层级
       for (let i = openKey.length - 2; i >= 0; i--) {
-        const arr = openKey[i].split('/')
-        if (arr.length > 1) arr.shift() // 去除首个空字符串
+        const arr = splitPath(openKey[i])
         const hasOpenKey = diffOpenMenu(arr, lastArr)
         if (hasOpenKey) newOpenKey.unshift(openKey[i])
       }

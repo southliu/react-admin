@@ -50,6 +50,7 @@ export interface ISideMenu extends Omit<SubMenuType, 'children' | 'label' | 'ico
   key: string;
   icon?: React.ReactNode | string;
   rule?: string; // 路由权限
+  nav?: string[]; // 面包屑路径
   keepAlive?: boolean; // 是否开启keepAlive
   children?: ISideMenu[];
 }

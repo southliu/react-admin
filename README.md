@@ -44,6 +44,8 @@ pnpm build
 - [ ] 表格虚拟滚动优化
 - [ ] keepalive功能
 - [ ] useCallback和useMemo优化
+- [ ] 时间插件自动转移为字符串
+- [ ] form添加富文本
 - [ ] 打包分包
 
 ## 图标(iconify)

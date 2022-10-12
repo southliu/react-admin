@@ -95,7 +95,7 @@ function LayoutTabs() {
     { element: <TabMaximize /> }
   ]
 
-  // 二次封装标签
+  /** 二次封装标签 */
   const renderTabBar: TabsProps['renderTabBar'] = (tabBarProps, DefaultTabBar) => (
     <DefaultTabBar {...tabBarProps}>
       { node => (
