@@ -23,6 +23,43 @@ export function getOpenMenuByRouter(router: string): string[] {
 }
 
 /**
+ * 匹配路径内的字段
+ * @param path - 路径
+ * @param arr - 路径经过数组
+ */
+function matchPath(path: string, arr: IMenuPath[]): string[] {
+  const result: string[] = []
+
+  // 分割路径
+  const pathArr = splitPath(path)
+  let left = 0
+  const right = pathArr.length
+
+  for (let i = 0; i < arr.length; i++) {
+    const { path } = arr[i]
+    if (path?.[left] === pathArr[left]) {
+      result.push(arr[i].label)
+      left++
+    }
+    if (left === right) return result
+  }
+
+  return result
+}
+
+/**
+ * 分割路径且去除首个字符串
+ * @param path - 路径
+ */
+export function splitPath(path: string): string[] {
+  // 分割路径
+  const result = path.split('/')
+  // 去除第一个空字符串
+  if (result?.[0] === '') result.shift()
+  return result
+}
+
+/**
  * 搜索相应菜单值
  * @param menus - 菜单
  * @param permissions - 权限列表
@@ -82,43 +119,6 @@ export function searchMenuValue(
     }
   }
 
-  return result
-}
-
-/**
- * 匹配路径内的字段
- * @param path - 路径
- * @param arr - 路径经过数组
- */
-function matchPath(path: string, arr: IMenuPath[]): string[] {
-  const result: string[] = []
-
-  // 分割路径
-  const pathArr = splitPath(path)
-  let left = 0
-  const right = pathArr.length
-
-  for (let i = 0; i < arr.length; i++) {
-    const { path } = arr[i]
-    if (path?.[left] === pathArr[left]) {
-      result.push(arr[i].label)
-      left++
-    }
-    if (left === right) return result
-  }
-
-  return result
-}
-
-/**
- * 分割路径且去除首个字符串
- * @param path - 路径
- */
-export function splitPath(path: string): string[] {
-  // 分割路径
-  const result = path.split('/')
-  // 去除第一个空字符串
-  if (result?.[0] === '') result.shift()
   return result
 }
 
@@ -198,7 +198,9 @@ export function filterMenus(
         menus[i].children as ISideMenu[],
         permissions
       )
-      if (result?.length) menus[i].children = result
+
+      // 有子权限数据则保留
+      menus[i].children = result?.length ? result : undefined
     }
 
     // 有权限或有子数据累加
