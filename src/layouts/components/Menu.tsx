@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { defaultMenus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { setOpenKey } from '@/stores/menu'
-import { filterMenus, getMenuByKey, splitPath } from '@/menus/utils/helper'
+import { filterMenus, getMenuByKey, getOpenMenuByRouter, splitPath } from '@/menus/utils/helper'
 import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
 import styles from '../index.module.less'
 import Logo from '@/assets/images/logo.svg'
@@ -28,26 +28,8 @@ function LayoutMenu() {
   // 处理默认展开
   useEffect(() => {
     const { pathname } = location
-    const arr = pathname.split('/')
-
-    // 当路由长度大于2时说明不是默认数据总览
-    if (arr.length > 2) {
-      // 取第一个单词大写为新展开菜单key
-      const firstKey = arr[1]
-      const newOpenKey = [firstKey]
-
-      // 当路由处于多级目录时
-      if (arr.length > 3) {
-        let str = '/' + arr[1]
-        for (let i = 2; i < arr.length - 1; i++) {
-          str += '/' + arr[i]
-          newOpenKey.push(str)
-        }
-      }
-
-      // 更改默认展开
-      dispatch(setOpenKey(newOpenKey))
-    }
+    const newOpenKey = getOpenMenuByRouter(pathname)
+    dispatch(setOpenKey(newOpenKey))
   }, [])
 
   // 过滤没权限菜单

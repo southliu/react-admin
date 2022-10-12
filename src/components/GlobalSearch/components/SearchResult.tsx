@@ -1,7 +1,13 @@
 import type { ISideMenu } from '#/public'
+import type { AppDispatch, RootState } from '@/stores'
+import { Fragment } from 'react'
 import { Icon } from '@iconify/react'
-import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { setOpenKey } from '@/stores/menu'
+import { useDispatch, useSelector } from 'react-redux'
+import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
+import { addTabs, setActiveKey } from '@/stores/tabs'
+import { defaultMenus } from '@/menus'
 
 interface IProps {
   list: ISideMenu[]; // 列表
@@ -13,6 +19,8 @@ interface IProps {
 function SearchResult(props: IProps) {
   const { list, active, onCancel, changActive } = props
   const navigate = useNavigate()
+  const dispatch: AppDispatch = useDispatch()
+  const permissions = useSelector((state: RootState) => state.user.permissions)
 
   /**
    * 点击菜单跳转页面
@@ -20,6 +28,14 @@ function SearchResult(props: IProps) {
    */
   const onclick = (key: string) => {
     navigate(key)
+    // 添加标签
+    const newTab = getMenuByKey(defaultMenus, permissions, key)
+    dispatch(addTabs(newTab))
+    dispatch(setActiveKey(key))
+    // 处理菜单展开
+    const openKey = getOpenMenuByRouter(key)
+    dispatch(setOpenKey(openKey))
+    // 关闭
     onCancel()
   }
 

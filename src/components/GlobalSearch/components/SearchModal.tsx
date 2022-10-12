@@ -1,5 +1,5 @@
 import type { ISideMenu } from '#/public'
-import type { RootState } from '@/stores'
+import type { AppDispatch, RootState } from '@/stores'
 import { Ref, useImperativeHandle, useLayoutEffect } from 'react'
 import { InputRef } from 'antd'
 import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
@@ -7,10 +7,12 @@ import { Modal, Input } from 'antd'
 import { Icon } from '@iconify/react'
 import { useDebounceFn } from 'ahooks'
 import { defaultMenus } from '@/menus'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useKeyStroke } from '@/hooks/useKeyStroke'
-import { searchMenuValue } from '@/menus/utils/helper'
+import { getMenuByKey, getOpenMenuByRouter, searchMenuValue } from '@/menus/utils/helper'
+import { addTabs, setActiveKey } from '@/stores/tabs'
+import { setOpenKey } from '@/stores/menu'
 import SearchResult from './SearchResult'
 import SearchFooter from './SearchFooter'
 
@@ -30,6 +32,7 @@ function SearchModal(props: IProps) {
   const [active, setActive] = useState('') // 选中值
   const [list, setList] = useState<ISideMenu[]>([])
   const [isVisible, setVisible] = useState(false)
+  const dispatch: AppDispatch = useDispatch()
   const permissions = useSelector((state: RootState) => state.user.permissions)
 
   // 抛出外部方法
@@ -45,9 +48,12 @@ function SearchModal(props: IProps) {
   // 聚焦输入框
   useLayoutEffect(() => {
     if (isVisible) {
-      inputRef.current?.focus({
-        cursor: 'end'
-      })
+      // 转为宏任务
+      setTimeout(() => {
+        inputRef.current?.focus({
+          cursor: 'end'
+        })
+      }, 0)
     }
 
     // 退出时清空数据
@@ -75,6 +81,14 @@ function SearchModal(props: IProps) {
   const onPressEnter = () => {
     if (active) {
       navigate(active)
+      // 添加标签
+      const newTab = getMenuByKey(defaultMenus, permissions, active)
+      dispatch(addTabs(newTab))
+      dispatch(setActiveKey(active))
+      // 处理菜单展开
+      const openKey = getOpenMenuByRouter(active)
+      dispatch(setOpenKey(openKey))
+      // 关闭
       onClose()
     }
   }

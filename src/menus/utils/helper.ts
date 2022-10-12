@@ -1,6 +1,28 @@
 import type { ISideMenu } from '#/public'
 
 /**
+ * 根据路由获取展开菜单数组
+ * @param router - 路由
+ */
+export function getOpenMenuByRouter(router: string): string[] {
+  const arr = splitPath(router), result: string[] = []
+
+  // 取第一个单词大写为新展开菜单key
+  if (arr.length > 0) result.push(arr[0])
+
+  // 当路由处于多级目录时
+  if (arr.length > 2) {
+    let str = '/' + arr[0]
+    for (let i = 1; i < arr.length - 1; i++) {
+      str += '/' + arr[i]
+      result.push(str)
+    }
+  }
+
+  return result
+}
+
+/**
  * 搜索相应菜单值
  * @param menus - 菜单
  * @param permissions - 权限列表
