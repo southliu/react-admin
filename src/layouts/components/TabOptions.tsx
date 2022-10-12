@@ -21,7 +21,7 @@ function TabOptions() {
   return (
     <Dropdown
       trigger={['click']}
-      overlay={<DropdownMenu activeKey={activeKey} />}
+      overlay={<DropdownMenu activeKey={activeKey} onOpenChange={onOpenChange} />}
       onOpenChange={onOpenChange}
     >
       <Icon
