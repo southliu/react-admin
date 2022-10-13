@@ -4,11 +4,10 @@ import { useEffect, useState } from 'react'
 import { useLoading } from '@/hooks/useLoading'
 import { getDataTrends } from '@/servers/dashboard'
 import { searchList } from './data'
-import { DATE_FORMAT } from '@/utils/constants'
-import moment from 'moment'
 import BasicSearch from '@/components/Search/BasicSearch'
 import Line from './components/Line'
 import Block from './components/Block'
+import { momentRang2StringRang } from '@/components/Dates/utils/helper'
 
 function Dashboard() {
   const { isLoading, startLoading, endLoading } = useLoading()
@@ -31,22 +30,14 @@ function Dashboard() {
    */
   const handleSearch = async (values: IFormData) => {
     setSearchData(values)
+    const { pay_date } = values
 
     // 数据转换
     values.all_pay = values.all_pay ? 1 : undefined
     values.register = values.register ? 1 : undefined
 
     // 时间过滤
-    if (
-      (values.pay_date as [Moment, Moment])?.length === 2 &&
-      moment.isMoment((values.pay_date as [Moment, Moment])[0]) &&
-      moment.isMoment((values.pay_date as [Moment, Moment])[1])
-    ) {
-      values.pay_date = [
-        (values.pay_date as [Moment, Moment])[0].format(DATE_FORMAT),
-        (values.pay_date as [Moment, Moment])[1].format(DATE_FORMAT)
-      ]
-    }
+    if (pay_date) values.pay_date = momentRang2StringRang(pay_date as [Moment, Moment])
 
     const query = { ...values }
     try {

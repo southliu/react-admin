@@ -2,6 +2,10 @@ import type { SubMenuType } from 'antd/lib/menu/hooks/useItems'
 import type { ColumnsType } from 'antd/lib/table'
 import type { Moment } from 'moment'
 
+// 区间值
+type EventValue<T> = T | null
+export type RangeValue<T> = [EventValue<T>, EventValue<T>] | null
+
 // 基础类型
 export type IBasicData = string | number | boolean
 
@@ -12,7 +16,7 @@ export type IArrayData = string[] | number[] | boolean[]
 export type IObjectData = object | object[] | Record<string, IBasicData | IArrayData | IEmptyData>
 
 // 时间
-export type IDateData = Moment | [Moment, Moment]
+export type IDateData = Moment | RangeValue<Moment>
 
 // 空值
 export type IEmptyData = null | undefined

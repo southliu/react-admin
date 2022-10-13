@@ -1,4 +1,4 @@
-import type { IAllDataType, IArrayData } from "#/public"
+import type { IAllDataType, IArrayData } from '#/public'
 
 /**
  * 首字母大写
