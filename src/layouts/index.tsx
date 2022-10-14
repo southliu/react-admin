@@ -1,11 +1,12 @@
 import type { AppDispatch, RootState } from '@/stores'
 import { useToken } from '@/hooks/useToken'
 import { useEffect, useState } from 'react'
-import { useNavigate, Outlet } from 'react-router-dom'
+import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
 import { setPermissions, setUserInfo } from '@/stores/user'
+import KeepAlive from 'react-activation'
 import Menu from './components/Menu'
 import Header from './components/Header'
 import Tabs from './components/Tabs'
@@ -15,6 +16,7 @@ import styles from './index.module.less'
 function Layout() {
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const { getToken } = useToken()
   const token = getToken()
   const [isLoading, setLoading] = useState(false)
@@ -81,7 +83,9 @@ function Layout() {
         {
           !isLoading &&
           permissions.length > 0 &&
-          <Outlet />
+          <KeepAlive id={pathname} name={pathname}>
+            <Outlet />
+          </KeepAlive>
          }
       </div>
     </div>

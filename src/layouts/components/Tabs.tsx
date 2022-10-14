@@ -1,11 +1,12 @@
-import type { TabsProps } from 'antd'
+import { message, TabsProps } from 'antd'
 import type { AppDispatch, RootState } from '@/stores'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
 import { defaultMenus } from '@/menus'
 import { Tabs, Dropdown } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setActiveKey, addTabs, closeTabs, setNav } from '@/stores/tabs'
+import { useAliveController } from 'react-activation'
 import { useDispatch, useSelector } from 'react-redux'
 import { setOpenKey } from '@/stores/menu'
 import styles from '../index.module.less'
@@ -18,6 +19,10 @@ function LayoutTabs() {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch: AppDispatch = useDispatch()
+  const { refresh } = useAliveController()
+  const [isRefresh, setRefresh] = useState(false) // 重新加载
+  const [time, setTime] = useState<null | NodeJS.Timeout>(null)
+
   const tabs = useSelector((state: RootState) => state.tabs.tabs)
   const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
   const permissions = useSelector((state: RootState) => state.user.permissions)
@@ -79,9 +84,50 @@ function LayoutTabs() {
     }
   }
 
+  /** 
+   * 点击重新加载
+   */
+   const onClickRefresh = (key = activeKey) => {
+    // 如果key不是字符串格式则退出
+    if (typeof key !== 'string') return
+
+    // 定时器没有执行时运行
+    if (!time) {
+      setRefresh(true)
+      navigate('/loading')
+
+      setTime(
+        setTimeout(() => {
+          
+          // 当选中的key和激活的key不同则更改
+          if (key !== activeKey) {
+            dispatch(setActiveKey(key))
+          }
+
+          setRefresh(false)
+          navigate(key)
+          refresh(key)
+          message.success({
+            content: '刷新成功',
+            key: 'refresh'
+          })
+          setTime(null)
+        }, 1000)
+      )
+    }
+  }
+
+  // 渲染重新加载
+  const RefreshRender = (
+    <TabRefresh
+      isRefresh={isRefresh}
+      onClick={onClickRefresh}
+    />
+  )
+
   // 标签栏功能
   const tabOptions = [
-    { element: <TabRefresh /> },
+    { element: RefreshRender },
     { element: <TabOptions /> },
     { element: <TabMaximize /> }
   ]
@@ -92,7 +138,12 @@ function LayoutTabs() {
       { node => (
         <Dropdown
           key={node.key}
-          overlay={<DropdownMenu activeKey={node.key as string} />}
+          overlay={(
+            <DropdownMenu
+              activeKey={node.key as string}
+              handleRefresh={onClickRefresh}
+            />
+          )}
           trigger={['contextMenu']}
         >
           <div className='mr-3px'>
