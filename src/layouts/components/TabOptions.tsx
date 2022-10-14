@@ -5,7 +5,12 @@ import { Icon } from '@iconify/react'
 import { useSelector } from 'react-redux'
 import DropdownMenu from './DropdownMenu'
 
-function TabOptions() {
+interface IProps {
+  handleRefresh: (activeKey: string) => void;
+}
+
+function TabOptions(props: IProps) {
+  const { handleRefresh } = props
   const [isOpen, setOpen] = useState(false)
   // 当前选中的key
   const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
@@ -21,7 +26,13 @@ function TabOptions() {
   return (
     <Dropdown
       trigger={['click']}
-      overlay={<DropdownMenu activeKey={activeKey} onOpenChange={onOpenChange} />}
+      overlay={(
+        <DropdownMenu
+          activeKey={activeKey}
+          onOpenChange={onOpenChange}
+          handleRefresh={handleRefresh}
+        />
+      )}
       onOpenChange={onOpenChange}
     >
       <Icon

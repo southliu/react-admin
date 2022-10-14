@@ -125,10 +125,17 @@ function LayoutTabs() {
     />
   )
 
+  // 渲染标签操作
+  const TabOptionsRender = (
+    <TabOptions
+      handleRefresh={onClickRefresh}
+    />
+  )
+
   // 标签栏功能
   const tabOptions = [
     { element: RefreshRender },
-    { element: <TabOptions /> },
+    { element: TabOptionsRender },
     { element: <TabMaximize /> }
   ]
 
