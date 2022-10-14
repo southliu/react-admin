@@ -48,7 +48,7 @@ function SearchModal(props: IProps) {
   // 聚焦输入框
   useLayoutEffect(() => {
     if (isVisible) {
-      // 转为宏任务
+      // 转为宏任务防止聚焦失效
       setTimeout(() => {
         inputRef.current?.focus({
           cursor: 'end'

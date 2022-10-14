@@ -4,14 +4,18 @@ import echarts from './lib/echarts'
 
 interface IProps {
   className?: string;
-  width: number | string;
-  height: number | string;
+  width?: number | string;
+  height?: number | string;
   option: ECBasicOption;
 }
 
 function BasicEcharts(props: IProps) {
-  const { width, height, className } = props
+  let { width, height } = props
+  const { className } = props
   const chartRef = useRef<HTMLDivElement>(null)
+
+  if (width === undefined) width = '100%'
+  if (height === undefined) height = '100%'
 
   useEffect(() => {
     // 初始化chart
@@ -26,9 +30,12 @@ function BasicEcharts(props: IProps) {
       if (chartRef.current && echarts !== null && echarts !== undefined) {
         echarts?.dispose(chartRef.current)
       }
-      // 初始化chart
-      const chartInstance = echarts.init(chartRef.current as HTMLDivElement)
-      chartInstance.setOption(props.option)
+      // 转为宏任务防止宽度100%转为100px
+      setTimeout(() => {
+        // 初始化chart
+        const chartInstance = echarts.init(chartRef.current as HTMLDivElement)
+        chartInstance.setOption(props.option)
+      }, 0)
     }
   }, [props.option])
 

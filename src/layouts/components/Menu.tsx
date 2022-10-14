@@ -95,6 +95,21 @@ function LayoutMenu() {
     dispatch(setOpenKey(newOpenKey))
   }
 
+  /** 点击logo */
+  const onClickLogo = () => {
+    navigate('/dashboard')
+    const newItems = getMenuByKey(
+      defaultMenus,
+      permissions,
+      '/dashboard'
+    )
+    if (newItems.key) {
+      dispatch(setActiveKey(newItems.key))
+      dispatch(setNav([]))
+      dispatch(addTabs(newItems))
+    }
+  }
+
   return (
     <div 
       className={`
@@ -105,15 +120,18 @@ function LayoutMenu() {
         ${isMaximize ? styles.menuNone : ''}
       `}
     >
-      <div className={`
-        text-white
-        flex
-        content-center
-        px-5
-        py-2
-        cursor-pointer
-        ${isCollapsed ? 'justify-center' : ''}
-      `}>
+      <div
+        className={`
+          text-white
+          flex
+          content-center
+          px-5
+          py-2
+          cursor-pointer
+          ${isCollapsed ? 'justify-center' : ''}
+        `}
+        onClick={onClickLogo}
+      >
         <img
           src={Logo}
           width={30}
