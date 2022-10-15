@@ -5,8 +5,8 @@ import { encryption, decryption } from './crypto'
  * @description: localStorage封装
  */
 
-// 默认缓存期限为1天
-const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 1
+// 默认缓存期限为2天
+const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 2
 
 interface IStorageData {
   value: unknown;
