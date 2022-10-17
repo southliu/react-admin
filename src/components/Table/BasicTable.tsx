@@ -1,8 +1,9 @@
 import type { ResizeCallbackData } from 'react-resizable'
 import type { ColumnsType, ColumnType } from 'antd/es/table'
 import type { TableProps } from 'antd'
-import { Table } from 'antd'
 import { useMemo, useState } from 'react'
+import { Table } from 'antd'
+import { getTableHeight } from './utils/helper'
 import ResizableTitle from './components/ResizableTitle'
 import useVirtualTable from './hooks/useVirtual'
 
@@ -15,6 +16,9 @@ interface IProps extends Omit<TableProps<object>, 'bordered'> {
 function BasicTable(props: IProps) {
   const { isZebra, isBordered, isVirtual } = props
   const [columns, setColumns] = useState(props.columns as ColumnsType<object>)
+
+  // 表格高度
+  const tableHeight = getTableHeight()
 
   /**
    * 处理拖拽
@@ -40,7 +44,7 @@ function BasicTable(props: IProps) {
   }))
 
   const virtualOptions = useVirtualTable({
-    height: 450 // 设置可视高度
+    height: tableHeight // 设置可视高度
   })
 
   const virtualComponents = useMemo(() => {
@@ -62,18 +66,23 @@ function BasicTable(props: IProps) {
   }
 
   return (
-    <div className={`
-      p-10px
-      ${isBordered !== false ? 'bordered' : ''}
-      ${isZebra !== false ? 'zebra' : ''}
-    `}>
+    <div
+      id="table"
+      className={`
+        p-10px
+        overflow-auto
+        ${isBordered !== false ? 'bordered' : ''}
+        ${isZebra !== false ? 'zebra' : ''}
+      `}
+      style={{ height: tableHeight }}
+    >
       <Table
         size='small'
         rowKey='id'
         pagination={false}
         {...props}
         bordered={isBordered !== false}
-        scroll={{ ...props.scroll, y: 450 }}
+        scroll={{ ...props.scroll, y: tableHeight }}
         components={components}
         columns={mergeColumns}
       />

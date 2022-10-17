@@ -21,7 +21,7 @@ function DeleteBtn(props: IProps) {
     confirm({
       title: '提示',
       icon: <ExclamationCircleOutlined />,
-      content: '确定要删除吗|?',
+      content: '确定要删除吗?',
       okText: '确认',
       okType: 'danger',
       cancelText: '取消',
@@ -34,6 +34,7 @@ function DeleteBtn(props: IProps) {
   return (
     <Button
       danger
+      type='primary'
       {...params}
       loading={!!isLoading}
       onClick={showConfirm}

@@ -14,6 +14,7 @@ function UpdateBtn(props: IProps) {
 
   return (
     <Button
+      type='primary'
       {...params}
       loading={!!isLoading}
     >

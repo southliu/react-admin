@@ -8,6 +8,10 @@ interface IProps extends PaginationProps {
 function BasicPagination(props: IProps) {
   const { isLoading } = props
 
+  // 清除自定义属性
+  const params: Partial<IProps> = { ...props }
+  delete params.isLoading
+
   /**
    * 显示总数
    * @param total - 总数
@@ -18,8 +22,8 @@ function BasicPagination(props: IProps) {
 
   return (
     <div
+      id="pagination"
       className={`
-        pagination
         w-full
         flex
         items-center
@@ -36,7 +40,7 @@ function BasicPagination(props: IProps) {
         size="small"
         disabled={isLoading}
         showTotal={showTotal}
-        {...props}
+        {...params}
       />
     </div>
   )
