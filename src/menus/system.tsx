@@ -1,7 +1,7 @@
 import type { ISideMenu } from '#/public'
 import { Icon } from '@iconify/react'
 
-export const systems: ISideMenu[] = [
+export const system: ISideMenu[] = [
   {
     label: '系统管理',
     key: 'system',

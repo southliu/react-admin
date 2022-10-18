@@ -17,7 +17,7 @@ import {
   getUserById,
   getUserPage,
   updateUser
-} from '@/servers/systems/user'
+} from '@/servers/system/user'
 import BasicContent from '@/components/Content/BasicContent'
 import BasicSearch from '@/components/Search/BasicSearch'
 import BasicModal from '@/components/Modal/BasicModal'

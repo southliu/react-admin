@@ -17,7 +17,7 @@ import {
   createMenu,
   updateMenu,
   deleteMenu
-} from '@/servers/systems/menu'
+} from '@/servers/system/menu'
 import BasicContent from '@/components/Content/BasicContent'
 import BasicSearch from '@/components/Search/BasicSearch'
 import BasicModal from '@/components/Modal/BasicModal'
