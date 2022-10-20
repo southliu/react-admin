@@ -1,6 +1,8 @@
 import { Icon } from '@iconify/react'
+import { useTitle } from '@/hooks/useTitle'
 
 function Loading() {
+  useTitle('加载中')
   return (
     <div className={`
       absolute

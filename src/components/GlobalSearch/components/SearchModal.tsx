@@ -100,7 +100,7 @@ function SearchModal(props: IProps) {
   const debounceSearch = useDebounceFn((value: string) => {
     const searchValue = searchMenuValue(defaultMenus, permissions, value)
     if (searchValue?.length) {
-      setActive((searchValue as ISideMenu[])[0].key)
+      setActive((searchValue as ISideMenu[])?.[0]?.key || '')
       setList(searchValue as ISideMenu[])
     } else {
       setActive('')

@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react'
 import { useLoading } from '@/hooks/useLoading'
 import { getDataTrends } from '@/servers/dashboard'
 import { searchList } from './data'
+import { useTitle } from '@/hooks/useTitle'
+import { momentRang2StringRang } from '@/components/Dates/utils/helper'
 import BasicSearch from '@/components/Search/BasicSearch'
 import Line from './components/Line'
 import Block from './components/Block'
-import { momentRang2StringRang } from '@/components/Dates/utils/helper'
 
 function Dashboard() {
+  useTitle('数据展览')
   const { isLoading, startLoading, endLoading } = useLoading()
   const [searchData, setSearchData] = useState<IFormData>({
     pay_date: ['2022-10-19', '2022-10-29']

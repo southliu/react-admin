@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { PASSWORD_RULE } from '@/utils/config'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { login } from '@/servers/login'
+import { useTitle } from '@/hooks/useTitle'
 import { useToken } from '@/hooks/useToken'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -14,6 +15,7 @@ import { permissionsToArray } from '@/utils/permissions'
 import Logo from '@/assets/images/logo.svg'
 
 function Login() {
+  useTitle('登录')
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
   const { getToken, setToken } = useToken()

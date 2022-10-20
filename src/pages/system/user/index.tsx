@@ -5,6 +5,7 @@ import type { IFormFn } from '@/components/Form/BasicForm'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createList, searchList, tableColumns } from './data'
 import { message } from 'antd'
+import { useTitle } from '@/hooks/useTitle'
 import { useLoading } from '@/hooks/useLoading'
 import { useCreateLoading } from '@/hooks/useCreateLoading'
 import { useSelector } from 'react-redux'
@@ -36,6 +37,7 @@ const initCreate = {
 }
 
 function User() {
+  useTitle('用户管理')
   const createFormRef = useRef<IFormFn>(null)
   const [searchData, setSearchData] = useState<IFormData>({})
   const [isCreateOpen, setCreateOpen] = useState(false)

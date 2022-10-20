@@ -1,7 +1,9 @@
 import { Button } from 'antd'
+import { useTitle } from '@/hooks/useTitle'
 import { useWatermark } from '@/hooks/useWatermark'
 
 function Watermark() {
+  useTitle('水印')
   const { Watermark, RemoveWatermark } = useWatermark()
   
   const openWatermark = () => {

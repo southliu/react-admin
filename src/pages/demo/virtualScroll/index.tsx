@@ -1,7 +1,9 @@
+import { useTitle } from '@/hooks/useTitle'
 import VirtualList from './components/VirtualList'
 import VirtualTable from './components/VirtualTable'
 
 function VirtualScroll() {
+  useTitle('虚拟滚动')
   return (
     <div className='flex m-30px h-full'>
       <div className='flex flex-col mr-30px'>
