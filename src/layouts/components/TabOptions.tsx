@@ -1,19 +1,16 @@
-import type { RootState } from '@/stores'
 import { useState } from 'react'
 import { Dropdown } from 'antd'
 import { Icon } from '@iconify/react'
-import { useSelector } from 'react-redux'
 import DropdownMenu from './DropdownMenu'
 
 interface IProps {
+  activeKey: string;
   handleRefresh: (activeKey: string) => void;
 }
 
 function TabOptions(props: IProps) {
-  const { handleRefresh } = props
+  const { activeKey, handleRefresh } = props
   const [isOpen, setOpen] = useState(false)
-  // 当前选中的key
-  const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
 
   /**
    * 菜单显示变化

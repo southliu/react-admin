@@ -3,7 +3,7 @@ import CopyInput from '@/components/Copy/CopyInput'
 import CopyBtn from '@/components/Copy/CopyBtn'
 
 function CopyPage() {
-  useTitle('复制')
+  useTitle('剪切板')
   return (
     <div className="max-w-300px m-30px">
       <h1>剪切板：</h1>

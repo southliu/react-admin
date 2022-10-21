@@ -1,6 +1,6 @@
 import { message, TabsProps } from 'antd'
 import type { AppDispatch, RootState } from '@/stores'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
 import { defaultMenus } from '@/menus'
 import { Tabs, Dropdown } from 'antd'
@@ -87,7 +87,7 @@ function LayoutTabs() {
   /** 
    * 点击重新加载
    */
-   const onClickRefresh = (key = activeKey) => {
+   const onClickRefresh = useCallback((key = activeKey) => {
     // 如果key不是字符串格式则退出
     if (typeof key !== 'string') return
 
@@ -98,7 +98,6 @@ function LayoutTabs() {
 
       setTime(
         setTimeout(() => {
-          
           // 当选中的key和激活的key不同则更改
           if (key !== activeKey) {
             dispatch(setActiveKey(key))
@@ -115,28 +114,38 @@ function LayoutTabs() {
         }, 1000)
       )
     }
-  }
+  }, [])
 
   // 渲染重新加载
-  const RefreshRender = (
-    <TabRefresh
-      isRefresh={isRefresh}
-      onClick={onClickRefresh}
-    />
-  )
+  const RefreshRender = useMemo(() => {
+    return (
+      <TabRefresh
+        isRefresh={isRefresh}
+        onClick={onClickRefresh}
+      />
+    )
+  }, [])
 
   // 渲染标签操作
-  const TabOptionsRender = (
-    <TabOptions
-      handleRefresh={onClickRefresh}
-    />
-  )
+  const TabOptionsRender = useMemo(() => {
+    return (
+      <TabOptions
+        activeKey={activeKey}
+        handleRefresh={onClickRefresh}
+      />
+    )
+  }, [activeKey])
+
+  // 渲染最大化操作
+  const TabMaximizeRender = useMemo(() => {
+    return <TabMaximize />
+  }, [])
 
   // 标签栏功能
   const tabOptions = [
     { element: RefreshRender },
     { element: TabOptionsRender },
-    { element: <TabMaximize /> }
+    { element: TabMaximizeRender }
   ]
 
   /** 二次封装标签 */

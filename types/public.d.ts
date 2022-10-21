@@ -13,7 +13,8 @@ export type IBasicData = string | number | boolean
 export type IArrayData = string[] | number[] | boolean[]
 
 // 对象
-export type IObjectData = object | object[] | Record<string, IBasicData | IArrayData | IEmptyData>
+type IObject = Record<string, IBasicData | IArrayData | IEmptyData | object | object[]>
+export type IObjectData = object | object[] | IObject
 
 // 时间
 export type IDateData = Moment | RangeValue<Moment>

@@ -92,6 +92,46 @@ function Header() {
     })
   }
 
+  /** 右侧组件抽离减少重复渲染 */
+  const RightRender = () => {
+    return (
+      <div className="flex items-center">
+        <GlobalSearch />
+        <Fullscreen />
+        <Dropdown
+          className="min-w-50px"
+          overlay={menu}
+        >
+          <div
+            className="ant-dropdown-link flex items-center cursor-pointer"
+            onClick={e => e.preventDefault()}
+          >
+            <img
+              src={Avatar}
+              width={27}
+              height={27}
+              alt="头像"
+              className="rounded-1/2 overflow-hidden object-cover bg-light-500"
+            />
+            <span className="ml-2 text-15px min-w-50px truncate">
+              { username || 'south-admin' }
+            </span>
+          </div>
+        </Dropdown>
+      </div>
+    )
+  }
+
+  /** icon渲染 */
+  const IconRender = () => {
+    return (
+      <div className="text-lg cursor-pointer" onClick={() => dispatch(toggleCollapsed(!isCollapsed))}>
+        { isCollapsed && <MenuUnfoldOutlined /> }
+        { !isCollapsed && <MenuFoldOutlined /> }
+      </div>
+    )
+  }
+
   return (
     <>
       <header
@@ -108,10 +148,7 @@ function Header() {
         `}
       >
         <div className="flex item-center">
-          <div className="text-lg cursor-pointer" onClick={() => dispatch(toggleCollapsed(!isCollapsed))}>
-            { isCollapsed && <MenuUnfoldOutlined /> }
-            { !isCollapsed && <MenuFoldOutlined /> }
-          </div>
+          <IconRender />
 
           <Nav
             className="ml-15px"
@@ -119,30 +156,7 @@ function Header() {
           />
         </div>
         
-        <div className="flex items-center">
-          <GlobalSearch />
-          <Fullscreen />
-          <Dropdown
-            className="min-w-50px"
-            overlay={menu}
-          >
-            <div
-              className="ant-dropdown-link flex items-center cursor-pointer"
-              onClick={e => e.preventDefault()}
-            >
-              <img
-                src={Avatar}
-                width={27}
-                height={27}
-                alt="头像"
-                className="rounded-1/2 overflow-hidden object-cover bg-light-500"
-              />
-              <span className="ml-2 text-15px min-w-50px truncate">
-                { username || 'south-admin' }
-              </span>
-            </div>
-          </Dropdown>
-        </div>
+        <RightRender />
       </header>
 
       <UpdatePassword passwordRef={passwordRef} />
