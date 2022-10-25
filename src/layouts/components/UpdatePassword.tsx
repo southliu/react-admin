@@ -6,6 +6,7 @@ import { PLEASE_ENTER } from '@/utils/config'
 import { updatePassword } from '@/servers/login'
 import { useLoading } from '@/hooks/useLoading'
 import BasicModal from '@/components/Modal/BasicModal'
+import PasswordStrength from '@/components/PasswordStrength'
 
 export interface IPasswordModal {
   open: () => void;
@@ -89,10 +90,7 @@ function UpdatePassword(props: IProps) {
           name="password"
           rules={[{ required: true, message: '请输入密码!' }]}
         >
-          <Input.Password
-            placeholder={PLEASE_ENTER}
-            autoComplete="password"
-          />
+          <PasswordStrength />
         </Form.Item>
 
         <Form.Item
@@ -100,10 +98,7 @@ function UpdatePassword(props: IProps) {
           name="confirmPassword"
           rules={[{ required: true, message: '请输入确认密码!' }]}
         >
-          <Input.Password
-            placeholder={PLEASE_ENTER}
-            autoComplete="confirmPassword"
-          />
+          <PasswordStrength />
         </Form.Item>
       </Form>
     </BasicModal>

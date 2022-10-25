@@ -19,6 +19,7 @@ import BasicDatePicker from '@/components/Dates/BasicDatePicker'
 import BasicRangePicker from '@/components/Dates/BasicRangePicker'
 import BasicTimePicker from '@/components/Dates/BasicTimePicker'
 import BasicTimeRangePicker from '@/components/Dates/BasicTimeRangePicker'
+import PasswordStrength from '@/components/PasswordStrength'
 import { CreateBusiness } from '@/components/Business'
 
 const componentMap = new Map()
@@ -43,6 +44,7 @@ componentMap.set('TimePicker', BasicTimePicker)
 componentMap.set('TimeRangePicker', BasicTimeRangePicker)
 componentMap.set('ApiSelect', ApiSelect)
 componentMap.set('ApiTreeSelect', ApiTreeSelect)
+componentMap.set('PasswordStrength', PasswordStrength)
 
 // 业务组件注入
 CreateBusiness()

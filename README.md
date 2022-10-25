@@ -40,7 +40,7 @@ pnpm build
 ## 计划
 
 - [ ] 主题换肤功能
-- [ ] 密码强度显示
+- [x] 密码强度显示
 - [x] keepalive功能
 - [ ] useCallback和useMemo优化
 - [ ] 时间插件自动转移为字符串

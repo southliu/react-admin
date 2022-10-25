@@ -1,23 +1,24 @@
+import type { InputProps } from 'antd'
 import { useEffect, useState } from 'react'
+import { PLEASE_ENTER } from '@/utils/config'
 import { useDebounceFn } from 'ahooks'
-
-interface IProps {
-  value: string;
-}
+import { Input } from 'antd'
+import StrengthBar from './components/StrengthBar'
 
 /**
  * @description: 密码强度组件
  */
-function PasswordStrength(props: IProps) {
+function PasswordStrength(props: InputProps) {
   const { value } = props
   const [strength, setStrength] = useState(0)
-  const arr = new Array(5).fill(0).map((item, index) => index + 1)
 
   /**
    * 密码强度判断
    * @param value - 值
    */
   const handleStrength = useDebounceFn((value: string) => {
+    console.log('value:', value)
+    if (!value) return
     let level = 0
     if (/\d/.test(value)) level++ // 有数字强度加1
     if (/[a-z]/.test(value)) level++ // 有小写字母强度加1
@@ -29,31 +30,28 @@ function PasswordStrength(props: IProps) {
 
   // 监听传入值变化
   useEffect(() => {
-    handleStrength.run(value)
+    handleStrength.run(value as string)
   }, [value])
 
   return (
-    <div className="flex items-center">
+    <>
+      <Input.Password
+        value={value}
+        allowClear={true}
+        placeholder={PLEASE_ENTER}
+        autoComplete="password"
+        {...props}
+        onChange={e => {
+          props.onChange?.(e)
+          handleStrength.run(e.target.value)
+        }}
+      />
+
       {
-        arr?.map(item => (
-          <div
-            key={item}
-            className={`
-              w-19%
-              h-5px
-              mt-5px
-              mr-1%
-              rounded-10px
-              bg-light-900
-              ${item <= strength && strength > 3 ? '!bg-green-400' : ''}
-              ${item <= strength && strength === 3 ? '!bg-yellow-400' : ''}
-              ${item <= strength && strength < 3 ? '!bg-red-400' : ''}
-            `}
-          >
-          </div>
-        ))
+        !!strength &&
+        <StrengthBar strength={strength} />
       }
-    </div>
+    </>
   )
 }
 
