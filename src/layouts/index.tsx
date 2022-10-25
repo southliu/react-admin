@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
 import { setPermissions, setUserInfo } from '@/stores/user'
+import { Skeleton } from 'antd'
 import KeepAlive from 'react-activation'
 import Menu from './components/Menu'
 import Header from './components/Header'
 import Tabs from './components/Tabs'
-import Loading from './components/Loading'
+import Forbidden from '@/pages/403'
 import styles from './index.module.less'
 
 function Layout() {
@@ -19,7 +20,7 @@ function Layout() {
   const { pathname } = useLocation()
   const { getToken } = useToken()
   const token = getToken()
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(true)
 
   // 权限
   const permissions = useSelector((state: RootState) => state.user.permissions)
@@ -79,13 +80,25 @@ function Layout() {
           ${isMaximize ? styles.conMaximize : ''}
         `}
       >
-        { isLoading && <Loading /> }
+        {
+          isLoading &&
+          <Skeleton
+            active
+            className='p-30px'
+            paragraph={{ rows: 10 }}
+          />
+        }
         {
           !isLoading &&
           permissions.length > 0 &&
           <KeepAlive id={pathname} name={pathname}>
             <Outlet />
           </KeepAlive>
+         }
+         {
+          !isLoading &&
+          permissions.length === 0 &&
+          <Forbidden />
          }
       </div>
     </div>

@@ -210,6 +210,7 @@ function User() {
         />
         
         <BasicTable
+          isLoading={isLoading}
           columns={tableColumns(optionRender)}
           dataSource={tableData}
         />
