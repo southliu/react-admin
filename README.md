@@ -42,6 +42,7 @@ pnpm build
 - [ ] 主题换肤功能
 - [x] 密码强度显示
 - [x] keepalive功能
+- [ ] 弹窗最大化铺满窗口
 - [ ] useCallback和useMemo优化
 - [ ] 时间插件自动转移为字符串
 - [ ] form添加富文本、自定义渲染

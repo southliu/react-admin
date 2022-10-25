@@ -17,7 +17,6 @@ function PasswordStrength(props: InputProps) {
    * @param value - 值
    */
   const handleStrength = useDebounceFn((value: string) => {
-    console.log('value:', value)
     if (!value) return
     let level = 0
     if (/\d/.test(value)) level++ // 有数字强度加1
