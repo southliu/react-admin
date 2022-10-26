@@ -7,7 +7,8 @@
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:react/jsx-runtime"
+        "plugin:react/jsx-runtime",
+        "plugin:react-hooks/recommended"
     ],
     "overrides": [
     ],
@@ -18,7 +19,8 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "react-hooks"
     ],
     "rules": {
         "no-var": "error",
@@ -131,6 +133,9 @@
         "no-case-declarations": "off",
         "no-async-promise-executor": "warn",
         // 禁止使用后缀运算符的非空断言"!"
-        "@typescript-eslint/no-non-null-assertion": "warn"
+        "@typescript-eslint/no-non-null-assertion": "warn",
+        // 官方hooks校验
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     }
 }

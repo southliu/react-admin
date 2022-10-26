@@ -55,6 +55,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.22.0",
     "eslint-plugin-react": "^7.31.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.1",
     "less": "^4.1.3",
     "rc-picker": "^2.6.10",

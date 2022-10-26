@@ -64,7 +64,7 @@ function UpdatePassword(props: IProps) {
   return (
     <BasicModal
       title="修改密码"
-      isOpen={isOpen}
+      open={isOpen}
       confirmLoading={isLoading}
       onOk={onOk}
       onCancel={() => setOpen(false)}

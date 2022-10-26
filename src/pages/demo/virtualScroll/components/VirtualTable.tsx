@@ -22,7 +22,6 @@ function VirtualTable() {
 
   return (
     <BasicTable
-      isLoading={false}
       columns={columns}
       dataSource={data}
     />

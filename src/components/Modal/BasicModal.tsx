@@ -6,15 +6,8 @@ import { Modal } from 'antd'
 import { Icon } from '@iconify/react'
 import Draggable from 'react-draggable'
 
-// 重写ModalProps
-interface IProps extends Omit<ModalProps, 'open' | 'onCancel'> {
-  isOpen: boolean;
-  children: ReactNode;
-  onCancel: () => void;
-}
-
-function BasicModal(props: IProps) {
-  const { isOpen } = props
+function BasicModal(props: ModalProps) {
+  const { open } = props
   const draggleRef = useRef<HTMLDivElement>(null)
   const [isDisabled, setDisabled] = useState(true)
   const [isFullscreen, setFullscreen] = useState(false)
@@ -71,7 +64,7 @@ function BasicModal(props: IProps) {
       >
         <div
           className='p-10px mt-3px cursor-pointer'
-          onClick={() => props?.onCancel()}
+          onClick={e => props?.onCancel?.(e)}
         >
           <Icon
             className="text-lg"
@@ -80,7 +73,7 @@ function BasicModal(props: IProps) {
         </div>
       </Tooltip>
     </div>
-  ), [isOpen, isFullscreen])
+  ), [open, isFullscreen])
 
   /** 自定义标题 */
   const titleRender = (
@@ -113,7 +106,6 @@ function BasicModal(props: IProps) {
 
   return (
     <Modal
-      open={isOpen}
       closable={false}
       maskClosable={false}
       width={isFullscreen ? '100%' : props.width || 520}

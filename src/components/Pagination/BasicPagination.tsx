@@ -1,17 +1,7 @@
 import type { PaginationProps } from 'antd'
 import { Pagination } from 'antd'
 
-interface IProps extends PaginationProps {
-  isLoading: boolean;
-}
-
-function BasicPagination(props: IProps) {
-  const { isLoading } = props
-
-  // 清除自定义属性
-  const params: Partial<IProps> = { ...props }
-  delete params.isLoading
-
+function BasicPagination(props: PaginationProps) {
   /**
    * 显示总数
    * @param total - 总数
@@ -38,9 +28,8 @@ function BasicPagination(props: IProps) {
         showSizeChanger
         showQuickJumper
         size="small"
-        disabled={isLoading}
         showTotal={showTotal}
-        {...params}
+        {...props}
       />
     </div>
   )

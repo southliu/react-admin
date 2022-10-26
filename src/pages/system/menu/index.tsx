@@ -2,12 +2,10 @@ import type { IFormData } from '#/form'
 import type { RootState } from '@/stores'
 import type { IPagePermission, ITableOptions } from '#/public'
 import type { IFormFn } from '@/components/Form/BasicForm'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { searchList, createList, tableColumns } from './data'
 import { message } from 'antd'
 import { useTitle } from '@/hooks/useTitle'
-import { useLoading } from '@/hooks/useLoading'
-import { useCreateLoading } from '@/hooks/useCreateLoading'
 import { useSelector } from 'react-redux'
 import { checkPermission } from '@/utils/permissions'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
@@ -41,6 +39,8 @@ function User() {
   const createFormRef = useRef<IFormFn>(null)
   const [searchData, setSearchData] = useState<IFormData>({})
   const [isCreateOpen, setCreateOpen] = useState(false)
+  const [isLoading, setLoading] = useState(false)
+  const [isCreateLoading, setCreateLoading] = useState(false)
   const [createTitle, setCreateTitle] = useState(ADD_TITLE)
   const [createId, setCreateId] = useState('')
   const [createData, setCreateData] = useState<IFormData>(initCreate)
@@ -49,9 +49,6 @@ function User() {
   const [total, setTotal] = useState(1)
   const [tableData, setTableData] = useState<IFormData[]>([])
   const permissions = useSelector((state: RootState) => state.user.permissions)
-
-  const { isLoading, startLoading, endLoading } = useLoading()
-  const { isCreateLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
 
   // 权限前缀
   const permissionPrefix = '/authority/menu'
@@ -66,32 +63,32 @@ function User() {
     }
   }, [permissions])
 
-  useEffect(() => {
-    if (pagePermission.page) getPage()
-  }, [permissions])
-
-  /** 获取表格数据 */
-  const getPage = () => {
-    handleSearch(searchData)
-  }
-
   /**
    * 搜索提交
    * @param values - 表单返回数据
    */
-  const handleSearch = async (values: IFormData) => {
+  const handleSearch = useCallback(async (values: IFormData) => {
     setSearchData(values)
     const query = { page, pageSize, ...values }
     try {
-      startLoading()
+      setLoading(true)
       const { data: { data } } = await getMenuPage(query)
       const { items, total } = data
       setTotal(total)
       setTableData(items)
     } finally {
-      endLoading()
+      setLoading(false)
     }
-  }
+  }, [page, pageSize])
+
+  /** 获取表格数据 */
+  const getPage = useCallback(() => {
+    handleSearch(searchData)
+  }, [handleSearch, searchData])
+
+  useEffect(() => {
+    if (pagePermission.page) getPage()
+  }, [getPage, pagePermission.page])
 
   /** 点击新增 */
   const onCreate = () => {
@@ -112,11 +109,11 @@ function User() {
     setCreateData(initCreate)
 
     try {
-      startCreateLoading()
+      setCreateLoading(true)
       const { data: { data } } = await getMenuById(id as string)
       setCreateData(data)
     } finally {
-      endCreateLoading()
+      setCreateLoading(false)
     }
   }
 
@@ -131,7 +128,7 @@ function User() {
    */
   const handleCreate = async (values: IFormData) => {
     try {
-      startCreateLoading()
+      setCreateLoading(true)
       const functions = () => createId ? updateMenu(createId, values) : createMenu(values)
       const { data } = await functions()
       getPage()
@@ -139,7 +136,7 @@ function User() {
       createFormRef.current?.handleReset()
       message.success(data?.message || '操作成功')
     } finally {
-      endCreateLoading()
+      setCreateLoading(false)
     }
   }
 
@@ -149,14 +146,14 @@ function User() {
    */
   const onDelete = async (id: string) => {
     try {
-      startLoading()
+      setLoading(true)
       const { data } = await deleteMenu(id as string)
       if (data?.code === 200) {
         message.success(data?.message || '删除成功')
         getPage()
       }
     } finally {
-      endLoading()
+      setLoading(false)
     }
   }
 
@@ -210,13 +207,13 @@ function User() {
         />
         
         <BasicTable
-          isLoading={isLoading}
+          loading={isLoading}
           columns={tableColumns(optionRender)}
           dataSource={tableData}
         />
 
         <BasicPagination
-          isLoading={isLoading}
+          disabled={isLoading}
           defaultCurrent={page}
           defaultPageSize={pageSize}
           total={total}
@@ -225,7 +222,7 @@ function User() {
 
         <BasicModal
           title={createTitle}
-          isOpen={isCreateOpen}
+          open={isCreateOpen}
           confirmLoading={isCreateLoading}
           onOk={createSubmit}
           onCancel={() => setCreateOpen(false)}

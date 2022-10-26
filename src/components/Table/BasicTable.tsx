@@ -8,14 +8,13 @@ import ResizableTitle from './components/ResizableTitle'
 import useVirtualTable from './hooks/useVirtual'
 
 interface IProps extends Omit<TableProps<object>, 'bordered'> {
-  isLoading: boolean;
   isBordered?: boolean; // 是否开启边框
   isZebra?: boolean; // 是否开启斑马线
   isVirtual?: boolean; // 是否开启虚拟滚动
 }
 
 function BasicTable(props: IProps) {
-  const { isLoading, isZebra, isBordered, isVirtual } = props
+  const { loading, isZebra, isBordered, isVirtual } = props
   const [columns, setColumns] = useState(props.columns as ColumnsType<object>)
 
   // 表格高度
@@ -81,7 +80,7 @@ function BasicTable(props: IProps) {
         size='small'
         rowKey='id'
         pagination={false}
-        loading={isLoading}
+        loading={loading}
         {...props}
         bordered={isBordered !== false}
         scroll={{ ...props.scroll, y: tableHeight }}
