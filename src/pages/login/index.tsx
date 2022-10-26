@@ -26,7 +26,7 @@ function Login() {
     if (getToken()) {
       navigate('/dashboard')
     } 
-  }, [])
+  }, [getToken, navigate])
 
   /**
    * 处理登录

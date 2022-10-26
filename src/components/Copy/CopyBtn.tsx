@@ -1,6 +1,6 @@
 import type { ButtonProps } from 'antd'
-import { Button } from 'antd'
-import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
+import { Button, message } from 'antd'
+import { useClipboard } from '@/hooks/useClipboard'
 import { Icon } from '@iconify/react'
 
 interface IProps extends ButtonProps {
@@ -10,10 +10,16 @@ interface IProps extends ButtonProps {
 
 function CopyBtn(props: IProps) {
   const { text, value } = props
+  const { copyToClipboard } = useClipboard()
 
   /** 点击编辑 */
   const onClick = () => {
-    useCopyToClipboard(value)
+    try {
+      copyToClipboard(value)
+      message.success({ content: '复制成功', key: 'copy' })
+    } catch(e) {
+      message.warning({ content: '复制失败', key: 'copy' })
+    }
   }
 
   return (

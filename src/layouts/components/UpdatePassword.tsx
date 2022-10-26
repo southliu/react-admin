@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Form, Input, message } from 'antd'
 import { PLEASE_ENTER } from '@/utils/config'
 import { updatePassword } from '@/servers/login'
-import { useLoading } from '@/hooks/useLoading'
 import BasicModal from '@/components/Modal/BasicModal'
 import PasswordStrength from '@/components/PasswordStrength'
 
@@ -20,7 +19,7 @@ function UpdatePassword(props: IProps) {
   const { passwordRef } = props
   const [form] = Form.useForm()
   const [isOpen, setOpen] = useState(false)
-  const { isLoading, startLoading, endLoading } = useLoading()
+  const [isLoading, setLoading] = useState(false)
 
   // 抛出外部方法
   useImperativeHandle(
@@ -50,14 +49,14 @@ function UpdatePassword(props: IProps) {
       })
     }
     try {
-      startLoading()
+      setLoading(true)
       const { data } = await updatePassword(values)
       if (data.code === 200) {
         setOpen(false)
         message.success(data.message)
       }
     } finally {
-      endLoading()
+      setLoading(false)
     }
   }
 

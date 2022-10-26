@@ -34,6 +34,7 @@ function Header() {
   const username = useSelector((state: RootState) => state.user.userInfo.username)
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
+  const { removeToken } = useToken()
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   const nav = useSelector((state: RootState) => state.tabs.nav)
@@ -84,7 +85,6 @@ function Header() {
       icon: <ExclamationCircleOutlined />,
       content: '是否确定退出系统?',
       onOk() {
-        const { removeToken } = useToken()
         dispatch(clearInfo())
         removeToken()
         navigate('/login')

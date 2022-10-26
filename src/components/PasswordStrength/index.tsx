@@ -30,7 +30,7 @@ function PasswordStrength(props: InputProps) {
   // 监听传入值变化
   useEffect(() => {
     handleStrength.run(value as string)
-  }, [value])
+  }, [handleStrength, value])
 
   return (
     <>

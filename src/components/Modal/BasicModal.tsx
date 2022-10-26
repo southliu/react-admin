@@ -7,7 +7,7 @@ import { Icon } from '@iconify/react'
 import Draggable from 'react-draggable'
 
 function BasicModal(props: ModalProps) {
-  const { open } = props
+  const { onCancel } = props
   const draggleRef = useRef<HTMLDivElement>(null)
   const [isDisabled, setDisabled] = useState(true)
   const [isFullscreen, setFullscreen] = useState(false)
@@ -35,8 +35,10 @@ function BasicModal(props: ModalProps) {
 
   /** 最大化 */
   const onFullscreen = () => {
-    if (!isFullscreen) setBounds({ left: 0, top: 0, bottom: 0, right: 0 })
-    setFullscreen(!isFullscreen)
+    setFullscreen(value => {
+      if (value) setBounds({ left: 0, top: 0, bottom: 0, right: 0 })
+      return !value
+    })
   }
 
   /** 自定义关闭和放大图标 */
@@ -45,7 +47,7 @@ function BasicModal(props: ModalProps) {
       <Tooltip
         className="text-#00000073 hover:text-#404040"
         placement="bottom"
-        title={isFullscreen ? '退出最大化' : '最大化'}
+        title={isFullscreen ? '最大化' : '退出最大化'}
       >
         <div
           className='p-10px mt-3px cursor-pointer'
@@ -53,7 +55,7 @@ function BasicModal(props: ModalProps) {
         >
           <Icon
             className="text-lg"
-            icon={!isFullscreen ? 'ant-design:fullscreen-outlined' : 'ant-design:fullscreen-exit-outlined'}
+            icon={isFullscreen ? 'ant-design:fullscreen-outlined' : 'ant-design:fullscreen-exit-outlined'}
           />
         </div>
       </Tooltip>
@@ -64,7 +66,7 @@ function BasicModal(props: ModalProps) {
       >
         <div
           className='p-10px mt-3px cursor-pointer'
-          onClick={e => props?.onCancel?.(e)}
+          onClick={e => onCancel?.(e)}
         >
           <Icon
             className="text-lg"
@@ -73,7 +75,7 @@ function BasicModal(props: ModalProps) {
         </div>
       </Tooltip>
     </div>
-  ), [open, isFullscreen])
+  ), [])
 
   /** 自定义标题 */
   const titleRender = (

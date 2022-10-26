@@ -44,7 +44,7 @@ function LayoutTabs() {
         dispatch(addTabs(newItems))
       }
     }
-  }, [permissions])
+  }, [dispatch, location.pathname, permissions, tabs.length])
 
   useEffect(() => {
     // 当选中贴标签不等于当前路由则跳转
@@ -55,7 +55,7 @@ function LayoutTabs() {
       const openKey = getOpenMenuByRouter(activeKey)
       dispatch(setOpenKey(openKey))
     }
-  }, [activeKey])
+  }, [activeKey, dispatch, location.pathname, navigate])
   
   /** 
    * 处理更改
@@ -114,7 +114,7 @@ function LayoutTabs() {
         }, 1000)
       )
     }
-  }, [])
+  }, [activeKey, dispatch, navigate, refresh, time])
 
   // 渲染重新加载
   const RefreshRender = useMemo(() => {
@@ -124,7 +124,7 @@ function LayoutTabs() {
         onClick={onClickRefresh}
       />
     )
-  }, [])
+  }, [isRefresh, onClickRefresh])
 
   // 渲染标签操作
   const TabOptionsRender = useMemo(() => {
@@ -134,7 +134,7 @@ function LayoutTabs() {
         handleRefresh={onClickRefresh}
       />
     )
-  }, [activeKey])
+  }, [activeKey, onClickRefresh])
 
   // 渲染最大化操作
   const TabMaximizeRender = useMemo(() => {

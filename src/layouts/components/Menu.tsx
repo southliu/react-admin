@@ -30,7 +30,7 @@ function LayoutMenu() {
     const { pathname } = location
     const newOpenKey = getOpenMenuByRouter(pathname)
     dispatch(setOpenKey(newOpenKey))
-  }, [])
+  }, [dispatch, location])
 
   // 过滤没权限菜单
   useEffect(() => {

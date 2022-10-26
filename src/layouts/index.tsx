@@ -1,6 +1,6 @@
 import type { AppDispatch, RootState } from '@/stores'
 import { useToken } from '@/hooks/useToken'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPermissions } from '@/servers/permissions'
@@ -31,20 +31,8 @@ function Layout() {
   // 菜单是否收缩
   const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
 
-  useEffect(() => {
-    // 如果没有token，则返回登录页
-    if (!token) {
-      navigate('/login')
-    }
-
-    // 当用户信息缓存不存在时则重新获取
-    if (token && !userId) {
-      getUserInfo()
-    }
-  }, [])
-
   /** 获取用户信息和权限 */
-  const getUserInfo = async () => {
+  const getUserInfo = useCallback(async () => {
     try {
       setLoading(true)
       const { data } = await getPermissions({ refresh_cache: false })
@@ -57,7 +45,19 @@ function Layout() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [dispatch])
+
+  useEffect(() => {
+    // 如果没有token，则返回登录页
+    if (!token) {
+      navigate('/login')
+    }
+
+    // 当用户信息缓存不存在时则重新获取
+    if (token && !userId) {
+      getUserInfo()
+    }
+  }, [getUserInfo, navigate, token, userId])
 
   return (
     <div id="layout" className='bg-white'>

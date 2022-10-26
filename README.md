@@ -50,6 +50,7 @@ pnpm build
 - [ ] IAllDataType类修改
 - [ ] 新增跳转单独页逻辑
 - [ ] 跳转首页权限判断
+- [ ] 去除react-redux，使用原生useContext
 - [ ] 手机端适配
 - [ ] mock数据
 - [ ] 测试代码

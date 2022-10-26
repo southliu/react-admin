@@ -10,7 +10,7 @@ export function useTitle(title: string) {
 
   useEffect(() => {
     document.title = value
-  }, [title])
+  }, [value])
   
   // keepalive状态更新标题
   useActivate(() => {

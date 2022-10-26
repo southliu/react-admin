@@ -1,7 +1,6 @@
 import type { IFormData } from '#/form'
 import type { Moment } from 'moment'
-import { useEffect, useState } from 'react'
-import { useLoading } from '@/hooks/useLoading'
+import { useCallback, useEffect, useState } from 'react'
 import { getDataTrends } from '@/servers/dashboard'
 import { searchList } from './data'
 import { useTitle } from '@/hooks/useTitle'
@@ -12,19 +11,19 @@ import Block from './components/Block'
 
 function Dashboard() {
   useTitle('数据展览')
-  const { isLoading, startLoading, endLoading } = useLoading()
+  const [isLoading, setLoading] = useState(false)
   const [searchData, setSearchData] = useState<IFormData>({
     pay_date: ['2022-10-19', '2022-10-29']
   })
 
+  /** 获取表格数据 */
+  const getPage = useCallback(() => {
+    handleSearch(searchData)
+  }, [searchData])
+
   useEffect(() => {
     getPage()
-  }, [])
-
-  /** 获取表格数据 */
-  const getPage = () => {
-    handleSearch(searchData)
-  }
+  }, [getPage])
 
   /**
    * 搜索提交
@@ -43,10 +42,10 @@ function Dashboard() {
 
     const query = { ...values }
     try {
-      startLoading()
+      setLoading(true)
       await getDataTrends(query)
     } finally {
-      endLoading()
+      setLoading(false)
     }
   }
 

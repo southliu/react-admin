@@ -162,7 +162,7 @@ function SearchModal(props: IProps) {
         window.removeEventListener('keydown', onKeyDown)
       })
     }
-  }, [list, active])
+  }, [list, active, onKeyDown])
 
   return (
     <Modal

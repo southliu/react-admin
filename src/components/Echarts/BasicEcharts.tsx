@@ -21,7 +21,7 @@ function BasicEcharts(props: IProps) {
     // 初始化chart
     const chartInstance = echarts.init(chartRef.current as HTMLDivElement)
     chartInstance.setOption(props.option)
-  }, [])
+  }, [props.option])
 
   // 监听操作值
   useEffect(() => {
