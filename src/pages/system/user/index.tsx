@@ -29,6 +29,12 @@ export interface IRowData {
   id: string;
 }
 
+// 初始化搜索
+const initSearchData = {
+  page: 1,
+  pageSize: 20
+}
+
 // 初始化新增数据
 const initCreate = {
   status: 1
@@ -36,17 +42,17 @@ const initCreate = {
 
 function User() {
   useTitle('用户管理')
+  const searchFormRef = useRef<IFormFn>(null)
   const createFormRef = useRef<IFormFn>(null)
-  const [searchData, setSearchData] = useState<IFormData>({})
   const [isLoading, setLoading] = useState(false)
   const [isCreateLoading, setCreateLoading] = useState(false)
   const [isCreateOpen, setCreateOpen] = useState(false)
   const [createTitle, setCreateTitle] = useState(ADD_TITLE)
   const [createId, setCreateId] = useState('')
   const [createData, setCreateData] = useState<IFormData>(initCreate)
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(20)
-  const [total, setTotal] = useState(1)
+  const [page, setPage] = useState(initSearchData.page)
+  const [pageSize, setPageSize] = useState(initSearchData.pageSize)
+  const [total, setTotal] = useState(0)
   const [tableData, setTableData] = useState<IFormData[]>([])
   const permissions = useSelector((state: RootState) => state.user.permissions)
 
@@ -64,31 +70,41 @@ function User() {
   }, [permissions])
 
   /**
+   * 点击搜索
+   * @param values - 表单返回数据
+   */
+  const onSearch = (values: IFormData) => {
+    setPage(1)
+    handleSearch({ page: 1, pageSize, ...values })
+  }
+
+  /**
    * 搜索提交
    * @param values - 表单返回数据
    */
   const handleSearch = useCallback(async (values: IFormData) => {
-    setSearchData(values)
-    const query = { page, pageSize, ...values }
     try {
       setLoading(true)
-      const { data: { data } } = await getUserPage(query)
+      const { data: { data } } = await getUserPage(values)
       const { items, total } = data
       setTotal(total)
       setTableData(items)
     } finally {
       setLoading(false)
     }
-  }, [page, pageSize])
+  }, [])
 
   /** 获取表格数据 */
   const getPage = useCallback(() => {
-    handleSearch(searchData)
-  }, [handleSearch, searchData])
+    const formData = searchFormRef.current?.getFieldsValue() || {}
+    const params = { ...formData, page, pageSize }
+    handleSearch(params)
+  }, [handleSearch, page, pageSize])
 
+  // 首次进入自动加载接口数据
   useEffect(() => {
-    if (pagePermission.page) getPage()
-  }, [getPage, pagePermission.page])
+    if (pagePermission.page) handleSearch({ ...initSearchData })
+  }, [handleSearch, pagePermission.page])
 
   /** 点击新增 */
   const onCreate = () => {
@@ -165,7 +181,8 @@ function User() {
   const onChangePagination = (page: number, pageSize: number) => {
     setPage(page)
     setPageSize(pageSize)
-    handleSearch({ ...searchData, page, pageSize })
+    const formData = searchFormRef.current?.getFieldsValue()
+    handleSearch({ ...formData, page, pageSize })
   }
 
   /**
@@ -198,12 +215,13 @@ function User() {
     <BasicContent isPermission={pagePermission.page}>
       <>
         <BasicSearch
+          formRef={searchFormRef}
           list={searchList}
-          data={searchData}
+          data={initSearchData}
           isLoading={isLoading}
           isCreate={pagePermission.create}
           onCreate={onCreate}
-          handleFinish={handleSearch}
+          handleFinish={onSearch}
         />
         
         <BasicTable

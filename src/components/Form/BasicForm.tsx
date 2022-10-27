@@ -9,6 +9,8 @@ import { handleValuePropName } from './utils/helper'
 import { filterMoment } from '../Dates/utils/helper'
 
 export interface IFormFn {
+  getFieldValue: (key: string) => IFormData;
+  getFieldsValue: () => IFormData;
   handleReset: () => void;
   handleSubmit: () => void;
 }
@@ -39,6 +41,17 @@ function BasicForm(props: IProps) {
   useImperativeHandle(
     formRef,
     () => ({
+      /**
+       * 获取表单值
+       * @param key - 表单唯一值
+       */
+      getFieldValue: (key: string) => {
+        return form.getFieldValue(key) || {}
+      },
+      /** 获取表单全部值 */
+      getFieldsValue: () => {
+        return form.getFieldsValue() || {}
+      },
       /** 重置表单 */
       handleReset: () => {
         form.resetFields()
@@ -47,7 +60,7 @@ function BasicForm(props: IProps) {
       handleSubmit: () => {
         form.submit()
       }
-    })
+    } as IFormFn)
   )
 
   // 监听传入表单数据，如果变化则替换表单

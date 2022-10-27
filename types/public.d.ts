@@ -45,8 +45,8 @@ export interface IPageServerResult<T = unknown> {
 
 // 分页表格响应数据
 export interface IPaginationData {
-  page: number;
-  pageSize: number;
+  page?: number;
+  pageSize?: number;
 }
 
 // 侧边菜单

@@ -1,6 +1,7 @@
-import type { ReactNode } from 'react'
+import { ReactNode, Ref, useImperativeHandle } from 'react'
 import type { IFormData, IFormList } from '#/form'
 import type { ColProps } from 'antd'
+import type { IFormFn } from '../Form/BasicForm'
 import { memo } from 'react'
 import { Button, FormProps } from 'antd'
 import { Form } from 'antd'
@@ -18,6 +19,7 @@ interface IProps {
   children?: ReactNode;
   labelCol?: Partial<ColProps>;
   wrapperCol?: Partial<ColProps>;
+  formRef?: Ref<IFormFn>;
   onCreate?: () => void;
   handleFinish: FormProps['onFinish'];
 }
@@ -26,6 +28,7 @@ function BasicSearch(props: IProps) {
   const {
     list,
     data,
+    formRef,
     isLoading,
     isSearch,
     isCreate,
@@ -34,6 +37,33 @@ function BasicSearch(props: IProps) {
     wrapperCol,
     handleFinish
   } = props
+  const [form] = Form.useForm()
+
+  // 抛出外部方法
+  useImperativeHandle(
+    formRef,
+    () => ({
+      /**
+       * 获取表单值
+       * @param key - 表单唯一值
+       */
+      getFieldValue: (key: string) => {
+        return form.getFieldValue(key)
+      },
+      /** 获取表单全部值 */
+      getFieldsValue: () => {
+        return form.getFieldsValue()
+      },
+      /** 重置表单 */
+      handleReset: () => {
+        form.resetFields()
+      },
+      /** 提交表单  */
+      handleSubmit: () => {
+        form.submit()
+      }
+    } as IFormFn)
+  )
 
   /** 点击新增 */
   const onCreate = () => {
@@ -65,6 +95,7 @@ function BasicSearch(props: IProps) {
       <Form
         name="basic"
         layout="inline"
+        form={form}
         labelCol={labelCol ? labelCol : { span: 8 }}
         wrapperCol={wrapperCol ? wrapperCol : { span: 16 }}
         initialValues={data}
