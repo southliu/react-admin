@@ -43,7 +43,6 @@ pnpm build
 - [x] 密码强度显示
 - [x] keepalive功能
 - [ ] useCallback和useMemo优化
-- [ ] 时间插件自动转移为字符串
 - [ ] form添加富文本、自定义渲染
 - [ ] 表格虚拟滚动优化
 - [ ] 表格根据可视区域计算高度

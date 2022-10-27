@@ -1,11 +1,13 @@
-import { memo, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import type { IFormData, IFormList } from '#/form'
 import type { ColProps } from 'antd'
+import { memo } from 'react'
 import { Button, FormProps } from 'antd'
 import { Form } from 'antd'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons'
 import { getComponent } from '../Form/utils/componentMap'
 import { handleValuePropName } from '../Form/utils/helper'
+import { filterMoment } from '../Dates/utils/helper'
 
 interface IProps {
   list: IFormList[];
@@ -43,7 +45,11 @@ function BasicSearch(props: IProps) {
    * @param values - 表单值
    */
   const onFinish: FormProps['onFinish'] = values => {
-    handleFinish?.(values)
+    if (handleFinish) {
+      // 将Moment类型转为字符串
+      const params = filterMoment(values, list)
+      handleFinish?.(params)
+    }
   }
   
   /**

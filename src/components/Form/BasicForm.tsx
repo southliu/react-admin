@@ -1,11 +1,12 @@
-import { ReactNode, Ref, useEffect } from 'react'
+import type { ReactNode, Ref } from 'react'
 import type { IFormData, IFormList } from '#/form'
 import type { ColProps } from 'antd'
-import { useImperativeHandle } from 'react'
+import { useEffect, useImperativeHandle } from 'react'
 import { FormProps } from 'antd'
 import { Form } from 'antd'
 import { getComponent } from '../Form/utils/componentMap'
 import { handleValuePropName } from './utils/helper'
+import { filterMoment } from '../Dates/utils/helper'
 
 export interface IFormFn {
   handleReset: () => void;
@@ -59,7 +60,11 @@ function BasicForm(props: IProps) {
    * @param values - 表单值
    */
   const onFinish: FormProps['onFinish'] = values => {
-    handleFinish?.(values)
+    if (handleFinish) {
+      // 将Moment类型转为字符串
+      const params = filterMoment(values, list)
+      handleFinish?.(params)
+    }
   }
   
   /**
