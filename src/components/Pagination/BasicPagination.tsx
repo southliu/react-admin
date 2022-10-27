@@ -1,5 +1,6 @@
 import type { PaginationProps } from 'antd'
 import { Pagination } from 'antd'
+import { memo } from 'react'
 
 function BasicPagination(props: PaginationProps) {
   /**
@@ -35,4 +36,4 @@ function BasicPagination(props: PaginationProps) {
   )
 }
 
-export default BasicPagination
+export default memo(BasicPagination)

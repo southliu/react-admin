@@ -1,29 +1,22 @@
 // import { shallowRef } from "vue";
 
 interface IOption {
-  content: string;
-  height: number;
-  width: number;
-  rotate: number;
-  color: string;
-  fontSize: number;
-  opacity: number;
+  content: string; // 内容
+  height: number; // 水印行高
+  width: number; // 水印宽度
+  rotate: number; // 旋转度数（可为负值）
+  color: string; // 水印字体颜色
+  fontSize: number; // 水印字体的大小
+  opacity: number; // 水印透明度（0~1之间取值）
 }
 
 /**
  * 水印
- * @param content - 内容
- * @param height - 水印行高
- * @param width - 水印宽度
- * @param rotate - 旋转度数（可为负值）
- * @param color - 水印字体颜色
- * @param fontSize - 水印字体的大小
- * @param opacity - 水印透明度（0~1之间取值）
  */
 export function useWatermark() {
   /**
    * 水印
-   * @param text - 水印显示值
+   * @param options - 操作值
    */
   const Watermark = (options: IOption) => {
     const {

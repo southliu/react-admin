@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { memo, ReactNode } from 'react'
 import type { IFormData, IFormList } from '#/form'
 import type { ColProps } from 'antd'
 import { Button, FormProps } from 'antd'
@@ -118,4 +118,4 @@ function BasicSearch(props: IProps) {
   )
 }
 
-export default BasicSearch
+export default memo(BasicSearch)

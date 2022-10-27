@@ -1,7 +1,7 @@
 import type { ResizeCallbackData } from 'react-resizable'
 import type { ColumnsType, ColumnType } from 'antd/es/table'
 import type { TableProps } from 'antd'
-import { useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { Table } from 'antd'
 import { getTableHeight } from './utils/helper'
 import ResizableTitle from './components/ResizableTitle'
@@ -91,4 +91,4 @@ function BasicTable(props: IProps) {
   )
 }
 
-export default BasicTable
+export default memo(BasicTable)

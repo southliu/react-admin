@@ -52,7 +52,7 @@ function BasicForm(props: IProps) {
   // 监听传入表单数据，如果变化则替换表单
   useEffect(() => {
     form.setFieldsValue(props.data)
-  }, [props.data])
+  }, [form, props.data])
 
   /**
    * 提交表单

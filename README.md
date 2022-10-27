@@ -54,7 +54,8 @@ pnpm build
 - [ ] 手机端适配
 - [ ] mock数据
 - [ ] 测试代码
-- [ ] 打包分包
+- [ ] wangeditor分包和antd css分包
+- [x] 打包分包
 
 ## 图标(iconify)
 

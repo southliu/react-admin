@@ -1,4 +1,3 @@
-import '@wangeditor/editor/dist/css/style.css'
 import { useState } from 'react'
 import { useTitle } from '@/hooks/useTitle'
 import WangEditor from '@/components/WangEditor'

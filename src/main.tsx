@@ -14,7 +14,7 @@ import "@/assets/css/scrollbar.less"
 // antd
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
-import 'antd/dist/antd.css'
+import 'antd/dist/antd.less'
 import '@/assets/css/antd.less'
 
 import { AliveScope } from 'react-activation'

@@ -1,7 +1,7 @@
 import '@wangeditor/editor/dist/css/style.css'
+import type { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 import { useState, useEffect } from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
-import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 import { FILE_API } from '@/utils/config'
 
 interface IProps {
