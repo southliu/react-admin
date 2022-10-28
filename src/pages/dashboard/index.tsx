@@ -1,14 +1,14 @@
 import type { IFormData } from '#/form'
 import { useCallback, useEffect, useState } from 'react'
 import { getDataTrends } from '@/servers/dashboard'
-import { searchList } from './data'
+import { searchList } from './model'
 import { useTitle } from '@/hooks/useTitle'
 import BasicSearch from '@/components/Search/BasicSearch'
 import Line from './components/Line'
 import Block from './components/Block'
 
 // 初始化搜索
-const initSearchData = {
+const initSearch = {
   pay_date: ['2022-10-19', '2022-10-29']
 }
 
@@ -35,14 +35,14 @@ function Dashboard() {
   }, [])
 
   useEffect(() => {
-    handleSearch(initSearchData)
+    handleSearch(initSearch)
   }, [handleSearch])
 
   return (
     <>
       <BasicSearch
         list={searchList}
-        data={initSearchData}
+        data={initSearch}
         isLoading={isLoading}
         isCreate={false}
         handleFinish={handleSearch}

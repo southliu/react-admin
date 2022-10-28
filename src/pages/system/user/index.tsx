@@ -2,8 +2,8 @@ import type { IFormData } from '#/form'
 import type { RootState } from '@/stores'
 import type { IPagePermission, ITableOptions } from '#/public'
 import type { IFormFn } from '@/components/Form/BasicForm'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createList, searchList, tableColumns } from './data'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { createList, searchList, tableColumns } from './model'
 import { message } from 'antd'
 import { useTitle } from '@/hooks/useTitle'
 import { useSelector } from 'react-redux'
@@ -30,7 +30,7 @@ export interface IRowData {
 }
 
 // 初始化搜索
-const initSearchData = {
+const initSearch = {
   page: 1,
   pageSize: 20
 }
@@ -40,7 +40,7 @@ const initCreate = {
   status: 1
 }
 
-function User() {
+function Page() {
   useTitle('用户管理')
   const searchFormRef = useRef<IFormFn>(null)
   const createFormRef = useRef<IFormFn>(null)
@@ -50,8 +50,8 @@ function User() {
   const [createTitle, setCreateTitle] = useState(ADD_TITLE)
   const [createId, setCreateId] = useState('')
   const [createData, setCreateData] = useState<IFormData>(initCreate)
-  const [page, setPage] = useState(initSearchData.page)
-  const [pageSize, setPageSize] = useState(initSearchData.pageSize)
+  const [page, setPage] = useState(initSearch.page)
+  const [pageSize, setPageSize] = useState(initSearch.pageSize)
   const [total, setTotal] = useState(0)
   const [tableData, setTableData] = useState<IFormData[]>([])
   const permissions = useSelector((state: RootState) => state.user.permissions)
@@ -60,14 +60,12 @@ function User() {
   const permissionPrefix = '/authority/user'
   
   // 权限
-  const pagePermission: IPagePermission = useMemo(() => {
-    return {
-      page: checkPermission(`${permissionPrefix}/index`, permissions),
-      create: checkPermission(`${permissionPrefix}/create`, permissions),
-      update: checkPermission(`${permissionPrefix}/update`, permissions),
-      delete: checkPermission(`${permissionPrefix}/delete`, permissions)
-    }
-  }, [permissions])
+  const pagePermission: IPagePermission = {
+    page: checkPermission(`${permissionPrefix}/index`, permissions),
+    create: checkPermission(`${permissionPrefix}/create`, permissions),
+    update: checkPermission(`${permissionPrefix}/update`, permissions),
+    delete: checkPermission(`${permissionPrefix}/delete`, permissions)
+  }
 
   /**
    * 点击搜索
@@ -94,16 +92,9 @@ function User() {
     }
   }, [])
 
-  /** 获取表格数据 */
-  const getPage = useCallback(() => {
-    const formData = searchFormRef.current?.getFieldsValue() || {}
-    const params = { ...formData, page, pageSize }
-    handleSearch(params)
-  }, [handleSearch, page, pageSize])
-
   // 首次进入自动加载接口数据
   useEffect(() => {
-    if (pagePermission.page) handleSearch({ ...initSearchData })
+    if (pagePermission.page) handleSearch({ ...initSearch })
   }, [handleSearch, pagePermission.page])
 
   /** 点击新增 */
@@ -136,6 +127,13 @@ function User() {
   /** 表格提交 */
   const createSubmit = () => {
     createFormRef.current?.handleSubmit()
+  }
+
+  /** 获取表格数据 */
+  const getPage = () => {
+    const formData = searchFormRef.current?.getFieldsValue() || {}
+    const params = { ...formData, page, pageSize }
+    handleSearch(params)
   }
 
   /**
@@ -217,7 +215,7 @@ function User() {
         <BasicSearch
           formRef={searchFormRef}
           list={searchList}
-          data={initSearchData}
+          data={initSearch}
           isLoading={isLoading}
           isCreate={pagePermission.create}
           onCreate={onCreate}
@@ -258,4 +256,4 @@ function User() {
   )
 }
 
-export default User
+export default Page
