@@ -48,11 +48,11 @@ function VirtualTable(props: IVirtualTableProps) {
   const tableRef = useRef<HTMLTableElement>(null)
 
   // 数据的总条数
-  const [totalLen, setTotalLen] = useState<number>((children)[1]?.props?.data?.length ?? 0)
+  const [totalLen, setTotalLen] = useState<number>(children[1]?.props?.data?.length ?? 0)
 
   useEffect(() => {
-    if (isNumber((children)[1]?.props?.data?.length)) {
-      setTotalLen((children)[1]?.props?.data?.length)
+    if (isNumber(children[1]?.props?.data?.length)) {
+      setTotalLen(children[1]?.props?.data?.length)
     }
   }, [children])
 
@@ -146,7 +146,13 @@ function VirtualTable(props: IVirtualTableProps) {
     return () => {
       ref.removeEventListener('scroll', e => throttleScroll.run(e))
     }
-  }, [wrapTableRef, state.curScrollTop, tableScrollY, state.scrollHeight, throttleScroll])
+  }, [
+    wrapTableRef,
+    state.curScrollTop,
+    tableScrollY,
+    state.scrollHeight,
+    throttleScroll
+  ])
 
   return (
     <div

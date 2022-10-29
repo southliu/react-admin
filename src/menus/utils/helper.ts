@@ -142,7 +142,11 @@ export function getMenuByKey(
   permissions: string[],
   key: string,
   fatherNav: string[] = [],
-  result: IGetMenuByKeyResult = { label: '', key: '', nav: [] }
+  result: IGetMenuByKeyResult = {
+    label: '',
+    key: '',
+    nav: []
+  }
 ) {
   if (!menus?.length) return result
 
@@ -211,6 +215,47 @@ export function filterMenus(
       hasChildren(menus[i])
     ) {
       result.push(menus[i])
+    }
+  }
+
+  return result
+}
+
+/**
+ * 获取第一个有效权限路由
+ * @param menus - 菜单
+ * @param permissions - 权限
+ */
+export function getFirstMenu(
+ menus: ISideMenu[],
+ permissions: string[],
+ result = ''
+): string {
+  // 有结构时直接返回
+  if (result) return result
+
+  for (let i = 0; i < menus.length; i++) {
+    // 处理子数组
+    if (hasChildren(menus[i]) && !result) {
+      const childResult = getFirstMenu(
+        menus[i].children as ISideMenu[],
+        permissions,
+        result
+      )
+
+      // 有结果则赋值
+      if (childResult) {
+        result = childResult
+        return result
+      }
+    }
+
+    // 有权限且没有有子数据
+    if (
+      hasPermission(menus[i], permissions) &&
+      !hasChildren(menus[i])
+    ) {
+      result = menus[i].key
     }
   }
 

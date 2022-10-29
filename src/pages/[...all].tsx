@@ -1,6 +1,6 @@
 import type { AppDispatch, RootState } from '@/stores'
 import { defaultMenus } from '@/menus'
-import { getMenuByKey } from '@/menus/utils/helper'
+import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper'
 import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
 import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
@@ -14,11 +14,12 @@ function NotFound() {
 
   /** 跳转首页 */
   const goIndex = () => {
-    navigate('/dashboard')
+    const firstMenu = getFirstMenu(defaultMenus, permissions)
+    navigate(firstMenu)
     const newItems = getMenuByKey(
       defaultMenus,
       permissions,
-      '/dashboard'
+      firstMenu
     )
     if (newItems.key) {
       dispatch(setActiveKey(newItems.key))

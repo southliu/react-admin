@@ -1,6 +1,6 @@
 import type { ILoginData } from './model'
 import type { FormProps } from 'antd'
-import type { AppDispatch } from '@/stores'
+import type { AppDispatch, RootState } from '@/stores'
 import { Form, Button, Input } from 'antd'
 import { useEffect, useState } from 'react'
 import { PASSWORD_RULE } from '@/utils/config'
@@ -8,10 +8,12 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { login } from '@/servers/login'
 import { useTitle } from '@/hooks/useTitle'
 import { useToken } from '@/hooks/useToken'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setPermissions, setUserInfo } from '@/stores/user'
 import { permissionsToArray } from '@/utils/permissions'
+import { getFirstMenu } from '@/menus/utils/helper'
+import { defaultMenus } from '@/menus'
 import Logo from '@/assets/images/logo.svg'
 
 function Login() {
@@ -20,13 +22,15 @@ function Login() {
   const dispatch: AppDispatch = useDispatch()
   const { getToken, setToken } = useToken()
   const [isLoading, setLoading] = useState(false)
+  const permissions = useSelector((state: RootState) => state.user.permissions)
 
   useEffect(() => {
     // 如果存在token，则直接进入页面
     if (getToken()) {
-      navigate('/dashboard')
+      const firstMenu = getFirstMenu(defaultMenus, permissions)
+      navigate(firstMenu)
     } 
-  }, [getToken, navigate])
+  }, [getToken, navigate, permissions])
 
   /**
    * 处理登录
@@ -38,10 +42,11 @@ function Login() {
       const { data } = await login(values)
       const { data: { token, user, permissions } } = data
       const newPermissions = permissionsToArray(permissions)
+      const firstMenu = getFirstMenu(defaultMenus, newPermissions)
       setToken(token)
       dispatch(setUserInfo(user))
       dispatch(setPermissions(newPermissions))
-      navigate('/dashboard')
+      navigate(firstMenu)
     } finally {
       setLoading(false)
     }

@@ -8,8 +8,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { defaultMenus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { setOpenKey } from '@/stores/menu'
-import { filterMenus, getMenuByKey, getOpenMenuByRouter, splitPath } from '@/menus/utils/helper'
 import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
+import {
+  filterMenus,
+  getFirstMenu,
+  getMenuByKey,
+  getOpenMenuByRouter,
+  splitPath
+} from '@/menus/utils/helper'
 import styles from '../index.module.less'
 import Logo from '@/assets/images/logo.svg'
 
@@ -97,7 +103,8 @@ function LayoutMenu() {
 
   /** 点击logo */
   const onClickLogo = () => {
-    navigate('/dashboard')
+    const firstMenu = getFirstMenu(defaultMenus, permissions)
+    navigate(firstMenu)
     const newItems = getMenuByKey(
       defaultMenus,
       permissions,
