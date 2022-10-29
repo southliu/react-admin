@@ -7,6 +7,14 @@ export function isFunction(val: unknown): boolean {
 }
 
 /**
+ * 是否是数字
+ * @param obj - 值
+ */
+export function isNumber(obj: unknown): boolean {
+  return typeof obj === 'number' && isFinite(obj)
+}
+
+/**
  * 是否是URL
  * @param path - 路径
  */

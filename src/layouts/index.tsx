@@ -1,13 +1,12 @@
 import type { AppDispatch, RootState } from '@/stores'
 import { useToken } from '@/hooks/useToken'
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate, useLocation, Outlet } from 'react-router-dom'
+import { useNavigate, Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
 import { setPermissions, setUserInfo } from '@/stores/user'
 import { Skeleton } from 'antd'
-import KeepAlive from 'react-activation'
 import Menu from './components/Menu'
 import Header from './components/Header'
 import Tabs from './components/Tabs'
@@ -17,7 +16,6 @@ import styles from './index.module.less'
 function Layout() {
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
-  const { pathname } = useLocation()
   const { getToken } = useToken()
   const token = getToken()
   const [isLoading, setLoading] = useState(true)
@@ -42,6 +40,9 @@ function Layout() {
         dispatch(setUserInfo(user))
         dispatch(setPermissions(newPermissions))
       }
+    } catch(err) {
+      console.error('获取用户数据失败:', err)
+      setPermissions([])
     } finally {
       setLoading(false)
     }
@@ -71,36 +72,34 @@ function Layout() {
         <Tabs />
       </div>
       <Menu />
-      <div
-        className={`
-          overflow-auto
-          bg-white
-          transition-all
-          ${styles.con}
-          ${isMaximize ? styles.conMaximize : ''}
-        `}
-      >
-        {
-          isLoading &&
-          <Skeleton
-            active
-            className='p-30px'
-            paragraph={{ rows: 10 }}
-          />
-        }
-        {
-          !isLoading &&
-          permissions.length > 0 &&
-          <KeepAlive id={pathname} name={pathname}>
+        <div
+          className={`
+            overflow-auto
+            bg-white
+            transition-all
+            ${styles.con}
+            ${isMaximize ? styles.conMaximize : ''}
+          `}
+        >
+          {
+            isLoading &&
+            permissions.length === 0 &&
+            <Skeleton
+              active
+              className='p-30px'
+              paragraph={{ rows: 10 }}
+            />
+          }
+          {
+            !isLoading &&
+            permissions.length === 0 &&
+            <Forbidden />
+          }
+          {
+            permissions.length > 0 &&
             <Outlet />
-          </KeepAlive>
-         }
-         {
-          !isLoading &&
-          permissions.length === 0 &&
-          <Forbidden />
-         }
-      </div>
+          }
+        </div>
     </div>
   )
 }

@@ -1,8 +1,8 @@
-import { ReactNode, useMemo } from 'react'
-import { ModalProps, Tooltip } from 'antd'
+import type { ReactNode } from 'react'
+import type { ModalProps } from 'antd'
 import type { DraggableData, DraggableEvent } from 'react-draggable'
-import { useRef, useState } from 'react'
-import { Modal } from 'antd'
+import { useRef, useState, useMemo } from 'react'
+import { Modal, Tooltip } from 'antd'
 import { Icon } from '@iconify/react'
 import Draggable from 'react-draggable'
 
@@ -47,7 +47,7 @@ function BasicModal(props: ModalProps) {
       <Tooltip
         className="text-#00000073 hover:text-#404040"
         placement="bottom"
-        title={isFullscreen ? '最大化' : '退出最大化'}
+        title={!isFullscreen ? '最大化' : '退出最大化'}
       >
         <div
           className='p-10px mt-3px cursor-pointer'
@@ -55,7 +55,7 @@ function BasicModal(props: ModalProps) {
         >
           <Icon
             className="text-lg"
-            icon={isFullscreen ? 'ant-design:fullscreen-outlined' : 'ant-design:fullscreen-exit-outlined'}
+            icon={!isFullscreen ? 'ant-design:fullscreen-outlined' : 'ant-design:fullscreen-exit-outlined'}
           />
         </div>
       </Tooltip>
@@ -75,7 +75,8 @@ function BasicModal(props: ModalProps) {
         </div>
       </Tooltip>
     </div>
-  ), [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ), [isFullscreen])
 
   /** 自定义标题 */
   const titleRender = (

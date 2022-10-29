@@ -4,6 +4,7 @@ import { getDataTrends } from '@/servers/dashboard'
 import { searchList } from './model'
 import { useTitle } from '@/hooks/useTitle'
 import BasicSearch from '@/components/Search/BasicSearch'
+import BasicContent from '@/components/Content/BasicContent'
 import Line from './components/Line'
 import Block from './components/Block'
 
@@ -39,20 +40,22 @@ function Dashboard() {
   }, [handleSearch])
 
   return (
-    <>
-      <BasicSearch
-        list={searchList}
-        data={initSearch}
-        isLoading={isLoading}
-        isCreate={false}
-        handleFinish={handleSearch}
-      />
+    <BasicContent isPermission={true}>
+      <>
+        <BasicSearch
+          list={searchList}
+          data={initSearch}
+          isLoading={isLoading}
+          isCreate={false}
+          handleFinish={handleSearch}
+        />
 
-      <div className='p-10px'>
-        <Block />
-      </div>
-      <Line />
-    </>
+        <div className='p-10px'>
+          <Block />
+        </div>
+        <Line />
+      </>
+    </BasicContent>
   )
 }
 

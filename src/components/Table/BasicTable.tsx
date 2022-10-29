@@ -7,14 +7,25 @@ import { getTableHeight } from './utils/helper'
 import ResizableTitle from './components/ResizableTitle'
 import useVirtualTable from './hooks/useVirtual'
 
+type IComponents = TableProps<object>['components']
+
 interface IProps extends Omit<TableProps<object>, 'bordered'> {
+  scrollX?: number;
+  scrollY?: number;
   isBordered?: boolean; // 是否开启边框
   isZebra?: boolean; // 是否开启斑马线
   isVirtual?: boolean; // 是否开启虚拟滚动
 }
 
 function BasicTable(props: IProps) {
-  const { loading, isZebra, isBordered, isVirtual } = props
+  const {
+    loading,
+    isZebra,
+    isBordered,
+    isVirtual,
+    scrollX,
+    scrollY
+  } = props
   const [columns, setColumns] = useState(props.columns as ColumnsType<object>)
 
   // 表格高度
@@ -35,6 +46,7 @@ function BasicTable(props: IProps) {
     }
   }
 
+  // 合并列表
   const mergeColumns: ColumnsType<object> = columns.map((col, index) => ({
     ...col,
     onHeaderCell: column => ({
@@ -43,10 +55,12 @@ function BasicTable(props: IProps) {
     }),
   }))
 
+  // 虚拟滚动操作值
   const virtualOptions = useVirtualTable({
     height: tableHeight // 设置可视高度
   })
 
+  // 虚拟滚动组件
   const virtualComponents = useMemo(() => {
     return {
       header: {
@@ -56,20 +70,27 @@ function BasicTable(props: IProps) {
         wrapper: virtualOptions.body.wrapper
       },
       table: virtualOptions.table
-    }
+    } as IComponents
   }, [virtualOptions])
 
-  const components = isVirtual !== false ? virtualComponents : {
+  // 只带拖拽功能组件
+  const components: IComponents = isVirtual !== false ? virtualComponents : {
     header: {
       cell: ResizableTitle,
     }
+  }
+
+  // 滚动
+  const scroll = {
+    ...props.scroll,
+    x: scrollX,
+    y: scrollY || tableHeight
   }
 
   return (
     <div
       id="table"
       className={`
-        p-10px
         overflow-auto
         ${isBordered !== false ? 'bordered' : ''}
         ${isZebra !== false ? 'zebra' : ''}
@@ -83,7 +104,7 @@ function BasicTable(props: IProps) {
         loading={loading}
         {...props}
         bordered={isBordered !== false}
-        scroll={{ ...props.scroll, y: tableHeight }}
+        scroll={scroll}
         components={components}
         columns={mergeColumns}
       />

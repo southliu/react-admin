@@ -1,3 +1,6 @@
+## 项目演示
+[演示地址](https://southliu.github.io/)
+
 
 ## 安装使用
 
@@ -42,18 +45,14 @@ pnpm build
 - [ ] 主题换肤功能
 - [x] 密码强度显示
 - [x] keepalive功能
-- [ ] useCallback和useMemo优化
 - [ ] form添加富文本、自定义渲染
 - [ ] 表格虚拟滚动优化
 - [ ] 表格根据可视区域计算高度
-- [ ] IAllDataType类修改
 - [ ] 新增跳转单独页逻辑
 - [ ] 跳转首页权限判断
-- [ ] 去除react-redux，使用原生useContext
 - [ ] 手机端适配
 - [ ] mock数据
 - [ ] 测试代码
-- [ ] wangeditor分包和antd css分包
 - [x] 打包分包
 
 ## 图标(iconify)

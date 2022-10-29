@@ -16,12 +16,13 @@ function VirtualTable() {
       id: num,
       name: 'name' + num,
       phone: num * 13,
-      number: num * 2.6,
+      number: num * 3,
     })
   }
 
   return (
     <BasicTable
+      scrollY={400}
       columns={columns}
       dataSource={data}
     />

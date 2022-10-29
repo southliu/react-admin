@@ -13,8 +13,7 @@ export function getTableHeight(): number {
   const paginationHeight = paginationElm?.offsetHeight
 
   // 表格高度 = 内容高度 - 搜索高度 - 分页高度
-  let tableHeight = 0
-  if (contentHeight) tableHeight = contentHeight
+  let tableHeight = contentHeight || 0
   if (searchesHeight && tableHeight > 0) tableHeight -= searchesHeight
   if (paginationHeight && tableHeight > 0) tableHeight -= paginationHeight
 

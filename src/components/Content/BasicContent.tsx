@@ -1,5 +1,7 @@
-import styles from './index.module.less'
+import { useLocation } from 'react-router-dom'
 import Forbidden from '@/pages/403'
+import KeepAlive from 'react-activation'
+import styles from './index.module.less'
 
 interface IProps {
   isPermission?: boolean;
@@ -8,6 +10,7 @@ interface IProps {
 
 function BasicContent(props: IProps) {
   const { isPermission, children} = props
+  const { pathname } = useLocation()
 
   return (
     <div className={`h-full p-10px box-border ${styles.bg}`}>
@@ -26,7 +29,9 @@ function BasicContent(props: IProps) {
             pb-2
           `}
         >
-          { children }
+          <KeepAlive id={pathname} name={pathname}>
+            { children }
+          </KeepAlive>
         </div>
       }
       {

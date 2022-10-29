@@ -91,7 +91,7 @@ function BasicSearch(props: IProps) {
   }
 
   return (
-    <div id="searches" className="bg-white pt-4 pb-1 px-5">
+    <div id="searches" className="bg-white py-3">
       <Form
         name="basic"
         layout="inline"

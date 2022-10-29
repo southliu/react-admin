@@ -2,9 +2,12 @@ import type { IFormData, IFormList } from '#/form'
 import type { Moment } from 'moment'
 import type { RangeValue } from '#/public'
 import type { DatePickerProps } from 'antd'
-import { isMoment } from 'moment'
 import { DATE_FORMAT } from '@/utils/constants'
 import moment from 'moment'
+
+/**
+ * @description isMoment必须使用moment.isMoment形式，否则打包会失败
+ */
 
 /**
  * moment类型转字符串类型
@@ -14,7 +17,7 @@ import moment from 'moment'
   value: Moment | string,
   format = DATE_FORMAT
 ): string {
-  if (isMoment(value)) {
+  if (moment.isMoment(value)) {
     return value.format(format)
   }
   return value
@@ -25,7 +28,7 @@ import moment from 'moment'
  * @param value - 字符串
  */
 export function string2Moment(value: Moment | string): Moment {
-  if (isMoment(value)) {
+  if (moment.isMoment(value)) {
     return value
   }
   return moment(value)
@@ -43,8 +46,8 @@ export function momentRang2StringRang(
 
   if (
     value?.length > 1 &&
-    isMoment(value?.[0]) &&
-    isMoment(value?.[1])
+    moment.isMoment(value?.[0]) &&
+    moment.isMoment(value?.[1])
   ) {
     return [
       value[0].format(format),
@@ -66,8 +69,8 @@ export function stringRang2MomentRang(
   // 当第一个数据都不为Moment
   if (
     value?.length > 1 &&
-    !isMoment(value?.[0]) &&
-    isMoment(value?.[1])
+    !moment.isMoment(value?.[0]) &&
+    moment.isMoment(value?.[1])
   ) {
     return [moment(value[0]), value[1]]
   }
@@ -75,8 +78,8 @@ export function stringRang2MomentRang(
   // 当最后一个数据都不为Moment
   if (
     value?.length > 1 &&
-    isMoment(value?.[0]) &&
-    !isMoment(value?.[1])
+    moment.isMoment(value?.[0]) &&
+    !moment.isMoment(value?.[1])
   ) {
     return [value[0], moment(value[1])]
   }
@@ -84,8 +87,8 @@ export function stringRang2MomentRang(
   // 当两个数据都不为Moment
   if (
     value?.length > 1 &&
-    !isMoment(value?.[0]) &&
-    !isMoment(value?.[1])
+    !moment.isMoment(value?.[0]) &&
+    !moment.isMoment(value?.[1])
   ) {
     return [moment(value[0]), moment(value[1])]
   }
@@ -118,8 +121,8 @@ export function filterMoment(obj: IFormData, list: IFormList[]): object {
     // 判断是否是时间区间
     if (
       (obj[key] as [Moment, Moment])?.length === 2 &&
-      isMoment((obj[key] as [Moment, Moment])[0]) &&
-      isMoment((obj[key] as [Moment, Moment])[1]) 
+      moment.isMoment((obj[key] as [Moment, Moment])[0]) &&
+      moment.isMoment((obj[key] as [Moment, Moment])[1]) 
     ) {
       const format = getListKeyParam(list, key)
       obj[key] = momentRang2StringRang(
@@ -129,7 +132,7 @@ export function filterMoment(obj: IFormData, list: IFormList[]): object {
     }
 
     // 如果是Moment类型则转换成字符串
-    if (obj?.[key] && isMoment(obj[key])) {
+    if (obj?.[key] && moment.isMoment(obj[key])) {
       const format = getListKeyParam(list, key)
       obj[key] = moment2String(obj[key] as Moment, format)
     }
