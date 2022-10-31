@@ -29,6 +29,9 @@ function LayoutMenu() {
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   // 菜单是否收缩
   const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
+  // 是否手机端
+  const isPhone = useSelector((state: RootState) => state.menu.isPhone)
+  // 权限
   const permissions = useSelector((state: RootState) => state.user.permissions)
 
   // 处理默认展开
@@ -124,7 +127,8 @@ function LayoutMenu() {
         overflow-auto
         ${styles.menu}
         ${isCollapsed ? styles.menuClose : ''}
-        ${isMaximize ? styles.menuNone : ''}
+        ${isMaximize || (isPhone && isCollapsed) ? styles.menuNone : ''}
+        ${isPhone ? 'z-1000' : ''}
       `}
     >
       <div

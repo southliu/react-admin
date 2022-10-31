@@ -42,7 +42,7 @@ function BasicEcharts(props: IProps) {
   return (
     <div
       ref={chartRef}
-      className={className}
+      className={`echarts ${className}`}
       style={{ height, width }}
     ></div>
   )
