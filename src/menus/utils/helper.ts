@@ -69,6 +69,7 @@ export function splitPath(path: string): string[] {
  * @param currentPath - 当前路径
  * @param result - 返回值
  */
+
 interface IMenuPath {
   label: string;
   path: string[];
@@ -80,6 +81,7 @@ interface ISearchMenuProps {
   currentPath?: IMenuPath[],
   result?: ISideMenu[]
 }
+
 export function searchMenuValue(data: ISearchMenuProps): ISideMenu[] {
   const { menus, permissions, value } = data
   let { currentPath, result } = data
@@ -151,6 +153,7 @@ interface IgetMenuByKeyProps {
   result?: IGetMenuByKeyResult
 }
 type IgetMenuByKeyResult = IGetMenuByKeyResult | undefined
+
 export function getMenuByKey(data: IgetMenuByKeyProps): IgetMenuByKeyResult {
   const { menus, permissions, key } = data
   let { fatherNav, result } = data

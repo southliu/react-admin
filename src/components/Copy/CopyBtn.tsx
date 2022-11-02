@@ -10,7 +10,7 @@ interface IProps extends ButtonProps {
 
 function CopyBtn(props: IProps) {
   const { text, value } = props
-  const { copyToClipboard } = useClipboard()
+  const [, copyToClipboard] = useClipboard()
 
   /** 点击编辑 */
   const onClick = () => {

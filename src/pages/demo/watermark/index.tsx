@@ -4,7 +4,7 @@ import { useWatermark } from '@/hooks/useWatermark'
 
 function Watermark() {
   useTitle('水印')
-  const { Watermark, RemoveWatermark } = useWatermark()
+  const [Watermark, RemoveWatermark] = useWatermark()
   
   const openWatermark = () => {
     Watermark({

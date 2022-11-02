@@ -50,5 +50,5 @@ export function useClipboard() {
     return navigator.clipboard.readText()
   }, [])
 
-  return { ref, copyToClipboard, getClipboard } as const
+  return [ref, copyToClipboard, getClipboard] as const
 }

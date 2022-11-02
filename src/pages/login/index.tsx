@@ -20,7 +20,7 @@ function Login() {
   useTitle('登录')
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
-  const { getToken, setToken } = useToken()
+  const [getToken, setToken] = useToken()
   const [isLoading, setLoading] = useState(false)
   const permissions = useSelector((state: RootState) => state.user.permissions)
 

@@ -32,7 +32,8 @@ const handleError = (error: string, content?: string) => {
 // 请求拦截
 request.interceptors.request.use(
   (config) => {
-    const token = useToken().getToken() || ''
+    const [getToken] = useToken()
+    const token = getToken() || ''
     if (config?.headers && token) {
       config.headers.Authorization = `Bearer ${token}`
     }

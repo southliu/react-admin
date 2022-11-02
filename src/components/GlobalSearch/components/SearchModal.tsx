@@ -147,7 +147,7 @@ function SearchModal(props: IProps) {
     setActive(newActive)
   }
   // 监听按键
-  const { onKeyDown } = useKeyStroke({
+  const [onKeyDown] = useKeyStroke({
     ArrowUp: onArrowUp,
     ArrowDown: onArrowDown,
     Enter: onPressEnter,

@@ -1,7 +1,3 @@
-/**
- * 键盘按键事件
- * @param options
- */
 interface IOptions {
   ArrowUp?: () => void;
   ArrowDown?: () => void;
@@ -9,6 +5,11 @@ interface IOptions {
   ArrowRight?: () => void;
   Enter?: () => void;
 }
+
+/**
+ * 键盘按键事件
+ * @param options
+ */
 export function useKeyStroke(options: IOptions) {
   /**
    * 点击按键
@@ -46,5 +47,5 @@ export function useKeyStroke(options: IOptions) {
     }
   }
 
-  return { onKeyDown }
+  return [onKeyDown] as const
 }

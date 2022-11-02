@@ -85,5 +85,5 @@ export function useWatermark() {
     }
   }
 
-  return { Watermark, RemoveWatermark }
+  return [Watermark, RemoveWatermark] as const
 }

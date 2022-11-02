@@ -5,7 +5,7 @@ import { useClipboard } from '@/hooks/useClipboard'
 const { Search } = Input
 
 function CopyInput(props: InputProps) {
-  const { copyToClipboard } = useClipboard()
+  const [, copyToClipboard] = useClipboard()
 
   /**
    * 处理复制

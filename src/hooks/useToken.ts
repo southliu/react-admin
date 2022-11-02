@@ -4,10 +4,10 @@ import { setLocalInfo, getLocalInfo, removeLocalInfo } from '@/utils/local'
 /**
  * token存取方法
  */
- export function useToken() {
+export function useToken() {
   /** 获取token */
   const getToken = () => {
-    return getLocalInfo(TOKEN)
+    return getLocalInfo<string>(TOKEN) || ''
   }
 
   /**
@@ -23,9 +23,5 @@ import { setLocalInfo, getLocalInfo, removeLocalInfo } from '@/utils/local'
     removeLocalInfo(TOKEN)
   }
 
-  return {
-    getToken,
-    setToken,
-    removeToken
-  }
+  return [getToken, setToken, removeToken] as const
 }

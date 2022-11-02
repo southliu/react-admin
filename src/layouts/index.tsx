@@ -18,7 +18,7 @@ import { useDebounceFn } from 'ahooks'
 function Layout() {
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
-  const { getToken } = useToken()
+  const [getToken] = useToken()
   const token = getToken()
   const [isLoading, setLoading] = useState(true)
 
