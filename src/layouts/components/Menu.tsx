@@ -55,10 +55,13 @@ function LayoutMenu() {
    */
   const onClick: MenuProps['onClick'] = e => {
     navigate(e.key)
-    const newTab = getMenuByKey(menus, permissions, e.key)
-    dispatch(setActiveKey(newTab.key))
-    dispatch(setNav(newTab.nav))
-    dispatch(addTabs(newTab))
+    const menuByKeyProps = { menus, permissions, key: e.key }
+    const newTab = getMenuByKey(menuByKeyProps)
+    if (newTab) {
+      dispatch(setActiveKey(newTab.key))
+      dispatch(setNav(newTab.nav))
+      dispatch(addTabs(newTab))
+    }
   }
 
   /**
@@ -108,12 +111,9 @@ function LayoutMenu() {
   const onClickLogo = () => {
     const firstMenu = getFirstMenu(defaultMenus, permissions)
     navigate(firstMenu)
-    const newItems = getMenuByKey(
-      defaultMenus,
-      permissions,
-      '/dashboard'
-    )
-    if (newItems.key) {
+    const menuByKeyProps = { menus: defaultMenus, permissions, key: firstMenu }
+    const newItems = getMenuByKey(menuByKeyProps)
+    if (newItems) {
       dispatch(setActiveKey(newItems.key))
       dispatch(setNav([]))
       dispatch(addTabs(newItems))

@@ -29,7 +29,8 @@ function SearchResult(props: IProps) {
   const onclick = (key: string) => {
     navigate(key)
     // 添加标签
-    const newTab = getMenuByKey(defaultMenus, permissions, key)
+    const menuByKeyProps = { menus: defaultMenus, permissions, key }
+    const newTab = getMenuByKey(menuByKeyProps)
     dispatch(addTabs(newTab))
     dispatch(setActiveKey(key))
     // 处理菜单展开

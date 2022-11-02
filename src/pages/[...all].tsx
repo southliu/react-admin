@@ -16,12 +16,9 @@ function NotFound() {
   const goIndex = () => {
     const firstMenu = getFirstMenu(defaultMenus, permissions)
     navigate(firstMenu)
-    const newItems = getMenuByKey(
-      defaultMenus,
-      permissions,
-      firstMenu
-    )
-    if (newItems.key) {
+    const menuByKeyProps = { menus: defaultMenus, permissions, key: firstMenu }
+    const newItems = getMenuByKey(menuByKeyProps)
+    if (newItems) {
       dispatch(setActiveKey(newItems.key))
       dispatch(setNav([]))
       dispatch(addTabs(newItems))

@@ -33,12 +33,13 @@ function LayoutTabs() {
     // 当值为空时匹配路由
     if (tabs.length === 0 && permissions.length > 0) {
       if (location.pathname === '/') return
-      const newItems = getMenuByKey(
-        defaultMenus,
-        permissions,
-        location.pathname
-      )
-      if (newItems.key) {
+    const menuByKeyProps = {
+      menus: defaultMenus,
+      permissions,
+      key: location.pathname
+    }
+    const newItems = getMenuByKey(menuByKeyProps)
+      if (newItems) {
         dispatch(setActiveKey(newItems.key))
         dispatch(setNav(newItems.nav))
         dispatch(addTabs(newItems))

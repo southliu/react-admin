@@ -6,5 +6,5 @@ import { request } from '@/utils/request'
  * @param data - 请求数据
  */
 export function getDataTrends(data: object) {
-  return request.get<IServerResult<unknown>>('/dashboard', { params: data })
+  return request.get<IServerResult>('/dashboard', { params: data })
 }

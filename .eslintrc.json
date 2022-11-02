@@ -94,7 +94,7 @@
         // 强制回调函数最大嵌套深度
         "max-nested-callbacks": ["warn", 3],
         // 强制函数定义中最多允许的参数数量
-        "max-params": ["warn", 5],
+        "max-params": ["warn", 3],
         // 强制每一行中所允许的最大语句数量
         "max-statements-per-line": ["warn", { "max": 1 }],
         // 要求方法链中每个调用都有一个换行符

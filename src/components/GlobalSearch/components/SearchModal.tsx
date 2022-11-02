@@ -82,7 +82,8 @@ function SearchModal(props: IProps) {
     if (active) {
       navigate(active)
       // 添加标签
-      const newTab = getMenuByKey(defaultMenus, permissions, active)
+      const menuByKeyProps = { menus: defaultMenus, permissions, key: active }
+      const newTab = getMenuByKey(menuByKeyProps)
       dispatch(addTabs(newTab))
       dispatch(setActiveKey(active))
       // 处理菜单展开
@@ -98,7 +99,8 @@ function SearchModal(props: IProps) {
    * @param value - 搜索值
    */
   const debounceSearch = useDebounceFn((value: string) => {
-    const searchValue = searchMenuValue(defaultMenus, permissions, value)
+    const searchProps = { menus: defaultMenus, permissions, value }
+    const searchValue = searchMenuValue(searchProps)
     if (searchValue?.length) {
       setActive((searchValue as ISideMenu[])?.[0]?.key || '')
       setList(searchValue as ISideMenu[])
