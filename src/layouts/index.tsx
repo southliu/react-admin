@@ -50,7 +50,8 @@ function Layout() {
     } finally {
       setLoading(false)
     }
-  }, [dispatch])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     // 如果没有token，则返回登录页

@@ -7,6 +7,7 @@ import { toggleCollapsed } from '@/stores/menu'
 import { useNavigate } from 'react-router-dom'
 import { useToken } from '@/hooks/useToken'
 import { clearInfo } from '@/stores/user'
+import { closeAllTab } from '@/stores/tabs'
 import {
   Menu,
   Modal,
@@ -86,6 +87,7 @@ function Header() {
       content: '是否确定退出系统?',
       onOk() {
         dispatch(clearInfo())
+        dispatch(closeAllTab())
         removeToken()
         navigate('/login')
       }

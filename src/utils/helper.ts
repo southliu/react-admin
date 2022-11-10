@@ -5,6 +5,7 @@ import type { IAllDataType, IArrayData } from '#/public'
  * @param str - 传入英文字符串
  */
 export function firstCapitalize(str: string): string {
+  if (!str || typeof str !== 'string') return ''
   return str.substring(0, 1).toUpperCase() + str.substring(1)
 }
 

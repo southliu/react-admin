@@ -1,7 +1,7 @@
 import type { TabPaneProps } from 'antd'
 import { createSlice } from '@reduxjs/toolkit'
 
-interface Tab extends Omit<TabPaneProps, 'tab'> {
+interface ITabs extends Omit<TabPaneProps, 'tab'> {
   key: string;
   label: React.ReactNode;
 }
@@ -12,15 +12,18 @@ const tabsSlice = createSlice({
     isMaximize: false,
     activeKey: '',
     nav: [] as string[],
-    tabs: [] as Tab[]
+    tabs: [] as ITabs[]
   },
   reducers: {
+    /** 切换最大化 */
     toggleMaximize: (state, action) => {
       state.isMaximize = !!action.payload
     },
+    /** 设置选择 */
     setActiveKey: (state, action) => {
       state.activeKey = action.payload
     },
+    /** 设置导航 */
     setNav: (state, action) => {
       state.nav = action.payload
     },
@@ -100,6 +103,10 @@ const tabsSlice = createSlice({
       // 如果只剩一个则无法关闭
       tabs[0].closable = false
     },
+    /** 关闭全部 */
+    closeAllTab: (state) => {
+      state.tabs = []
+    }
   }
 })
 
@@ -111,7 +118,8 @@ export const {
   closeTabs,
   closeLeft,
   closeRight,
-  closeOther
+  closeOther,
+  closeAllTab
 } = tabsSlice.actions
 
 export default tabsSlice.reducer

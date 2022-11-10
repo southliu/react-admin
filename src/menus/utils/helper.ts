@@ -145,16 +145,15 @@ interface IGetMenuByKeyResult {
   key: string;
   nav: string[];
 }
-interface IgetMenuByKeyProps {
+interface IGetMenuByKeyProps {
   menus: ISideMenu[] | undefined,
   permissions: string[],
   key: string,
   fatherNav?: string[],
   result?: IGetMenuByKeyResult
 }
-type IgetMenuByKeyResult = IGetMenuByKeyResult | undefined
 
-export function getMenuByKey(data: IgetMenuByKeyProps): IgetMenuByKeyResult {
+export function getMenuByKey(data: IGetMenuByKeyProps): IGetMenuByKeyResult | undefined {
   const { menus, permissions, key } = data
   let { fatherNav, result } = data
   if (!menus?.length) return result
@@ -229,9 +228,7 @@ export function filterMenus(
     if (
       hasPermission(menus[i], permissions) ||
       hasChildren(menus[i])
-    ) {
-      result.push(menus[i])
-    }
+    ) result.push(menus[i])
   }
 
   return result
@@ -270,9 +267,7 @@ export function getFirstMenu(
     if (
       hasPermission(menus[i], permissions) &&
       !hasChildren(menus[i])
-    ) {
-      result = menus[i].key
-    }
+    ) result = menus[i].key
   }
 
   return result

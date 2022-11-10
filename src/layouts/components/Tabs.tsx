@@ -1,9 +1,9 @@
-import { message, TabsProps } from 'antd'
+import type { TabsProps } from 'antd'
 import type { AppDispatch, RootState } from '@/stores'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
 import { defaultMenus } from '@/menus'
-import { Tabs, Dropdown } from 'antd'
+import { message, Tabs, Dropdown } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setActiveKey, addTabs, closeTabs, setNav } from '@/stores/tabs'
 import { useAliveController } from 'react-activation'
@@ -29,23 +29,32 @@ function LayoutTabs() {
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
 
-  useEffect(() => {
+  /**
+   * 添加标签
+   * @param path - 路径
+   */
+  const handleAddTab = useCallback((path = location.pathname) => {
     // 当值为空时匹配路由
-    if (tabs.length === 0 && permissions.length > 0) {
-      if (location.pathname === '/') return
-    const menuByKeyProps = {
-      menus: defaultMenus,
-      permissions,
-      key: location.pathname
-    }
-    const newItems = getMenuByKey(menuByKeyProps)
+    if (permissions.length > 0) {
+      if (path === '/') return
+      const menuByKeyProps = {
+        menus: defaultMenus,
+        permissions,
+        key: path
+      }
+      const newItems = getMenuByKey(menuByKeyProps)
       if (newItems) {
         dispatch(setActiveKey(newItems.key))
         dispatch(setNav(newItems.nav))
         dispatch(addTabs(newItems))
       }
     }
-  }, [dispatch, location.pathname, permissions, tabs.length])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [permissions])
+
+  useEffect(() => {
+    handleAddTab()
+  }, [handleAddTab])
 
   useEffect(() => {
     // 当选中贴标签不等于当前路由则跳转
@@ -56,8 +65,9 @@ function LayoutTabs() {
       const openKey = getOpenMenuByRouter(activeKey)
       dispatch(setOpenKey(openKey))
     }
-  }, [activeKey, dispatch, location.pathname, navigate])
-  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeKey, location.pathname])
+    
   /** 
    * 处理更改
    * @param key - 唯一值
@@ -115,7 +125,8 @@ function LayoutTabs() {
         }, 1000)
       )
     }
-  }, [activeKey, dispatch, navigate, refresh, time])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeKey, time])
 
   // 渲染重新加载
   const RefreshRender = useMemo(() => {

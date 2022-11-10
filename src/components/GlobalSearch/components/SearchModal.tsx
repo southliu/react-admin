@@ -1,8 +1,8 @@
 import type { ISideMenu } from '#/public'
 import type { AppDispatch, RootState } from '@/stores'
+import type { InputProps, InputRef } from 'antd'
 import { Ref, useImperativeHandle, useLayoutEffect } from 'react'
-import { InputRef } from 'antd'
-import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Modal, Input } from 'antd'
 import { Icon } from '@iconify/react'
 import { useDebounceFn } from 'ahooks'
@@ -114,15 +114,13 @@ function SearchModal(props: IProps) {
    * 防抖处理值变化值变化
    * @param event - 输入框参数
    */
-  const onChange: ChangeEventHandler<HTMLInputElement> = event => {
+  const onChange: InputProps['onChange'] = event => {
     const { value } = event.target
     setValue(value)
     debounceSearch.run(value)
   }
 
-  /**
-   * 键盘上事件
-   */
+  /** 键盘上事件 */
   const onArrowUp = () => {
     // 列表为空则退出
     if (!list.length) return null
@@ -133,9 +131,7 @@ function SearchModal(props: IProps) {
     setActive(newActive)
   }
 
-  /**
-   * 键盘下事件
-   */
+  /** 键盘下事件 */
   const onArrowDown = () => {
     // 列表为空则退出
     if (!list.length) return null
@@ -146,6 +142,7 @@ function SearchModal(props: IProps) {
     const newActive = list[index + 1].key
     setActive(newActive)
   }
+
   // 监听按键
   const [onKeyDown] = useKeyStroke({
     ArrowUp: onArrowUp,
