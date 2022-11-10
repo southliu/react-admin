@@ -46,7 +46,7 @@ export function updateMenu(id: string, data: IFormData) {
  * 删除
  * @param id - 删除id值
  */
- export function deleteMenu(id: string) {
+export function deleteMenu(id: string) {
   return request.delete(`${API.URL}/${id}`)
 }
 
@@ -54,7 +54,7 @@ export function updateMenu(id: string, data: IFormData) {
  * 获取权限列表
  * @param data - 搜索数据
  */
- export function getPermission(data: unknown) {
+export function getPermission(data: unknown) {
   return request.get(`${API.URL}/tree`, { params: data })
 }
 

@@ -83,7 +83,7 @@ export interface IApiResult extends Omit<DefaultOptionType, 'value'> {
   value?: string | number;
 }
 
-export type IApi = (params?: object) => Promise<(IApiResult)[]>
+export type IApi = (params?: object) => Promise<IApiResult[]>
 
 // api参数
 interface IApiParam {
