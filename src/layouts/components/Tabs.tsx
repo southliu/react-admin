@@ -60,6 +60,7 @@ function LayoutTabs() {
     // 当选中贴标签不等于当前路由则跳转
     if (activeKey && activeKey !== location.pathname) {
       navigate(activeKey)
+      handleAddTab(activeKey)
 
       // 处理菜单展开
       const openKey = getOpenMenuByRouter(activeKey)

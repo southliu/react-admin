@@ -1,7 +1,7 @@
 import type { AppDispatch, RootState } from '@/stores'
 import { defaultMenus } from '@/menus'
 import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper'
-import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
+import { addTabs, setActiveKey } from '@/stores/tabs'
 import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,7 +20,6 @@ function NotFound() {
     const newItems = getMenuByKey(menuByKeyProps)
     if (newItems) {
       dispatch(setActiveKey(newItems.key))
-      dispatch(setNav([]))
       dispatch(addTabs(newItems))
     }
   }

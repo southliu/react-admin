@@ -50,19 +50,27 @@ function LayoutMenu() {
     }
   }, [permissions])
 
-  /** 
-   * 点击菜单
-   * @param e - 菜单事件
+  /**
+   * 处理跳转
+   * @param path - 路径
    */
-  const onClick: MenuProps['onClick'] = e => {
-    navigate(e.key)
-    const menuByKeyProps = { menus, permissions, key: e.key }
+  const goPath = (path: string) => {
+    navigate(path)
+    const menuByKeyProps = { menus, permissions, key: path }
     const newTab = getMenuByKey(menuByKeyProps)
     if (newTab) {
       dispatch(setActiveKey(newTab.key))
       dispatch(setNav(newTab.nav))
       dispatch(addTabs(newTab))
     }
+  }
+
+  /** 
+   * 点击菜单
+   * @param e - 菜单事件
+   */
+  const onClick: MenuProps['onClick'] = e => {
+    goPath(e.key)
   }
 
   /**
@@ -110,15 +118,8 @@ function LayoutMenu() {
 
   /** 点击logo */
   const onClickLogo = () => {
-    const firstMenu = getFirstMenu(defaultMenus, permissions)
-    navigate(firstMenu)
-    const menuByKeyProps = { menus: defaultMenus, permissions, key: firstMenu }
-    const newItems = getMenuByKey(menuByKeyProps)
-    if (newItems) {
-      dispatch(setActiveKey(newItems.key))
-      dispatch(setNav([]))
-      dispatch(addTabs(newItems))
-    }
+    const firstMenu = getFirstMenu(menus, permissions)
+    goPath(firstMenu)
   }
 
   return (
