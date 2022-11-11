@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import type { ModalProps } from 'antd'
 import type { DraggableData, DraggableEvent } from 'react-draggable'
-import { useRef, useState, useMemo } from 'react'
+import { useRef, useState } from 'react'
 import { Modal, Tooltip } from 'antd'
 import { Icon } from '@iconify/react'
 import Draggable from 'react-draggable'
@@ -36,13 +36,13 @@ function BasicModal(props: ModalProps) {
   /** 最大化 */
   const onFullscreen = () => {
     setFullscreen(value => {
-      if (value) setBounds({ left: 0, top: 0, bottom: 0, right: 0 })
+      if (!value) setBounds({ left: 0, top: 0, bottom: 0, right: 0 })
       return !value
     })
   }
 
   /** 自定义关闭和放大图标 */
-  const CloseRender = () => useMemo(() => (
+  const CloseRender = () => (
     <div className="flex items-center justify-end absolute right-15px">
       <Tooltip
         className="text-#00000073 hover:text-#404040"
@@ -75,8 +75,7 @@ function BasicModal(props: ModalProps) {
         </div>
       </Tooltip>
     </div>
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  ), [isFullscreen])
+  )
 
   /** 自定义标题 */
   const titleRender = (
