@@ -25,6 +25,9 @@ function VirtualTable() {
       scrollY={400}
       columns={columns}
       dataSource={data}
+      style={{
+        borderBottom: '1px solid rgba(0, 0, 0, .05)'
+      }}
     />
   )
 }

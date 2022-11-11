@@ -97,12 +97,14 @@ function Layout() {
       </div>
       <Menu />
       <div
+        id="layoutContent"
         className={`
           overflow-auto
           bg-white
           transition-all
           ${styles.con}
           ${isMaximize ? styles.conMaximize : ''}
+          ${isCollapsed ? styles.conCloseMenu : ''}
           ${isPhone && isCollapsed ? `!left-0` : ''}
         `}
       >

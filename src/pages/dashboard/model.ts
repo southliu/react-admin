@@ -13,24 +13,18 @@ export const searchList: IFormList[] = [
   {
     label: '游戏ID',
     name: 'game_ids',
-    wrapperCol: 250,
+    wrapperCol: 200,
     component: 'GameSelect',
   },
   {
     label: '合作公司',
     name: 'partners',
-    wrapperCol: 300,
+    wrapperCol: 200,
     component: 'PartnerSelect'
   },
   {
     label: '全服充值',
     name: 'all_pay',
-    wrapperCol: 15,
-    component: 'Checkbox'
-  },
-  {
-    label: '注册',
-    name: 'register',
     wrapperCol: 15,
     component: 'Checkbox'
   }

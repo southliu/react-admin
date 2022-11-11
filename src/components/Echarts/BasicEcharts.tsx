@@ -1,50 +1,75 @@
-import type { ECBasicOption } from 'echarts/types/dist/shared'
-import { useEffect, useRef } from 'react'
+import type { EChartsCoreOption } from "echarts"
+import { useEffect, useRef, useCallback, useState } from 'react'
 import echarts from './lib/echarts'
 
 interface IProps {
   className?: string;
   width?: number | string;
   height?: number | string;
-  option: ECBasicOption;
+  option: EChartsCoreOption;
 }
 
 function BasicEcharts(props: IProps) {
   let { width, height } = props
-  const { className } = props
+  const { className, option } = props
   const chartRef = useRef<HTMLDivElement>(null)
+  const [isShow, setShow] = useState(false)
 
-  if (width === undefined) width = '100%'
-  if (height === undefined) height = '100%'
+  if (!width) width = '100%'
+  if (!height) height = '100%'
 
+  // 100毫秒后显示echarts
   useEffect(() => {
-    // 初始化chart
-    const chartInstance = echarts.init(chartRef.current as HTMLDivElement)
-    chartInstance.setOption(props.option)
-  }, [props.option])
+    setTimeout(() => {
+      setShow(true)
+    }, 100)
+  }, [])
+
+  /** 销毁echarts */
+  const dispose = () => {
+    if (chartRef.current && echarts !== null && echarts !== undefined) {
+      echarts?.dispose(chartRef.current)
+    }
+  }
+
+  /** 初始化 */
+  const init = useCallback(() => {
+    if (isShow) {
+      // 摧毁echarts后在初始化
+      dispose()
+
+      // 初始化chart
+      const chartInstance = echarts.init(chartRef.current as HTMLDivElement)
+      chartInstance.setOption(option)
+    }
+  }, [isShow, option])
 
   // 监听操作值
   useEffect(() => {
-    if (props.option) {
-      // 摧毁echarts后在初始化
-      if (chartRef.current && echarts !== null && echarts !== undefined) {
-        echarts?.dispose(chartRef.current)
-      }
-      // 转为宏任务防止宽度100%转为100px
-      setTimeout(() => {
-        // 初始化chart
-        const chartInstance = echarts.init(chartRef.current as HTMLDivElement)
-        chartInstance.setOption(props.option)
-      }, 0)
+    if (option) init()
+  }, [init, option])
+
+  useEffect(() => {
+    init()
+    window.addEventListener("resize", () => init(), false)
+
+    return () => {
+      window.removeEventListener("resize", () => init())
+      dispose()
     }
-  }, [props.option])
+  }, [init])
 
   return (
-    <div
-      ref={chartRef}
-      className={`echarts ${className}`}
-      style={{ height, width }}
-    ></div>
+    <>
+      {
+        isShow &&
+        <div
+          ref={chartRef}
+          className={`echarts ${className}`}
+          style={{ height, width }}
+        ></div>
+      }
+    </>
   )
 }
 

@@ -3,11 +3,12 @@ import type { ItemType } from 'antd/lib/menu/hooks/useItems'
 import type { IPasswordModal } from './UpdatePassword'
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useAliveController } from 'react-activation'
 import { toggleCollapsed } from '@/stores/menu'
 import { useNavigate } from 'react-router-dom'
 import { useToken } from '@/hooks/useToken'
 import { clearInfo } from '@/stores/user'
-import { closeAllTab } from '@/stores/tabs'
+import { closeAllTab, setActiveKey } from '@/stores/tabs'
 import {
   Menu,
   Modal,
@@ -36,6 +37,7 @@ function Header() {
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
   const [, , removeToken] = useToken()
+  const { clear } = useAliveController()
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   const nav = useSelector((state: RootState) => state.tabs.nav)
@@ -88,7 +90,9 @@ function Header() {
       onOk() {
         dispatch(clearInfo())
         dispatch(closeAllTab())
+        dispatch(setActiveKey(''))
         removeToken()
+        clear() // 清除keepalive缓存
         navigate('/login')
       }
     })

@@ -24,7 +24,6 @@ function Dashboard() {
   const handleSearch = useCallback(async (values: IFormData) => {
     // 数据转换
     values.all_pay = values.all_pay ? 1 : undefined
-    values.register = values.register ? 1 : undefined
 
     const query = { ...values }
     try {
