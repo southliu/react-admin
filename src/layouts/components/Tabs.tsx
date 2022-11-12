@@ -106,6 +106,7 @@ function LayoutTabs() {
     // 定时器没有执行时运行
     if (!time) {
       setRefresh(true)
+      refresh(key)
       navigate('/loading')
 
       setTime(
@@ -117,7 +118,6 @@ function LayoutTabs() {
 
           setRefresh(false)
           navigate(key)
-          refresh(key)
           message.success({
             content: '刷新成功',
             key: 'refresh'
