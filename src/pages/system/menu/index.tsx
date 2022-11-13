@@ -110,12 +110,10 @@ function Page() {
    * @param id - 唯一值
    */
   const onUpdate = async (id: string) => {
-    setCreateOpen(true)
-    setCreateTitle(EDIT_TITLE(id))
-    setCreateId(id)
-    setCreateData(initCreate)
-
     try {
+      setCreateOpen(true)
+      setCreateTitle(EDIT_TITLE(id))
+      setCreateId(id)
       setCreateLoading(true)
       const { data: { data } } = await getMenuById(id as string)
       setCreateData(data)
@@ -145,10 +143,10 @@ function Page() {
       setCreateLoading(true)
       const functions = () => createId ? updateMenu(createId, values) : createMenu(values)
       const { data } = await functions()
-      getPage()
-      setCreateOpen(false)
-      createFormRef.current?.handleReset()
       message.success(data?.message || '操作成功')
+      createFormRef.current?.handleReset()
+      setCreateOpen(false)
+      getPage()
     } finally {
       setCreateLoading(false)
     }

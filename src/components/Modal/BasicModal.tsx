@@ -8,10 +8,10 @@ import Draggable from 'react-draggable'
 
 function BasicModal(props: ModalProps) {
   const { onCancel } = props
-  const draggleRef = useRef<HTMLDivElement>(null)
   const [isDisabled, setDisabled] = useState(true)
   const [isFullscreen, setFullscreen] = useState(false)
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 })
+  const draggleRef = useRef<HTMLDivElement>(null)
 
   /** 开始拖拽对话框 */
   const onStartMouse = (_event: DraggableEvent, uiData: DraggableData) => {

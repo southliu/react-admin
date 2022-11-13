@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom"
-import { BrowserRouter, useRoutes } from "react-router-dom"
+import { HashRouter as Router, useRoutes } from "react-router-dom"
 import { layoutRoutes } from "./utils/helper"
 import { useEffect } from "react"
 import nprogress from 'nprogress'
@@ -22,7 +22,7 @@ const newRoutes: RouteObject[] = [
   }
 ]
 
-function Router() {
+function Page() {
   // 顶部进度条
   useEffect(() => {
     nprogress.done()
@@ -40,10 +40,10 @@ function Router() {
   }
 
   return (
-    <BrowserRouter>
+    <Router>
       <App />
-    </BrowserRouter>
+    </Router>
   )
 }
 
-export default Router
+export default Page

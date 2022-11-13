@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Dropdown } from 'antd'
 import { Icon } from '@iconify/react'
-import DropdownMenu from './DropdownMenu'
+import { useDropdownMenu } from '../hooks/useDropdownMenu'
 
 interface IProps {
   activeKey: string;
@@ -20,16 +20,14 @@ function TabOptions(props: IProps) {
     setOpen(open)
   }
 
+  // 下拉菜单
+  const dropdownMenuParams = { activeKey, onOpenChange, handleRefresh }
+  const [items, onClick] = useDropdownMenu(dropdownMenuParams)
+
   return (
     <Dropdown
       trigger={['click']}
-      overlay={(
-        <DropdownMenu
-          activeKey={activeKey}
-          onOpenChange={onOpenChange}
-          handleRefresh={handleRefresh}
-        />
-      )}
+      menu={{ items, onClick }}
       onOpenChange={onOpenChange}
     >
       <Icon

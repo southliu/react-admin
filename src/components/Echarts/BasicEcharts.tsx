@@ -46,8 +46,8 @@ function BasicEcharts(props: IProps) {
 
   // 监听操作值
   useEffect(() => {
-    if (option) init()
-  }, [init, option])
+    if (option && isShow) init()
+  }, [init, isShow, option])
 
   useEffect(() => {
     init()

@@ -1,7 +1,7 @@
-import type { ECBasicOption } from 'echarts/types/dist/shared'
+import type { EChartsCoreOption } from "echarts"
 import Echarts from '@/components/Echarts/BasicEcharts'
 
-const option: ECBasicOption = {
+const option: EChartsCoreOption = {
   title: {
     text: '当日充值排行',
     left: 30,

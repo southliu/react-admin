@@ -7,13 +7,13 @@ import { message, Tabs, Dropdown } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setActiveKey, addTabs, closeTabs, setNav } from '@/stores/tabs'
 import { useAliveController } from 'react-activation'
+import { useDropdownMenu } from '../hooks/useDropdownMenu'
 import { useDispatch, useSelector } from 'react-redux'
 import { setOpenKey } from '@/stores/menu'
 import styles from '../index.module.less'
 import TabRefresh from './TabRefresh'
 import TabMaximize from './TabMaximize'
 import TabOptions from './TabOptions'
-import DropdownMenu from './DropdownMenu'
 
 function LayoutTabs() {
   const navigate = useNavigate()
@@ -161,18 +161,17 @@ function LayoutTabs() {
     { element: TabMaximizeRender }
   ]
 
+  // 下拉菜单
+  const dropdownMenuParams = { activeKey, handleRefresh: onClickRefresh }
+  const [items, onClick] = useDropdownMenu(dropdownMenuParams)
+
   /** 二次封装标签 */
   const renderTabBar: TabsProps['renderTabBar'] = (tabBarProps, DefaultTabBar) => (
     <DefaultTabBar {...tabBarProps}>
       { node => (
         <Dropdown
           key={node.key}
-          overlay={(
-            <DropdownMenu
-              activeKey={node.key as string}
-              handleRefresh={onClickRefresh}
-            />
-          )}
+          menu={{ items, onClick }}
           trigger={['contextMenu']}
         >
           <div className='mr-3px'>

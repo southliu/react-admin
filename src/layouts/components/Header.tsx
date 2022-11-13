@@ -1,5 +1,4 @@
 import type { AppDispatch, RootState } from '@/stores'
-import type { ItemType } from 'antd/lib/menu/hooks/useItems'
 import type { IPasswordModal } from './UpdatePassword'
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,12 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { useToken } from '@/hooks/useToken'
 import { clearInfo } from '@/stores/user'
 import { closeAllTab, setActiveKey } from '@/stores/tabs'
-import {
-  Menu,
-  Modal,
-  Dropdown,
-  MenuProps
-} from 'antd'
+import { Modal, Dropdown, MenuProps } from 'antd'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -44,7 +38,7 @@ function Header() {
   const passwordRef = useRef<IPasswordModal>(null)
 
   // 下拉菜单内容
-  const menuList: ItemType[] = [
+  const items: MenuProps['items'] = [
     {
       key: 'password',
       label: (<span>修改密码</span>),
@@ -73,14 +67,6 @@ function Header() {
     }
   }
 
-  // 下拉菜单内容
-  const menu = (
-    <Menu
-      onClick={onClick}
-      items={menuList}
-    />
-  )
-
   /** 退出登录 */
   const handleLogout = () => {
     Modal.confirm({
@@ -106,7 +92,7 @@ function Header() {
         <Fullscreen />
         <Dropdown
           className="min-w-50px"
-          overlay={menu}
+          menu={{ items, onClick }}
         >
           <div
             className="ant-dropdown-link flex items-center cursor-pointer"
