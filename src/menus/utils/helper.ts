@@ -39,7 +39,7 @@ function matchPath(path: string, arr: IMenuPath[]): string[] {
     const { path } = arr[i]
     if (path?.[left] === pathArr[left]) {
       result.push(arr[i].label)
-      left++
+      if (left < right - 1) left++
     }
     if (left === right) return result
   }
