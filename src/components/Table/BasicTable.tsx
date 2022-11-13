@@ -1,7 +1,7 @@
 import type { ResizeCallbackData } from 'react-resizable'
 import type { ColumnsType, ColumnType } from 'antd/es/table'
 import type { TableProps } from 'antd'
-import { memo, useMemo, useState } from 'react'
+import { useMemo, useState, useEffect, memo } from 'react'
 import { Table } from 'antd'
 import { getTableHeight } from './utils/helper'
 import ResizableTitle from './components/ResizableTitle'
@@ -28,9 +28,12 @@ function BasicTable(props: IProps) {
   } = props
   const [columns, setColumns] = useState(props.columns as ColumnsType<object>)
 
+  useEffect(() => {
+    setColumns(props.columns as ColumnsType<object>)
+  }, [props.columns])
+
   // 表格高度
   const tableHeight = getTableHeight()
-
   /**
    * 处理拖拽
    * @param index - 下标
