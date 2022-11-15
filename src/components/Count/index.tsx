@@ -10,21 +10,36 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
 function Count(props: IProps) {
   const { prefix, start, end } = props
   const [num, setNum] = useState(start)
+  const [timer, setTimer] = useState<NodeJS.Timer | null>(null)
 
   useEffect(() => {
     const count = end - start
     const time = 2 * 60
     const add = Math.floor(count / time) || 1
-    setInterval(() => {
+    setTimer(setInterval(() => {
       setNum(num => num + add)
-    })
+    }))
   }, [end, start])
 
   useEffect(() => {
     if (num >= end) {
+      if (timer) {
+        clearInterval(timer)
+        setTimer(null)
+      }
+      
       setNum(end)
     }
-  }, [end, num])
+  }, [end, num, timer])
+
+  useEffect(() => {
+    return () => {
+      if (timer) {
+        clearInterval(timer)
+        setTimer(null)
+      }
+    }
+  }, [timer])
 
   return (
     <span>{ prefix }{ amountFormatter(num) }</span>
