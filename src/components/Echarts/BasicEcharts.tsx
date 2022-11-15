@@ -14,16 +14,26 @@ function BasicEcharts(props: IProps) {
   const { className, option } = props
   const chartRef = useRef<HTMLDivElement>(null)
   const [isShow, setShow] = useState(false)
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
 
   if (!width) width = '100%'
   if (!height) height = '100%'
 
   // 100毫秒后显示echarts
   useEffect(() => {
-    setTimeout(() => {
+    setTimer(setTimeout(() => {
       setShow(true)
-    }, 100)
+    }, 100))
   }, [])
+
+  useEffect(() => {
+    return () => {
+      if (timer) {
+        clearTimeout(timer)
+        setTimer(null)
+      }
+    }
+  }, [timer])
 
   /** 销毁echarts */
   const dispose = () => {
