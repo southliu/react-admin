@@ -13,6 +13,7 @@ function TabRefresh(props: IProps) {
     <Tooltip title="重新加载" placement="bottom">
       <Icon
         className={`
+          change
           flex
           items-center
           justify-center

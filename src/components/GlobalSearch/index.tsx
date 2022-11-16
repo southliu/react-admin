@@ -1,7 +1,7 @@
 import type { ISearchModal } from './components/SearchModal'
 import { useRef } from 'react'
-import { SearchOutlined } from '@ant-design/icons'
 import { Tooltip } from 'antd'
+import { Icon } from '@iconify/react'
 import SearchModal from './components/SearchModal'
 
 /**
@@ -18,12 +18,12 @@ function GlobalSearch() {
   return (
     <>
       <Tooltip title='搜索'>
-        <SearchOutlined
-          className="text-lg mr-3"
+        <Icon
+          className="flex items-center justify-center text-lg mr-3"
+          icon="uil-search"
           onClick={toggle}
         />
       </Tooltip>
-
       <SearchModal
         modalRef={modalRef}
       />

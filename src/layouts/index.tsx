@@ -84,7 +84,7 @@ function Layout() {
   }, [])
 
   return (
-    <div id="layout" className='bg-white'>
+    <div id="layout">
       <div className={`
         transition-all
         ${styles.header}
@@ -100,7 +100,6 @@ function Layout() {
         id="layoutContent"
         className={`
           overflow-auto
-          bg-white
           transition-all
           ${styles.con}
           ${isMaximize ? styles.conMaximize : ''}

@@ -19,7 +19,6 @@ function BasicPagination(props: PaginationProps) {
         flex
         items-center
         justify-end
-        bg-white
         px-5
         min-h-40px
         z-999

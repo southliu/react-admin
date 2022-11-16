@@ -10,6 +10,7 @@ import { store } from './stores'
 import 'virtual:uno.css'
 import "nprogress/nprogress.css"
 import "@/assets/css/scrollbar.less"
+import '@/assets/css/theme-color.less'
 
 // antd
 import { ConfigProvider } from 'antd'

@@ -45,7 +45,7 @@ function BasicModal(props: ModalProps) {
   const CloseRender = () => (
     <div className="flex items-center justify-end absolute right-15px">
       <Tooltip
-        className="text-#00000073 hover:text-#404040"
+        className="hover:text-#404040"
         placement="bottom"
         title={!isFullscreen ? '最大化' : '退出最大化'}
       >
@@ -60,7 +60,6 @@ function BasicModal(props: ModalProps) {
         </div>
       </Tooltip>
       <Tooltip
-        className="text-#00000073 hover:text-#404040"
         placement="bottom"
         title="关闭"
       >

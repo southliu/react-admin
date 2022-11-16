@@ -20,6 +20,7 @@ import Avatar from '@/assets/images/avatar.png'
 import styles from '../index.module.less'
 import Fullscreen from '@/components/Fullscreen'
 import GlobalSearch from '@/components/GlobalSearch'
+import Theme from '@/components/Theme'
 import UpdatePassword from './UpdatePassword'
 import Nav from './Nav'
 
@@ -90,6 +91,7 @@ function Header() {
       <div className="flex items-center">
         <GlobalSearch />
         <Fullscreen />
+        <Theme />
         <Dropdown
           className="min-w-50px"
           menu={{ items, onClick }}

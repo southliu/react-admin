@@ -1,0 +1,58 @@
+@import "./default.less";
+
+/**
+ * 修改主题
+ * @param color - 字体颜色
+ * @param bgColor - 背景颜色
+ */
+.changeTheme(@color: @primaryColor, @bgColor: @primaryBg, @svgColor: @svgColor) {
+  color: @color !important;
+  background: @bgColor !important;
+  
+  .change svg {
+    color: @svgColor !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: @color !important;
+  }
+
+  #searches, #container, #pagination {
+    color: @color !important;
+    background: @bgColor !important;
+  }
+
+  // antd
+  .ant-breadcrumb-separator, .whitespace-nowrap, .ant-pagination-total-text, .ant-tabs-tab-remove {
+    color: @color !important;
+  }
+
+  .ant-tabs-tab {
+    background: @bgColor !important;
+  }
+
+  .ant-tabs-tab-active {
+    background-color: #1d4ed8 !important;
+
+    .ant-tabs-tab-remove {
+      color: #fff !important;
+    }
+
+    .ant-tabs-tab-btn {
+      color: #fff !important;
+    }
+  }
+
+  .ant-tabs, .ant-pagination {
+    color: @color !important;
+  }
+
+  #searches .ant-form-item-label > label {
+    color: @color !important;
+  }
+
+  .ant-table, .ant-table-cell {
+    color: @color !important;
+    background: @bgColor !important;
+  }
+}

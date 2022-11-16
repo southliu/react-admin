@@ -1,6 +1,4 @@
-import type { RootState } from '@/stores'
 import { Breadcrumb } from 'antd'
-import { useSelector } from 'react-redux'
 
 const { Item } = Breadcrumb
 
@@ -11,29 +9,22 @@ interface IProps {
 
 function Nav(props: IProps) {
   const { className, list } = props
-  // 是否手机端
-  const isPhone = useSelector((state: RootState) => state.menu.isPhone)
 
   return (
-    <>
-      {
-        !isPhone &&
-        <div className={className}>
-          <Breadcrumb>
-            {
-              list?.map(item => (
-                <Item
-                  key={item}
-                  className='whitespace-nowrap'
-                >
-                  { item }
-                </Item>
-              ))
-            }
-          </Breadcrumb>
-        </div>
-      }
-    </>
+    <div className={className}>
+      <Breadcrumb>
+        {
+          list?.map(item => (
+            <Item
+              key={item}
+              className='whitespace-nowrap'
+            >
+              { item }
+            </Item>
+          ))
+        }
+      </Breadcrumb>
+    </div>
   )
 }
 

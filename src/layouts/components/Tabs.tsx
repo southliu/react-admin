@@ -208,11 +208,11 @@ function LayoutTabs() {
               key={index}
               className={`
                 ${styles.leftDivide}
+                change
                 divide-solid
                 w-36px
                 h-36px
-                text-#00000073
-                hover:text-#404040
+                hover:opacity-70
                 flex
                 place-content-center
                 items-center
