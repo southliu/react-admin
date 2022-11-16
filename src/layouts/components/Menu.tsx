@@ -8,9 +8,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { defaultMenus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { setOpenKeys } from '@/stores/menu'
+import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
 import {
   filterMenus,
   getFirstMenu,
+  getMenuByKey,
   getOpenMenuByRouter,
   splitPath
 } from '@/menus/utils/helper'
@@ -54,6 +56,13 @@ function LayoutMenu() {
    */
   const goPath = (path: string) => {
     navigate(path)
+    const menuByKeyProps = { menus, permissions, key: path }
+    const newTab = getMenuByKey(menuByKeyProps)
+    if (newTab) {
+      dispatch(setActiveKey(newTab.key))
+      dispatch(setNav(newTab.nav))
+      dispatch(addTabs(newTab))
+    }
   }
 
   /** 
