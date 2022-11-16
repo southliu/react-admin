@@ -3,7 +3,7 @@ import type { AppDispatch, RootState } from '@/stores'
 import { Fragment } from 'react'
 import { Icon } from '@iconify/react'
 import { useNavigate } from 'react-router-dom'
-import { setOpenKey } from '@/stores/menu'
+import { setOpenKeys } from '@/stores/menu'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
 import { addTabs, setActiveKey } from '@/stores/tabs'
@@ -26,7 +26,7 @@ function SearchResult(props: IProps) {
    * 点击菜单跳转页面
    * @param key - 唯一值
    */
-  const onclick = (key: string) => {
+  const onClick = (key: string) => {
     navigate(key)
     // 添加标签
     const menuByKeyProps = { menus: defaultMenus, permissions, key }
@@ -34,8 +34,8 @@ function SearchResult(props: IProps) {
     dispatch(addTabs(newTab))
     dispatch(setActiveKey(key))
     // 处理菜单展开
-    const openKey = getOpenMenuByRouter(key)
-    dispatch(setOpenKey(openKey))
+    const openKeys = getOpenMenuByRouter(key)
+    dispatch(setOpenKeys(openKeys))
     // 关闭
     onCancel()
   }
@@ -84,7 +84,7 @@ function SearchResult(props: IProps) {
                 border-light-500
                 ${active === item.key ? 'bg-blue-500 text-white' : ''}
               `}
-              onClick={() => onclick(item.key)}
+              onClick={() => onClick(item.key)}
               onMouseEnter={() => onMouseEnter(item.key)}
             >
             <div className="flex items-center">

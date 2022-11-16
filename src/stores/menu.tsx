@@ -5,7 +5,7 @@ const menuSlice = createSlice({
   initialState: {
     isPhone: false,
     isCollapsed: false,
-    openKey: ['Dashboard'], // 菜单展开项
+    openKeys: ['Dashboard'], // 菜单展开项
   },
   reducers: {
     toggleCollapsed: (state, action) => {
@@ -14,8 +14,8 @@ const menuSlice = createSlice({
     togglePhone: (state, action) => {
       state.isPhone = !!action.payload
     },
-    setOpenKey: (state, action) => {
-      state.openKey = action.payload
+    setOpenKeys: (state, action) => {
+      state.openKeys = action.payload
     }
   }
 })
@@ -23,7 +23,7 @@ const menuSlice = createSlice({
 export const {
   toggleCollapsed,
   togglePhone,
-  setOpenKey
+  setOpenKeys
 } = menuSlice.actions
 
 export default menuSlice.reducer

@@ -7,12 +7,10 @@ import { RootState } from '@/stores'
 import { useDispatch, useSelector } from 'react-redux'
 import { defaultMenus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { setOpenKey } from '@/stores/menu'
-import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
+import { setOpenKeys } from '@/stores/menu'
 import {
   filterMenus,
   getFirstMenu,
-  getMenuByKey,
   getOpenMenuByRouter,
   splitPath
 } from '@/menus/utils/helper'
@@ -24,7 +22,7 @@ function LayoutMenu() {
   const location = useLocation()
   const dispatch: AppDispatch = useDispatch()
   const [menus, setMenus] = useState<ISideMenu[]>([])
-  const openKey = useSelector((state: RootState) => state.menu.openKey)
+  const openKeys = useSelector((state: RootState) => state.menu.openKeys)
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   // 菜单是否收缩
@@ -38,7 +36,7 @@ function LayoutMenu() {
   useEffect(() => {
     const { pathname } = location
     const newOpenKey = getOpenMenuByRouter(pathname)
-    dispatch(setOpenKey(newOpenKey))
+    dispatch(setOpenKeys(newOpenKey))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])
 
@@ -56,13 +54,6 @@ function LayoutMenu() {
    */
   const goPath = (path: string) => {
     navigate(path)
-    const menuByKeyProps = { menus, permissions, key: path }
-    const newTab = getMenuByKey(menuByKeyProps)
-    if (newTab) {
-      dispatch(setActiveKey(newTab.key))
-      dispatch(setNav(newTab.nav))
-      dispatch(addTabs(newTab))
-    }
   }
 
   /** 
@@ -93,27 +84,27 @@ function LayoutMenu() {
 
   /**
    * 展开/关闭回调
-   * @param openKey - 展开键值
+   * @param openKeys - 展开键值
    */
-  const onOpenChange = (openKey: string[]) => {
+  const onOpenChange = (openKeys: string[]) => {
     const newOpenKey: string[] = []
     let last = '' // 最后一个目录结构
 
     // 当目录有展开值
-    if (openKey.length > 0) {
-      last = openKey[openKey.length - 1]
+    if (openKeys.length > 0) {
+      last = openKeys[openKeys.length - 1]
       const lastArr: string[] = splitPath(last)
       newOpenKey.push(last)
 
       // 对比当前展开目录是否是同一层级
-      for (let i = openKey.length - 2; i >= 0; i--) {
-        const arr = splitPath(openKey[i])
+      for (let i = openKeys.length - 2; i >= 0; i--) {
+        const arr = splitPath(openKeys[i])
         const hasOpenKey = diffOpenMenu(arr, lastArr)
-        if (hasOpenKey) newOpenKey.unshift(openKey[i])
+        if (hasOpenKey) newOpenKey.unshift(openKeys[i])
       }
     }
 
-    dispatch(setOpenKey(newOpenKey))
+    dispatch(setOpenKeys(newOpenKey))
   }
 
   /** 点击logo */
@@ -166,7 +157,7 @@ function LayoutMenu() {
       </div>
       <Menu
         selectedKeys={[location.pathname]}
-        openKeys={openKey}
+        openKeys={openKeys}
         mode="inline"
         theme="dark"
         inlineCollapsed={isCollapsed}

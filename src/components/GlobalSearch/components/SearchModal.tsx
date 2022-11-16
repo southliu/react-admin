@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import { useKeyStroke } from '@/hooks/useKeyStroke'
 import { getMenuByKey, getOpenMenuByRouter, searchMenuValue } from '@/menus/utils/helper'
 import { addTabs, setActiveKey } from '@/stores/tabs'
-import { setOpenKey } from '@/stores/menu'
+import { setOpenKeys } from '@/stores/menu'
 import SearchResult from './SearchResult'
 import SearchFooter from './SearchFooter'
 
@@ -87,8 +87,8 @@ function SearchModal(props: IProps) {
       dispatch(addTabs(newTab))
       dispatch(setActiveKey(active))
       // 处理菜单展开
-      const openKey = getOpenMenuByRouter(active)
-      dispatch(setOpenKey(openKey))
+      const openKeys = getOpenMenuByRouter(active)
+      dispatch(setOpenKeys(openKeys))
       // 关闭
       onClose()
     }

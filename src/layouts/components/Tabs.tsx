@@ -1,7 +1,7 @@
 import type { TabsProps } from 'antd'
 import type { AppDispatch, RootState } from '@/stores'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
+import { getMenuByKey } from '@/menus/utils/helper'
 import { defaultMenus } from '@/menus'
 import { message, Tabs, Dropdown } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -9,7 +9,6 @@ import { setActiveKey, addTabs, closeTabs, setNav } from '@/stores/tabs'
 import { useAliveController } from 'react-activation'
 import { useDropdownMenu } from '../hooks/useDropdownMenu'
 import { useDispatch, useSelector } from 'react-redux'
-import { setOpenKey } from '@/stores/menu'
 import styles from '../index.module.less'
 import TabRefresh from './TabRefresh'
 import TabMaximize from './TabMaximize'
@@ -61,10 +60,6 @@ function LayoutTabs() {
     if (activeKey && activeKey !== location.pathname) {
       navigate(activeKey)
       handleAddTab(activeKey)
-
-      // 处理菜单展开
-      const openKey = getOpenMenuByRouter(activeKey)
-      dispatch(setOpenKey(openKey))
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeKey, location.pathname])
