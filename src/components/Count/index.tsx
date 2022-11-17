@@ -27,7 +27,7 @@ function Count(props: IProps) {
         clearInterval(timer)
         setTimer(null)
       }
-      
+
       setNum(end)
     }
   }, [end, num, timer])
