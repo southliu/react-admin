@@ -73,6 +73,7 @@ function LayoutMenu() {
    */
   const onClick: MenuProps['onClick'] = e => {
     goPath(e.key)
+    if (isPhone) hiddenMenu()
   }
 
   /**
@@ -122,10 +123,11 @@ function LayoutMenu() {
   const onClickLogo = () => {
     const firstMenu = getFirstMenu(menus, permissions)
     goPath(firstMenu)
+    if (isPhone) hiddenMenu()
   }
 
   /** 隐藏菜单 */
-  const hideMenu = () => {
+  const hiddenMenu = () => {
     dispatch(toggleCollapsed(true))
   }
 
@@ -189,7 +191,7 @@ function LayoutMenu() {
         isPhone && !isCollapsed &&
         <div
           className={`${styles.cover} fixed w-full h-full bg-gray-500 bg-opacity-10 z-1001`}
-          onClick={hideMenu}
+          onClick={hiddenMenu}
         />
       }
     </>
