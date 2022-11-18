@@ -38,7 +38,9 @@ function LayoutMenu() {
   useEffect(() => {
     const { pathname } = location
     const newOpenKey = getOpenMenuByRouter(pathname)
-    dispatch(setOpenKeys(newOpenKey))
+    if (!isPhone && !isCollapsed) {
+      dispatch(setOpenKeys(newOpenKey))
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])
 
@@ -167,7 +169,7 @@ function LayoutMenu() {
       <Menu
         className="h-full z-1000"
         selectedKeys={[location.pathname]}
-        openKeys={!isCollapsed && !isPhone ? openKeys : []}
+        openKeys={openKeys}
         mode="inline"
         theme="dark"
         inlineCollapsed={isCollapsed}
