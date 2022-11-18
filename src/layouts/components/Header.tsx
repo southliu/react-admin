@@ -119,7 +119,10 @@ function Header() {
   /** icon渲染 */
   const IconRender = () => {
     return (
-      <div className="text-lg cursor-pointer" onClick={() => dispatch(toggleCollapsed(!isCollapsed))}>
+      <div
+        className="text-lg cursor-pointer"
+        onClick={() => dispatch(toggleCollapsed(!isCollapsed))}
+      >
         { isCollapsed && <MenuUnfoldOutlined /> }
         { !isCollapsed && <MenuFoldOutlined /> }
       </div>

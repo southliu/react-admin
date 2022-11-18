@@ -85,47 +85,48 @@ function Layout() {
 
   return (
     <div id="layout">
-      <div className={`
-        transition-all
-        ${styles.header}
-        ${isCollapsed ? styles.headerCloseMenu : ''}
-        ${isMaximize ? styles.headerNone : ''}
-        ${isPhone && isCollapsed ? `!left-0 z-999` : ''}
-      `}>
-        <Header />
-        <Tabs />
-      </div>
       <Menu />
-      <div
-        id="layoutContent"
-        className={`
-          min-w-980px
-          overflow-auto
+      <div className={styles.layout_right}>
+        <div className={`
           transition-all
-          ${styles.con}
-          ${isMaximize ? styles.conMaximize : ''}
-          ${isCollapsed ? styles.conCloseMenu : ''}
-          ${isPhone && isCollapsed ? `!left-0` : ''}
-        `}
-      >
-        {
-          isLoading &&
-          permissions.length === 0 &&
-          <Skeleton
-            active
-            className='p-30px'
-            paragraph={{ rows: 10 }}
-          />
-        }
-        {
-          !isLoading &&
-          permissions.length === 0 &&
-          <Forbidden />
-        }
-        {
-          permissions.length > 0 &&
-          <Outlet />
-        }
+          ${styles.header}
+          ${isCollapsed ? styles.headerCloseMenu : ''}
+          ${isMaximize ? styles.headerNone : ''}
+          ${isPhone ? `!left-0 z-999` : ''}
+        `}>
+          <Header />
+          <Tabs />
+        </div>
+        <div
+          id="layoutContent"
+          className={`
+            overflow-auto
+            transition-all
+            ${styles.con}
+            ${isMaximize ? styles.conMaximize : ''}
+            ${isCollapsed ? styles.conCloseMenu : ''}
+            ${isPhone ? `!left-0` : ''}
+          `}
+        >
+          {
+            isLoading &&
+            permissions.length === 0 &&
+            <Skeleton
+              active
+              className='p-30px'
+              paragraph={{ rows: 10 }}
+            />
+          }
+          {
+            !isLoading &&
+            permissions.length === 0 &&
+            <Forbidden />
+          }
+          {
+            permissions.length > 0 &&
+            <Outlet />
+          }
+        </div>
       </div>
     </div>
   )
