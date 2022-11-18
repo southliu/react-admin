@@ -167,7 +167,7 @@ function LayoutMenu() {
       <Menu
         className="h-full z-1000"
         selectedKeys={[location.pathname]}
-        openKeys={openKeys}
+        openKeys={!isCollapsed && !isPhone ? openKeys : []}
         mode="inline"
         theme="dark"
         inlineCollapsed={isCollapsed}
