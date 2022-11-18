@@ -18,9 +18,7 @@ function BasicContent(props: IProps) {
         <div
           id="content"
           className={`
-            h-full
             relative
-            overflow-auto
             box-border
             px-5
             pt-5

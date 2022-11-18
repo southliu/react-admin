@@ -99,6 +99,7 @@ function Layout() {
       <div
         id="layoutContent"
         className={`
+          min-w-980px
           overflow-auto
           transition-all
           ${styles.con}

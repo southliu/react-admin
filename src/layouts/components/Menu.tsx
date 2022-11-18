@@ -165,6 +165,7 @@ function LayoutMenu() {
         </span>
       </div>
       <Menu
+        className="h-full z-1000"
         selectedKeys={[location.pathname]}
         openKeys={openKeys}
         mode="inline"
