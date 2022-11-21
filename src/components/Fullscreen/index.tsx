@@ -1,14 +1,12 @@
 import { Tooltip } from 'antd'
 import { Icon } from '@iconify/react'
-import { useFullscreen } from 'ahooks'
+import { useFullscreen } from '@/hooks/useFullscreen'
 
 /**
  * @description: 全屏组件
  */
 function Fullscreen() {
-  const [isFullscreen, { toggleFullscreen }] = useFullscreen(
-    () => document.getElementById('layout')
-  )
+  const [isFullscreen, toggleFullscreen] = useFullscreen()
 
   return (
     <Tooltip title={ isFullscreen ? '退出全屏' : '全屏' }>
