@@ -19,7 +19,7 @@ function Nav(props: IProps) {
     <>
       {
         !isPhone &&
-        <div className={className}>
+        <div className={`${className} flex items-center`}>
           <Breadcrumb>
             {
               list?.map(item => (
