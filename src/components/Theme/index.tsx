@@ -5,8 +5,11 @@ import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
 import { THEME_KEY } from '@/utils/config'
 import { useDispatch } from 'react-redux'
+import { useAliveController } from 'react-activation'
 
 function Theme() {
+  const { clear, refresh, getCachingNodes } = useAliveController()
+  const cacheNodes = getCachingNodes()
   const dispatch: AppDispatch = useDispatch()
   const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as IThemeType
   const [theme, setTheme] = useState<IThemeType>(themeCache)
@@ -22,10 +25,25 @@ function Theme() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [themeCache])
 
+  /** 刷新全部keepalive */
+  const refreshAllKeepalive = () => {
+    for (let i = 0; i < cacheNodes?.length; i++) {
+      const { name } = cacheNodes[i]
+      if (name) refresh(name)
+    }
+  }
+
+  /**
+   * 处理更新
+   * @param type - 主题类型
+   */
   const onChange = (type: IThemeType) => {
     localStorage.setItem(THEME_KEY, type)
     dispatch(setThemeValue(type))
     setTheme(type)
+
+    clear()
+    refreshAllKeepalive()
 
     switch (type) {
       case 'dark':
