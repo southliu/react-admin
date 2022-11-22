@@ -69,6 +69,7 @@ function Login() {
           p-30px
           rounded-5px
           bg-white
+          box-border
           absolute
           left-1/2
           top-1/2
