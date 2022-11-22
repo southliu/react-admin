@@ -63,7 +63,7 @@ export const createList: (id: string) => IFormList[] = id => [
     component: 'Input'
   },
   {
-    label: '同时创建菜单',
+    label: '创建菜单',
     name: 'actions',
     hidden: !!id,
     component: 'CheckboxGroup',
@@ -119,7 +119,7 @@ export const tableColumns = (optionRender: ITableOptions<IRowData>): ITableColum
       dataIndex: 'operate',
       width: 200,
       fixed: 'right',
-      render: (value, record) => optionRender(value, record as IRowData)
+      render: (value: unknown, record: IRowData) => optionRender(value, record)
     },
   ]
 }

@@ -1,6 +1,6 @@
 import type { SubMenuType } from 'antd/lib/menu/hooks/useItems'
 import type { ColumnsType } from 'antd/lib/table'
-import type { Moment } from 'moment'
+import type { Dayjs } from 'dayjs'
 
 // 区间值
 type EventValue<T> = T | null
@@ -17,7 +17,7 @@ type IObject = Record<string, IBasicData | IArrayData | IEmptyData | object | ob
 export type IObjectData = object | object[] | IObject
 
 // 时间
-export type IDateData = Moment | RangeValue<Moment>
+export type IDateData = Dayjs | RangeValue<Dayjs>
 
 // 空值
 export type IEmptyData = null | undefined

@@ -13,26 +13,22 @@ import "@/assets/css/scrollbar.less"
 import '@/assets/css/theme-color.less'
 
 // antd
-import { ConfigProvider } from 'antd'
-import zhCN from 'antd/es/locale/zh_CN'
-import 'antd/dist/antd.less'
 import '@/assets/css/antd.less'
 
+// keepalive
 import { AliveScope } from 'react-activation'
 
 // 时间设为中文
-import moment from 'moment'
-import 'moment/dist/locale/zh-cn'
-moment.locale('zh-cn')
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+dayjs.locale('zh-cn')
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <ConfigProvider locale={zhCN}>
+  <AliveScope>
     <Provider store={store}>
-      <AliveScope>
-        <Router />
-      </AliveScope>
+      <Router />
     </Provider>
-  </ConfigProvider>
+  </AliveScope>
 )
 
 // 关闭loading

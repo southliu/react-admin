@@ -31,7 +31,7 @@ function SearchModal(props: IProps) {
   const [value, setValue] = useState('') // 输入框值
   const [active, setActive] = useState('') // 选中值
   const [list, setList] = useState<ISideMenu[]>([])
-  const [isVisible, setVisible] = useState(false)
+  const [isOpen, setOpen] = useState(false)
   const dispatch: AppDispatch = useDispatch()
   const permissions = useSelector((state: RootState) => state.user.permissions)
 
@@ -40,14 +40,14 @@ function SearchModal(props: IProps) {
     modalRef,
     () => ({
       toggle: () => {
-        setVisible(!isVisible)
+        setOpen(!isOpen)
       }
     })
   )
 
   // 聚焦输入框
   useLayoutEffect(() => {
-    if (isVisible) {
+    if (isOpen) {
       // 转为宏任务防止聚焦失效
       setTimeout(() => {
         inputRef.current?.focus({
@@ -62,7 +62,7 @@ function SearchModal(props: IProps) {
       setActive('')
       setList([])
     })
-  }, [isVisible])
+  }, [isOpen])
 
   /**
    * 更改选中值
@@ -74,7 +74,7 @@ function SearchModal(props: IProps) {
 
   /** 关闭模态框 */
   const onClose = () => {
-    setVisible(false)
+    setOpen(false)
   }
 
   /** 点击回车 */
@@ -166,7 +166,7 @@ function SearchModal(props: IProps) {
   return (
     <Modal
       className="rounded-100px"
-      open={isVisible}
+      open={isOpen}
       closable={false}
       onCancel={onClose}
       footer={<SearchFooter />}

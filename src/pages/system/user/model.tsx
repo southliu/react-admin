@@ -106,7 +106,7 @@ export const tableColumns = (optionRender: ITableOptions<IRowData>): ITableColum
       dataIndex: 'operate',
       width: 200,
       fixed: 'right',
-      render: (value, record) => optionRender(value, record as IRowData)
+      render: (value: unknown, record: IRowData) => optionRender(value, record)
     },
   ]
 }

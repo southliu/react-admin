@@ -1,31 +1,23 @@
-import { useEffect, useState } from "react"
-
-const key = 'fullscreen'
+import type { AppDispatch, RootState } from "@/stores"
+import { setFullscreen } from "@/stores/public"
+import { useDispatch, useSelector } from "react-redux"
 
 export function useFullscreen() {
-  const [isFullscreen, setFullscreen] = useState(false)
-
-  const local = localStorage.getItem(key)
-  const isLocalFullscreen = local ? JSON.parse(local) : false
-
-  useEffect(() => {
-    setFullscreen(isLocalFullscreen)
-  }, [isLocalFullscreen])
+  const dispatch: AppDispatch = useDispatch()
+  const isFullscreen = useSelector((state: RootState) => state.public.isFullscreen)
 
   /** 切换全屏 */
   const toggleFullscreen = () => {
     // 全屏
     if(!isFullscreen && document.documentElement?.requestFullscreen) {
       document.documentElement.requestFullscreen()
-      localStorage.setItem(key, 'true')
-      setFullscreen(true)
+      dispatch(setFullscreen(true))
       return true
     }
     // 退出全屏
     if (isFullscreen && document?.exitFullscreen) {
       document.exitFullscreen()
-      localStorage.setItem(key, 'false')
-      setFullscreen(false)
+      dispatch(setFullscreen(false))
       return true
     }
   }

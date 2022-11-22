@@ -8,7 +8,7 @@ import { Form } from 'antd'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons'
 import { getComponent } from '../Form/utils/componentMap'
 import { handleValuePropName } from '../Form/utils/helper'
-import { filterMoment } from '../Dates/utils/helper'
+import { filterDayjs } from '../Dates/utils/helper'
 
 interface IProps {
   list: IFormList[];
@@ -76,8 +76,8 @@ function BasicSearch(props: IProps) {
    */
   const onFinish: FormProps['onFinish'] = values => {
     if (handleFinish) {
-      // 将Moment类型转为字符串
-      const params = filterMoment(values, list)
+      // 将dayjs类型转为字符串
+      const params = filterDayjs(values, list)
       handleFinish?.(params)
     }
   }

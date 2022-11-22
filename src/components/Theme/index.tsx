@@ -1,26 +1,30 @@
+import type { AppDispatch } from '@/stores'
+import { IThemeType, setThemeValue } from '@/stores/public'
 import { Tooltip } from 'antd'
 import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
-
-type IType = 'dark' | 'light'
-
-const key = 'theme'
+import { THEME_KEY } from '@/utils/config'
+import { useDispatch } from 'react-redux'
 
 function Theme() {
-  const themeCache = (localStorage.getItem(key) || 'light') as IType
-  const [theme, setTheme] = useState<IType>(themeCache)
+  const dispatch: AppDispatch = useDispatch()
+  const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as IThemeType
+  const [theme, setTheme] = useState<IThemeType>(themeCache)
 
   useEffect(() => {
     if (!themeCache) {
-      localStorage.setItem(key, 'light')
+      localStorage.setItem(THEME_KEY, 'light')
     }
     if (themeCache === 'dark') {
       document.body.className = 'theme-dark'
     }
+    dispatch(setThemeValue(themeCache === 'dark' ? 'dark' : 'light'))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [themeCache])
 
-  const onChange = (type: IType) => {
-    localStorage.setItem(key, type)
+  const onChange = (type: IThemeType) => {
+    localStorage.setItem(THEME_KEY, type)
+    dispatch(setThemeValue(type))
     setTheme(type)
 
     switch (type) {

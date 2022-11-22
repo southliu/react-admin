@@ -228,13 +228,14 @@ function Page() {
 
         <BasicPagination
           disabled={isLoading}
-          defaultCurrent={page}
-          defaultPageSize={pageSize}
+          current={page}
+          pageSize={pageSize}
           total={total}
           onChange={onChangePagination}
         />
 
         <BasicModal
+          width={600}
           title={createTitle}
           open={isCreateOpen}
           confirmLoading={isCreateLoading}
@@ -245,7 +246,8 @@ function Page() {
             formRef={createFormRef}
             list={createList(createId)}
             data={createData}
-            labelCol={{ span: 6 }}
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 18 }}
             handleFinish={handleCreate}
           />
         </BasicModal>

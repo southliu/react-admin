@@ -6,7 +6,7 @@ import { FormProps } from 'antd'
 import { Form } from 'antd'
 import { getComponent } from '../Form/utils/componentMap'
 import { handleValuePropName } from './utils/helper'
-import { filterMoment } from '../Dates/utils/helper'
+import { filterDayjs } from '../Dates/utils/helper'
 
 export interface IFormFn {
   getFieldValue: (key: string) => IFormData;
@@ -74,8 +74,8 @@ function BasicForm(props: IProps) {
    */
   const onFinish: FormProps['onFinish'] = values => {
     if (handleFinish) {
-      // 将Moment类型转为字符串
-      const params = filterMoment(values, list)
+      // 将dayjs类型转为字符串
+      const params = filterDayjs(values, list)
       handleFinish?.(params)
     }
   }

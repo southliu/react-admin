@@ -1,53 +1,53 @@
 import type { IFormData, IFormList } from '#/form'
-import type { Moment } from 'moment'
+import type { Dayjs } from 'dayjs'
 import type { RangeValue } from '#/public'
 import type { DatePickerProps } from 'antd'
 import { DATE_FORMAT } from '@/utils/constants'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 /**
- * @description isMoment必须使用moment.isMoment形式，否则打包会失败
+ * @description isDayjs必须使用dayjs.isDayjs形式，否则打包会失败
  */
 
 /**
- * moment类型转字符串类型
- * @param value - moment时间类型值
+ * dayjs类型转字符串类型
+ * @param value - dayjs时间类型值
  */
- export function moment2String(
-  value: Moment | string,
+ export function dayjs2String(
+  value: Dayjs | string,
   format = DATE_FORMAT
 ): string {
-  if (moment.isMoment(value)) {
+  if (dayjs.isDayjs(value)) {
     return value.format(format)
   }
   return value
 }
 
 /**
- * 字符串类型转moment类型
+ * 字符串类型转dayjs类型
  * @param value - 字符串
  */
-export function string2Moment(value: Moment | string): Moment {
-  if (moment.isMoment(value)) {
+export function string2Dayjs(value: Dayjs | string): Dayjs {
+  if (dayjs.isDayjs(value)) {
     return value
   }
-  return moment(value)
+  return dayjs(value)
 }
 
 /**
- * moment数组类型转字符串类型
- * @param value - moment时间类型值
+ * dayjs数组类型转字符串类型
+ * @param value - dayjs时间类型值
  */
-export function momentRang2StringRang(
-  value: RangeValue<Moment>,
+export function dayjsRang2StringRang(
+  value: RangeValue<Dayjs>,
   format = DATE_FORMAT
 ) {
   if (!value) return undefined
 
   if (
     value?.length > 1 &&
-    moment.isMoment(value?.[0]) &&
-    moment.isMoment(value?.[1])
+    dayjs.isDayjs(value?.[0]) &&
+    dayjs.isDayjs(value?.[1])
   ) {
     return [
       value[0].format(format),
@@ -58,41 +58,41 @@ export function momentRang2StringRang(
 }
 
 /**
- * 字符串类型转moment类型
+ * 字符串类型转dayjs类型
  * @param value - 字符串
  */
-export function stringRang2MomentRang(
-  value: RangeValue<string> | RangeValue<Moment>
-): RangeValue<Moment> | undefined {
+export function stringRang2DayjsRang(
+  value: RangeValue<string> | RangeValue<Dayjs>
+): RangeValue<Dayjs> | undefined {
   if (!value) return undefined
 
-  // 当第一个数据都不为Moment
+  // 当第一个数据都不为Dayjs
   if (
     value?.length > 1 &&
-    !moment.isMoment(value?.[0]) &&
-    moment.isMoment(value?.[1])
+    !dayjs.isDayjs(value?.[0]) &&
+    dayjs.isDayjs(value?.[1])
   ) {
-    return [moment(value[0]), value[1]]
+    return [dayjs(value[0]), value[1]]
   }
 
-  // 当最后一个数据都不为Moment
+  // 当最后一个数据都不为Dayjs
   if (
     value?.length > 1 &&
-    moment.isMoment(value?.[0]) &&
-    !moment.isMoment(value?.[1])
+    dayjs.isDayjs(value?.[0]) &&
+    !dayjs.isDayjs(value?.[1])
   ) {
-    return [value[0], moment(value[1])]
+    return [value[0], dayjs(value[1])]
   }
 
-  // 当两个数据都不为Moment
+  // 当两个数据都不为Dayjs
   if (
     value?.length > 1 &&
-    !moment.isMoment(value?.[0]) &&
-    !moment.isMoment(value?.[1])
+    !dayjs.isDayjs(value?.[0]) &&
+    !dayjs.isDayjs(value?.[1])
   ) {
-    return [moment(value[0]), moment(value[1])]
+    return [dayjs(value[0]), dayjs(value[1])]
   }
-  return value as RangeValue<Moment>
+  return value as RangeValue<Dayjs>
 }
 
 /**
@@ -112,29 +112,29 @@ function getListKeyParam(list: IFormList[], key: string): string {
 }
 
 /**
- * 将Moment转为字符串
+ * 将Dayjs转为字符串
  * @param obj - 检测对象
  * @param list - 列表值
  */
-export function filterMoment(obj: IFormData, list: IFormList[]): object {
+export function filterDayjs(obj: IFormData, list: IFormList[]): object {
   for (const key in obj) {
     // 判断是否是时间区间
     if (
-      (obj[key] as [Moment, Moment])?.length === 2 &&
-      moment.isMoment((obj[key] as [Moment, Moment])[0]) &&
-      moment.isMoment((obj[key] as [Moment, Moment])[1]) 
+      (obj[key] as [Dayjs, Dayjs])?.length === 2 &&
+      dayjs.isDayjs((obj[key] as [Dayjs, Dayjs])[0]) &&
+      dayjs.isDayjs((obj[key] as [Dayjs, Dayjs])[1]) 
     ) {
       const format = getListKeyParam(list, key)
-      obj[key] = momentRang2StringRang(
-        obj[key] as [Moment, Moment],
+      obj[key] = dayjsRang2StringRang(
+        obj[key] as [Dayjs, Dayjs],
         format
       )
     }
 
-    // 如果是Moment类型则转换成字符串
-    if (obj?.[key] && moment.isMoment(obj[key])) {
+    // 如果是Dayjs类型则转换成字符串
+    if (obj?.[key] && dayjs.isDayjs(obj[key])) {
       const format = getListKeyParam(list, key)
-      obj[key] = moment2String(obj[key] as Moment, format)
+      obj[key] = dayjs2String(obj[key] as Dayjs, format)
     }
   }
 

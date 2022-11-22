@@ -7,13 +7,13 @@ import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
 import { setPermissions, setUserInfo } from '@/stores/user'
 import { toggleCollapsed, togglePhone } from '@/stores/menu'
+import { useDebounceFn } from 'ahooks'
 import { Skeleton } from 'antd'
 import Menu from './components/Menu'
 import Header from './components/Header'
 import Tabs from './components/Tabs'
 import Forbidden from '@/pages/403'
 import styles from './index.module.less'
-import { useDebounceFn } from 'ahooks'
 
 function Layout() {
   const dispatch: AppDispatch = useDispatch()

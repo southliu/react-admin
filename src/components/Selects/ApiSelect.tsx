@@ -1,6 +1,6 @@
 import type { IApi } from '#/form'
 import type { SelectProps } from 'antd'
-import type { DefaultOptionType } from 'antd/lib/select'
+import type { DefaultOptionType } from 'antd/es/select'
 import { Select } from 'antd'
 import { useState } from 'react'
 import { MAX_TAG_COUNT, PLEASE_SELECT } from '@/utils/config'

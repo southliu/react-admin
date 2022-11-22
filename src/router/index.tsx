@@ -1,28 +1,20 @@
-import { RouteObject } from "react-router-dom"
-import { HashRouter as Router, useRoutes } from "react-router-dom"
-import { layoutRoutes } from "./utils/helper"
-import { useEffect } from "react"
+import { HashRouter as Router } from 'react-router-dom'
+import { useEffect } from 'react'
 import nprogress from 'nprogress'
-import routes from '~react-pages'
-import Layout from '@/layouts'
-import Login from '@/pages/login'
+import App from './App'
 
-// 自动生成路径转换为layout嵌套路径
-const layouts = layoutRoutes(routes)
+// antd
+import { theme, ConfigProvider } from 'antd'
+import zhCN from 'antd/locale/zh_CN'
 
-const newRoutes: RouteObject[] = [
-  {
-    path: "login",
-    element: <Login />
-  },
-  {
-    path: "",
-    element: <Layout />,
-    children: layouts
-  }
-]
+// antd主题
+import type { RootState } from "@/stores"
+import { useSelector } from "react-redux"
+const { defaultAlgorithm, darkAlgorithm } = theme
 
 function Page() {
+  const theme = useSelector((state: RootState) => state.public.theme)
+
   // 顶部进度条
   useEffect(() => {
     nprogress.done()
@@ -31,17 +23,16 @@ function Page() {
     }
   }, [])
 
-  const App = () => {
-    return (
-      <>
-        { useRoutes(newRoutes) }
-      </>
-    )
-  }
-
   return (
     <Router>
-      <App />
+      <ConfigProvider
+        locale={zhCN}
+        theme={{
+          algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
+        }}
+      >
+        <App />
+      </ConfigProvider>
     </Router>
   )
 }

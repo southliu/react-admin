@@ -228,8 +228,8 @@ function Page() {
 
         <BasicPagination
           disabled={isLoading}
-          defaultCurrent={page}
-          defaultPageSize={pageSize}
+          current={page}
+          pageSize={pageSize}
           total={total}
           onChange={onChangePagination}
         />

@@ -16,9 +16,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': '/src',
-        '#': '/types',
-        // moment改为dayjs
-        // 'rc-picker/es/generate/moment': 'rc-picker/es/generate/dayjs'
+        '#': '/types'
       }
     },
     css: {
