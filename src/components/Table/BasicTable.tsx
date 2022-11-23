@@ -99,19 +99,21 @@ function BasicTable(props: IProps) {
         ${isBordered !== false ? 'bordered' : ''}
         ${isZebra !== false ? 'zebra' : ''}
       `}
-      style={{ height: tableHeight }}
     >
-      <Table
-        size='small'
-        rowKey='id'
-        pagination={false}
-        loading={loading}
-        {...props}
-        bordered={isBordered !== false}
-        scroll={scroll}
-        components={components}
-        columns={mergeColumns}
-      />
+      {
+        tableHeight &&
+        <Table
+          size='small'
+          rowKey='id'
+          pagination={false}
+          loading={loading}
+          {...props}
+          bordered={isBordered !== false}
+          scroll={scroll}
+          components={components}
+          columns={mergeColumns}
+        />
+      }
     </div>
   )
 }
