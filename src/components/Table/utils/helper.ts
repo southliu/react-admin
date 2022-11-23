@@ -17,5 +17,5 @@ export function getTableHeight(): number {
   if (searchesHeight && tableHeight > 0) tableHeight -= searchesHeight
   if (paginationHeight && tableHeight > 0) tableHeight -= paginationHeight
 
-  return tableHeight > 0 ? tableHeight - 28 : 450
+  return tableHeight > 0 ? tableHeight + 50 : 450
 }

@@ -2,7 +2,7 @@ import type { ResizeCallbackData } from 'react-resizable'
 import type { ColumnsType, ColumnType } from 'antd/es/table'
 import type { TableProps } from 'antd'
 import { useMemo, useState, useEffect, memo } from 'react'
-import { Table } from 'antd'
+import { Table, Skeleton } from 'antd'
 import { getTableHeight } from './utils/helper'
 import ResizableTitle from './components/ResizableTitle'
 import useVirtualTable from './hooks/useVirtual'
@@ -100,6 +100,10 @@ function BasicTable(props: IProps) {
         ${isZebra !== false ? 'zebra' : ''}
       `}
     >
+      {
+        !tableHeight &&
+        <Skeleton />
+      }
       {
         tableHeight &&
         <Table

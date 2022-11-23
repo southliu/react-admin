@@ -22,7 +22,6 @@ function VirtualTable() {
 
   return (
     <BasicTable
-      scrollY={400}
       columns={columns}
       dataSource={data}
       style={{
