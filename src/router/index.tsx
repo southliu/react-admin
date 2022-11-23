@@ -24,16 +24,16 @@ function Page() {
   }, [])
 
   return (
-    <Router>
-      <ConfigProvider
-        locale={zhCN}
-        theme={{
-          algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
-        }}
-      >
+    <ConfigProvider
+      locale={zhCN}
+      theme={{
+        algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
+      }}
+    >
+      <Router>
         <App />
-      </ConfigProvider>
-    </Router>
+      </Router>
+    </ConfigProvider>
   )
 }
 
