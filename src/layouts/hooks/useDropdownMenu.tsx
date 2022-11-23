@@ -31,7 +31,7 @@ interface IProps {
 
 export function useDropdownMenu(props: IProps) {
   const { activeKey, onOpenChange, handleRefresh } = props
-  const location = useLocation()
+  const { pathname } = useLocation()
   const dispatch: AppDispatch = useDispatch()
   const tabs = useSelector((state: RootState) => state.tabs.tabs)
   const index = tabs.findIndex(item => item.key === activeKey)
@@ -41,7 +41,7 @@ export function useDropdownMenu(props: IProps) {
     {
       key: ITabEnums.REFRESH,
       label: '重新加载',
-      disabled: activeKey !== location.pathname,
+      disabled: activeKey !== pathname,
       icon: <RedoOutlined className="mr-5px transform rotate-270" />
     },
     {

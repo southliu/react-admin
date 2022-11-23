@@ -16,7 +16,7 @@ import TabOptions from './TabOptions'
 
 function LayoutTabs() {
   const navigate = useNavigate()
-  const location = useLocation()
+  const { pathname } = useLocation()
   const dispatch: AppDispatch = useDispatch()
   const { refresh } = useAliveController()
   const [isRefresh, setRefresh] = useState(false) // 重新加载
@@ -32,7 +32,7 @@ function LayoutTabs() {
    * 添加标签
    * @param path - 路径
    */
-  const handleAddTab = useCallback((path = location.pathname) => {
+  const handleAddTab = useCallback((path = pathname) => {
     // 当值为空时匹配路由
     if (permissions.length > 0) {
       if (path === '/') return
@@ -57,12 +57,12 @@ function LayoutTabs() {
 
   useEffect(() => {
     // 当选中贴标签不等于当前路由则跳转
-    if (activeKey && activeKey !== location.pathname) {
+    if (activeKey && activeKey !== pathname) {
       navigate(activeKey)
       handleAddTab(activeKey)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeKey, location.pathname])
+  }, [activeKey, pathname])
     
   /** 
    * 处理更改

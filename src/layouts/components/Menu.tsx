@@ -21,7 +21,7 @@ import Logo from '@/assets/images/logo.svg'
 
 function LayoutMenu() {
   const navigate = useNavigate()
-  const location = useLocation()
+  const { pathname } = useLocation()
   const dispatch: AppDispatch = useDispatch()
   const [menus, setMenus] = useState<ISideMenu[]>([])
   const openKeys = useSelector((state: RootState) => state.menu.openKeys)
@@ -36,13 +36,12 @@ function LayoutMenu() {
 
   // 处理默认展开
   useEffect(() => {
-    const { pathname } = location
     const newOpenKey = getOpenMenuByRouter(pathname)
     if (!isPhone && !isCollapsed) {
       dispatch(setOpenKeys(newOpenKey))
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location])
+  }, [pathname])
 
   // 过滤没权限菜单
   useEffect(() => {
@@ -176,7 +175,7 @@ function LayoutMenu() {
         </div>
         <Menu
           className="h-full z-1000"
-          selectedKeys={[location.pathname]}
+          selectedKeys={[pathname]}
           openKeys={openKeys}
           mode="inline"
           theme="dark"
