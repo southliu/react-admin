@@ -33,7 +33,7 @@ function BasicTable(props: IProps) {
   }, [props.columns])
 
   // 表格高度
-  const tableHeight = getTableHeight(props.columns)
+  const tableHeight = getTableHeight()
 
   /**
    * 处理拖拽

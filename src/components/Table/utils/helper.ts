@@ -1,12 +1,21 @@
-import type { ColumnsType } from 'antd/es/table'
-
 /** 计算表格高度 */
-export function getTableHeight(columns: ColumnsType<object> | undefined): number {
-  let result = 0
+export function getTableHeight(): number {
+  // 内容高度
+  const contentElm = document.getElementById('content')
+  const contentHeight = contentElm?.clientHeight
 
-  if (columns?.length) {
-    result = columns.length * 30 - 10
-  }
+  // 搜索高度
+  const searchesElm = document.getElementById('searches')
+  const searchesHeight = searchesElm?.clientHeight
 
-  return result ?? 450
+  // 分页高度
+  const paginationElm = document.getElementById('pagination')
+  const paginationHeight = paginationElm?.clientHeight
+
+  // 表格高度 = 内容高度 - 搜索高度 - 分页高度
+  let tableHeight = contentHeight || 0
+  if (searchesHeight && tableHeight > 0) tableHeight -= searchesHeight
+  if (paginationHeight && tableHeight > 0) tableHeight -= paginationHeight
+
+  return tableHeight > 0 ? tableHeight - 28 : 450
 }
