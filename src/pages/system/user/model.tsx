@@ -1,6 +1,5 @@
 import type { IFormList } from '#/form'
 import type { ITableColumn, ITableOptions } from '#/public'
-import type { IRowData } from './index'
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
 import { OPEN_CLOSE } from '@/utils/constants'
 
@@ -59,7 +58,7 @@ export const createList: IFormList[] = [
  * 表格数据
  * @param optionRender - 渲染操作函数
  */
-export const tableColumns = (optionRender: ITableOptions<IRowData>): ITableColumn => {
+export const tableColumns = (optionRender: ITableOptions<object>): ITableColumn => {
   return [
     {
       title: 'ID',
@@ -106,7 +105,7 @@ export const tableColumns = (optionRender: ITableOptions<IRowData>): ITableColum
       dataIndex: 'operate',
       width: 200,
       fixed: 'right',
-      render: (value: unknown, record: IRowData) => optionRender(value, record)
+      render: (value: unknown, record: object) => optionRender(value, record)
     },
   ]
 }

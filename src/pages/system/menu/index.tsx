@@ -25,7 +25,7 @@ import BasicTable from '@/components/Table/BasicTable'
 import BasicPagination from '@/components/Pagination/BasicPagination'
 
 // 当前行数据
-export interface IRowData {
+interface IRowData {
   id: string;
 }
 
@@ -186,14 +186,14 @@ function Page() {
    * @param _ - 当前值
    * @param record - 当前行参数
    */
-  const optionRender: ITableOptions<IRowData> = (_, record) => (
+  const optionRender: ITableOptions<object> = (_, record) => (
     <>
       {
         pagePermission.update === true &&
         <UpdateBtn
           className='mr-5px'
           isLoading={isLoading}
-          onClick={() => onUpdate(record.id)}
+          onClick={() => onUpdate((record as IRowData).id)}
         />
       }
       {
@@ -201,7 +201,7 @@ function Page() {
         <DeleteBtn
           className='mr-5px'
           isLoading={isLoading}
-          handleDelete={() => onDelete(record.id)}
+          handleDelete={() => onDelete((record as IRowData).id)}
         />
       }
     </>
