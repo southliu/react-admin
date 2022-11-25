@@ -29,49 +29,6 @@ export const searchList: IFormList[] = [
   }
 ]
 
-// 新增数据
-export const createList: (id: string) => IFormList[] = id => [
-  {
-    label: '名称',
-    name: 'name',
-    rules: INPUT_REQUIRED,
-    component: 'Input'
-  },
-  {
-    label: '状态',
-    name: 'status',
-    rules: SELECT_REQUIRED,
-    component: 'Select',
-    componentProps: {
-      options: MENU_STATUS
-    }
-  },
-  {
-    label: '模块',
-    name: 'module',
-    rules: SELECT_REQUIRED,
-    component: 'Select',
-    componentProps: {
-      options: MENU_MODULE
-    }
-  },
-  {
-    label: '控制器',
-    name: 'controller',
-    rules: INPUT_REQUIRED,
-    component: 'Input'
-  },
-  {
-    label: '创建菜单',
-    name: 'actions',
-    hidden: !!id,
-    component: 'CheckboxGroup',
-    componentProps: {
-      options: MENU_ACTIONS
-    }
-  },
-]
-
 /**
  * 表格数据
  * @param optionRender - 渲染操作函数
@@ -122,3 +79,46 @@ export const tableColumns = (optionRender: ITableOptions<object>): ITableColumn 
     },
   ]
 }
+
+// 新增数据
+export const createList: (id: string) => IFormList[] = id => [
+  {
+    label: '名称',
+    name: 'name',
+    rules: INPUT_REQUIRED,
+    component: 'Input'
+  },
+  {
+    label: '状态',
+    name: 'status',
+    rules: SELECT_REQUIRED,
+    component: 'Select',
+    componentProps: {
+      options: MENU_STATUS
+    }
+  },
+  {
+    label: '模块',
+    name: 'module',
+    rules: SELECT_REQUIRED,
+    component: 'Select',
+    componentProps: {
+      options: MENU_MODULE
+    }
+  },
+  {
+    label: '控制器',
+    name: 'controller',
+    rules: INPUT_REQUIRED,
+    component: 'Input'
+  },
+  {
+    label: '创建菜单',
+    name: 'actions',
+    hidden: !!id,
+    component: 'CheckboxGroup',
+    componentProps: {
+      options: MENU_ACTIONS
+    }
+  },
+]

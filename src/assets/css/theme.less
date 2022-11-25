@@ -1,4 +1,4 @@
-@import "./default.less";
+@import url("./default.less");
 
 /**
  * 修改主题
@@ -8,16 +8,22 @@
 .changeTheme(@color: @primaryColor, @bgColor: @primaryBg, @svgColor: @svgColor) {
   color: @color !important;
   background: @bgColor !important;
-  
+
   .change svg {
     color: @svgColor !important;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: @color !important;
   }
 
-  #container, #layout {
+  #container,
+  #layout {
     color: @color !important;
     background: @bgColor !important;
   }

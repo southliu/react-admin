@@ -1,4 +1,4 @@
-@import '@/assets/css/default.less';
+@import url('@/assets/css/default.less');
 
 .header {
   position: fixed;
@@ -7,7 +7,6 @@
   left: @layoutLeft;
   right: 0;
   height: @layoutTop;
-  border-bottom: 1px solid #eee;
   box-sizing: border-box;
   overflow: hidden;
   border-bottom: 1px solid #eee;
@@ -53,7 +52,7 @@
 
 .headerNone {
   left: 0 !important;
-  height: calc(@layoutTop / 2)
+  height: calc(@layoutTop / 2);
 }
 
 .none {
