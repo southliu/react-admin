@@ -8,6 +8,7 @@ import { theme, ConfigProvider } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
 
 // antd主题
+import type { Locale } from 'antd/es/locale-provider'
 import type { RootState } from "@/stores"
 import { useSelector } from "react-redux"
 const { defaultAlgorithm, darkAlgorithm } = theme
@@ -26,19 +27,24 @@ function Page() {
     }
   }, [])
 
+  // 临时类型，为了解决打包之后语言包失效问题
+  interface ILocale extends Locale {
+    default: Locale;
+  }
+
   return (
-    <ConfigProvider
-      locale={zhCN}
-      theme={{
-        algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
-      }}
-    >
-      <Router>
+    <Router>
+      <ConfigProvider
+        locale={(zhCN as ILocale)?.default ?? zhCN}
+        theme={{
+          algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
+        }}
+      >
         <AliveScope>
           <App />
         </AliveScope>
-      </Router>
-    </ConfigProvider>
+      </ConfigProvider>
+    </Router>
   )
 }
 
