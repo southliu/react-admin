@@ -51,10 +51,10 @@ function BasicTable(props: IProps) {
   }
 
   // 合并列表
-  const mergeColumns: ColumnsType<object> = columns.map((col, index) => ({
+  const mergeColumns = columns.map((col, index) => ({
     ...col,
-    onHeaderCell: column => ({
-      width: (column as ColumnType<object>).width,
+    onHeaderCell: (column: ColumnType<object>) => ({
+      width: column.width,
       onResize: handleResize(index),
     }),
   }))
@@ -115,7 +115,7 @@ function BasicTable(props: IProps) {
           bordered={isBordered !== false}
           scroll={scroll}
           components={components}
-          columns={mergeColumns}
+          columns={mergeColumns as ColumnsType<object>}
         />
       }
     </div>

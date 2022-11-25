@@ -9,7 +9,6 @@ import { useAliveController } from 'react-activation'
 
 function Theme() {
   const { clear, refresh, getCachingNodes } = useAliveController()
-  const cacheNodes = getCachingNodes()
   const dispatch: AppDispatch = useDispatch()
   const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as IThemeType
   const [theme, setTheme] = useState<IThemeType>(themeCache)
@@ -27,6 +26,8 @@ function Theme() {
 
   /** 刷新全部keepalive */
   const refreshAllKeepalive = () => {
+    const cacheNodes = getCachingNodes()
+
     for (let i = 0; i < cacheNodes?.length; i++) {
       const { name } = cacheNodes[i]
       if (name) refresh(name)

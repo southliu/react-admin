@@ -12,6 +12,9 @@ import type { RootState } from "@/stores"
 import { useSelector } from "react-redux"
 const { defaultAlgorithm, darkAlgorithm } = theme
 
+// keepalive
+import { AliveScope } from 'react-activation'
+
 function Page() {
   const theme = useSelector((state: RootState) => state.public.theme)
 
@@ -31,7 +34,9 @@ function Page() {
       }}
     >
       <Router>
-        <App />
+        <AliveScope>
+          <App />
+        </AliveScope>
       </Router>
     </ConfigProvider>
   )
