@@ -1,5 +1,3 @@
-// import { shallowRef } from "vue";
-
 interface IOption {
   content: string; // 内容
   height: number; // 水印行高
@@ -55,7 +53,8 @@ export function useWatermark() {
     const DivLine = document.createElement('div')
     DivLine.innerHTML = StrLine
 
-    const TpColumn = Math.floor(document.body.clientHeight / height) * 2 // 一列显示几行
+    const TpColumn = (Math.floor(document.body.clientHeight / height) * 2) || 4 // 一列显示几行
+
     let StrColumn = ''
     for (let i = 0; i < TpColumn; i++) {
       StrColumn += `<div style="white-space: nowrap;">${DivLine.innerHTML}</div>`
@@ -66,7 +65,7 @@ export function useWatermark() {
     DivLayer.style.position = 'fixed'
     DivLayer.style.top = '0px' // 整体水印距离顶部距离
     DivLayer.style.left = '-100px' // 改变整体水印的left值
-    DivLayer.style.zIndex = '99999' // 水印页面层级
+    DivLayer.style.zIndex = '999999' // 水印页面层级
     DivLayer.style.pointerEvents = 'none'
     DivLayer.style.userSelect = 'none'
 

@@ -15,20 +15,15 @@ import '@/assets/css/theme-color.less'
 // antd
 import '@/assets/css/antd.less'
 
-// keepalive
-import { AliveScope } from 'react-activation'
-
 // 时间设为中文
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 dayjs.locale('zh-cn')
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <AliveScope>
-    <Provider store={store}>
-      <Router />
-    </Provider>
-  </AliveScope>
+  <Provider store={store}>
+    <Router />
+  </Provider>
 )
 
 // 关闭loading
