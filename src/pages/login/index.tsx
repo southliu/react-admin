@@ -1,9 +1,11 @@
 import type { ILoginData } from './model'
 import type { FormProps } from 'antd'
 import type { AppDispatch, RootState } from '@/stores'
+import type { IThemeType } from '@/stores/public'
+import { setThemeValue } from '@/stores/public'
 import { Form, Button, Input } from 'antd'
 import { useEffect, useState } from 'react'
-import { PASSWORD_RULE } from '@/utils/config'
+import { PASSWORD_RULE, THEME_KEY } from '@/utils/config'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { login } from '@/servers/login'
 import { useTitle } from '@/hooks/useTitle'
@@ -23,6 +25,18 @@ function Login() {
   const [getToken, setToken] = useToken()
   const [isLoading, setLoading] = useState(false)
   const permissions = useSelector((state: RootState) => state.user.permissions)
+  const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as IThemeType
+
+  useEffect(() => {
+    if (!themeCache) {
+      localStorage.setItem(THEME_KEY, 'light')
+    }
+    if (themeCache === 'dark') {
+      document.body.className = 'theme-dark'
+    }
+    dispatch(setThemeValue(themeCache === 'dark' ? 'dark' : 'light'))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [themeCache])
 
   useEffect(() => {
     // 如果存在token，则直接进入页面
@@ -62,13 +76,18 @@ function Login() {
 
   return (
     <>
-      <div className="bg-light-400 w-screen h-screen relative">
+      <div className={`
+        ${themeCache === 'dark' ? 'bg-black text-white' : 'bg-light-400'}
+        w-screen
+        h-screen
+        relative
+      `}>
         <div className={`
           w-300px
           h-290px
           p-30px
           rounded-5px
-          bg-white
+          ${themeCache === 'dark' ? 'bg-black bg-dark-200' : 'bg-white'}
           box-border
           absolute
           left-1/2
@@ -105,7 +124,7 @@ function Login() {
                 placeholder="用户名"
                 data-test="username"
                 autoComplete="username"
-                addonBefore={<UserOutlined />}
+                addonBefore={<UserOutlined className='change' />}
               />
             </Form.Item>
 
@@ -119,7 +138,7 @@ function Login() {
               <Input.Password
                 placeholder="密码"
                 autoComplete="current-password"
-                addonBefore={<LockOutlined />}
+                addonBefore={<LockOutlined className='change' />}
               />
             </Form.Item>
 
