@@ -133,6 +133,7 @@ function Header() {
     <>
       <header
         className={`
+          border-bottom
           flex
           items-center
           justify-between
