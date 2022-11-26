@@ -122,9 +122,14 @@ function Page() {
     }
   }
 
-  /** 表格提交 */
+  /** 表单提交 */
   const createSubmit = () => {
     createFormRef.current?.handleSubmit()
+  }
+
+  /** 关闭新增/修改弹窗 */
+  const closeCreate = () => {
+    setCreateOpen(false)
   }
 
   /** 获取表格数据 */
@@ -144,7 +149,6 @@ function Page() {
       const functions = () => createId ? updateMenu(createId, values) : createMenu(values)
       const { data } = await functions()
       message.success(data?.message || '操作成功')
-      createFormRef.current?.handleReset()
       setCreateOpen(false)
       getPage()
     } finally {
@@ -240,7 +244,7 @@ function Page() {
           open={isCreateOpen}
           confirmLoading={isCreateLoading}
           onOk={createSubmit}
-          onCancel={() => setCreateOpen(false)}
+          onCancel={closeCreate}
         >
           <BasicForm
             formRef={createFormRef}
