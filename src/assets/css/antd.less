@@ -1,3 +1,5 @@
+@import url("./default.less");
+
 .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab,
 .ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab {
   padding: 5px 16px 8px !important;
@@ -93,6 +95,10 @@
 }
 
 .theme-dark {
+  .border-bottom {
+    border-bottom: 1px solid @darkColor !important;
+  }
+
   .bordered {
     .ant-table-tbody > tr > td {
       border-right: 1px solid #3f3f3f;

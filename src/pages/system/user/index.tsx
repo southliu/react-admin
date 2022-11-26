@@ -127,6 +127,11 @@ function Page() {
     createFormRef.current?.handleSubmit()
   }
 
+  /** 关闭新增/修改弹窗 */
+  const closeCreate = () => {
+    setCreateOpen(false)
+  }
+
   /** 获取表格数据 */
   const getPage = () => {
     const formData = searchFormRef.current?.getFieldsValue() || {}
@@ -144,7 +149,6 @@ function Page() {
       const functions = () => createId ? updateUser(createId, values) : createUser(values)
       const { data } = await functions()
       message.success(data?.message || '操作成功')
-      createFormRef.current?.handleReset()
       setCreateOpen(false)
       getPage()
     } finally {
@@ -239,7 +243,7 @@ function Page() {
           open={isCreateOpen}
           confirmLoading={isCreateLoading}
           onOk={createSubmit}
-          onCancel={() => setCreateOpen(false)}
+          onCancel={closeCreate}
         >
           <BasicForm
             formRef={createFormRef}

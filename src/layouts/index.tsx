@@ -88,6 +88,7 @@ function Layout() {
       <Menu />
       <div className={styles.layout_right}>
         <div className={`
+          border-bottom
           transition-all
           ${styles.header}
           ${isCollapsed ? styles.headerCloseMenu : ''}
