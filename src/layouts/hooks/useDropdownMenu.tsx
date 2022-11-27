@@ -6,7 +6,8 @@ import {
   closeLeft,
   closeOther,
   closeRight,
-  closeTabs
+  closeTabs,
+  setNav
 } from '@/stores/tabs'
 import {
   RedoOutlined,
@@ -14,6 +15,8 @@ import {
   VerticalAlignTopOutlined,
   VerticalAlignMiddleOutlined
 } from '@ant-design/icons'
+import { defaultMenus } from '@/menus'
+import { getMenuByKey } from '@/menus/utils/helper'
 
 enum ITabEnums {
   REFRESH = 'refresh', // 重新加载
@@ -35,6 +38,7 @@ export function useDropdownMenu(props: IProps) {
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
   const tabs = useSelector((state: RootState) => state.tabs.tabs)
+  const permissions = useSelector((state: RootState) => state.user.permissions)
 
   // 菜单项
   const items: (key?: string) => MenuProps['items'] = (key = activeKey) => {
@@ -97,13 +101,35 @@ export function useDropdownMenu(props: IProps) {
       // 关闭左侧
       case ITabEnums.CLOSE_LEFT:
         dispatch(closeLeft(key))
-        if (pathname !== key) navigate(key)
+        if (pathname !== key) {
+          const menuByKeyProps = {
+            menus: defaultMenus,
+            permissions,
+            key
+          }
+          const newItems = getMenuByKey(menuByKeyProps)
+          if (newItems?.key) {
+            navigate(key)
+            dispatch(setNav(newItems.nav))
+          }
+        }
         break
 
       // 关闭右侧
       case ITabEnums.CLOSE_RIGHT:
         dispatch(closeRight(key))
-        if (pathname !== key) navigate(key)
+        if (pathname !== key) {
+          const menuByKeyProps = {
+            menus: defaultMenus,
+            permissions,
+            key
+          }
+          const newItems = getMenuByKey(menuByKeyProps)
+          if (newItems?.key) {
+            navigate(key)
+            dispatch(setNav(newItems.nav))
+          }
+        }
         break
 
       default:
