@@ -27,7 +27,10 @@ function TabOptions(props: IProps) {
   return (
     <Dropdown
       trigger={['click']}
-      menu={{ items, onClick }}
+      menu={{
+        items: items(),
+        onClick: e => onClick(e.key)
+      }}
       onOpenChange={onOpenChange}
     >
       <Icon

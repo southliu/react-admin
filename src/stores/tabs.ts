@@ -77,7 +77,6 @@ const tabsSlice = createSlice({
       const index = tabs.findIndex(item => item.key === payload)
       if (index >= 0) tabs.splice(0, index)
       state.activeKey = tabs[0].key
-      state.isLock = true
 
       // 如果只剩一个则无法关闭
       tabs[0].closable = tabs?.length > 1
@@ -91,7 +90,6 @@ const tabsSlice = createSlice({
       const index = tabs.findIndex(item => item.key === payload)
       if (index >= 0) tabs.splice(index + 1, tabs.length - index - 1)
       state.activeKey = tabs[tabs.length - 1].key
-      state.isLock = true
 
       // 如果只剩一个则无法关闭
       tabs[0].closable = tabs?.length > 1

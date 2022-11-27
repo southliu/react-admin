@@ -178,7 +178,10 @@ function LayoutTabs() {
       { node => (
         <Dropdown
           key={node.key}
-          menu={{ items, onClick }}
+          menu={{
+            items: items(node.key as string),
+            onClick: e => onClick(e.key, node.key as string)
+          }}
           trigger={['contextMenu']}
         >
           <div className='mr-3px'>
