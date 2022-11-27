@@ -18,7 +18,7 @@ function NotFound() {
     navigate(firstMenu)
     const menuByKeyProps = { menus: defaultMenus, permissions, key: firstMenu }
     const newItems = getMenuByKey(menuByKeyProps)
-    if (newItems) {
+    if (newItems?.key) {
       dispatch(setActiveKey(newItems.key))
       dispatch(addTabs(newItems))
     }

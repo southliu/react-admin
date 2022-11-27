@@ -5,10 +5,16 @@ import { getMenuByKey } from '@/menus/utils/helper'
 import { defaultMenus } from '@/menus'
 import { message, Tabs, Dropdown } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { setActiveKey, addTabs, closeTabs, setNav } from '@/stores/tabs'
 import { useAliveController } from 'react-activation'
 import { useDropdownMenu } from '../hooks/useDropdownMenu'
 import { useDispatch, useSelector } from 'react-redux'
+import {
+  setActiveKey,
+  addTabs,
+  closeTabs,
+  setNav,
+  toggleLock
+} from '@/stores/tabs'
 import styles from '../index.module.less'
 import TabRefresh from './TabRefresh'
 import TabMaximize from './TabMaximize'
@@ -23,6 +29,7 @@ function LayoutTabs() {
   const [time, setTime] = useState<null | NodeJS.Timeout>(null)
 
   const tabs = useSelector((state: RootState) => state.tabs.tabs)
+  const isLock = useSelector((state: RootState) => state.tabs.isLock)
   const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
   const permissions = useSelector((state: RootState) => state.user.permissions)
   // 是否窗口最大化
@@ -42,7 +49,7 @@ function LayoutTabs() {
         key: path
       }
       const newItems = getMenuByKey(menuByKeyProps)
-      if (newItems) {
+      if (newItems?.key) {
         dispatch(setActiveKey(newItems.key))
         dispatch(setNav(newItems.nav))
         dispatch(addTabs(newItems))
@@ -58,8 +65,13 @@ function LayoutTabs() {
   useEffect(() => {
     // 当选中贴标签不等于当前路由则跳转
     if (activeKey && activeKey !== pathname) {
-      navigate(activeKey)
-      handleAddTab(activeKey)
+      const key = isLock ? activeKey : pathname
+      handleAddTab(key)
+
+      if (isLock) {
+        navigate(key)
+        dispatch(toggleLock(false))
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeKey, pathname])
@@ -69,7 +81,7 @@ function LayoutTabs() {
    * @param key - 唯一值
    */
   const onChange = (key: string) => {
-    dispatch(setActiveKey(key))
+    navigate(key)
   }
 
   /** 
