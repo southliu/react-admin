@@ -1,6 +1,6 @@
 import type { MenuProps } from 'antd'
 import type { AppDispatch, RootState } from '@/stores'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   closeLeft,
@@ -32,73 +32,78 @@ interface IProps {
 export function useDropdownMenu(props: IProps) {
   const { activeKey, onOpenChange, handleRefresh } = props
   const { pathname } = useLocation()
+  const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
   const tabs = useSelector((state: RootState) => state.tabs.tabs)
-  const index = tabs.findIndex(item => item.key === activeKey)
 
   // 菜单项
-  const items: MenuProps['items'] = [
-    {
-      key: ITabEnums.REFRESH,
-      label: '重新加载',
-      disabled: activeKey !== pathname,
-      icon: <RedoOutlined className="mr-5px transform rotate-270" />
-    },
-    {
-      key: ITabEnums.CLOSE_CURRENT,
-      label: '关闭标签',
-      disabled: tabs.length <= 1,
-      icon: <CloseOutlined className="mr-5px" />
-    },
-    {
-      key: ITabEnums.CLOSE_OTHER,
-      label: '关闭其他',
-      disabled: tabs.length <= 1,
-      icon: <VerticalAlignMiddleOutlined className="mr-5px transform rotate-90" />
-    },
-    {
-      key: ITabEnums.CLOSE_LEFT,
-      label: '关闭左侧',
-      disabled: index === 0,
-      icon: <VerticalAlignTopOutlined className="mr-5px transform rotate-270" />
-    },
-    {
-      key: ITabEnums.CLOSE_RIGHT,
-      label: '关闭右侧',
-      disabled: index === tabs.length - 1,
-      icon: <VerticalAlignTopOutlined className="mr-5px transform rotate-90" />
-    }
-  ]
+  const items: (key?: string) => MenuProps['items'] = (key = activeKey) => {
+    const index = tabs.findIndex(item => item.key === key)
+    return [
+      {
+        key: ITabEnums.REFRESH,
+        label: '重新加载',
+        disabled: key !== pathname,
+        icon: <RedoOutlined className="mr-5px transform rotate-270" />
+      },
+      {
+        key: ITabEnums.CLOSE_CURRENT,
+        label: '关闭标签',
+        disabled: tabs.length <= 1,
+        icon: <CloseOutlined className="mr-5px" />
+      },
+      {
+        key: ITabEnums.CLOSE_OTHER,
+        label: '关闭其他',
+        disabled: tabs.length <= 1,
+        icon: <VerticalAlignMiddleOutlined className="mr-5px transform rotate-90" />
+      },
+      {
+        key: ITabEnums.CLOSE_LEFT,
+        label: '关闭左侧',
+        disabled: index === 0,
+        icon: <VerticalAlignTopOutlined className="mr-5px transform rotate-270" />
+      },
+      {
+        key: ITabEnums.CLOSE_RIGHT,
+        label: '关闭右侧',
+        disabled: index === tabs.length - 1,
+        icon: <VerticalAlignTopOutlined className="mr-5px transform rotate-90" />
+      }
+    ]
+  }
 
   /** 点击菜单 */
-  const onClick: MenuProps['onClick'] = e => {
+  const onClick = (type: string, key = activeKey) => {
     // 复原箭头
     onOpenChange?.(false)
 
-    switch (e.key) {
+    switch (type) {
       // 重新加载
       case ITabEnums.REFRESH:
-        handleRefresh(activeKey)
+        handleRefresh(key)
         break
 
       // 关闭当前
       case ITabEnums.CLOSE_CURRENT:
-        dispatch(closeTabs(activeKey))
+        dispatch(closeTabs(key))
         break
 
       // 关闭其他
       case ITabEnums.CLOSE_OTHER:
-        dispatch(closeOther(activeKey))
+        dispatch(closeOther(key))
         break
 
       // 关闭左侧
       case ITabEnums.CLOSE_LEFT:
-        dispatch(closeLeft(activeKey))
+        dispatch(closeLeft(key))
+        if (pathname !== key) navigate(key)
         break
 
       // 关闭右侧
       case ITabEnums.CLOSE_RIGHT:
-        dispatch(closeRight(activeKey))
+        dispatch(closeRight(key))
+        if (pathname !== key) navigate(key)
         break
 
       default:
