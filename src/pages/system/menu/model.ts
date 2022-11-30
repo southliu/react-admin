@@ -121,4 +121,9 @@ export const createList: (id: string) => IFormList[] = id => [
       options: MENU_ACTIONS
     }
   },
+  {
+    label: '富文本',
+    name: 'editor',
+    component: 'Editor'
+  },
 ]

@@ -17,7 +17,8 @@ import type { IAllDataType } from './public'
 import type { RangePickerProps } from 'antd/lib/date-picker'
 import type { DefaultOptionType } from 'antd/lib/select'
 import type { RuleObject } from 'antd/lib/form'
-import type { IBusinessComponents } from "@/components/Business"
+import type { IBusinessComponents } from '@/components/Business'
+import type { IEditorProps } from '@/components/WangEditor'
 
 // 数据类型
 export type IFormData = Record<string, IAllDataType>
@@ -55,7 +56,7 @@ type ISliderComponents = 'Slider'
 type ICustomizeComponents = 'Customize'
 
 // 富文本编辑器
-type IEditorComponents = ''
+type IEditorComponents = 'Editor'
 
 // 密码强度组件
 type IPasswordStrength = 'PasswordStrength'
@@ -110,7 +111,8 @@ export type IComponentProps = InputProps |
                               RateProps |
                               SliderSingleProps |
                               IApiSelectProps |
-                              IApiTreeSelectProps
+                              IApiTreeSelectProps |
+                              IEditorProps
 
 // 表单规则
 export type IFormRule = RuleObject & {
