@@ -130,5 +130,5 @@ export type IFormList = {
   wrapperCol?: number; // 内容宽度
   component: IComponentType; // 组件
   componentProps?: IComponentProps; // 组件参数
-  // render?: () => JSX; // 自定义渲染
+  render?: ReactElement; // 自定义渲染
 }

@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
 import { FILE_API } from '@/utils/config'
 
-export interface IEditorProps extends HTMLElement {
+export interface IEditorProps {
   value: string; // 富文本内容
   onChange: (value: string) => void; // 处理更改内容
   height?: number; // 富文本高度
+  className?: string;
 }
 
 function WangEditor(props: IEditorProps) {
