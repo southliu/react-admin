@@ -38,7 +38,7 @@ const initSearch = {
 // 初始化新增数据
 const initCreate = {
   status: 1,
-  editor: '<p>123</p>'
+  editor: '<h3>初始化内容</h3>'
 }
 
 function Page() {
@@ -241,6 +241,7 @@ function Page() {
 
         <BasicModal
           width={900}
+          style={{ top: 10 }}
           title={createTitle}
           open={isCreateOpen}
           confirmLoading={isCreateLoading}
