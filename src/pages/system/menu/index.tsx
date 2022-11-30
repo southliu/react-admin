@@ -29,7 +29,7 @@ interface IRowData {
   id: string;
 }
 
-// 初始化新增数据
+// 初始化搜索数据
 const initSearch = {
   page: 1,
   pageSize: 20
@@ -37,7 +37,8 @@ const initSearch = {
 
 // 初始化新增数据
 const initCreate = {
-  status: 1
+  status: 1,
+  editor: '<p>123</p>'
 }
 
 function Page() {
@@ -239,7 +240,7 @@ function Page() {
         />
 
         <BasicModal
-          width={600}
+          width={900}
           title={createTitle}
           open={isCreateOpen}
           confirmLoading={isCreateLoading}
@@ -250,8 +251,8 @@ function Page() {
             formRef={createFormRef}
             list={createList(createId)}
             data={createData}
-            labelCol={{ span: 4 }}
-            wrapperCol={{ span: 18 }}
+            labelCol={{ span: 3 }}
+            wrapperCol={{ span: 20 }}
             handleFinish={handleCreate}
           />
         </BasicModal>
