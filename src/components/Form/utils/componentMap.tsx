@@ -1,5 +1,4 @@
 import type { IComponentType, IFormList } from '#/form'
-import type { ReactNode } from 'react'
 import { initCompProps } from './helper'
 import { CreateBusiness } from '@/components/Business'
 import {
