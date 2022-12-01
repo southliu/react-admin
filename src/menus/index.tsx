@@ -2,6 +2,7 @@ import type { ISideMenu } from '#/public'
 import { Icon } from '@iconify/react'
 import { system } from './system'
 import { demo } from './demo'
+import { content } from './content'
 
 export const defaultMenus: ISideMenu[] = [
   {
@@ -18,4 +19,5 @@ export const defaultMenus: ISideMenu[] = [
   },
   ...demo as ISideMenu[],
   ...system as ISideMenu[],
+  ...content as ISideMenu[],
 ]
