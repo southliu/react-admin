@@ -3,7 +3,7 @@ import type { IFormFn } from '@/components/Form/BasicForm'
 import type { AppDispatch, RootState } from '@/stores'
 import type { IPagePermission } from '#/public'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Button, message, Spin } from 'antd'
+import { message, Spin } from 'antd'
 import { createList } from './model'
 import { getUrlParam } from '@/utils/helper'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,12 +19,13 @@ import {
   closeTabGoNext
 } from '@/stores/tabs'
 import {
- getArticleById,
- createArticle,
- updateArticle,
+  getArticleById,
+  createArticle,
+  updateArticle,
 } from '@/servers/content/article'
 import BasicForm from '@/components/Form/BasicForm'
 import BasicContent from '@/components/Content/BasicContent'
+import SumbitBottom from '@/components/Bottom/SumbitBottom'
 
 // 初始化新增数据
 const initCreate = {
@@ -119,7 +120,7 @@ function Page() {
   }
 
   /** 表格提交 */
-  const createSubmit = () => {
+  const handleSubmit = () => {
     createFormRef.current?.handleSubmit()
   }
 
@@ -169,28 +170,11 @@ function Page() {
             />
           </Spin>
         </div>
-          
-        <div className={`
-          bg
-          fixed
-          flex
-          justify-end
-          left-0
-          right-0
-          bottom-0
-          py-5px
-          px-30px
-          box-border
-          shadow
-          shadow-gray-500
-        `}>
-          <Button className='mr-10px' danger onClick={goBack}>
-            返回
-          </Button>
-          <Button type="primary" onClick={createSubmit}>
-            提交
-          </Button>
-        </div>
+
+        <SumbitBottom
+          goBack={goBack}
+          handleSubmit={handleSubmit}
+        />
       </>
     </BasicContent>
   )
