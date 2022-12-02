@@ -7,6 +7,7 @@ import { searchList, createList, tableColumns } from './model'
 import { message } from 'antd'
 import { useTitle } from '@/hooks/useTitle'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { checkPermission } from '@/utils/permissions'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
@@ -42,6 +43,7 @@ const initCreate = {
 
 function Page() {
   useTitle('文章管理')
+  const navigate = useNavigate()
   const searchFormRef = useRef<IFormFn>(null)
   const createFormRef = useRef<IFormFn>(null)
   const [isCreateOpen, setCreateOpen] = useState(false)
@@ -99,6 +101,8 @@ function Page() {
 
   /** 点击新增 */
   const onCreate = () => {
+    navigate('/content/article/option')
+
     setCreateOpen(true)
     setCreateTitle(ADD_TITLE)
     setCreateId('')

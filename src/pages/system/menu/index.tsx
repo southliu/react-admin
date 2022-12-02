@@ -37,8 +37,7 @@ const initSearch = {
 
 // 初始化新增数据
 const initCreate = {
-  status: 1,
-  editor: '<h3>初始化内容</h3>'
+  status: 1
 }
 
 function Page() {
