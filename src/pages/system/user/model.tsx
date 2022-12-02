@@ -2,7 +2,6 @@ import type { IFormList } from '#/form'
 import type { ITableColumn, ITableOptions } from '#/public'
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
 import { OPEN_CLOSE } from '@/utils/constants'
-import CustomizeInput from './components/CustomizeInput'
 
 // 搜索数据
 export const searchList: IFormList[] = [
@@ -102,18 +101,5 @@ export const createList: IFormList[] = [
     componentProps: {
       options: OPEN_CLOSE
     }
-  },
-  {
-    label: '嵌套数据',
-    name: ['user', 'name', 'test'],
-    rules: INPUT_REQUIRED,
-    component: 'Input'
-  },
-  {
-    label: '自定义',
-    name: 'customize',
-    rules: INPUT_REQUIRED,
-    component: 'customize',
-    render: CustomizeInput
   }
 ]

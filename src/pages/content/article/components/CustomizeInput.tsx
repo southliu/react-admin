@@ -7,8 +7,8 @@ import { Input } from 'antd'
 function CustomizeInput(props: InputProps) {
   return (
     <>
-      <div className='mb-5px'>自定义渲染：</div>
       <Input {...props} placeholder='请输入' />
+      <div className='mb-5px text-red'>注：标题不能含有敏感信息!</div>
     </>
   )
 }

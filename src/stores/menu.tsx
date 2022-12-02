@@ -5,6 +5,7 @@ const menuSlice = createSlice({
   initialState: {
     isPhone: false,
     isCollapsed: false,
+    selectedKeys: 'dashboard', // 菜单选中值
     openKeys: ['Dashboard'], // 菜单展开项
   },
   reducers: {
@@ -13,6 +14,9 @@ const menuSlice = createSlice({
     },
     togglePhone: (state, action) => {
       state.isPhone = !!action.payload
+    },
+    setSelectedKeys: (state, action) => {
+      state.selectedKeys = action.payload
     },
     setOpenKeys: (state, action) => {
       state.openKeys = action.payload
@@ -23,6 +27,7 @@ const menuSlice = createSlice({
 export const {
   toggleCollapsed,
   togglePhone,
+  setSelectedKeys,
   setOpenKeys
 } = menuSlice.actions
 

@@ -18,6 +18,35 @@ export function amountFormatter(amount: number) {
 }
 
 /**
+ * 获取url中参数某个值
+ * @param search - url参数
+ * @param key - 搜索值
+ */
+export function getUrlParam(search: string, key: string) {
+  if (!search || !key) return ''
+  // 去除首个字符串问号
+  if (search?.[0] === '?') search = search.substring(1, search.length)
+
+  const arr = search.split('&') // 分割数组
+  const pairArr: [string, string][] = []
+
+  for (let i = 0; i < arr.length; i++) {
+    const value = arr[i]?.split('=')
+    if (value?.length === 2) {
+      pairArr.push([value[0], value[1]])
+    }
+  }
+
+  for (let i = 0; i < pairArr.length; i++) {
+    if (pairArr[0][0] === key) {
+      return pairArr[0][1]
+    }
+  }
+
+  return ''
+}
+
+/**
  * 过滤空数据
  * @param obj - 传入对象
  */

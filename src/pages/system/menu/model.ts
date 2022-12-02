@@ -120,10 +120,5 @@ export const createList: (id: string) => IFormList[] = id => [
     componentProps: {
       options: MENU_ACTIONS
     }
-  },
-  {
-    label: '富文本',
-    name: 'editor',
-    component: 'Editor'
-  },
+  }
 ]

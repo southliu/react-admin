@@ -3,24 +3,16 @@ import type { RootState } from '@/stores'
 import type { IPagePermission, ITableOptions } from '#/public'
 import type { IFormFn } from '@/components/Form/BasicForm'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { searchList, createList, tableColumns } from './model'
+import { searchList, tableColumns } from './model'
 import { message } from 'antd'
 import { useTitle } from '@/hooks/useTitle'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { checkPermission } from '@/utils/permissions'
-import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
-import {
-  getMenuPage,
-  getMenuById,
-  createMenu,
-  updateMenu,
-  deleteMenu
-} from '@/servers/system/menu'
+import { getArticlePage, deleteArticle } from '@/servers/content/article'
 import BasicContent from '@/components/Content/BasicContent'
 import BasicSearch from '@/components/Search/BasicSearch'
-import BasicModal from '@/components/Modal/BasicModal'
-import BasicForm from '@/components/Form/BasicForm'
 import BasicTable from '@/components/Table/BasicTable'
 import BasicPagination from '@/components/Pagination/BasicPagination'
 
@@ -29,27 +21,17 @@ interface IRowData {
   id: string;
 }
 
-// 初始化搜索数据
+// 初始化搜索
 const initSearch = {
   page: 1,
   pageSize: 20
 }
 
-// 初始化新增数据
-const initCreate = {
-  status: 1
-}
-
 function Page() {
-  useTitle('菜单管理')
+  useTitle('文章管理')
+  const navigate = useNavigate()
   const searchFormRef = useRef<IFormFn>(null)
-  const createFormRef = useRef<IFormFn>(null)
-  const [isCreateOpen, setCreateOpen] = useState(false)
   const [isLoading, setLoading] = useState(false)
-  const [isCreateLoading, setCreateLoading] = useState(false)
-  const [createTitle, setCreateTitle] = useState(ADD_TITLE)
-  const [createId, setCreateId] = useState('')
-  const [createData, setCreateData] = useState<IFormData>(initCreate)
   const [page, setPage] = useState(initSearch.page)
   const [pageSize, setPageSize] = useState(initSearch.pageSize)
   const [total, setTotal] = useState(0)
@@ -57,7 +39,7 @@ function Page() {
   const permissions = useSelector((state: RootState) => state.user.permissions)
 
   // 权限前缀
-  const permissionPrefix = '/authority/menu'
+  const permissionPrefix = '/content/article'
 
   // 权限
   const pagePermission: IPagePermission = {
@@ -77,13 +59,13 @@ function Page() {
   }
 
   /**
-   * 处理搜索
+   * 搜索提交
    * @param values - 表单返回数据
    */
   const handleSearch = useCallback(async (values: IFormData) => {
     try {
       setLoading(true)
-      const { data: { data } } = await getMenuPage(values)
+      const { data: { data } } = await getArticlePage(values)
       const { items, total } = data
       setTotal(total)
       setTableData(items)
@@ -99,37 +81,15 @@ function Page() {
 
   /** 点击新增 */
   const onCreate = () => {
-    setCreateOpen(true)
-    setCreateTitle(ADD_TITLE)
-    setCreateId('')
-    setCreateData(initCreate)
+    navigate('/content/article/option')
   }
 
   /**
    * 点击编辑
    * @param id - 唯一值
    */
-  const onUpdate = async (id: string) => {
-    try {
-      setCreateOpen(true)
-      setCreateTitle(EDIT_TITLE(id))
-      setCreateId(id)
-      setCreateLoading(true)
-      const { data: { data } } = await getMenuById(id as string)
-      setCreateData(data)
-    } finally {
-      setCreateLoading(false)
-    }
-  }
-
-  /** 表单提交 */
-  const createSubmit = () => {
-    createFormRef.current?.handleSubmit()
-  }
-
-  /** 关闭新增/修改弹窗 */
-  const closeCreate = () => {
-    setCreateOpen(false)
+  const onUpdate = (id: string) => {
+    navigate(`/content/article/option?id=${id}`)
   }
 
   /** 获取表格数据 */
@@ -140,30 +100,13 @@ function Page() {
   }
 
   /**
-   * 新增/编辑提交
-   * @param values - 表单返回数据
-   */
-  const handleCreate = async (values: IFormData) => {
-    try {
-      setCreateLoading(true)
-      const functions = () => createId ? updateMenu(createId, values) : createMenu(values)
-      const { data } = await functions()
-      message.success(data?.message || '操作成功')
-      setCreateOpen(false)
-      getPage()
-    } finally {
-      setCreateLoading(false)
-    }
-  }
-
-  /**
    * 点击删除
    * @param id - 唯一值
    */
   const onDelete = async (id: string) => {
     try {
       setLoading(true)
-      const { data } = await deleteMenu(id as string)
+      const { data } = await deleteArticle(id as string)
       if (data?.code === 200) {
         message.success(data?.message || '删除成功')
         getPage()
@@ -178,12 +121,12 @@ function Page() {
    * @param page - 当前页数
    * @param pageSize - 每页条数
    */
-  const onChangePagination = useCallback((page: number, pageSize: number) => {
+  const onChangePagination = (page: number, pageSize: number) => {
     setPage(page)
     setPageSize(pageSize)
     const formData = searchFormRef.current?.getFieldsValue()
     handleSearch({ ...formData, page, pageSize })
-  }, [handleSearch])
+  }
 
   /**
    * 渲染操作
@@ -237,24 +180,6 @@ function Page() {
           total={total}
           onChange={onChangePagination}
         />
-
-        <BasicModal
-          width={600}
-          title={createTitle}
-          open={isCreateOpen}
-          confirmLoading={isCreateLoading}
-          onOk={createSubmit}
-          onCancel={closeCreate}
-        >
-          <BasicForm
-            formRef={createFormRef}
-            list={createList(createId)}
-            data={createData}
-            labelCol={{ span: 4 }}
-            wrapperCol={{ span: 19 }}
-            handleFinish={handleCreate}
-          />
-        </BasicModal>
       </>
     </BasicContent>
   )
