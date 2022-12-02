@@ -107,15 +107,15 @@ export const createList: IFormList[] = [
     component: 'Input'
   },
   {
-    label: '富文本',
-    name: 'editor',
-    component: 'Editor'
-  },
-  {
     label: '自定义',
     name: 'customize',
     rules: INPUT_REQUIRED,
     component: 'customize',
     render: CustomizeInput
+  },
+  {
+    label: '富文本',
+    name: 'editor',
+    component: 'Editor'
   }
 ]

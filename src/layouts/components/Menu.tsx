@@ -136,10 +136,11 @@ function LayoutMenu() {
         className={`
           transition-all
           overflow-auto
+          z-2
           ${styles.menu}
           ${isCollapsed ? styles.menuClose : ''}
           ${isMaximize || (isPhone && isCollapsed) ? styles.menuNone : ''}
-          ${isPhone ? 'z-1002' : ''}
+          ${isPhone ? '!z-1002' : ''}
         `}
       >
         <div

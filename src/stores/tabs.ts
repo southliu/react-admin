@@ -42,7 +42,7 @@ const tabsSlice = createSlice({
       if (!has) tabs.push(payload)
 
       // 如果只剩一个则无法关闭
-      tabs[0].closable = tabs?.length > 1
+      if (tabs?.length) tabs[0].closable = tabs?.length > 1
     },
     /** 关闭标签 */
     closeTabs: (state, action) => {
@@ -57,7 +57,7 @@ const tabsSlice = createSlice({
       if (payload === state.activeKey) {
         let target = ''
         if (index === 0) {
-          target = tabs[index].key
+          target = tabs?.[index]?.key || ''
         } else {
           target = tabs[index - 1].key
         }
@@ -66,7 +66,32 @@ const tabsSlice = createSlice({
       }
 
       // 如果只剩一个则无法关闭
-      tabs[0].closable = tabs?.length > 1
+      if (tabs?.length) tabs[0].closable = tabs?.length > 1
+    },
+    /** 关闭标签并跳转新的页面 */
+    closeTabGoNext: (state, action) => {
+      const { tabs } = state
+      const { payload } = action
+      const { key, nextPath } = payload
+
+      // 发现下标并从数组中删除
+      const index = tabs.findIndex(item => item.key === key)
+      if (index >= 0) tabs.splice(index, 1)
+
+      // 如果当前下标是当前选中的标签，则跳转至上一个/下一个有效值
+      if (key === state.activeKey) {
+        let target = ''
+        if (index === 0) {
+          target = nextPath
+        } else {
+          target = tabs[index - 1].key
+        }
+        state.activeKey = target
+        state.isLock = true
+      }
+
+      // 如果只剩一个则无法关闭
+      if (tabs?.length) tabs[0].closable = tabs?.length > 1
     },
     /** 关闭左侧 */
     closeLeft: (state, action) => {
@@ -79,7 +104,7 @@ const tabsSlice = createSlice({
       state.activeKey = tabs[0].key
 
       // 如果只剩一个则无法关闭
-      tabs[0].closable = tabs?.length > 1
+      if (tabs?.length) tabs[0].closable = tabs?.length > 1
     },
     /** 关闭右侧 */
     closeRight: (state, action) => {
@@ -92,7 +117,7 @@ const tabsSlice = createSlice({
       state.activeKey = tabs[tabs.length - 1].key
 
       // 如果只剩一个则无法关闭
-      tabs[0].closable = tabs?.length > 1
+      if (tabs?.length) tabs[0].closable = tabs?.length > 1
     },
     /** 关闭其他 */
     closeOther: (state, action) => {
@@ -124,6 +149,7 @@ export const {
   setNav,
   addTabs,
   closeTabs,
+  closeTabGoNext,
   closeLeft,
   closeRight,
   closeOther,

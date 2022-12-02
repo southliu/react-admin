@@ -3,25 +3,16 @@ import type { RootState } from '@/stores'
 import type { IPagePermission, ITableOptions } from '#/public'
 import type { IFormFn } from '@/components/Form/BasicForm'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { searchList, createList, tableColumns } from './model'
+import { searchList, tableColumns } from './model'
 import { message } from 'antd'
 import { useTitle } from '@/hooks/useTitle'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { checkPermission } from '@/utils/permissions'
-import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
-import {
-  getArticlePage,
-  getArticleById,
-  createArticle,
-  updateArticle,
-  deleteArticle
-} from '@/servers/content/article'
+import { getArticlePage, deleteArticle } from '@/servers/content/article'
 import BasicContent from '@/components/Content/BasicContent'
 import BasicSearch from '@/components/Search/BasicSearch'
-import BasicModal from '@/components/Modal/BasicModal'
-import BasicForm from '@/components/Form/BasicForm'
 import BasicTable from '@/components/Table/BasicTable'
 import BasicPagination from '@/components/Pagination/BasicPagination'
 
@@ -36,22 +27,11 @@ const initSearch = {
   pageSize: 20
 }
 
-// 初始化新增数据
-const initCreate = {
-  status: 1
-}
-
 function Page() {
   useTitle('文章管理')
   const navigate = useNavigate()
   const searchFormRef = useRef<IFormFn>(null)
-  const createFormRef = useRef<IFormFn>(null)
-  const [isCreateOpen, setCreateOpen] = useState(false)
   const [isLoading, setLoading] = useState(false)
-  const [isCreateLoading, setCreateLoading] = useState(false)
-  const [createTitle, setCreateTitle] = useState(ADD_TITLE)
-  const [createId, setCreateId] = useState('')
-  const [createData, setCreateData] = useState<IFormData>(initCreate)
   const [page, setPage] = useState(initSearch.page)
   const [pageSize, setPageSize] = useState(initSearch.pageSize)
   const [total, setTotal] = useState(0)
@@ -102,33 +82,14 @@ function Page() {
   /** 点击新增 */
   const onCreate = () => {
     navigate('/content/article/option')
-
-    setCreateOpen(true)
-    setCreateTitle(ADD_TITLE)
-    setCreateId('')
-    setCreateData(initCreate)
   }
 
   /**
    * 点击编辑
    * @param id - 唯一值
    */
-  const onUpdate = async (id: string) => {
-    try {
-      setCreateOpen(true)
-      setCreateTitle(EDIT_TITLE(id))
-      setCreateId(id)
-      setCreateLoading(true)
-      const { data: { data } } = await getArticleById(id as string)
-      setCreateData(data)
-    } finally {
-      setCreateLoading(false)
-    }
-  }
-
-  /** 表格提交 */
-  const createSubmit = () => {
-    createFormRef.current?.handleSubmit()
+  const onUpdate = (id: string) => {
+    navigate(`/content/article/option?id=${id}`)
   }
 
   /** 获取表格数据 */
@@ -136,24 +97,6 @@ function Page() {
     const formData = searchFormRef.current?.getFieldsValue() || {}
     const params = { ...formData, page, pageSize }
     handleSearch(params)
-  }
-
-  /**
-   * 新增/编辑提交
-   * @param values - 表单返回数据
-   */
-  const handleCreate = async (values: IFormData) => {
-    try {
-      setCreateLoading(true)
-      const functions = () => createId ? updateArticle(createId, values) : createArticle(values)
-      const { data } = await functions()
-      message.success(data?.message || '操作成功')
-      createFormRef.current?.handleReset()
-      setCreateOpen(false)
-      getPage()
-    } finally {
-      setCreateLoading(false)
-    }
   }
 
   /**
@@ -237,22 +180,6 @@ function Page() {
           total={total}
           onChange={onChangePagination}
         />
-
-        <BasicModal
-          title={createTitle}
-          open={isCreateOpen}
-          confirmLoading={isCreateLoading}
-          onOk={createSubmit}
-          onCancel={() => setCreateOpen(false)}
-        >
-          <BasicForm
-            formRef={createFormRef}
-            list={createList}
-            data={createData}
-            labelCol={{ span: 6 }}
-            handleFinish={handleCreate}
-          />
-        </BasicModal>
       </>
     </BasicContent>
   )

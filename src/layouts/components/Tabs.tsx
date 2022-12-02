@@ -64,7 +64,7 @@ function LayoutTabs() {
 
   useEffect(() => {
     // 当选中贴标签不等于当前路由则跳转
-    if (activeKey && activeKey !== pathname) {
+    if (activeKey !== pathname) {
       const key = isLock ? activeKey : pathname
       handleAddTab(key)
 
