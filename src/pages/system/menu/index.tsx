@@ -239,8 +239,7 @@ function Page() {
         />
 
         <BasicModal
-          width={900}
-          style={{ top: 10 }}
+          width={600}
           title={createTitle}
           open={isCreateOpen}
           confirmLoading={isCreateLoading}
@@ -251,8 +250,8 @@ function Page() {
             formRef={createFormRef}
             list={createList(createId)}
             data={createData}
-            labelCol={{ span: 3 }}
-            wrapperCol={{ span: 20 }}
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 19 }}
             handleFinish={handleCreate}
           />
         </BasicModal>

@@ -1,19 +1,18 @@
 import type { IFormList } from "#/form"
 import type { ITableColumn, ITableOptions } from '#/public'
-import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
-import { OPEN_CLOSE } from '@/utils/constants'
+import { INPUT_REQUIRED } from '@/utils/config'
 import CustomizeInput from './components/CustomizeInput'
 
 // 搜索数据
 export const searchList: IFormList[] = [
   {
-    label: '年龄',
-    name: 'age',
-    component: 'InputNumber'
+    label: '用户名',
+    name: 'username',
+    component: 'Input'
   },
   {
-    label: '名字',
-    name: 'keyword',
+    label: '标题',
+    name: 'title',
     component: 'Input'
   }
 ]
@@ -37,29 +36,14 @@ export const tableColumns = (optionRender: ITableOptions<object>): ITableColumn 
       fixed: 'left'
     },
     {
-      title: '姓名',
-      dataIndex: 'real_name',
+      title: '标题',
+      dataIndex: 'title',
       width: 400
     },
     {
-      title: '角色',
-      dataIndex: 'roles_name',
+      title: '内容',
+      dataIndex: 'content',
       width: 400
-    },
-    {
-      title: '手机号',
-      dataIndex: 'phone',
-      width: 400
-    },
-    {
-      title: '邮箱',
-      dataIndex: 'email',
-      width: 400
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      width: 200
     },
     {
       title: '操作',
@@ -80,42 +64,21 @@ export const createList: IFormList[] = [
     component: 'Input'
   },
   {
-    label: '姓名',
-    name: 'real_name',
-    rules: INPUT_REQUIRED,
-    component: 'Input'
-  },
-  {
-    label: '角色',
-    name: 'roles_name',
-    rules: INPUT_REQUIRED,
-    component: 'Input'
-  },
-  {
-    label: '状态',
-    name: 'status',
-    rules: SELECT_REQUIRED,
-    component: 'Select',
-    componentProps: {
-      options: OPEN_CLOSE
-    }
-  },
-  {
     label: '嵌套数据',
     name: ['user', 'name', 'test'],
     rules: INPUT_REQUIRED,
     component: 'Input'
   },
   {
-    label: '自定义',
-    name: 'customize',
+    label: '标题',
+    name: 'title',
     rules: INPUT_REQUIRED,
     component: 'customize',
     render: CustomizeInput
   },
   {
-    label: '富文本',
-    name: 'editor',
+    label: '内容',
+    name: 'content',
     component: 'Editor'
   }
 ]

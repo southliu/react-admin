@@ -28,7 +28,7 @@ import BasicContent from '@/components/Content/BasicContent'
 
 // 初始化新增数据
 const initCreate = {
-  status: 1
+  content: '<h4>初始化内容</h4>'
 }
 
 // 父路径
@@ -101,7 +101,6 @@ function Page() {
   const handleCreate = () => {
     setCreateId('')
     setCreateData(initCreate)
-    createFormRef.current?.handleReset()
   }
 
   /**
@@ -126,6 +125,7 @@ function Page() {
 
   /** 返回主页 */
   const goBack = () => {
+    createFormRef.current?.handleReset()
     dispatch(closeTabGoNext({
       key: uri,
       nextPath: fatherPath

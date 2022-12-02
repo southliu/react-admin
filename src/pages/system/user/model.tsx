@@ -101,11 +101,5 @@ export const createList: IFormList[] = [
     componentProps: {
       options: OPEN_CLOSE
     }
-  },
-  {
-    label: '嵌套数据',
-    name: ['user', 'name', 'test'],
-    rules: INPUT_REQUIRED,
-    component: 'Input'
   }
 ]
