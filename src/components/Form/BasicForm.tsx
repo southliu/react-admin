@@ -65,6 +65,7 @@ function BasicForm(props: IProps) {
 
   // 监听传入表单数据，如果变化则替换表单
   useEffect(() => {
+    form.resetFields()
     form.setFieldsValue(props.data)
   }, [form, props.data])
 
