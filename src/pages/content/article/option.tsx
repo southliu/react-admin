@@ -1,13 +1,17 @@
 import type { IFormData } from '#/form'
 import type { IFormFn } from '@/components/Form/BasicForm'
-import type { AppDispatch } from '@/stores'
+import type { AppDispatch, RootState } from '@/stores'
+import type { IPagePermission } from '#/public'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button, message, Spin } from 'antd'
 import { createList } from './model'
 import { getUrlParam } from '@/utils/helper'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { useAliveController } from 'react-activation'
+import { checkPermission } from '@/utils/permissions'
+import { getOpenMenuByRouter } from '@/menus/utils/helper'
+import { setOpenKeys, setSelectedKeys } from '@/stores/menu'
 import {
   addTabs,
   setNav,
@@ -20,6 +24,7 @@ import {
  updateArticle,
 } from '@/servers/content/article'
 import BasicForm from '@/components/Form/BasicForm'
+import BasicContent from '@/components/Content/BasicContent'
 
 // 初始化新增数据
 const initCreate = {
@@ -39,6 +44,29 @@ function Page() {
   const [isCreateLoading, setCreateLoading] = useState(false)
   const [createId, setCreateId] = useState('')
   const [createData, setCreateData] = useState<IFormData>(initCreate)
+
+  const permissions = useSelector((state: RootState) => state.user.permissions)
+  const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
+  const isPhone = useSelector((state: RootState) => state.menu.isPhone)
+
+  // 权限前缀
+  const permissionPrefix = '/content/article'
+
+  // 权限
+  const pagePermission: IPagePermission = {
+    create: checkPermission(`${permissionPrefix}/create`, permissions),
+    update: checkPermission(`${permissionPrefix}/update`, permissions),
+  }
+
+  // 处理默认展开
+  useEffect(() => {
+    const newOpenKey = getOpenMenuByRouter(fatherPath)
+    if (!isPhone && !isCollapsed) {
+      dispatch(setOpenKeys(newOpenKey))
+      dispatch(setSelectedKeys(fatherPath))
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   /**
    * 添加标签
@@ -66,28 +94,21 @@ function Page() {
   }, [handleAddTab])
 
   useEffect(() => {
-    if (id) {
-      onUpdate(id)
-    } else {
-      onCreate()
-    }
-
-    return () => {
-      setCreateData(initCreate)
-    }
+    id ? handleUpdate(id) : handleCreate()
   }, [id])
 
-  /** 点击新增 */
-  const onCreate = () => {
+  /** 处理新增 */
+  const handleCreate = () => {
     setCreateId('')
     setCreateData(initCreate)
+    createFormRef.current?.handleReset()
   }
 
   /**
-   * 点击编辑
+   * 处理编辑
    * @param id - 唯一值
    */
-   const onUpdate = async (id: string) => {
+   const handleUpdate = async (id: string) => {
     try {
       setCreateId(id)
       setCreateLoading(true)
@@ -121,7 +142,7 @@ function Page() {
    * 新增/编辑提交
    * @param values - 表单返回数据
    */
-  const handleCreate = async (values: IFormData) => {
+  const handleFinish = async (values: IFormData) => {
     try {
       setCreateLoading(true)
       const functions = () => createId ? updateArticle(createId, values) : createArticle(values)
@@ -135,41 +156,43 @@ function Page() {
   }
 
   return (
-    <div>
-      <div className='mt-30px mb-60px'>
-        <Spin spinning={isCreateLoading}>
-          <BasicForm
-            formRef={createFormRef}
-            list={createList}
-            data={createData}
-            labelCol={{ span: 5 }}
-            handleFinish={handleCreate}
-          />
-        </Spin>
-      </div>
-        
-      <div className={`
-        bg
-        fixed
-        flex
-        justify-end
-        left-0
-        right-0
-        bottom-0
-        py-5px
-        px-30px
-        box-border
-        shadow
-        shadow-gray-500
-      `}>
-        <Button className='mr-10px' danger onClick={goBack}>
-          返回
-        </Button>
-        <Button type="primary" onClick={createSubmit}>
-          提交
-        </Button>
-      </div>
-    </div>
+    <BasicContent isPermission={id ? pagePermission.update : pagePermission.creae}>
+      <>
+        <div className='mb-50px'>
+          <Spin spinning={isCreateLoading}>
+            <BasicForm
+              formRef={createFormRef}
+              list={createList}
+              data={createData}
+              labelCol={{ span: 5 }}
+              handleFinish={handleFinish}
+            />
+          </Spin>
+        </div>
+          
+        <div className={`
+          bg
+          fixed
+          flex
+          justify-end
+          left-0
+          right-0
+          bottom-0
+          py-5px
+          px-30px
+          box-border
+          shadow
+          shadow-gray-500
+        `}>
+          <Button className='mr-10px' danger onClick={goBack}>
+            返回
+          </Button>
+          <Button type="primary" onClick={createSubmit}>
+            提交
+          </Button>
+        </div>
+      </>
+    </BasicContent>
   )
 }
 

@@ -7,8 +7,8 @@ import { RootState } from '@/stores'
 import { useDispatch, useSelector } from 'react-redux'
 import { defaultMenus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { setOpenKeys, toggleCollapsed } from '@/stores/menu'
 import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
+import { setOpenKeys, setSelectedKeys, toggleCollapsed } from '@/stores/menu'
 import {
   filterMenus,
   getFirstMenu,
@@ -24,6 +24,7 @@ function LayoutMenu() {
   const { pathname } = useLocation()
   const dispatch: AppDispatch = useDispatch()
   const [menus, setMenus] = useState<ISideMenu[]>([])
+  const selectedKeys = useSelector((state: RootState) => state.menu.selectedKeys)
   const openKeys = useSelector((state: RootState) => state.menu.openKeys)
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
@@ -39,6 +40,7 @@ function LayoutMenu() {
     const newOpenKey = getOpenMenuByRouter(pathname)
     if (!isPhone && !isCollapsed) {
       dispatch(setOpenKeys(newOpenKey))
+      dispatch(setSelectedKeys(pathname))
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
@@ -174,9 +176,10 @@ function LayoutMenu() {
             后台管理系统
           </span>
         </div>
+
         <Menu
           className="h-full z-1000"
-          selectedKeys={[pathname]}
+          selectedKeys={[selectedKeys]}
           openKeys={openKeys}
           mode="inline"
           theme="dark"

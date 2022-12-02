@@ -80,13 +80,7 @@ const tabsSlice = createSlice({
 
       // 如果当前下标是当前选中的标签，则跳转至上一个/下一个有效值
       if (key === state.activeKey) {
-        let target = ''
-        if (index === 0) {
-          target = nextPath
-        } else {
-          target = tabs[index - 1].key
-        }
-        state.activeKey = target
+        state.activeKey = nextPath
         state.isLock = true
       }
 

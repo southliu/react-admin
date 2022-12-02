@@ -61,7 +61,10 @@ export interface ISideMenu extends Omit<SubMenuType, 'children' | 'label' | 'ico
 
 // 页面权限
 export interface IPagePermission {
-  page: boolean;
+  page?: boolean;
+  create?: boolean;
+  update?: boolean;
+  delete?: boolean;
   [key: string]: boolean;
 }
 
