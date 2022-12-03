@@ -1,25 +1,30 @@
 import type { AppDispatch, RootState } from '@/stores'
 import { useToken } from '@/hooks/useToken'
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate, Outlet } from 'react-router-dom'
+import { useNavigate, useOutlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
 import { setPermissions, setUserInfo } from '@/stores/user'
 import { toggleCollapsed, togglePhone } from '@/stores/menu'
+import { useLocation } from 'react-router-dom'
 import { useDebounceFn } from 'ahooks'
 import { Skeleton } from 'antd'
 import Menu from './components/Menu'
 import Header from './components/Header'
 import Tabs from './components/Tabs'
 import Forbidden from '@/pages/403'
+import KeepAlive from 'react-activation'
 import styles from './index.module.less'
 
 function Layout() {
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
   const [getToken] = useToken()
+  const { pathname, search } = useLocation()
+  const uri = pathname + search
   const token = getToken()
+  const outlet = useOutlet()
   const [isLoading, setLoading] = useState(true)
 
   // 权限
@@ -125,7 +130,9 @@ function Layout() {
           }
           {
             permissions.length > 0 &&
-            <Outlet />
+            <KeepAlive id={uri} name={uri}>
+              { outlet }
+            </KeepAlive>
           }
         </div>
       </div>

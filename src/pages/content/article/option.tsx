@@ -1,17 +1,22 @@
 import type { IFormData } from '#/form'
-import type { IFormFn } from '@/components/Form/BasicForm'
-import type { AppDispatch, RootState } from '@/stores'
 import type { IPagePermission } from '#/public'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import type { AppDispatch, RootState } from '@/stores'
+import type { IFormFn } from '@/components/Form/BasicForm'
 import { message, Spin } from 'antd'
 import { createList } from './model'
 import { getUrlParam } from '@/utils/helper'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { useAliveController } from 'react-activation'
 import { checkPermission } from '@/utils/permissions'
 import { getOpenMenuByRouter } from '@/menus/utils/helper'
 import { setOpenKeys, setSelectedKeys } from '@/stores/menu'
+import { useActivate, useAliveController } from 'react-activation'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import {
   addTabs,
   setNav,
@@ -93,6 +98,10 @@ function Page() {
   useEffect(() => {
     handleAddTab()
   }, [handleAddTab])
+
+  useActivate(() => {
+    handleAddTab()
+  })
 
   useEffect(() => {
     id ? handleUpdate(id) : handleCreate()
