@@ -105,7 +105,8 @@ function Page() {
 
   useEffect(() => {
     id ? handleUpdate(id) : handleCreate()
-  }, [id])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   /** 处理新增 */
   const handleCreate = () => {
