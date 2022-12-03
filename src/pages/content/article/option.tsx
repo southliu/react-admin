@@ -1,17 +1,22 @@
 import type { IFormData } from '#/form'
-import type { IFormFn } from '@/components/Form/BasicForm'
-import type { AppDispatch, RootState } from '@/stores'
 import type { IPagePermission } from '#/public'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { Button, message, Spin } from 'antd'
+import type { AppDispatch, RootState } from '@/stores'
+import type { IFormFn } from '@/components/Form/BasicForm'
+import { message, Spin } from 'antd'
 import { createList } from './model'
 import { getUrlParam } from '@/utils/helper'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { useAliveController } from 'react-activation'
 import { checkPermission } from '@/utils/permissions'
 import { getOpenMenuByRouter } from '@/menus/utils/helper'
 import { setOpenKeys, setSelectedKeys } from '@/stores/menu'
+import { useActivate, useAliveController } from 'react-activation'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import {
   addTabs,
   setNav,
@@ -19,12 +24,13 @@ import {
   closeTabGoNext
 } from '@/stores/tabs'
 import {
- getArticleById,
- createArticle,
- updateArticle,
+  getArticleById,
+  createArticle,
+  updateArticle,
 } from '@/servers/content/article'
 import BasicForm from '@/components/Form/BasicForm'
 import BasicContent from '@/components/Content/BasicContent'
+import SumbitBottom from '@/components/Bottom/SumbitBottom'
 
 // 初始化新增数据
 const initCreate = {
@@ -93,9 +99,14 @@ function Page() {
     handleAddTab()
   }, [handleAddTab])
 
+  useActivate(() => {
+    handleAddTab()
+  })
+
   useEffect(() => {
     id ? handleUpdate(id) : handleCreate()
-  }, [id])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   /** 处理新增 */
   const handleCreate = () => {
@@ -119,7 +130,7 @@ function Page() {
   }
 
   /** 表格提交 */
-  const createSubmit = () => {
+  const handleSubmit = () => {
     createFormRef.current?.handleSubmit()
   }
 
@@ -169,28 +180,11 @@ function Page() {
             />
           </Spin>
         </div>
-          
-        <div className={`
-          bg
-          fixed
-          flex
-          justify-end
-          left-0
-          right-0
-          bottom-0
-          py-5px
-          px-30px
-          box-border
-          shadow
-          shadow-gray-500
-        `}>
-          <Button className='mr-10px' danger onClick={goBack}>
-            返回
-          </Button>
-          <Button type="primary" onClick={createSubmit}>
-            提交
-          </Button>
-        </div>
+
+        <SumbitBottom
+          goBack={goBack}
+          handleSubmit={handleSubmit}
+        />
       </>
     </BasicContent>
   )
