@@ -7,7 +7,7 @@ import { Icon } from '@iconify/react'
 import Draggable from 'react-draggable'
 
 function BasicModal(props: ModalProps) {
-  const { onCancel } = props
+  const { width, children, wrapClassName, onCancel } = props
   const [isDisabled, setDisabled] = useState(true)
   const [isFullscreen, setFullscreen] = useState(false)
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 })
@@ -95,8 +95,8 @@ function BasicModal(props: ModalProps) {
   const modalRender = (modal: ReactNode) => (
     <Draggable
       disabled={isDisabled}
-      bounds={bounds}
       onStart={onStartMouse}
+      bounds={isFullscreen ? undefined : bounds}
       position={isFullscreen ? { x: 0, y: 0 } : undefined}
     >
       <div ref={draggleRef}>
@@ -110,13 +110,13 @@ function BasicModal(props: ModalProps) {
       destroyOnClose
       closable={false}
       maskClosable={false}
-      width={isFullscreen ? '100%' : props.width || 520}
-      wrapClassName={isFullscreen ? 'full-modal' : ''}
       modalRender={modalRender}
       {...props}
       title={titleRender}
+      wrapClassName={isFullscreen ? 'full-modal' : wrapClassName || ''}
+      width={isFullscreen ? '100%' : width || 520}
     >
-      { props.children }
+      { children }
     </Modal>
   )
 }
