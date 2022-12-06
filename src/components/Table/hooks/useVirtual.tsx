@@ -14,7 +14,7 @@ import { useThrottleFn } from 'ahooks'
 import VirtualWrapper from '../components/VirtualWrapper'
 
 const initialState: IInitTableState = {
-  rowHeight: 46, // 行高度
+  rowHeight: 49, // 行高度
   curScrollTop: 0, // 当前的滚动高度
   scrollHeight: 0, // 可滚动区域的高度
   tableScrollY: 0 // 可滚动区域值
