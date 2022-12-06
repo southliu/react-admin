@@ -87,7 +87,7 @@ function VirtualTable(props: IVirtualTableProps) {
       if (tableScrollY <= 0) {
         temp = 0
       } else {
-        const tempRenderLen = ((tableScrollY / state.rowHeight) | 0) + 3
+        const tempRenderLen = ((tableScrollY / state.rowHeight) | 0) + 5
         temp = tempRenderLen > totalLen ? totalLen : tempRenderLen
       }
     }
