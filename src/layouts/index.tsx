@@ -92,14 +92,17 @@ function Layout() {
     <div id="layout">
       <Menu />
       <div className={styles.layout_right}>
-        <div className={`
-          border-bottom
-          transition-all
-          ${styles.header}
-          ${isCollapsed ? styles.headerCloseMenu : ''}
-          ${isMaximize ? styles.headerNone : ''}
-          ${isPhone ? `!left-0 z-999` : ''}
-        `}>
+        <div
+          id='header'
+          className={`
+            border-bottom
+            transition-all
+            ${styles.header}
+            ${isCollapsed ? styles.headerCloseMenu : ''}
+            ${isMaximize ? styles.headerNone : ''}
+            ${isPhone ? `!left-0 z-999` : ''}
+          `}
+        >
           <Header />
           <Tabs />
         </div>
