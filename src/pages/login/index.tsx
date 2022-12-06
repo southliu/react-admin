@@ -44,7 +44,8 @@ function Login() {
       const firstMenu = getFirstMenu(defaultMenus, permissions)
       navigate(firstMenu)
     } 
-  }, [getToken, navigate, permissions])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   /**
    * 处理登录
