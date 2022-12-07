@@ -3,18 +3,18 @@ import type { ColumnsType, ColumnType } from 'antd/es/table'
 import type { TableProps } from 'antd'
 import { useMemo, useState, useEffect, memo } from 'react'
 import { Table, Skeleton } from 'antd'
-import { getTableHeight } from './utils/helper'
+import { getTableHeight, handleRowHeight } from './utils/helper'
 import ResizableTitle from './components/ResizableTitle'
 import useVirtualTable from './hooks/useVirtual'
 
 type IComponents = TableProps<object>['components']
 
 interface IProps extends Omit<TableProps<object>, 'bordered'> {
-  scrollX?: number;
-  scrollY?: number;
   isBordered?: boolean; // 是否开启边框
   isZebra?: boolean; // 是否开启斑马线
   isVirtual?: boolean; // 是否开启虚拟滚动
+  scrollX?: number;
+  scrollY?: number;
 }
 
 function BasicTable(props: IProps) {
@@ -24,7 +24,9 @@ function BasicTable(props: IProps) {
     isBordered,
     isVirtual,
     scrollX,
-    scrollY
+    scrollY,
+    rowClassName,
+    size
   } = props
   const [columns, setColumns] = useState(props.columns as ColumnsType<object>)
 
@@ -61,7 +63,8 @@ function BasicTable(props: IProps) {
 
   // 虚拟滚动操作值
   const virtualOptions = useVirtualTable({
-    height: tableHeight // 设置可视高度
+    height: tableHeight, // 设置可视高度
+    size: size || 'small'
   })
 
   // 虚拟滚动组件
@@ -78,7 +81,7 @@ function BasicTable(props: IProps) {
   }, [virtualOptions])
 
   // 只带拖拽功能组件
-  const components: IComponents = isVirtual !== false ? virtualComponents : {
+  const components: IComponents = isVirtual === true ? virtualComponents : {
     header: {
       cell: ResizableTitle,
     }
@@ -89,6 +92,16 @@ function BasicTable(props: IProps) {
     ...props.scroll,
     x: scrollX,
     y: scrollY || tableHeight
+  }
+
+  /**
+   * 处理行内样式
+   */
+  const handleRowClassName: TableProps<object>['rowClassName'] = (record: object, index: number, indent: number) => {
+    const className = typeof rowClassName === 'string' ? rowClassName : rowClassName?.(record, index, indent)
+    const rowSize = `!h-${handleRowHeight(size)}px`
+
+    return `${className || ''} ${rowSize}`
   }
 
   return (
@@ -112,6 +125,13 @@ function BasicTable(props: IProps) {
           pagination={false}
           loading={loading}
           {...props}
+          rowClassName={handleRowClassName}
+          style={{
+            borderRadius: 10,
+            borderRight: '1px solid rgba(0, 0, 0, .05)',
+            borderBottom: '1px solid rgba(0, 0, 0, .05)',
+            ...props.style
+          }}
           bordered={isBordered !== false}
           scroll={scroll}
           components={components}

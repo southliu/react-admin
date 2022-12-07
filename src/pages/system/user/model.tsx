@@ -51,11 +51,6 @@ export const searchList: IFormList[] = [
       width: 400
     },
     {
-      title: '邮箱',
-      dataIndex: 'email',
-      width: 400
-    },
-    {
       title: '状态',
       dataIndex: 'status',
       width: 200,
