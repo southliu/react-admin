@@ -22,11 +22,10 @@ function VirtualTable() {
 
   return (
     <BasicTable
+      isVirtual
       columns={columns}
       dataSource={data}
-      style={{
-        borderBottom: '1px solid rgba(0, 0, 0, .05)'
-      }}
+      scrollY={500}
     />
   )
 }

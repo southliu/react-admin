@@ -1,3 +1,5 @@
+import type { SizeType } from 'antd/es/config-provider/SizeContext'
+
 /** 计算表格高度 */
 export function getTableHeight(): number {
   // 屏幕高度
@@ -21,5 +23,22 @@ export function getTableHeight(): number {
   if (searchesHeight && tableHeight > 0) tableHeight -= searchesHeight
   if (paginationHeight && tableHeight > 0) tableHeight -= paginationHeight
 
-  return tableHeight > 0 ? tableHeight - 60 : 450
+  return tableHeight > 0 ? tableHeight - 65 : 450
+}
+
+/**
+ * 根据大小处理行高度
+ * @param size - 大小
+ */
+export function handleRowHeight(size: SizeType): number {
+  switch(size) {
+    case 'large':
+      return 54
+
+    case 'middle':
+      return 46
+
+    default:
+      return 38
+  }
 }

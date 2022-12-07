@@ -1,5 +1,6 @@
 import type { IInitTableState } from '../utils/reducer'
 import type { CSSProperties, ReactNode } from 'react'
+import type { SizeType } from 'antd/es/config-provider/SizeContext'
 import {
   useEffect,
   useReducer,
@@ -10,11 +11,12 @@ import {
 import { reducer } from '../utils/reducer'
 import { isNumber } from '@/utils/is'
 import { ScrollContext } from '../utils/state'
+import { handleRowHeight } from '../utils/helper'
 import { useThrottleFn } from 'ahooks'
 import VirtualWrapper from '../components/VirtualWrapper'
 
 const initialState: IInitTableState = {
-  rowHeight: 49, // 行高度
+  rowHeight: 38, // 行高度
   curScrollTop: 0, // 当前的滚动高度
   scrollHeight: 0, // 可滚动区域的高度
   tableScrollY: 0 // 可滚动区域值
@@ -48,11 +50,11 @@ function VirtualTable(props: IVirtualTableProps) {
   const tableRef = useRef<HTMLTableElement>(null)
 
   // 数据的总条数
-  const [totalLen, setTotalLen] = useState<number>(children[1]?.props?.data?.length ?? 0)
+  const [totalLen, setTotalLen] = useState<number>(children?.[1]?.props?.data?.length ?? 0)
 
   useEffect(() => {
-    if (isNumber(children[1]?.props?.data?.length)) {
-      setTotalLen(children[1]?.props?.data?.length)
+    if (isNumber(children?.[1]?.props?.data?.length)) {
+      setTotalLen(children?.[1]?.props?.data?.length)
     }
   }, [children])
 
@@ -60,7 +62,7 @@ function VirtualTable(props: IVirtualTableProps) {
   const tableHeight = useMemo<string | number>(() => {
     let temp: string | number = 'auto'
     if (state.rowHeight && totalLen) {
-      temp = state.rowHeight * totalLen + 10
+      temp = state.rowHeight * totalLen
     }
     return temp
   }, [state.rowHeight, totalLen])
@@ -121,7 +123,7 @@ function VirtualTable(props: IVirtualTableProps) {
     dispatch({ type: 'reset' })
   }, [totalLen])
 
-  // 滑动节流
+  /** 滑动节流 */
   const throttleScroll = useThrottleFn((e: Event) => {
     const scrollTop: number = (e?.target as HTMLElement)?.scrollTop ?? 0
 
@@ -185,7 +187,7 @@ function VirtualTable(props: IVirtualTableProps) {
             position: 'relative'
           }}
         >
-          {children}
+          { children }
         </table>
       </ScrollContext.Provider>
     </div>
@@ -194,10 +196,13 @@ function VirtualTable(props: IVirtualTableProps) {
 
 interface IProps {
   height: number | string;
+  size: SizeType
 }
 
 export default function useVirtualTable(props: IProps) {
-  scrollY = props.height
+  const { height, size } = props
+  scrollY = height
+  initialState.rowHeight = handleRowHeight(size)
 
   return {
     table: VirtualTable,
