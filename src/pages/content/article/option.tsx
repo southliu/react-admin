@@ -47,7 +47,7 @@ function Page() {
   const id = getUrlParam(search, 'id')
   const createFormRef = useRef<IFormFn>(null)
   const dispatch: AppDispatch = useDispatch()
-  const [isCreateLoading, setCreateLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false)
   const [createId, setCreateId] = useState('')
   const [createData, setCreateData] = useState<IFormData>(initCreate)
 
@@ -121,11 +121,11 @@ function Page() {
    const handleUpdate = async (id: string) => {
     try {
       setCreateId(id)
-      setCreateLoading(true)
+      setLoading(true)
       const { data: { data } } = await getArticleById(id as string)
       setCreateData(data)
     } finally {
-      setCreateLoading(false)
+      setLoading(false)
     }
   }
 
@@ -155,14 +155,14 @@ function Page() {
    */
   const handleFinish = async (values: IFormData) => {
     try {
-      setCreateLoading(true)
+      setLoading(true)
       const functions = () => createId ? updateArticle(createId, values) : createArticle(values)
       const { data } = await functions()
       message.success(data?.message || '操作成功')
       createFormRef.current?.handleReset()
       sumbitFinish()
     } finally {
-      setCreateLoading(false)
+      setLoading(false)
     }
   }
 
@@ -170,7 +170,7 @@ function Page() {
     <BasicContent isPermission={id ? pagePermission.update : pagePermission.creae}>
       <>
         <div className='mb-50px'>
-          <Spin spinning={isCreateLoading}>
+          <Spin spinning={isLoading}>
             <BasicForm
               formRef={createFormRef}
               list={createList}
@@ -182,6 +182,7 @@ function Page() {
         </div>
 
         <SumbitBottom
+          isLoading={isLoading}
           goBack={goBack}
           handleSubmit={handleSubmit}
         />

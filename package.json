@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "test": "cross-env NODE_ENV=test vitest",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
-    "lint:stylelint": "stylelint --cache --fix \"**/*.{jsx,tstsx,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
+    "lint:stylelint": "stylelint --cache --fix \"**/*.{jsx,tsx,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -1,3 +1,5 @@
+import { DefaultOptionType } from 'antd/es/select'
+
 /**
  * @description: 公用常量
  */
@@ -13,10 +15,11 @@
   info = '#909399'
 }
 
-export interface IConstant {
+export interface IConstant extends Omit<DefaultOptionType, 'children'> {
   value: string | number;
   label: string;
   color?: colors;
+  children?: IConstant[];
 }
 
 // 日期格式化
