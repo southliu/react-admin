@@ -5,12 +5,14 @@ import type { IFormFn } from '@/components/Form/BasicForm'
 import { message, Spin } from 'antd'
 import { createList } from './model'
 import { getUrlParam } from '@/utils/helper'
+import { useTitle } from '@/hooks/useTitle'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { checkPermission } from '@/utils/permissions'
 import { getOpenMenuByRouter } from '@/menus/utils/helper'
 import { setOpenKeys, setSelectedKeys } from '@/stores/menu'
 import { useActivate, useAliveController } from 'react-activation'
+import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import {
   useCallback,
   useEffect,
@@ -54,6 +56,11 @@ function Page() {
   const permissions = useSelector((state: RootState) => state.user.permissions)
   const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
   const isPhone = useSelector((state: RootState) => state.menu.isPhone)
+  
+  const title = '文章管理'
+  const creatTitle = `${ADD_TITLE}${title}`
+  const updateTitle = `${EDIT_TITLE(id, title)}`
+  useTitle(id ? updateTitle : creatTitle)
 
   // 权限前缀
   const permissionPrefix = '/content/article'
@@ -82,8 +89,7 @@ function Page() {
     // 当值为空时匹配路由
     if (path === '/') return
 
-    const option = id ? '编辑' : '新增'
-    const title = `${option}文章管理${id ? `(${id})` : ''}`
+    const title = id ? updateTitle : creatTitle
     const newTab = {
       label: title,
       key: uri,

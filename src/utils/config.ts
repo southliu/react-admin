@@ -24,7 +24,7 @@ export const FILE_API = `${ENV === 'development' ? '/api' : URL}/authority/file/
 
 // 新增/编辑标题
 export const ADD_TITLE = '新增'
-export const EDIT_TITLE = (name: string) => `编辑${ name ? `(${name})` : '' }`
+export const EDIT_TITLE = (name: string, title?: string) => `编辑${ title ?? '' }${ name ? `(${name})` : '' }`
 
 // 密码规则
 export const PASSWORD_RULE = {
