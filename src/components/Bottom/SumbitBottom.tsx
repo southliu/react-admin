@@ -3,11 +3,12 @@ import { Button } from 'antd'
 interface IProps {
   goBack: () => void;
   handleSubmit: () => void;
+  isLoading?: boolean;
   children?: JSX.Element;
 }
 
 function SumbitBottom(props: IProps) {
-  const { goBack, handleSubmit, children } = props
+  const { goBack, handleSubmit, isLoading, children } = props
 
   return (
     <div className={`
@@ -26,10 +27,18 @@ function SumbitBottom(props: IProps) {
     `}>
       { children }
 
-      <Button className='mr-10px' danger onClick={goBack}>
+      <Button
+        className='mr-10px'
+        danger
+        onClick={goBack}
+      >
         返回
       </Button>
-      <Button type="primary" onClick={handleSubmit}>
+      <Button
+        loading={!!isLoading}
+        type="primary"
+        onClick={handleSubmit}
+      >
         提交
       </Button>
     </div>

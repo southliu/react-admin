@@ -81,7 +81,7 @@ function Page() {
 
   /** 点击新增 */
   const onCreate = () => {
-    navigate('/content/article/option')
+    navigate('/content/article/option?type=create')
   }
 
   /**
@@ -89,7 +89,7 @@ function Page() {
    * @param id - 唯一值
    */
   const onUpdate = (id: string) => {
-    navigate(`/content/article/option?id=${id}`)
+    navigate(`/content/article/option?type=update&id=${id}`)
   }
 
   /** 获取表格数据 */
