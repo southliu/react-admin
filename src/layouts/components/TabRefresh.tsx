@@ -19,7 +19,7 @@ function TabRefresh(props: IProps) {
           justify-center
           text-lg
           cursor-pointer
-          ${isRefresh ? 'animate-spin' : ''}
+          ${isRefresh ? 'animate-spin pointer-events-none' : ''}
         `}
         onClick={() => onClick()}
         icon="ant-design:reload-outlined"

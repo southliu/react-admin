@@ -28,6 +28,7 @@ function LayoutTabs() {
   const { refresh } = useAliveController()
   const [isRefresh, setRefresh] = useState(false) // 重新加载
   const [time, setTime] = useState<null | NodeJS.Timeout>(null)
+  const [refreshTime, seRefreshTime] = useState<null | NodeJS.Timeout>(null)
 
   const tabs = useSelector((state: RootState) => state.tabs.tabs)
   const isLock = useSelector((state: RootState) => state.tabs.isLock)
@@ -64,6 +65,21 @@ function LayoutTabs() {
   useEffect(() => {
     handleAddTab()
   }, [handleAddTab])
+
+  useEffect(() => {
+    return () => {
+      if (time) {
+        clearTimeout(time)
+        setTime(null)
+      }
+
+      if (refreshTime) {
+        clearTimeout(refreshTime)
+        seRefreshTime(null)
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     // 当选中贴标签不等于当前路由则跳转
@@ -127,13 +143,19 @@ function LayoutTabs() {
             dispatch(setActiveKey(key))
           }
 
-          setRefresh(false)
           navigate(key)
           message.success({
             content: '刷新成功',
             key: 'refresh'
           })
           setTime(null)
+        }, 100)
+      )
+
+      seRefreshTime(
+        setTimeout(() => {
+          setRefresh(false)
+          seRefreshTime(null)
         }, 1000)
       )
     }
