@@ -1,4 +1,5 @@
 import type { SizeType } from 'antd/es/config-provider/SizeContext'
+import type { ColumnsType } from 'antd/es/table'
 
 /** 计算表格高度 */
 export function getTableHeight(): number {
@@ -41,4 +42,19 @@ export function handleRowHeight(size: SizeType): number {
     default:
       return 38
   }
+}
+
+/**
+ * 表头超出隐藏
+ * @param columns - 表格数据
+ */
+export function tableEllipsis(columns: ColumnsType<object>) {
+  for (let i = 0; i < columns.length; i++) {
+    const element = columns[i]
+    if (element.ellipsis === undefined) {
+      element.ellipsis = true
+    }
+  }
+
+  return columns
 }

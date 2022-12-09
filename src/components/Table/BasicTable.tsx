@@ -3,7 +3,7 @@ import type { ColumnsType, ColumnType } from 'antd/es/table'
 import type { TableProps } from 'antd'
 import { useMemo, useState, useEffect, memo } from 'react'
 import { Table, Skeleton } from 'antd'
-import { getTableHeight, handleRowHeight } from './utils/helper'
+import { getTableHeight, handleRowHeight, tableEllipsis } from './utils/helper'
 import ResizableTitle from './components/ResizableTitle'
 import useVirtualTable from './hooks/useVirtual'
 
@@ -28,10 +28,10 @@ function BasicTable(props: IProps) {
     rowClassName,
     size
   } = props
-  const [columns, setColumns] = useState(props.columns as ColumnsType<object>)
+  const [columns, setColumns] = useState(tableEllipsis(props.columns as ColumnsType<object>))
 
   useEffect(() => {
-    setColumns(props.columns as ColumnsType<object>)
+    setColumns(tableEllipsis(props.columns as ColumnsType<object>))
   }, [props.columns])
 
   // 表格高度
@@ -90,8 +90,8 @@ function BasicTable(props: IProps) {
   // 滚动
   const scroll = {
     ...props.scroll,
-    x: scrollX,
-    y: scrollY || tableHeight
+    x: scrollX ?? 'max-content',
+    y: scrollY || tableHeight || undefined
   }
 
   /**
@@ -130,6 +130,7 @@ function BasicTable(props: IProps) {
             borderRadius: 10,
             borderRight: '1px solid rgba(0, 0, 0, .05)',
             borderBottom: '1px solid rgba(0, 0, 0, .05)',
+            overflow: 'auto',
             ...props.style
           }}
           bordered={isBordered !== false}
