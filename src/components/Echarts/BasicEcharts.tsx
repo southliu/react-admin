@@ -1,4 +1,4 @@
-import type { EChartsCoreOption } from "echarts"
+import type { EChartsCoreOption } from 'echarts'
 import { useEffect, useRef, useCallback, useState } from 'react'
 import echarts from './lib/echarts'
 
@@ -21,16 +21,17 @@ function BasicEcharts(props: IProps) {
 
   // 100毫秒后显示echarts
   useEffect(() => {
-    setTimer(setTimeout(() => {
+    if (!timer) setTimer(() => setTimeout(() => {
       setShow(true)
     }, 100))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     return () => {
       if (timer) {
         clearTimeout(timer)
-        setTimer(null)
+        setTimer(() => null)
       }
     }
   }, [timer])
