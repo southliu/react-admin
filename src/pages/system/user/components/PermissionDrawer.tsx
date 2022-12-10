@@ -25,7 +25,6 @@ function PermissionDrawer(props: IProps) {
 
   /** 提交 */
   const handleSubmit = () => {
-    console.log('yes')
     onSubmit(treeCheckedKeys)
   }
 
