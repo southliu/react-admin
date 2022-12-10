@@ -1,10 +1,12 @@
 import type { IFormData } from '#/form'
 import type { RootState } from '@/stores'
+import type { DataNode } from 'antd/es/tree'
+import type { Key } from 'antd/es/table/interface'
 import type { IPagePermission, ITableOptions } from '#/public'
 import type { IFormFn } from '@/components/Form/BasicForm'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createList, searchList, tableColumns } from './model'
-import { message } from 'antd'
+import { Button, message } from 'antd'
 import { useTitle } from '@/hooks/useTitle'
 import { useSelector } from 'react-redux'
 import { checkPermission } from '@/utils/permissions'
@@ -24,8 +26,7 @@ import BasicModal from '@/components/Modal/BasicModal'
 import BasicForm from '@/components/Form/BasicForm'
 import BasicTable from '@/components/Table/BasicTable'
 import BasicPagination from '@/components/Pagination/BasicPagination'
-import { DataNode } from 'antd/es/tree'
-import { Key } from 'antd/es/table/interface'
+import PermissionDrawer from './components/PermissionDrawer'
 
 // 当前行数据
 interface IRowData {
@@ -73,7 +74,8 @@ function Page() {
     page: checkPermission(`${permissionPrefix}/index`, permissions),
     create: checkPermission(`${permissionPrefix}/create`, permissions),
     update: checkPermission(`${permissionPrefix}/update`, permissions),
-    delete: checkPermission(`${permissionPrefix}/delete`, permissions)
+    delete: checkPermission(`${permissionPrefix}/delete`, permissions),
+    permission: checkPermission(`${permissionPrefix}/authority`, permissions)
   }
 
   /**
@@ -105,6 +107,7 @@ function Page() {
   useEffect(() => {
     if (pagePermission.page) handleSearch({ ...initSearch })
   }, [handleSearch, pagePermission.page])
+
   /** 开启权限 */
   const openPermission = async (id: string) => {
     try {
@@ -240,6 +243,16 @@ function Page() {
   const optionRender: ITableOptions<object> = (_, record) => (
     <>
       {
+        pagePermission.permission === true &&
+        <Button
+          className='mr-2'
+          loading={isLoading}
+          onClick={() => openPermission((record as IRowData).id)}
+        >
+          权限
+        </Button>
+      }
+      {
         pagePermission.update === true &&
         <UpdateBtn
           className='mr-5px'
@@ -300,6 +313,14 @@ function Page() {
             handleFinish={handleCreate}
           />
         </BasicModal>
+
+        <PermissionDrawer
+          isVisible={isPromiseVisible}
+          treeData={promiseTreeData}
+          checkedKeys={promiseCheckedKeys}
+          onClose={closePermission}
+          onSubmit={permissionSubmit}
+        />
       </>
     </BasicContent>
   )

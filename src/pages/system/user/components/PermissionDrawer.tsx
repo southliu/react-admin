@@ -9,6 +9,7 @@ interface IProps {
   checkedKeys: Key[];
   title?: string;
   onClose: () => void;
+  onSubmit: (checked: Key[]) => Promise<void>
 }
 
 function PermissionDrawer(props: IProps) {
@@ -17,18 +18,20 @@ function PermissionDrawer(props: IProps) {
     isVisible,
     treeData,
     checkedKeys,
-    onClose
+    onClose,
+    onSubmit
   } = props
   const [treeCheckedKeys, setTreeCheckedKeys] = useState(checkedKeys)
 
   /** 提交 */
-  const onSubmit = () => {
+  const handleSubmit = () => {
     console.log('yes')
+    onSubmit(treeCheckedKeys)
   }
 
-  /** 关闭图标渲染 */
-  const closeIconRender = (
-    <Button type="primary" onClick={onSubmit}>提交</Button>
+  /** 右上角渲染 */
+  const extraRender = (
+    <Button type="primary" onClick={handleSubmit}>提交</Button>
   )
 
   /**
@@ -44,7 +47,7 @@ function PermissionDrawer(props: IProps) {
       visible={isVisible}
       title={title || '权限配置'}
       placement="right"
-      closeIcon={closeIconRender}
+      extra={extraRender}
       onClose={onClose}
     >
       <Tree
