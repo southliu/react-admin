@@ -9,6 +9,7 @@ import { setPermissions, setUserInfo } from '@/stores/user'
 import { toggleCollapsed, togglePhone } from '@/stores/menu'
 import { useLocation } from 'react-router-dom'
 import { useDebounceFn } from 'ahooks'
+import { Icon } from '@iconify/react'
 import { Skeleton } from 'antd'
 import Menu from './components/Menu'
 import Header from './components/Header'
@@ -37,6 +38,8 @@ function Layout() {
   const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
   // 是否手机端
   const isPhone = useSelector((state: RootState) => state.menu.isPhone)
+  // 是否重新加载
+  const isRefresh = useSelector((state: RootState) => state.public.isRefresh)
 
   /** 获取用户信息和权限 */
   const getUserInfo = useCallback(async () => {
@@ -132,7 +135,23 @@ function Layout() {
             <Forbidden />
           }
           {
+            isRefresh &&
+            <div className={`
+              absolute
+              left-50%
+              top-50%
+              -rotate-x-50%
+              -rotate-y-50%
+            `}>
+              <Icon
+                className='text-40px animate-spin'
+                icon='ri:loader-2-fill'
+              />
+            </div>
+          }
+          {
             permissions.length > 0 &&
+            !isRefresh &&
             <KeepAlive id={uri} name={uri}>
               { outlet }
             </KeepAlive>
