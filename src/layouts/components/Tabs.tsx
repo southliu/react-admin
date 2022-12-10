@@ -19,6 +19,7 @@ import styles from '../index.module.less'
 import TabRefresh from './TabRefresh'
 import TabMaximize from './TabMaximize'
 import TabOptions from './TabOptions'
+import { setRefresh } from '@/stores/public'
 
 function LayoutTabs() {
   const navigate = useNavigate()
@@ -26,7 +27,6 @@ function LayoutTabs() {
   const uri = pathname + search
   const dispatch: AppDispatch = useDispatch()
   const { refresh } = useAliveController()
-  const [isRefresh, setRefresh] = useState(false) // 重新加载
   const [time, setTime] = useState<null | NodeJS.Timeout>(null)
   const [refreshTime, seRefreshTime] = useState<null | NodeJS.Timeout>(null)
 
@@ -34,6 +34,8 @@ function LayoutTabs() {
   const isLock = useSelector((state: RootState) => state.tabs.isLock)
   const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
   const permissions = useSelector((state: RootState) => state.user.permissions)
+  // 是否重新加载
+  const isRefresh = useSelector((state: RootState) => state.public.isRefresh)
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
 
@@ -132,29 +134,22 @@ function LayoutTabs() {
 
     // 定时器没有执行时运行
     if (!time) {
-      setRefresh(true)
+      dispatch(setRefresh(true))
       refresh(key)
-      navigate('/loading')
 
       setTime(
         setTimeout(() => {
-          // 当选中的key和激活的key不同则更改
-          if (key !== activeKey) {
-            dispatch(setActiveKey(key))
-          }
-
-          navigate(key)
           message.success({
             content: '刷新成功',
             key: 'refresh'
           })
+          dispatch(setRefresh(false))
           setTime(null)
         }, 100)
       )
 
       seRefreshTime(
         setTimeout(() => {
-          setRefresh(false)
           seRefreshTime(null)
         }, 1000)
       )

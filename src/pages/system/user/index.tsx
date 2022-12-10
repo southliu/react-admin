@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import { checkPermission } from '@/utils/permissions'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
+import { getPermission, savePermission } from '@/servers/system/menu'
 import {
   createUser,
   deleteUser,
@@ -23,6 +24,8 @@ import BasicModal from '@/components/Modal/BasicModal'
 import BasicForm from '@/components/Form/BasicForm'
 import BasicTable from '@/components/Table/BasicTable'
 import BasicPagination from '@/components/Pagination/BasicPagination'
+import { DataNode } from 'antd/es/tree'
+import { Key } from 'antd/es/table/interface'
 
 // 当前行数据
 interface IRowData {
@@ -54,6 +57,12 @@ function Page() {
   const [pageSize, setPageSize] = useState(initSearch.pageSize)
   const [total, setTotal] = useState(0)
   const [tableData, setTableData] = useState<IFormData[]>([])
+
+  const [promiseId, setPromiseId] = useState('')
+  const [isPromiseVisible, setPromiseVisible] = useState(false)
+  const [promiseCheckedKeys, setPromiseCheckedKeys] = useState<Key[]>([])
+  const [promiseTreeData, setPromiseTreeData] = useState<DataNode[]>([])
+
   const permissions = useSelector((state: RootState) => state.user.permissions)
 
   // 权限前缀
@@ -96,6 +105,44 @@ function Page() {
   useEffect(() => {
     if (pagePermission.page) handleSearch({ ...initSearch })
   }, [handleSearch, pagePermission.page])
+  /** 开启权限 */
+  const openPermission = async (id: string) => {
+    try {
+      setLoading(true)
+      const params = { userId: id }
+      const { data } = await getPermission(params)
+      const { data: { defaultCheckedKeys, treeData } } = data
+      setPromiseId(id)
+      setPromiseTreeData(treeData)
+      setPromiseCheckedKeys(Object.values(defaultCheckedKeys))
+      setPromiseVisible(true)
+    } finally {
+      setLoading(false)
+    }
+  }
+  
+  /** 关闭权限 */
+  const closePermission = () => {
+    setPromiseVisible(false)
+  }
+  
+  /**
+   * 权限提交
+   */
+  const permissionSubmit = async (checked: Key[]) => {
+    try {
+      setLoading(true)
+      const params = {
+        menuIds: checked,
+        userId: promiseId
+      }
+      const { data } = await savePermission(params)
+      message.success(data.message || '授权成功')
+      setPromiseVisible(false)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   /** 点击新增 */
   const onCreate = () => {
