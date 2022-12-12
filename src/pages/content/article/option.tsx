@@ -11,7 +11,8 @@ import { useLocation } from 'react-router-dom'
 import { checkPermission } from '@/utils/permissions'
 import { getOpenMenuByRouter } from '@/menus/utils/helper'
 import { setOpenKeys, setSelectedKeys } from '@/stores/menu'
-import { useActivate, useAliveController } from 'react-activation'
+import { useActivate } from 'react-activation'
+import { setRefreshPage } from '@/stores/public'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import {
   useCallback,
@@ -43,7 +44,6 @@ const initCreate = {
 const fatherPath = '/content/article'
 
 function Page() {
-  const { refresh } = useAliveController()
   const { pathname, search } = useLocation()
   const uri = pathname + search
   const id = getUrlParam(search, 'id')
@@ -140,19 +140,17 @@ function Page() {
     createFormRef.current?.handleSubmit()
   }
 
-  /** 返回主页 */
-  const goBack = () => {
+  /**
+   * 返回主页
+   * @param isRefresh - 返回页面是否重新加载接口
+   */
+  const goBack = (isRefresh?: boolean) => {
     createFormRef.current?.handleReset()
+    if (isRefresh) dispatch(setRefreshPage(true))
     dispatch(closeTabGoNext({
       key: uri,
       nextPath: fatherPath
     }))
-  }
-
-  /**  提交成功，跳转回主页 */
-  const sumbitFinish = () => {
-    refresh(fatherPath)
-    goBack()
   }
 
   /**
@@ -166,7 +164,7 @@ function Page() {
       const { data } = await functions()
       message.success(data?.message || '操作成功')
       createFormRef.current?.handleReset()
-      sumbitFinish()
+      goBack(true)
     } finally {
       setLoading(false)
     }
@@ -189,7 +187,7 @@ function Page() {
 
         <SumbitBottom
           isLoading={isLoading}
-          goBack={goBack}
+          goBack={() => goBack()}
           handleSubmit={handleSubmit}
         />
       </>
