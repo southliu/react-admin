@@ -1,0 +1,31 @@
+{
+  "editor.tabSize": 2,
+  "eslint.validate": ["typescript"],
+  // 需要在vscode中下载code spell checker插件
+  "cSpell.words": [
+    "vite",
+    "windi",
+    "windicss",
+    "antd",
+    "nprogress",
+    "vitejs",
+    "commitlint",
+    "echarts",
+    "pnpm",
+    "antd",
+    "iconify",
+    "unocss",
+    "axios",
+    "Graphik",
+    "Merriweather",
+    "presetAttributify",
+    "attributify",
+    "camelcase",
+    "parens",
+    "paren",
+    "reduxjs",
+    "Appstore",
+    "ahooks",
+    "brotliSize"
+  ]
+}
