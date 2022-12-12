@@ -79,7 +79,7 @@ function Page() {
 
   // 首次进入自动加载接口数据
   useEffect(() => { 
-    if (pagePermission.page) handleSearch({ ...initSearch })
+    if (pagePermission.page && !isRefreshPage) handleSearch({ ...initSearch })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagePermission.page])
 
