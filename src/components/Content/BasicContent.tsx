@@ -18,8 +18,6 @@ function BasicContent(props: IProps) {
             relative
             box-border
             px-5
-            pt-5
-            pb-2
           `}
         >
             { children }
