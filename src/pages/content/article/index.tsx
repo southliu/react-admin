@@ -1,13 +1,14 @@
 import type { IFormData } from '#/form'
-import type { RootState } from '@/stores'
+import type { AppDispatch, RootState } from '@/stores'
 import type { IPagePermission, ITableOptions } from '#/public'
 import type { IFormFn } from '@/components/Form/BasicForm'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { searchList, tableColumns } from './model'
 import { message } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTitle } from '@/hooks/useTitle'
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { setRefreshPage } from '@/stores/public'
 import { checkPermission } from '@/utils/permissions'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { getArticlePage, deleteArticle } from '@/servers/content/article'
@@ -30,6 +31,7 @@ const initSearch = {
 function Page() {
   useTitle('文章管理')
   const navigate = useNavigate()
+  const dispatch: AppDispatch = useDispatch()
   const searchFormRef = useRef<IFormFn>(null)
   const [isLoading, setLoading] = useState(false)
   const [page, setPage] = useState(initSearch.page)
@@ -37,6 +39,7 @@ function Page() {
   const [total, setTotal] = useState(0)
   const [tableData, setTableData] = useState<IFormData[]>([])
   const permissions = useSelector((state: RootState) => state.user.permissions)
+  const isRefreshPage = useSelector((state: RootState) => state.public.isRefreshPage)
 
   // 权限前缀
   const permissionPrefix = '/content/article'
@@ -77,7 +80,17 @@ function Page() {
   // 首次进入自动加载接口数据
   useEffect(() => { 
     if (pagePermission.page) handleSearch({ ...initSearch })
-  }, [handleSearch, pagePermission.page])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pagePermission.page])
+
+  // 如果是新增或编辑成功重新加载页面
+  useEffect(() => { 
+    if (isRefreshPage) {
+      dispatch(setRefreshPage(false))
+      getPage()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRefreshPage])
 
   /** 点击新增 */
   const onCreate = () => {
