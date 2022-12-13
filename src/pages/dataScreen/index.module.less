@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+  height: 100%;
+  color: #05e8fe;
+  background: url("./images/bg.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: 100% 100%;
+  background-size: cover;
+
+  .dataScreen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s;
+    transform-origin: left top;
+  }
+}

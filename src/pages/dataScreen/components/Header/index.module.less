@@ -1,0 +1,94 @@
+.header {
+  display: flex;
+  width: 100%;
+  height: 38px;
+
+  .left,
+  .right {
+    position: relative;
+    width: 567px;
+    height: 100%;
+    background: url("./images/left.png") no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .center {
+    position: relative;
+    flex: 1;
+    height: 100%;
+
+    .title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 82px;
+      font-family: YouSheBiaoTiHei;
+      font-size: 32px;
+      line-height: 78px;
+      color: #05e8fe;
+      text-align: center;
+      letter-spacing: 4px;
+      background: url("./images/center.png") no-repeat;
+      background-size: 100% 100%;
+
+      .warning {
+        position: absolute;
+        bottom: -42px;
+        left: 50%;
+        width: 622px;
+        height: 44px;
+        font-family: YouSheBiaoTiHei;
+        font-size: 14px;
+        line-height: 16px;
+        line-height: 44px;
+        color: #fff;
+        text-align: center;
+        letter-spacing: 1px;
+        background: url("./images/warning.png") no-repeat;
+        background-size: 100% 100%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+
+  .screening,
+  .download {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 9;
+    box-sizing: border-box;
+    width: 136px;
+    height: 42px;
+    padding-right: 4px;
+    font-family: YouSheBiaoTiHei;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 42px;
+    color: #29fcff;
+    text-align: center;
+    cursor: pointer;
+    background: url("./images/btn-left.png") no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .download {
+    left: 0;
+    padding-right: 0;
+    background: url("./images/btn-right.png") no-repeat;
+  }
+
+  .time {
+    position: absolute;
+    top: 0;
+    right: 14px;
+    width: 310px;
+    font-family: YouSheBiaoTiHei;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 38px;
+    color: #05e8fe;
+    white-space: nowrap;
+  }
+}

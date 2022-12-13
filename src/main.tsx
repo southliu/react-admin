@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom/client"
 import Router from "./router"
 import '@/assets/css/public.less'
+import "@/assets/fonts/font.less"
 
 // 状态管理
 import { Provider } from 'react-redux'
