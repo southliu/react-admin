@@ -32,6 +32,7 @@ specifiers:
   crypto-js: ^4.1.1
   dayjs: ^1.11.6
   echarts: ^5.3.3
+  echarts-liquidfill: ^3.1.0
   eslint: ^8.22.0
   eslint-plugin-react: ^7.31.0
   eslint-plugin-react-hooks: ^4.6.0
@@ -79,6 +80,7 @@ dependencies:
   crypto-js: 4.1.1
   dayjs: 1.11.7
   echarts: 5.4.1
+  echarts-liquidfill: 3.1.0_echarts@5.4.1
   nprogress: 0.2.0
   react: 18.2.0
   react-activation: 0.12.2_react@18.2.0
@@ -2767,6 +2769,14 @@ packages:
   /duplexer/0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
     dev: true
+
+  /echarts-liquidfill/3.1.0_echarts@5.4.1:
+    resolution: {integrity: sha512-5Dlqs/jTsdTUAsd+K5LPLLTgrbbNORUSBQyk8PSy1Mg2zgHDWm83FmvA4s0ooNepCJojFYRITTQ4GU1UUSKYLw==}
+    peerDependencies:
+      echarts: ^5.0.1
+    dependencies:
+      echarts: 5.4.1
+    dev: false
 
   /echarts/5.4.1:
     resolution: {integrity: sha512-9ltS3M2JB0w2EhcYjCdmtrJ+6haZcW6acBolMGIuf01Hql1yrIV01L1aRj7jsaaIULJslEP9Z3vKlEmnJaWJVQ==}

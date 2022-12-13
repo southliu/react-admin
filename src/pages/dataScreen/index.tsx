@@ -1,12 +1,10 @@
 import { useLayoutEffect, useRef } from 'react'
 import Header from './components/Header'
-// import AgeRatio from './components/AgeRatio'
-// import AttractionRanking from './components/AttractionRanking'
-// import MapChina from './components/MapChina'
-// import SexRatio from './components/SexRatio'
-// import TouristTrends from './components/TouristTrends'
-// import VisitorStaistics from './components/VisitorStaistics'
 import styles from './index.module.less'
+import dataScreenTitle from './images/title.png'
+import RealTimeAccessChart from './components/RealTimeAccessChart'
+import MaleFemaleRatioChart from './components/MaleFemaleRatioChart'
+import AgeRatioChart from './components/AgeRatioChart'
 
 function Page() {
   const screenRef = useRef<HTMLDivElement>(null)
@@ -47,12 +45,40 @@ function Page() {
     <div className={styles.container}>
       <div ref={screenRef} className={styles.dataScreen}>
         <Header />
-        {/* <MapChina />
-        <VisitorStaistics />
-        <SexRatio />
-        <AttractionRanking />
-        <AgeRatio />
-        <TouristTrends /> */}
+
+        <div className={styles.main}>
+          <div className={styles.left}>
+            <div className={styles.top}>
+              <div className={styles.title}>
+                <span>实时游客统计</span>
+                <img src={dataScreenTitle} alt="title" />
+              </div>
+              <div className={styles.mainChart}>
+                <RealTimeAccessChart />
+              </div>
+            </div>
+
+            <div className={styles.center}>
+              <div className={styles.title}>
+                <span>男女比例</span>
+                <img src={dataScreenTitle} alt="" />
+              </div>
+              <div className={styles.mainChart}>
+                <MaleFemaleRatioChart />
+              </div>
+            </div>
+
+            <div className={styles.bottom}>
+              <div className={styles.title}>
+                <span>年龄比例</span>
+                <img src={dataScreenTitle} alt="" />
+              </div>
+              <div className={styles.mainChart}>
+                <AgeRatioChart />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
