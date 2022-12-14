@@ -28,7 +28,7 @@ function Page() {
   /** 浏览器监听resize事件 */
   const resize = () => {
     if (screenRef.current) {
-      screenRef.current.style.transform = `scale(${getScale()})`
+      screenRef.current.style.transform = `scale(${getScale()}) translate(-50%, -50%)`
     }
   }
 
