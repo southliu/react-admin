@@ -3,7 +3,7 @@ import type { ColumnsType, ColumnType } from 'antd/es/table'
 import type { TableProps } from 'antd'
 import { useMemo, useState, useEffect, memo } from 'react'
 import { Table, Skeleton } from 'antd'
-import { getTableHeight, handleRowHeight, tableEllipsis } from './utils/helper'
+import { getTableHeight, handleRowHeight, filterTableColumns } from './utils/helper'
 import ResizableTitle from './components/ResizableTitle'
 import useVirtualTable from './hooks/useVirtual'
 
@@ -28,10 +28,10 @@ function BasicTable(props: IProps) {
     rowClassName,
     size
   } = props
-  const [columns, setColumns] = useState(tableEllipsis(props.columns as ColumnsType<object>))
+  const [columns, setColumns] = useState(filterTableColumns(props.columns as ColumnsType<object>))
 
   useEffect(() => {
-    setColumns(tableEllipsis(props.columns as ColumnsType<object>))
+    setColumns(filterTableColumns(props.columns as ColumnsType<object>))
   }, [props.columns])
 
   // 表格高度

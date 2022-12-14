@@ -4,6 +4,7 @@ import { useRoutes } from "react-router-dom"
 import routes from '~react-pages'
 import Layout from '@/layouts'
 import Login from '@/pages/login'
+import DataScreen from '@/pages/dataScreen'
 
 // 自动生成路径转换为layout嵌套路径
 const layouts = layoutRoutes(routes)
@@ -17,6 +18,10 @@ const newRoutes: RouteObject[] = [
     path: "",
     element: <Layout />,
     children: layouts
+  },
+  {
+    path: 'dataScreen',
+    element: <DataScreen />
   }
 ]
 

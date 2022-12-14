@@ -1,5 +1,7 @@
 import type { EChartsCoreOption } from "echarts"
 import Echarts from '@/components/Echarts/BasicEcharts'
+import * as echarts from 'echarts/core'
+import { china } from "@/pages/dataScreen/components/ChinaMapChart/china"
 
 const option: EChartsCoreOption = {
   title: {
@@ -64,6 +66,7 @@ const option: EChartsCoreOption = {
 }
 
 function Bar() {
+	echarts.registerMap("china", china, {})
   return (
     <div className='w-38% border border-gray-200 rounded-10px'>
       <Echarts

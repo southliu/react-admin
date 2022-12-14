@@ -54,7 +54,7 @@ function Dashboard() {
           <Block />
         </div>
 
-        <div className='flex justify-between'>
+        <div className='flex justify-between w-full'>
           <Line />
           <Bar />
         </div>

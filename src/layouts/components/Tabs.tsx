@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useAliveController } from 'react-activation'
 import { useDropdownMenu } from '../hooks/useDropdownMenu'
 import { useDispatch, useSelector } from 'react-redux'
+import { setRefresh } from '@/stores/public'
 import {
   setActiveKey,
   addTabs,
@@ -19,7 +20,6 @@ import styles from '../index.module.less'
 import TabRefresh from './TabRefresh'
 import TabMaximize from './TabMaximize'
 import TabOptions from './TabOptions'
-import { setRefresh } from '@/stores/public'
 
 function LayoutTabs() {
   const navigate = useNavigate()
@@ -34,8 +34,6 @@ function LayoutTabs() {
   const isLock = useSelector((state: RootState) => state.tabs.isLock)
   const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
   const permissions = useSelector((state: RootState) => state.user.permissions)
-  // 是否重新加载
-  const isRefresh = useSelector((state: RootState) => state.public.isRefresh)
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
 
@@ -161,11 +159,11 @@ function LayoutTabs() {
   const RefreshRender = useMemo(() => {
     return (
       <TabRefresh
-        isRefresh={isRefresh}
+        isRefresh={!!refreshTime}
         onClick={onClickRefresh}
       />
     )
-  }, [isRefresh, onClickRefresh])
+  }, [refreshTime, onClickRefresh])
 
   // 渲染标签操作
   const TabOptionsRender = useMemo(() => {
