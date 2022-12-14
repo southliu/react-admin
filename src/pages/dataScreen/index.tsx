@@ -5,6 +5,11 @@ import dataScreenTitle from './images/title.png'
 import RealTimeAccessChart from './components/RealTimeAccessChart'
 import MaleFemaleRatioChart from './components/MaleFemaleRatioChart'
 import AgeRatioChart from './components/AgeRatioChart'
+import ChinaMapChart from './components/ChinaMapChart'
+import OverNext30Chart from './components/OverNext30Chart'
+import HotPlateChart from './components/HotPlateChart'
+import AnnualUseChart from './components/AnnualUseChart'
+import PlatformSourceChart from './components/PlatformSourceChart'
 
 function Page() {
   const screenRef = useRef<HTMLDivElement>(null)
@@ -47,7 +52,7 @@ function Page() {
         <Header />
 
         <div className={styles.main}>
-          <div className={styles.left}>
+          <div className={styles.mainLeft}>
             <div className={styles.top}>
               <div className={styles.title}>
                 <span>实时游客统计</span>
@@ -77,6 +82,54 @@ function Page() {
                 <AgeRatioChart />
               </div>
             </div>
+          </div>
+
+          <div className={styles.mainCenter}>
+            <div className={styles.map}>
+              <div className={styles.mapTitle}>景区实时客流量</div>
+              <ChinaMapChart />
+            </div>
+            <div className={styles.mapBottom}>
+              <div className={styles.title}>
+                <span>未来30天游客量趋势图</span>
+                <img src={dataScreenTitle} alt="" />
+              </div>
+              <div className={styles.mainChart}>
+                <OverNext30Chart />
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.mainRight}>
+            <div className={styles.top}>
+              <div className={styles.title}>
+                <span>热门景区排行</span>
+                <img src={dataScreenTitle} alt="" />
+              </div>
+              <div className={styles.mainChart}>
+								<HotPlateChart />
+              </div>
+            </div>
+
+						<div className={styles.center}>
+							<div className={styles.title}>
+								<span>年度游客量对比</span>
+								<img src={dataScreenTitle} alt="" />
+							</div>
+							<div className={styles.mainChart}>
+								<AnnualUseChart />
+							</div>
+						</div>
+
+						<div className={styles.bottom}>
+							<div className={styles.title}>
+								<span>预约渠道数据统计</span>
+								<img src={dataScreenTitle} alt="" />
+							</div>
+							<div className={styles.mainChart}>
+								<PlatformSourceChart />
+							</div>
+						</div>
           </div>
         </div>
       </div>

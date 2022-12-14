@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
 
 const DataHeaderTime = () => {
-	const { time } = useTimes()
+  const { time } = useTimes()
 
-	return <span className={styles.time}>当前时间：{time}</span>
+  return <span className={styles.time}>当前时间：{time}</span>
 }
 
 function Header() {

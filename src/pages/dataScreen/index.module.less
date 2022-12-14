@@ -28,7 +28,7 @@
     width: 100%;
     padding: 12px 42px 20px;
 
-    .left {
+    .mainLeft {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -61,6 +61,87 @@
         height: 27%;
         margin-bottom: 0;
         background: url("./images/card-short.png") no-repeat;
+        background-size: 100% 100%;
+      }
+    }
+
+    .mainCenter {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      margin-right: 40px;
+
+      .map {
+        position: relative;
+        box-sizing: border-box;
+        flex: 1;
+        width: 100%;
+        margin-top: 78px;
+
+        .mapTitle {
+          position: absolute;
+          top: 10px;
+          left: 0;
+          z-index: 99;
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          width: 270px;
+          height: 25px;
+          padding-left: 30px;
+          font-size: 14px;
+          color: #fff;
+          letter-spacing: 5px;
+          background: url("./images/map-title-bg.png") no-repeat;
+          background-size: 100% 100%;
+        }
+      }
+
+      .mapBottom {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        height: 252px;
+        padding-top: 54px;
+        background: url("./images/card-short.png") no-repeat;
+        background-size: 100% 100%;
+      }
+    }
+
+    .mainRight {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 394px;
+      height: 100%;
+
+      .top,
+      .center,
+      .bottom {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        padding-top: 54px;
+      }
+
+      .top {
+        height: 37%;
+        background: url("./images/card-right.png") no-repeat;
+        background-size: 100% 100%;
+      }
+
+      .center {
+        height: 30%;
+        background: url("./images/card-right.png") no-repeat;
+        background-size: 100% 100%;
+      }
+
+      .bottom {
+        height: 27%;
+        margin-bottom: 0;
+        background: url("./images/card-right.png") no-repeat;
         background-size: 100% 100%;
       }
     }

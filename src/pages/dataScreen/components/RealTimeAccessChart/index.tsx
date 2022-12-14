@@ -180,7 +180,7 @@ function VisitorStaistics() {
   }
 
   const [actualTotal] = useState("227903")
-	const [echartsRef] = useEcharts(option, data)
+  const [echartsRef] = useEcharts(option, data)
 
   return (
     <>
