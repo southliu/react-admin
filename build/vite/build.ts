@@ -11,13 +11,13 @@ export function buildOptions(): BuildOptions {
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
-        manualChunks(name) {
-          if (name.includes('node_modules')) {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
             // pnpm兼容
-            const pnpmName = name.includes('.pnpm') ? '.pnpm/' : ''
+            const pnpmName = id.includes('.pnpm') ? '.pnpm/' : ''
             const fileName = `node_modules/${pnpmName}`
 
-            let result = name
+            let result = id
               .split(fileName)[1]
               .split('/')[0]
 

@@ -1,15 +1,28 @@
-// PrefetchLazyPathsPlugin.ts
-export const PrefetchLazyPathsPlugin = (paths: string[] = []) => {
+import type { PluginOption } from 'vite'
+
+export const prefetchLazyPathsPlugin = (jsLazyLoad: string[] = []): PluginOption => {
   return {
-    name: 'prefetch-lazy-paths-plugin',
+    name: 'vite-prefetch-plugin',
     async transformIndexHtml(html: string) {
-      if (!paths.length) return html
-      let prefetchStr = ''
-      paths.forEach((item) => {
-          prefetchStr += `<link rel="prefetch" href="${item}" as="script" />`
+      if (!jsLazyLoad.length) return html
+
+      jsLazyLoad.forEach((item) => {
+        if (html.includes(item)) {
+          const index = html.indexOf(item)
+          const prevIndex = html.lastIndexOf('rel="', index) + 5
+          const nextIndex = html.indexOf('"', prevIndex)
+          const rel = html.substring(prevIndex, nextIndex)
+
+          if (rel === 'modulepreload') {
+            const prev = html.substring(0, prevIndex)
+            const next = html.substring(nextIndex, html.length)
+            const str = `${prev}prefetch${next}`
+            html = str
+          }
+        }
       })
-      const newHtml = html.replace('</head>', `${prefetchStr}</head>`)
-      return newHtml
-    },
+
+      return html
+    }
   }
 }
