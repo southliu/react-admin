@@ -1,37 +1,57 @@
-import * as echarts from "echarts"
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from 'react'
+import * as echarts from 'echarts'
 /**
  * 使用Echarts
+ * @param options -  绘制echarts的参数
  * @param data -  数据
- * @param options -  绘制Echarts的参数(必传)
- * */
+ */
 export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) => {
-  const myChart = useRef<echarts.EChartsType>()
-  const echartsRef = useRef<HTMLDivElement>(null)
+  const echartsRef = useRef<echarts.EChartsType>()
+  const htmlDivRef = useRef<HTMLDivElement>(null)
 
-  const echartsResize = () => {
-    echartsRef && myChart?.current?.resize()
+  /** 销毁echarts */
+  const dispose = () => {
+    if (htmlDivRef.current) {
+      echartsRef.current?.dispose()
+    }
   }
 
-  useEffect(() => {
-    if (data) {
-      myChart?.current?.setOption(options)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  /** 初始化 */
+  const init = useCallback(() => {
+    if (options) {
+      // 摧毁echarts后在初始化
+      dispose()
 
-  useEffect(() => {
-    if (echartsRef?.current) {
-      myChart.current = echarts.init(echartsRef.current as HTMLDivElement)
+      // 初始化chart
+      if (htmlDivRef.current) {
+        echartsRef.current = echarts.init(htmlDivRef.current)
+        echartsRef.current.setOption(options)
+      }
     }
-    myChart?.current?.setOption(options)
-    window.addEventListener("resize", echartsResize, false)
+  }, [options])
+
+  // 监听操作值
+  useEffect(() => {
+    if (options) init()
+  }, [init, options])
+  
+  useEffect(() => {
+    init()
+    window.addEventListener("resize", init, false)
+
     return () => {
-      window.removeEventListener("resize", echartsResize)
-      myChart?.current?.dispose()
+      window.removeEventListener("resize", init)
+      dispose()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return [echartsRef]
+  useEffect(() => {
+    if (data) {
+      echartsRef?.current?.setOption(options)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
+
+  return [htmlDivRef, init] as const
 }
