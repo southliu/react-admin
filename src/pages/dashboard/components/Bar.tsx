@@ -1,7 +1,23 @@
-import type { EChartsCoreOption } from "echarts"
-import Echarts from '@/components/Echarts/BasicEcharts'
-import * as echarts from 'echarts/core'
-import { china } from "@/pages/dataScreen/components/ChinaMapChart/china"
+import type { EChartsCoreOption } from 'echarts'
+import type { RootState } from '@/stores'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useEcharts } from '@/hooks/useEcharts'
+
+const data = [
+  96285,
+  102352,
+  111235,
+  112356,
+  123984,
+  138205,
+  142059,
+  152362,
+  162231,
+  164324,
+  178291,
+  192830,
+]
 
 const option: EChartsCoreOption = {
   title: {
@@ -47,34 +63,26 @@ const option: EChartsCoreOption = {
     {
       name: '充值数',
       type: 'bar',
-      data: [
-        96285,
-        102352,
-        111235,
-        112356,
-        123984,
-        138205,
-        142059,
-        152362,
-        162231,
-        164324,
-        178291,
-        192830,
-      ]
+      data
     }
   ]
 }
 
 function Bar() {
-	echarts.registerMap("china", china, {})
+  const permissions = useSelector((state: RootState) => state.user.permissions)
+  const [echartsRef, init] = useEcharts(option, data)
+
+  useEffect(() => {
+    if (permissions.length) {
+      setTimeout(() => {
+        init()
+      }, 100)
+    }
+  }, [init, permissions.length])
+  
   return (
-    <div className='w-38% border border-gray-200 rounded-10px'>
-      <Echarts
-        className="w-full mt-10px"
-        width="100%"
-        height="500px"
-        option={option}
-      />
+    <div className='w-38% h-550px border border-gray-200 rounded-10px'>
+      <div ref={echartsRef} className='w-full h-full'></div>
     </div>
   )
 }
