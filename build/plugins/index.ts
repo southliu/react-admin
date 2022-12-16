@@ -2,18 +2,18 @@ import type { PluginOption } from 'vite'
 import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import { configPageImportPlugin } from './pages'
 import { visualizer } from 'rollup-plugin-visualizer'
-import { prefetchLazyPathsPlugin } from './perload'
+import { prefetchLazyPlugin } from './prefetch'
 import react from '@vitejs/plugin-react'
 import Unocss from 'unocss/vite'
 import viteCompression from 'vite-plugin-compression'
 
 // 预加载js
-const jsLazyLoad = [
+const lazyLoad = [
   'zrender',
   'echarts',
   'echarts-liquidfill',
-  'wangeditor',
-  'wangeditor_editor-for-react'
+  '@wangeditor_editor',
+  '@wangeditor_editor-for-react'
 ]
 
 export function createVitePlugins() {
@@ -37,7 +37,7 @@ export function createVitePlugins() {
     // 自动生成路由
     configPageImportPlugin(),
     // 预加载处理
-    process.env.NODE_ENV === 'production' && prefetchLazyPathsPlugin(jsLazyLoad)
+    process.env.NODE_ENV === 'production' && prefetchLazyPlugin(lazyLoad)
   ]
 
   return vitePlugins

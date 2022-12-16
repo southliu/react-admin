@@ -8,9 +8,9 @@ export function buildOptions(): BuildOptions {
     chunkSizeWarningLimit: 1000, // 大于1000k才警告
     rollupOptions: {
       output: {
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
-        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+        chunkFileNames: 'assets/js/[name].[hash].js',
+        entryFileNames: 'assets/js/[name].[hash].js',
+        assetFileNames: 'assets/[ext]/[name].[hash].[ext]',
         manualChunks(id) {
           if (id.includes('node_modules')) {
             // pnpm兼容
