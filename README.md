@@ -70,7 +70,7 @@ git commit -m "feat: 新增功能"
 git push
 ```
 
-## 🪧 Git 贡献提交规范
+## 🎯 Git 贡献提交规范
 
 - 参考 [vue](https://github.com/vuejs/vue/blob/dev/.github/COMMIT_CONVENTION.md) 规范
 
