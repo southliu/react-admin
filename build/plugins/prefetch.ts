@@ -21,13 +21,6 @@ const handleHtml = (html: string, lazyLoad: string[], start = 0) => {
         html = str
       }
 
-      if (rel === 'stylesheet') {
-        const prev = html.substring(0, prevIndex)
-        const next = html.substring(nextIndex, html.length)
-        const str = `${prev}prefetch" as="style${next}`
-        html = str
-      }
-
       // 是否存在下一个相同名字组件
       const newIndex = html.indexOf(`/${item}.`, index + item.length)
       if (newIndex !== -1) html = handleHtml(html, lazyLoad, newIndex)
