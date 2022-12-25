@@ -1,3 +1,5 @@
+import { PAGES_PATH, PAGE_PREFIX } from './config'
+
 type IEnvConfigs = Record<string, string>
 
 // env数据
@@ -24,4 +26,157 @@ export function handleEnv(envConfigs: IEnvConfigs): IViteEnv {
   }
 
   return res
+}
+
+/**
+ * JS模块分包
+ * @param id - 标识符
+ */
+export function splitJSModules(id: string) {
+  // pnpm兼容
+  const pnpmName = id.includes('.pnpm') ? '.pnpm/' : ''
+  const fileName = `node_modules/${pnpmName}`
+
+  let result = id
+    .split(fileName)[1]
+    .split('/')[0]
+
+  if (result.includes('@')) {
+    const first = result.indexOf('@')
+    if (first > 0) {
+      result = result.substring(0, first)
+    } else {
+      const second = result.indexOf('@', 1)
+      result = result.substring(0, second)
+    }
+  }
+
+  return result
+}
+
+/**
+ * 页面分包处理
+ * @param id - 标识符
+ */
+export function splitPage(id: string) {
+  const fileName = PAGES_PATH
+  const file = id.split(fileName)[1]
+  const categorize = file?.split('/')?.[0] || ''
+  let result = file?.split('/')?.[1] || 'index'
+
+  if (result.includes('/')) result = result?.split('/')[0] || ''
+  if (result.includes('.tsx')) result = result.substring(0, result.length - 4)
+
+  // 组件
+  if (result === 'components' || result === 'component') {
+    let compName = '/components/'
+    if (id.includes('/component/')) compName = '/component/'
+
+    let comResult = id.split(compName)[1]
+    if (comResult.includes('/')) comResult = comResult?.split('/')[0] || ''
+    if (comResult.includes('.tsx')) comResult = comResult.substring(0, comResult.length - 4)
+
+    return `${PAGE_PREFIX}${categorize}_comp_${comResult}`
+  }
+
+  return `${PAGE_PREFIX}${categorize}_${result}`
+}
+
+/**
+ * 获取rel
+ * @param html - html数据
+ * @param path - 路径
+ * @param start - 从第几位开始查找
+ */
+function getRel(html: string, path: string, start = 0) {
+  const index = html.indexOf(path, start)
+  const prevIndex = html.lastIndexOf('rel="', index) + 5
+  const nextIndex = html.indexOf('"', prevIndex)
+  const rel = html.substring(prevIndex, nextIndex)
+  return [rel, index, prevIndex, nextIndex] as const
+}
+
+/**
+ * 获取路径
+ * @param html - html数据
+ * @param path - 路径
+ * @param start - 从第几位开始查找
+ */
+function getPath(html: string, path: string, start = 0) {
+  const index = html.indexOf(path, start)
+  const prevIndex = html.lastIndexOf('href="', index) + 6
+  const nextIndex = html.indexOf('"', prevIndex)
+  const result = html.substring(prevIndex, nextIndex)
+  return result
+}
+
+/**
+ * 处理懒加载css数据
+ * @param html - html数据
+ * @param path - 路径
+ * @param start - 从第几位开始查找
+ * @param arr - 返回结果
+ */
+interface ILazyCSSProps {
+  html: string;
+  path: string;
+  arr: string[];
+  start?: number;
+}
+export function handleLazyCSS({
+  html,
+  path,
+  start,
+  arr
+}: ILazyCSSProps) {
+  if (html.includes(path)) {
+    const currentPath = getPath(html, path, start || 0)
+    const [rel, index] = getRel(html, path, start)
+
+    if (currentPath.includes('.css')) {
+      arr.push(currentPath)
+    }
+    
+    // 删除对应的css
+    if (rel === 'stylesheet') {
+      const prevLink = html.lastIndexOf('<link', index)
+      const nextLink = html.indexOf('">', index) + 2
+
+      if (prevLink > 0 && nextLink > 0) {
+        const prev = html.substring(0, prevLink)
+        const next = html.substring(nextLink, html.length)
+        html = `${prev}${next}`
+      }
+    }
+
+    // 是否存在下一个相同名字CSS
+    const newIndex = html.indexOf(path, index + path.length)
+    if (newIndex !== -1) html = handleLazyCSS({ html, path, start: newIndex, arr })
+  }
+
+  return html
+}
+
+/**
+ * 处理预加载html数据
+ * @param html - html数据
+ * @param path - 路径
+ * @param start - 从第几位开始查找
+ */
+export function handlePreloadHtml(html: string, path: string, start = 0) {
+  if (html.includes(path)) {
+    const [rel, index, prevIndex, nextIndex] = getRel(html, path, start)
+
+    if (rel === 'prefetch') {
+      const prev = html.substring(0, prevIndex)
+      const next = html.substring(nextIndex, html.length)
+      html = `${prev}modulepreload${next}`
+    }
+
+    // 是否存在下一个相同名字组件
+    const newIndex = html.indexOf(path, index + path.length)
+    if (newIndex !== -1) html = handlePreloadHtml(html, path, newIndex)
+  }
+
+  return html
 }

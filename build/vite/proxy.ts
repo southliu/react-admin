@@ -1,4 +1,4 @@
-import type { ProxyOptions } from "vite"
+import type { ProxyOptions } from 'vite'
 
 type ProxyList = [string, string][]
 
