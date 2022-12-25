@@ -6,7 +6,11 @@ import { Modal, Tooltip } from 'antd'
 import { Icon } from '@iconify/react'
 import Draggable from 'react-draggable'
 
-function BasicModal(props: ModalProps) {
+interface IProps extends Omit<ModalProps, 'onCancel'> {
+  onCancel: () => void;
+}
+
+function BasicModal(props: IProps) {
   const { width, children, wrapClassName, onCancel } = props
   const [isDisabled, setDisabled] = useState(true)
   const [isFullscreen, setFullscreen] = useState(false)
@@ -65,7 +69,7 @@ function BasicModal(props: ModalProps) {
       >
         <div
           className='p-10px mt-3px cursor-pointer'
-          onClick={e => onCancel?.(e)}
+          onClick={() => onCancel?.()}
         >
           <Icon
             className="text-lg"
