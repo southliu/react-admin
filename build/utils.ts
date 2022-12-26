@@ -111,27 +111,46 @@ function getPath(html: string, path: string, start = 0) {
 }
 
 /**
- * 处理懒加载css数据
+ * 删除对应行数据
  * @param html - html数据
- * @param path - 路径
- * @param start - 从第几位开始查找
- * @param arr - 返回结果
+ * @param index - 下标
  */
-interface ILazyCSSProps {
+function delRow(html: string, index: number) {
+  let result = ''
+  let prevLink = html.lastIndexOf('">', index) + 2
+  const nextLink = html.indexOf('">', index) + 2
+  if (prevLink <= 0) prevLink = html.lastIndexOf('<link', index)
+
+  if (prevLink > 0 && nextLink > 0) {
+    const prev = html.substring(0, prevLink)
+    const next = html.substring(nextLink, html.length)
+    result = `${prev}${next}`
+  }
+
+  return [result, prevLink] as const
+}
+
+interface ILazyProps {
   html: string;
   path: string;
   arr: string[];
   start?: number;
 }
-export function handleLazyCSS({
-  html,
-  path,
-  start,
-  arr
-}: ILazyCSSProps) {
+
+/**
+ * 处理懒加载CSS
+ * @param html - html数据
+ * @param path - 路径
+ * @param start - 从第几位开始查找
+ * @param arr - 返回结果
+ */
+export function handleLazyCSS({ html, path, start, arr }: ILazyProps) {
   if (html.includes(path)) {
+    if (!start) start = html.indexOf('stylesheet')
+
     const currentPath = getPath(html, path, start || 0)
     const [rel, index] = getRel(html, path, start)
+    let newIndex = html.indexOf(path, index + path.length)
 
     if (currentPath.includes('.css')) {
       arr.push(currentPath)
@@ -139,19 +158,48 @@ export function handleLazyCSS({
     
     // 删除对应的css
     if (rel === 'stylesheet') {
-      const prevLink = html.lastIndexOf('<link', index)
-      const nextLink = html.indexOf('">', index) + 2
-
-      if (prevLink > 0 && nextLink > 0) {
-        const prev = html.substring(0, prevLink)
-        const next = html.substring(nextLink, html.length)
-        html = `${prev}${next}`
-      }
+      const [result, prevLink] = delRow(html, index)
+      html = result
+      newIndex = prevLink
     }
 
-    // 是否存在下一个相同名字CSS
-    const newIndex = html.indexOf(path, index + path.length)
-    if (newIndex !== -1) html = handleLazyCSS({ html, path, start: newIndex, arr })
+    // 是否存在下一个相同名字css
+    const props = { html, path, start: newIndex, arr }
+    if (newIndex !== -1) html = handleLazyCSS(props)
+  }
+
+  return html
+}
+
+/**
+ * 处理懒加载js
+ * @param html - html数据
+ * @param path - 路径
+ * @param start - 从第几位开始查找
+ * @param arr - 返回结果
+ */
+export function handleLazyJS({ html, path, start, arr }: ILazyProps) {
+  if (html.includes(path)) {
+    if (!start) start = 0
+
+    const currentPath = getPath(html, path, start || 0)
+    const [rel, index] = getRel(html, path, start)
+    let newIndex = html.indexOf(path, index + path.length)
+
+    if (currentPath.includes('.js')) {
+      arr.push(currentPath)
+    }
+    
+    // 删除对应的js
+    if (rel === 'modulepreload' || rel === 'prefetch' || rel === 'preload') {
+      const [result, prevLink] = delRow(html, index)
+      html = result
+      newIndex = prevLink
+    }
+
+    // 是否存在下一个相同名字js
+    const props = { html, path, start: newIndex, arr }
+    if (newIndex !== -1) html = handleLazyJS(props)
   }
 
   return html
