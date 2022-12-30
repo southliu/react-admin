@@ -43,7 +43,7 @@ function PermissionDrawer(props: IProps) {
 
   return (
     <Drawer
-      visible={isVisible}
+      open={isVisible}
       title={title || '权限配置'}
       placement="right"
       extra={extraRender}

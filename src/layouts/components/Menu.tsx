@@ -178,7 +178,7 @@ function LayoutMenu() {
         </div>
 
         <Menu
-          className="h-full z-1000"
+          className="z-1000"
           selectedKeys={[selectedKeys]}
           openKeys={openKeys}
           mode="inline"
