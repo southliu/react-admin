@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "antfu.iconify",
-    "voorjaar.windicss-intellisense"
+    "voorjaar.windicss-intellisense",
+    "streetsidesoftware.code-spell-checker"
   ]
 }
