@@ -25,6 +25,9 @@
     "reduxjs",
     "Appstore",
     "ahooks",
-    "brotliSize"
+    "brotliSize",
+    "wangeditor",
+    "stylelint",
+    "liquidfill"
   ]
 }

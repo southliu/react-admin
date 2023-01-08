@@ -50,7 +50,7 @@ function VirtualTable(props: IVirtualTableProps) {
   const tableRef = useRef<HTMLTableElement>(null)
 
   // 数据的总条数
-  const [totalLen, setTotalLen] = useState<number>(children?.[1]?.props?.data?.length ?? 0)
+  const [totalLen, setTotalLen] = useState<number>(children?.[2]?.props?.data?.length ?? 0)
 
   useEffect(() => {
     if (isNumber(children?.[1]?.props?.data?.length)) {
