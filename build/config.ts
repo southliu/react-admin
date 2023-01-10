@@ -47,3 +47,12 @@ export const lazyCSS = [
   COMP_PREFIX,
   PAGE_PREFIX
 ]
+
+// CDN
+const time = new Date().getTime()
+export const CDNObj = {
+  react: 'https://unpkg.com/react@18.0.0/umd/react.production.min.js?v=' + time,
+  'react-dom': 'https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js?v=' + time,
+  'react-redux': 'https://cdn.bootcdn.net/ajax/libs/react-redux/8.0.5/react-redux.min.js?v=' + time,
+  'react-router-dom': 'https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.production.min.js?v=' + time
+}

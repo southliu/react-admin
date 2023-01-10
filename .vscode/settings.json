@@ -28,6 +28,12 @@
     "brotliSize",
     "wangeditor",
     "stylelint",
-    "liquidfill"
+    "liquidfill",
+    "micromessenger",
+    "crossorigin",
+    "gifsicle",
+    "optipng",
+    "mozjpeg",
+    "pngquant",
   ]
 }

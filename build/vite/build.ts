@@ -1,5 +1,8 @@
 import type { BuildOptions } from 'vite'
-import { splitJSModules, splitPage } from '../utils'
+import {
+  splitJSModules,
+  splitPage
+} from '../utils'
 import {
   COMP_PATH,
   COMP_PREFIX,
@@ -45,6 +48,6 @@ export function buildOptions(): BuildOptions {
           }
         }
       }
-    }
+    },
   }
 }
