@@ -1,6 +1,10 @@
 import type { PluginOption } from 'vite'
 import { lazyCSS, lazyJS, preloadLoad } from '../config'
-import { handleLazyCSS, handleLazyJS, handlePreloadHtml } from '../utils'
+import {
+  handleLazyCSS,
+  handleLazyJS,
+  handlePreloadHtml
+} from '../utils'
 
 /**
  * 预加载处理
@@ -33,7 +37,7 @@ export const preloadPlugin = (time = 1000): PluginOption => {
         html = handleLazyCSS(props)
       })
 
-      const tiemout = `</body>
+      const timeout = `</body>
       <script>
         let href = window.location.href;
         // 去除search
@@ -54,17 +58,17 @@ export const preloadPlugin = (time = 1000): PluginOption => {
 
             lazyCSS.splice(i, 1);
           }
+  
+          setTimeout(function() {
+            for (let i = lazyCSS.length - 1; i >= 0; i--) {
+              const elem = document.createElement("link");
+              elem.rel = "stylesheet";
+              elem.type = "text/css";
+              elem.href = lazyCSS[i] + '?v=' + new Date().getTime();
+              document.body.appendChild(elem);
+            }
+          }, ${time})
         }
-
-        setTimeout(function() {
-          for (let i = lazyCSS.length - 1; i >= 0; i--) {
-            const elem = document.createElement("link");
-            elem.rel = "stylesheet";
-            elem.type = "text/css";
-            elem.href = lazyCSS[i];
-            document.body.appendChild(elem);
-          }
-        }, ${time})
 
         const lazyJS = ${JSON.stringify(lazyJSArr)};
 
@@ -102,7 +106,7 @@ export const preloadPlugin = (time = 1000): PluginOption => {
         }, ${time});
         </script>`
 
-      return html.replace('</body>', tiemout)
+      return html.replace('</body>', timeout)
     }
   }
 }

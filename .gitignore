@@ -21,6 +21,8 @@ dist-ssr
 *.sln
 *.sw?
 
+vite.config.ts.*.mjs
+
 # 测试覆盖率
 /coverage/
 
