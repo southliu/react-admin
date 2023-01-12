@@ -35,5 +35,6 @@
     "optipng",
     "mozjpeg",
     "pngquant",
+    "middlewares",
   ]
 }
