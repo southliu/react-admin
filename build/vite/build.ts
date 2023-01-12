@@ -48,6 +48,6 @@ export function buildOptions(): BuildOptions {
           }
         }
       }
-    },
+    }
   }
 }

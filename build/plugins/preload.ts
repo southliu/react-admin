@@ -64,7 +64,7 @@ export const preloadPlugin = (time = 1000): PluginOption => {
               const elem = document.createElement("link");
               elem.rel = "stylesheet";
               elem.type = "text/css";
-              elem.href = lazyCSS[i] + '?v=' + new Date().getTime();
+              elem.href = lazyCSS[i];
               document.body.appendChild(elem);
             }
           }, ${time})
