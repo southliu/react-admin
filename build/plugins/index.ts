@@ -4,7 +4,7 @@ import { configPageImportPlugin } from './pages'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { preloadPlugin } from './preload'
 import { timePlugin } from './time'
-import { cachePlugin } from './cache'
+// import { cachePlugin } from './cache'
 // import { imgMinPlugin } from './imgMin'
 import react from '@vitejs/plugin-react'
 import Unocss from 'unocss/vite'
@@ -27,7 +27,7 @@ export function createVitePlugins() {
       brotliSize: true,
     }),
     // 缓存策略
-    cachePlugin(),
+    // cachePlugin(),
     // 打包时间
     timePlugin(),
     // 图片压缩
