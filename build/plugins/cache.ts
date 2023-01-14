@@ -18,6 +18,7 @@ export const cachePlugin = (): PluginOption => {
       _server = server
       server.middlewares.use((req, res, next) => {
         // 如果存在缓存
+        if (cache && typeof cache === 'string') cache = JSON.parse(cache)
         if (cache[req.url]) {
           const ifNoneMatch = req.headers['if-none-match']
           if (ifNoneMatch && cache[req.url] === ifNoneMatch) {
@@ -42,11 +43,9 @@ export const cachePlugin = (): PluginOption => {
       })
     },
     buildStart: async () => {
-      if (!fs.existsSync(cachePath)) {
-        fs.mkdirSync(cachePath)
-      }
       if (fs.existsSync(cacheJson)) {
-        cache = require(cacheJson)
+        const value = fs.readFileSync(cacheJson, { encoding: 'utf-8' })?.toString() || '{}'
+        cache = JSON.parse(value)
       }
 
       // 添加ctrl+c事件，dev server会因为ctrl+c而关闭
@@ -63,9 +62,9 @@ export const cachePlugin = (): PluginOption => {
         fs.mkdirSync(cachePath)
       }
 
+      if (cache && typeof cache === 'string') cache = JSON.parse(cache)
       for (const key in _server?.moduleGraph?.urlToModuleMap) {
         const value = _server.moduleGraph.urlToModuleMap.get(key)
-        console.log(key, value)
 
         if (value.transformResult?.etag) {
           cache[key] = value.transformResult.etag

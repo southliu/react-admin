@@ -144,7 +144,7 @@ interface ILazyProps {
  * @param start - 从第几位开始查找
  * @param arr - 返回结果
  */
-export function handleLazyCSS({ html, path, start, arr }: ILazyProps) {
+export function handleLazyCss({ html, path, start, arr }: ILazyProps) {
   if (html.includes(path)) {
     if (!start) start = html.indexOf('stylesheet')
 
@@ -165,7 +165,7 @@ export function handleLazyCSS({ html, path, start, arr }: ILazyProps) {
 
     // 是否存在下一个相同名字css
     const props = { html, path, start: newIndex, arr }
-    if (newIndex !== -1) html = handleLazyCSS(props)
+    if (newIndex !== -1) html = handleLazyCss(props)
   }
 
   return html
@@ -178,7 +178,7 @@ export function handleLazyCSS({ html, path, start, arr }: ILazyProps) {
  * @param start - 从第几位开始查找
  * @param arr - 返回结果
  */
-export function handleLazyJS({ html, path, start, arr }: ILazyProps) {
+export function handleLazyJs({ html, path, start, arr }: ILazyProps) {
   if (html.includes(path)) {
     if (!start) start = 0
 
@@ -199,7 +199,7 @@ export function handleLazyJS({ html, path, start, arr }: ILazyProps) {
 
     // 是否存在下一个相同名字js
     const props = { html, path, start: newIndex, arr }
-    if (newIndex !== -1) html = handleLazyJS(props)
+    if (newIndex !== -1) html = handleLazyJs(props)
   }
 
   return html
