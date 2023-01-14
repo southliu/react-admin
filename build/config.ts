@@ -31,7 +31,7 @@ export const preloadLoad = [
 ]
 
 // 懒加载js
-export const lazyJS = [
+export const lazyJs = [
   'zrender',
   'echarts',
   'echarts-liquidfill',
@@ -42,7 +42,7 @@ export const lazyJS = [
 ]
 
 // 懒加载css
-export const lazyCSS = [
+export const lazyCss = [
   '@wangeditor_editor',
   COMP_PREFIX,
   PAGE_PREFIX

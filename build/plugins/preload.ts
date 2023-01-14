@@ -1,8 +1,8 @@
 import type { PluginOption } from 'vite'
-import { lazyCSS, lazyJS, preloadLoad } from '../config'
+import { lazyCss, lazyJs, preloadLoad } from '../config'
 import {
-  handleLazyCSS,
-  handleLazyJS,
+  handleLazyCss,
+  handleLazyJs,
   handlePreloadHtml
 } from '../utils'
 
@@ -24,17 +24,17 @@ export const preloadPlugin = (time = 1000): PluginOption => {
       })
 
       // 懒加载js
-      const lazyJSArr: string[] = []
-      lazyJS.forEach((item) => {
-        const props = { html, path: `/${item}`, arr: lazyJSArr }
-        html = handleLazyJS(props)
+      const lazyJsArr: string[] = []
+      lazyJs.forEach((item) => {
+        const props = { html, path: `/${item}`, arr: lazyJsArr }
+        html = handleLazyJs(props)
       })
 
       // 懒加载css
-      const lazyCSSArr: string[] = []
-      lazyCSS.forEach((item) => {
-        const props = { html, path: `/${item}`, arr: lazyCSSArr }
-        html = handleLazyCSS(props)
+      const lazyCssArr: string[] = []
+      lazyCss.forEach((item) => {
+        const props = { html, path: `/${item}`, arr: lazyCssArr }
+        html = handleLazyCss(props)
       })
 
       const timeout = `</body>
@@ -46,65 +46,94 @@ export const preloadPlugin = (time = 1000): PluginOption => {
         const arr = href.split('/');
         const name = arr[arr.length - 1]; // 获取名称
 
-        const lazyCSS = ${JSON.stringify(lazyCSSArr)};
+        const lazyCss = ${JSON.stringify(lazyCssArr)};
+        const cssLimit = 2; // 限制css最多同时加载2个
+        let cssNum = 0;
 
-        for (let i = lazyCSS.length - 1; i >= 0; i--) {
-          if (lazyCSS[i].includes(name)) {
+        // 加载当前页面所需的css
+        for (let i = lazyCss.length - 1; i >= 0; i--) {
+          if (lazyCss[i].includes(name)) {
             const elem = document.createElement("link");
             elem.rel = "stylesheet";
             elem.type = "text/css";
-            elem.href = lazyCSS[i];
+            elem.href = lazyCss[i];
             document.body.appendChild(elem);
 
-            lazyCSS.splice(i, 1);
+            lazyCss.splice(i, 1);
           }
-  
-          setTimeout(function() {
-            for (let i = lazyCSS.length - 1; i >= 0; i--) {
-              const elem = document.createElement("link");
-              elem.rel = "stylesheet";
-              elem.type = "text/css";
-              elem.href = lazyCSS[i];
-              document.body.appendChild(elem);
-            }
-          }, ${time})
         }
 
-        const lazyJS = ${JSON.stringify(lazyJSArr)};
+        function handleCss() {
+          for (let i = lazyCss.length - 1; i >= 0 && cssNum < cssLimit; i--) {
+            const elem = document.createElement("link");
+            const current = lazyCss.splice(i, 1);
+            elem.rel = "stylesheet";
+            elem.type = "text/css";
+            elem.href = current;
+            document.body.appendChild(elem);
+            cssNum++;
+
+            elem.onload = () => {
+              cssNum--;
+              handleCss()
+            }
+          }
+        }
+
+        const lazyJs = ${JSON.stringify(lazyJsArr)};
+        const jsLimit = 2; // 限制js最多同时加载2个
+        let jsNum = 0;
 
         // 数据大屏或首页echarts提前渲染
         if (name === 'dataScreen' || name === 'dashboard') {
-          for (let i = lazyJS.length - 1; i >= 0; i--) {
-            if (lazyJS[i].includes('echarts')) {
+          for (let i = lazyJs.length - 1; i >= 0; i--) {
+            if (lazyJs[i].includes('echarts')) {
               const elem = document.createElement("link");
               elem.rel = "modulepreload";
               elem.crossorigin = "";
-              elem.href = lazyJS[i];
+              elem.href = lazyJs[i];
               document.body.appendChild(elem);
 
-              lazyJS.splice(i, 1);
+              lazyJs.splice(i, 1);
             }
           }
         }
 
-        for (let i = lazyJS.length - 1; i >= 0; i--) {
-          if (lazyJS[i].includes(name)) {
+        // 加载当前页面所需的js
+        for (let i = lazyJs.length - 1; i >= 0; i--) {
+          if (lazyJs[i].includes(name)) {
             const elem = document.createElement("link");
             elem.rel = "modulepreload";
             elem.crossorigin = "";
-            elem.href = lazyJS[i];
+            elem.href = lazyJs[i];
             document.body.appendChild(elem);
 
-            lazyJS.splice(i, 1);
+            lazyJs.splice(i, 1);
+          }
+        }
+
+        function handleJs() {
+          for (let i = lazyJs.length - 1; i >= 0 && jsNum < jsLimit; i--) {
+            const elem = document.createElement("script");
+            const current = lazyJs.splice(i, 1);
+            elem.type = "module";
+            elem.async = true;
+            elem.src = current;
+            document.body.appendChild(elem);
+            jsNum++;
+
+            elem.onload = () => {
+              jsNum--;
+              handleJs();
+            }
           }
         }
 
         setTimeout(function() {
-          for (let i = 0; i < lazyJS.length; i++) {
-            fetch(lazyJS[i]);
-          }
+          handleCss()
+          handleJs()
         }, ${time});
-        </script>`
+      </script>`
 
       return html.replace('</body>', timeout)
     }
