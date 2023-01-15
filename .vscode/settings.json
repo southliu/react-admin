@@ -36,5 +36,6 @@
     "mozjpeg",
     "pngquant",
     "middlewares",
+    "esbuild"
   ]
 }
