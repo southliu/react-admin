@@ -46,40 +46,6 @@ export const preloadPlugin = (time = 1000): PluginOption => {
         const arr = href.split('/');
         const name = arr[arr.length - 1]; // 获取名称
 
-        const lazyCss = ${JSON.stringify(lazyCssArr)};
-        const cssLimit = 2; // 限制css最多同时加载2个
-        let cssNum = 0;
-
-        // 加载当前页面所需的css
-        for (let i = lazyCss.length - 1; i >= 0; i--) {
-          if (lazyCss[i].includes(name)) {
-            const elem = document.createElement("link");
-            elem.rel = "stylesheet";
-            elem.type = "text/css";
-            elem.href = lazyCss[i];
-            document.body.appendChild(elem);
-
-            lazyCss.splice(i, 1);
-          }
-        }
-
-        function handleCss() {
-          for (let i = lazyCss.length - 1; i >= 0 && cssNum < cssLimit; i--) {
-            const elem = document.createElement("link");
-            const current = lazyCss.splice(i, 1);
-            elem.rel = "stylesheet";
-            elem.type = "text/css";
-            elem.href = current;
-            document.body.appendChild(elem);
-            cssNum++;
-
-            elem.onload = () => {
-              cssNum--;
-              handleCss()
-            }
-          }
-        }
-
         const lazyJs = ${JSON.stringify(lazyJsArr)};
         const jsLimit = 2; // 限制js最多同时加载2个
         let jsNum = 0;
@@ -94,13 +60,13 @@ export const preloadPlugin = (time = 1000): PluginOption => {
               elem.href = lazyJs[i];
               document.body.appendChild(elem);
 
-              lazyJs.splice(i, 1);
+              lazyJs.splice(0, 1);
             }
           }
         }
 
         // 加载当前页面所需的js
-        for (let i = lazyJs.length - 1; i >= 0; i--) {
+        for (let i = 0; i < lazyJs.length; i++) {
           if (lazyJs[i].includes(name)) {
             const elem = document.createElement("link");
             elem.rel = "modulepreload";
@@ -108,14 +74,14 @@ export const preloadPlugin = (time = 1000): PluginOption => {
             elem.href = lazyJs[i];
             document.body.appendChild(elem);
 
-            lazyJs.splice(i, 1);
+            lazyJs.splice(0, 1);
           }
         }
 
         function handleJs() {
-          for (let i = lazyJs.length - 1; i >= 0 && jsNum < jsLimit; i--) {
+          for (let i = 0; i < lazyJs.length && jsNum < jsLimit; i++) {
             const elem = document.createElement("script");
-            const current = lazyJs.splice(i, 1);
+            const current = lazyJs.splice(0, 1);
             elem.type = "module";
             elem.async = true;
             elem.src = current;
@@ -129,9 +95,42 @@ export const preloadPlugin = (time = 1000): PluginOption => {
           }
         }
 
+        const lazyCss = ${JSON.stringify(lazyCssArr)};
+        const cssLimit = 2; // 限制css最多同时加载2个
+        let cssNum = 0;
+
+        // 加载当前页面所需的css
+        for (let i = 0; i < lazyCss.length; i++) {
+          if (lazyCss[i].includes(name)) {
+            const elem = document.createElement("link");
+            elem.rel = "stylesheet";
+            elem.type = "text/css";
+            elem.href = lazyCss[i];
+            document.body.appendChild(elem);
+
+            lazyCss.splice(0, 1);
+          }
+        }
+
+        function handleCss() {
+          for (let i = 0; i < lazyCss.length && cssNum < cssLimit; i++) {
+            const elem = document.createElement("link");
+            const current = lazyCss.splice(0, 1);
+            elem.rel = "stylesheet";
+            elem.type = "text/css";
+            elem.href = current;
+            document.body.appendChild(elem);
+            cssNum++;
+
+            elem.onload = () => {
+              cssNum--;
+            }
+          }
+        }
+
         setTimeout(function() {
-          handleCss()
           handleJs()
+          handleCss()
         }, ${time});
       </script>`
 
