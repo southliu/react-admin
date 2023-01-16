@@ -36,6 +36,8 @@
     "mozjpeg",
     "pngquant",
     "middlewares",
-    "esbuild"
+    "esbuild",
+    "cssinjs",
+    "zrender"
   ]
 }

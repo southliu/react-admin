@@ -14,36 +14,36 @@ export const LAYOUTS_NAME = 'layouts'
 // 预加载js
 export const preloadLoad = [
   '@babel_runtime',
+  'nprogress',
   'react.',
   'react-is',
-  'scheduler',
   'react-dom',
+  'react-router',
+  LAYOUTS_NAME,
+  'axios',
+  'crypto-js',
+  'scheduler',
   'rc-',
   '@ant-design_cssinjs',
   '@ant-design_icons-svg',
   '@ant-design_colors',
   '@ant-design_icons',
-  'nprogress',
-  'axios',
-  'crypto-js',
-  'react-router',
-  LAYOUTS_NAME
 ]
 
 // 懒加载js
 export const lazyJs = [
+  COMP_PREFIX,
+  PAGE_PREFIX,
   'zrender',
   'echarts',
   'echarts-liquidfill',
   '@wangeditor_editor',
   '@wangeditor_editor-for-react',
-  COMP_PREFIX,
-  PAGE_PREFIX
 ]
 
 // 懒加载css
 export const lazyCss = [
-  '@wangeditor_editor',
   COMP_PREFIX,
-  PAGE_PREFIX
+  PAGE_PREFIX,
+  '@wangeditor_editor',
 ]
