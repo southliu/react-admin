@@ -2,7 +2,7 @@ import type { BuildOptions } from 'vite'
 import {
   splitJSModules,
   splitPage
-} from '../utils'
+} from '../utils/helper'
 import {
   COMP_PATH,
   COMP_PREFIX,

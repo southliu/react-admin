@@ -1,4 +1,4 @@
-import { PAGES_PATH, PAGE_PREFIX } from './config'
+import { PAGES_PATH, PAGE_PREFIX } from '../config'
 
 type IEnvConfigs = Record<string, string>
 
