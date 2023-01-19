@@ -38,6 +38,7 @@
     "middlewares",
     "esbuild",
     "cssinjs",
-    "zrender"
+    "zrender",
+    "Optpng"
   ]
 }
