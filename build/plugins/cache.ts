@@ -9,8 +9,14 @@ import fs from 'fs'
 export const cachePlugin = (): PluginOption => {
   let _server: ViteDevServer
   let cache = {}
-  const cachePath = path.resolve('./', 'node_modules/.vite/cache/')
+  const cachePath = path.resolve('./', 'node_modules/.admin-cache/')
   const cacheJson = `${cachePath}/cache.json`
+
+  // 文件夹不存在则创建
+  if (!fs.existsSync(cachePath)) fs.mkdirSync(cachePath)
+
+  // cache.json文件不存在则创建
+  if (!fs.existsSync(cacheJson)) fs.writeFileSync(cacheJson, '{}', { encoding: 'utf-8' })
 
   return {
     name: 'vite-cache-plugin',
@@ -44,7 +50,7 @@ export const cachePlugin = (): PluginOption => {
     },
     buildStart: async () => {
       if (fs.existsSync(cacheJson)) {
-        const value = fs.readFileSync(cacheJson, { encoding: 'utf-8' })?.toString() || '{}'
+        const value = fs.readFileSync(cacheJson, { encoding: 'utf-8' })
         cache = JSON.parse(value)
       }
 
@@ -58,11 +64,8 @@ export const cachePlugin = (): PluginOption => {
       })
     },
     buildEnd: async () => {
-      if (!fs.existsSync(cachePath)) {
-        fs.mkdirSync(cachePath)
-      }
-
       if (cache && typeof cache === 'string') cache = JSON.parse(cache)
+
       for (const key in _server?.moduleGraph?.urlToModuleMap) {
         const value = _server.moduleGraph.urlToModuleMap.get(key)
 

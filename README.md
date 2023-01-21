@@ -26,8 +26,7 @@ cd react-admin
 npm i -g yarn
 ```
 
-- 安装依赖
-如果使用pnpm安装可能会出现**安装失败**的问题
+- 安装依赖，如果使用pnpm安装可能会出现**安装失败**的问题
 ```bash
 yarn install
 ```
