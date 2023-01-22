@@ -3,10 +3,15 @@ import process from 'process'
 import path from 'path'
 import fs from 'fs'
 
+const name = 'vite-cache-plugin'
+
 /**
  * 协商缓存处理
  */
 export const cachePlugin = (): PluginOption => {
+  // 生产环境退出
+  if (process.env.NODE_ENV === 'production') return { name }
+
   let _server: ViteDevServer
   let cache = {}
   const cachePath = path.resolve('./', 'node_modules/.admin-cache/')
@@ -19,9 +24,10 @@ export const cachePlugin = (): PluginOption => {
   if (!fs.existsSync(cacheJson)) fs.writeFileSync(cacheJson, '{}', { encoding: 'utf-8' })
 
   return {
-    name: 'vite-cache-plugin',
+    name,
     async configureServer(server) {
       _server = server
+
       server.middlewares.use((req, res, next) => {
         // 如果存在缓存
         if (typeof cache === 'string') cache = JSON.parse(cache)
@@ -64,13 +70,11 @@ export const cachePlugin = (): PluginOption => {
       })
     },
     async buildEnd() {
-      for (const key in _server?.moduleGraph?.urlToModuleMap) {
-        const value = _server.moduleGraph.urlToModuleMap.get(key)
-
+      _server?.moduleGraph?.urlToModuleMap?.forEach((value, key) => {
         if (value.transformResult?.etag) {
           cache[key] = value.transformResult.etag
         }
-      }
+      })
 
       fs.writeFileSync(cacheJson, JSON.stringify(cache))
     }
