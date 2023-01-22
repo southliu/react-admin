@@ -20,11 +20,11 @@ export const cachePlugin = (): PluginOption => {
 
   return {
     name: 'vite-cache-plugin',
-    configureServer: async server => {
+    async configureServer(server) {
       _server = server
       server.middlewares.use((req, res, next) => {
         // 如果存在缓存
-        if (cache && typeof cache === 'string') cache = JSON.parse(cache)
+        if (typeof cache === 'string') cache = JSON.parse(cache)
         if (cache[req.url]) {
           const ifNoneMatch = req.headers['if-none-match']
           if (ifNoneMatch && cache[req.url] === ifNoneMatch) {
@@ -40,15 +40,15 @@ export const cachePlugin = (): PluginOption => {
                 html: req.headers.accept?.includes('text/html')
               })
             }, 3000)
+
             return res.end()
-            
           }
         }
 
         next()
       })
     },
-    buildStart: async () => {
+    async buildStart() {
       if (fs.existsSync(cacheJson)) {
         const value = fs.readFileSync(cacheJson, { encoding: 'utf-8' })
         cache = JSON.parse(value)
@@ -63,9 +63,7 @@ export const cachePlugin = (): PluginOption => {
         }
       })
     },
-    buildEnd: async () => {
-      if (cache && typeof cache === 'string') cache = JSON.parse(cache)
-
+    async buildEnd() {
       for (const key in _server?.moduleGraph?.urlToModuleMap) {
         const value = _server.moduleGraph.urlToModuleMap.get(key)
 
