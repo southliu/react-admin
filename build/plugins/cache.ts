@@ -9,8 +9,8 @@ const name = 'vite-cache-plugin'
  * 协商缓存处理
  */
 export const cachePlugin = (): PluginOption => {
-  // 生产环境退出
-  if (process.env.NODE_ENV === 'production') return { name }
+  // 非开发环境退出
+  if (process.env.NODE_ENV !== 'development') return { name }
 
   let _server: ViteDevServer
   let cache = {}
@@ -31,6 +31,7 @@ export const cachePlugin = (): PluginOption => {
       server.middlewares.use((req, res, next) => {
         // 如果存在缓存
         if (typeof cache === 'string') cache = JSON.parse(cache)
+
         if (cache[req.url]) {
           const ifNoneMatch = req.headers['if-none-match']
           if (ifNoneMatch && cache[req.url] === ifNoneMatch) {
@@ -45,7 +46,7 @@ export const cachePlugin = (): PluginOption => {
               transformRequest(req.url, {
                 html: req.headers.accept?.includes('text/html')
               })
-            }, 3000)
+            }, 100)
 
             return res.end()
           }
@@ -76,7 +77,7 @@ export const cachePlugin = (): PluginOption => {
         }
       })
 
-      fs.writeFileSync(cacheJson, JSON.stringify(cache))
+      fs.writeFileSync(cacheJson, JSON.stringify(cache, null, 2))
     }
   }
 }
