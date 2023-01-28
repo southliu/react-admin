@@ -25,7 +25,7 @@ export const cachePlugin = (): PluginOption => {
 
   return {
     name,
-    async configureServer(server) {
+    configureServer: async (server) => {
       _server = server
 
       server.middlewares.use((req, res, next) => {
@@ -55,7 +55,7 @@ export const cachePlugin = (): PluginOption => {
         next()
       })
     },
-    async buildStart() {
+    buildStart: async () => {
       if (fs.existsSync(cacheJson)) {
         const value = fs.readFileSync(cacheJson, { encoding: 'utf-8' })
         cache = JSON.parse(value)
@@ -70,7 +70,7 @@ export const cachePlugin = (): PluginOption => {
         }
       })
     },
-    async buildEnd() {
+    buildEnd: async () => {
       _server?.moduleGraph?.urlToModuleMap?.forEach((value, key) => {
         if (value.transformResult?.etag) {
           cache[key] = value.transformResult.etag

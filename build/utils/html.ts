@@ -34,7 +34,8 @@ export function firstLoad(path: string, lazyJs: string[], lazyCss: string[]) {
     // 内容编辑提前加载wangeditor
     if (
       path === 'dataScreen' &&
-      (lazyJs[i]?.includes('@wangeditor_editor') || lazyJs[i]?.includes('@wangeditor_editor/editor-for-react'))
+      (lazyJs[i]?.includes('@wangeditor_editor') ||
+      lazyJs[i]?.includes('@wangeditor_editor/editor-for-react'))
     ) {
       createPreloadJs(lazyJs[i])
       lazyJs.splice(i, 1)
@@ -57,17 +58,25 @@ export function firstLoad(path: string, lazyJs: string[], lazyCss: string[]) {
  * 特定页面才会加载(特殊处理)
  * 如：需要跳转新页面才加载的数据，平时不加载
  */
-export function excludeLoad(lazyJs: string[], lazyCss: string[]) {
+export function excludeLoad(path: string, lazyJs: string[], lazyCss: string[]) {
   for (let i = lazyJs.length - 1; i >= 0; i--) {
     // 当前页面不是数据展览则不加载
-    if (lazyJs[i].includes('dataScreen')) {
+    if (
+      path !== 'dataScreen' &&
+      (lazyJs[i].includes('dataScreen') ||
+      lazyJs[i].includes('DataScreen'))
+    ) {
       lazyJs.splice(i, 1)
     }
   }
   
   for (let i = lazyCss.length - 1; i >= 0; i--) {
     // 当前页面不是数据展览则不加载
-    if (lazyCss[i].includes('dataScreen')) {
+    if (
+      path !== 'dataScreen' &&
+      (lazyCss[i].includes('dataScreen') ||
+      lazyCss[i].includes('DataScreen'))
+    ) {
       lazyCss.splice(i, 1)
     }
   }
@@ -122,7 +131,7 @@ export function createCss(href: string, callback?: () => void) {
  * @param jsNum - 懒加载数
  * @param jsLimit - 限制同时加载数
  */
-export function handleJs(lazyJs: string[], jsNum = 0, jsLimit = 2) {
+export function handleJs(lazyJs: string[], jsNum = 0, jsLimit = 3) {
   for (let i = 0; i < lazyJs.length && jsNum < jsLimit; i++) {
     jsNum++
     const current = lazyJs[0]
@@ -140,7 +149,7 @@ export function handleJs(lazyJs: string[], jsNum = 0, jsLimit = 2) {
  * @param cssNum - 懒加载数
  * @param cssLimit - 限制同时加载数
  */
-export function handleCss(lazyCss: string[], cssNum = 0, cssLimit = 2) {
+export function handleCss(lazyCss: string[], cssNum = 0, cssLimit = 3) {
   for (let i = 0; i < lazyCss.length && cssNum < cssLimit; i++) {
     const current = lazyCss[0]
     lazyCss.splice(0, 1)
@@ -152,19 +161,15 @@ export function handleCss(lazyCss: string[], cssNum = 0, cssLimit = 2) {
   }
 }
 
-export interface IPreload {
-  time: number; // 定时器时间
-  lazyJs: string[]; // 懒加载js
-  lazyCss: string[]; // 懒加载css
-}
-
 /**
  * 预加载处理
  * @param params - 参数
  */
-export function handlePreload(params: IPreload) {
-  const { time } = params
-  let { lazyJs, lazyCss } = params
+export function handlePreload(
+  time: number, // 定时器时间
+  lazyJs: string[], // 懒加载js
+  lazyCss: string[] // 懒加载css
+) {
   const path = getHtmlPath()
 
   // 加载当前页面所需的js
@@ -184,7 +189,7 @@ export function handlePreload(params: IPreload) {
   }
 
   // 排除加载模块
-  const [newExcludeJs, newExcludeCss] = excludeLoad(lazyJs, lazyCss)
+  const [newExcludeJs, newExcludeCss] = excludeLoad(path, lazyJs, lazyCss)
   lazyJs = newExcludeJs
   lazyCss = newExcludeCss
 

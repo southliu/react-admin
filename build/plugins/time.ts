@@ -8,14 +8,14 @@ export const timePlugin = (): PluginOption => {
     name: 'vite-build-time',
     enforce: 'pre',
     apply: 'build',
-    buildStart() {
+    buildStart: () => {
       console.time('打包时间')
     },
-    buildEnd() {
+    buildEnd: () => {
         // console.timeEnd('\n模块转义完成时间')
     },
     // 在服务器关闭时被调用
-    closeBundle() {
+    closeBundle: () => {
         console.timeEnd('打包时间')
     }
   }

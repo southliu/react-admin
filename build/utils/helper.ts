@@ -228,3 +228,23 @@ export function handlePreloadHtml(html: string, path: string, start = 0) {
 
   return html
 }
+
+/**
+ * 处理入口文件获取的数据
+ * @param html - html数据
+ * @param path - 路径
+ */
+export function handleEntry(html: string, path: string) {
+  if (html.includes(path)) {
+    const index = html.indexOf(path)
+    const prevIndex = html.lastIndexOf('<script', index)
+    const nextIndex = html.indexOf('</script>', prevIndex) + 9
+    const code = html.substring(prevIndex, nextIndex)
+    const prev = html.substring(0, prevIndex)
+    const next = html.substring(nextIndex, html.length)
+    html = `${prev}${next}`
+    return [html, code] as const
+  }
+
+  return [html, '']
+}

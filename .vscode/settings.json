@@ -39,6 +39,7 @@
     "esbuild",
     "cssinjs",
     "zrender",
-    "Optpng"
+    "Optpng",
+    "gridicons"
   ]
 }
