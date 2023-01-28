@@ -1,5 +1,6 @@
-import { HashRouter as Router } from 'react-router-dom'
 import { useEffect } from 'react'
+import { HashRouter as Router } from 'react-router-dom'
+import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs' // 兼容低版本浏览器
 import nprogress from 'nprogress'
 import App from './App'
 
@@ -27,18 +28,20 @@ function Page() {
   }, [])
 
   return (
-    <Router>
-      <ConfigProvider
-        locale={zhCN}
-        theme={{
-          algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
-        }}
-      >
-        <AliveScope>
-          <App />
-        </AliveScope>
-      </ConfigProvider>
-    </Router>
+      <Router>
+        <ConfigProvider
+          locale={zhCN}
+          theme={{
+            algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
+          }}
+        >
+          <AliveScope>
+            <StyleProvider transformers={[legacyLogicalPropertiesTransformer]}>
+              <App />
+            </StyleProvider>
+          </AliveScope>
+        </ConfigProvider>
+      </Router>
   )
 }
 

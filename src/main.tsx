@@ -27,7 +27,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   </Provider>
 )
 
-// 关闭loading
-if (document?.getElementById('first')) {
-  (document.getElementById('first') as HTMLElement).style.display = 'none'
+window.onload = () => {
+  // 关闭loading
+  if (document?.getElementById('first')) {
+    (document.getElementById('first') as HTMLElement).style.display = 'none'
+  }
 }

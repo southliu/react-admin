@@ -24,7 +24,7 @@ import {
 export const preloadPlugin = (time = 1000): PluginOption => {
   return {
     name: 'vite-prefetch-plugin',
-    async transformIndexHtml(html: string) {
+    transformIndexHtml: (html: string) => {
       html = html.replace(/modulepreload/g, 'prefetch')
 
       if (!preloadLoad.length) return html
@@ -60,13 +60,11 @@ export const preloadPlugin = (time = 1000): PluginOption => {
         ${excludeLoad}
         ${handlePreload}
 
-        const params = {
-          time: ${time},
-          lazyJs: ${JSON.stringify(lazyJsArr)},
-          lazyCss: ${JSON.stringify(lazyCssArr)}
-        }
+        const time = ${time};
+        const lazyJs = ${JSON.stringify(lazyJsArr)};
+        const lazyCss = ${JSON.stringify(lazyCssArr)};
 
-        handlePreload(params)
+        handlePreload(time, lazyJs, lazyCss)
       </script>`
 
       return html.replace('</body>', timeout)

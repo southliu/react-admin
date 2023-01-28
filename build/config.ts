@@ -16,10 +16,10 @@ export const preloadLoad = [
   '@babel_runtime',
   'nprogress',
   'react.',
-  'react-is',
   'react-dom',
-  'react-router',
+  'react-is',
   LAYOUTS_NAME,
+  'antd',
   'axios',
   'crypto-js',
   'scheduler',
@@ -32,6 +32,8 @@ export const preloadLoad = [
 
 // 懒加载js
 export const lazyJs = [
+  'react-router',
+  'react-router-dom',
   COMP_PREFIX,
   PAGE_PREFIX,
   'zrender',
