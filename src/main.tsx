@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import { store } from './stores'
 
 // 样式
+import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs' // 兼容低版本浏览器
 import 'virtual:uno.css'
 import "nprogress/nprogress.css"
 import "@/assets/css/scrollbar.less"
@@ -22,9 +23,14 @@ import 'dayjs/locale/zh-cn'
 dayjs.locale('zh-cn')
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <Provider store={store}>
-    <Router />
-  </Provider>
+  <StyleProvider
+    hashPriority='high'
+    transformers={[legacyLogicalPropertiesTransformer]}
+  >
+    <Provider store={store}>
+      <Router />
+    </Provider>
+  </StyleProvider>
 )
 
 window.onload = () => {

@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { HashRouter as Router } from 'react-router-dom'
-import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs' // 兼容低版本浏览器
 import nprogress from 'nprogress'
 import App from './App'
 
@@ -36,9 +35,7 @@ function Page() {
           }}
         >
           <AliveScope>
-            <StyleProvider transformers={[legacyLogicalPropertiesTransformer]}>
-              <App />
-            </StyleProvider>
+            <App />
           </AliveScope>
         </ConfigProvider>
       </Router>
