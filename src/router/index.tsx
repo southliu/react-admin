@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { HashRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import nprogress from 'nprogress'
 import App from './App'
 

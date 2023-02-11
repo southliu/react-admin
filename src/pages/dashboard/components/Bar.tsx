@@ -5,18 +5,18 @@ import { useSelector } from 'react-redux'
 import { useEcharts } from '@/hooks/useEcharts'
 
 const data = [
-  96285,
-  102352,
-  111235,
-  112356,
-  123984,
-  138205,
-  142059,
-  152362,
-  162231,
-  164324,
-  178291,
-  192830,
+  962,
+  1023,
+  1112,
+  1123,
+  1239,
+  1382,
+  1420,
+  1523,
+  1622,
+  1643,
+  1782,
+  1928,
 ]
 
 const option: EChartsCoreOption = {
