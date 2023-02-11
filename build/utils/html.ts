@@ -199,7 +199,7 @@ export function handlePreload(
   lazyCss = newFirstCss
 
   setTimeout(function() {
-    handleJs(lazyJs)
     handleCss(lazyCss)
+    handleJs(lazyJs)
   }, time)
 }
