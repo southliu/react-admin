@@ -5,7 +5,7 @@
   "type": "module",
   "homepage": "https://github.com/southliu/react-admin",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build",
     "test": "cross-env NODE_ENV=test vitest",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
