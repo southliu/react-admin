@@ -24,7 +24,7 @@ function Page() {
 
     // 关闭loading
     const firstElement = document.getElementById('first')
-    if (firstElement) {
+    if (firstElement && firstElement.style?.display !== 'none') {
       firstElement.style.display = 'none'
     }
 
