@@ -1,7 +1,7 @@
-import ReactDOM from "react-dom/client"
-import Router from "./router"
+import ReactDOM from 'react-dom/client'
+import Router from './router'
 import '@/assets/css/public.less'
-import "@/assets/fonts/font.less"
+import '@/assets/fonts/font.less'
 
 // 状态管理
 import { Provider } from 'react-redux'
@@ -10,8 +10,8 @@ import { store } from './stores'
 // 样式
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs' // 兼容低版本浏览器
 import 'virtual:uno.css'
-import "nprogress/nprogress.css"
-import "@/assets/css/scrollbar.less"
+import 'nprogress/nprogress.css'
+import '@/assets/css/scrollbar.less'
 import '@/assets/css/theme-color.less'
 
 // antd
@@ -32,10 +32,3 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </Provider>
   </StyleProvider>
 )
-
-window.onload = () => {
-  // 关闭loading
-  if (document?.getElementById('first')) {
-    (document.getElementById('first') as HTMLElement).style.display = 'none'
-  }
-}

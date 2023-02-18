@@ -8,8 +8,8 @@ import { theme, ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 
 // antd主题
-import type { RootState } from "@/stores"
-import { useSelector } from "react-redux"
+import type { RootState } from '@/stores'
+import { useSelector } from 'react-redux'
 const { defaultAlgorithm, darkAlgorithm } = theme
 
 // keepalive
@@ -21,6 +21,13 @@ function Page() {
   // 顶部进度条
   useEffect(() => {
     nprogress.done()
+
+    // 关闭loading
+    const firstElement = document.getElementById('first')
+    if (firstElement) {
+      firstElement.style.display = 'none'
+    }
+
     return () => {
       nprogress.start()
     }
