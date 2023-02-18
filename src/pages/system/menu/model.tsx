@@ -2,7 +2,7 @@ import type { IFormList } from "#/form"
 import type { ITableColumn, ITableOptions } from '#/public'
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
 import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from '@/utils/constants'
-import { valueToLable } from "@/utils/helper"
+import { valueToLabel } from "@/utils/helper"
 
 // 搜索数据
 export const searchList: IFormList[] = [
@@ -51,7 +51,7 @@ export const tableColumns = (optionRender: ITableOptions<object>): ITableColumn 
       dataIndex: 'status',
       width: 200,
       render: (value: number) => (
-        <span>{ valueToLable(value, MENU_STATUS) }</span>
+        <span>{ valueToLabel(value, MENU_STATUS) }</span>
       )
     },
     {

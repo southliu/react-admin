@@ -33,7 +33,7 @@ export function amountFormatter(amount: number) {
  * @param value - 值
  * @param arr - 常量值
  */
-export function valueToLable(value: string | number | boolean, arr: IConstant[]): string {
+export function valueToLabel(value: string | number | boolean, arr: IConstant[]): string {
   for (let i = 0; i < arr?.length; i++) {
     if (arr[i].value === value) {
       return arr[i].label
