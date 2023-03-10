@@ -36,7 +36,10 @@ export const cachePlugin = (): PluginOption => {
           const ifNoneMatch = req.headers['if-none-match']
           if (ifNoneMatch && cache[req.url] === ifNoneMatch) {
             const { moduleGraph, transformRequest } = server
-            if (moduleGraph?.urlToModuleMap?.size && moduleGraph?.urlToModuleMap?.get(req.url)?.transformResult) {
+            if (
+              moduleGraph?.urlToModuleMap?.size &&
+              moduleGraph?.urlToModuleMap?.get(req.url)?.transformResult
+            ) {
               next()
               return false
             } 

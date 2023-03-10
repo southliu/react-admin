@@ -7,7 +7,7 @@ interface IProps {
   children?: JSX.Element;
 }
 
-function SumbitBottom(props: IProps) {
+function SubmitBottom(props: IProps) {
   const { goBack, handleSubmit, isLoading, children } = props
 
   return (
@@ -45,4 +45,4 @@ function SumbitBottom(props: IProps) {
   )
 }
 
-export default SumbitBottom
+export default SubmitBottom

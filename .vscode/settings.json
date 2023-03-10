@@ -41,6 +41,8 @@
     "zrender",
     "Optpng",
     "gridicons",
-    "tsup"
+    "tsup",
+    "YouSheBiaoTiHei",
+    "zlevel"
   ]
 }

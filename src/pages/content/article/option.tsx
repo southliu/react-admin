@@ -33,7 +33,7 @@ import {
 } from '@/servers/content/article'
 import BasicForm from '@/components/Form/BasicForm'
 import BasicContent from '@/components/Content/BasicContent'
-import SumbitBottom from '@/components/Bottom/SumbitBottom'
+import SubmitBottom from '@/components/Bottom/SubmitBottom'
 
 // 初始化新增数据
 const initCreate = {
@@ -58,9 +58,9 @@ function Page() {
   const isPhone = useSelector((state: RootState) => state.menu.isPhone)
   
   const title = '文章管理'
-  const creatTitle = `${ADD_TITLE}${title}`
+  const createTitle = `${ADD_TITLE}${title}`
   const updateTitle = `${EDIT_TITLE(id, title)}`
-  useTitle(id ? updateTitle : creatTitle)
+  useTitle(id ? updateTitle : createTitle)
 
   // 权限前缀
   const permissionPrefix = '/content/article'
@@ -89,7 +89,7 @@ function Page() {
     // 当值为空时匹配路由
     if (path === '/') return
 
-    const title = id ? updateTitle : creatTitle
+    const title = id ? updateTitle : createTitle
     const newTab = {
       label: title,
       key: uri,
@@ -171,7 +171,7 @@ function Page() {
   }
 
   return (
-    <BasicContent isPermission={id ? pagePermission.update : pagePermission.creae}>
+    <BasicContent isPermission={id ? pagePermission.update : pagePermission.create}>
       <>
         <div className='mb-50px'>
           <Spin spinning={isLoading}>
@@ -185,7 +185,7 @@ function Page() {
           </Spin>
         </div>
 
-        <SumbitBottom
+        <SubmitBottom
           isLoading={isLoading}
           goBack={() => goBack()}
           handleSubmit={handleSubmit}

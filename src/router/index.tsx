@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { HashRouter as Router } from 'react-router-dom'
 import nprogress from 'nprogress'
 import App from './App'
 
@@ -24,7 +24,7 @@ function Page() {
 
     // 关闭loading
     const firstElement = document.getElementById('first')
-    if (firstElement) {
+    if (firstElement && firstElement.style?.display !== 'none') {
       firstElement.style.display = 'none'
     }
 
