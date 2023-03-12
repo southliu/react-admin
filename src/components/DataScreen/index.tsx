@@ -1,16 +1,20 @@
 import { Tooltip } from 'antd'
 import { Icon } from '@iconify/react'
-import { Link } from 'react-router-dom'
 
 function DataScreen() {
+  /** 跳转数据大屏 */
+  const goDataScreen = () => {
+    window.open('https://iamsouth.github.io')
+  }
+
   return (
     <Tooltip title='数据大屏'>
-      <Link to='/dataScreen' target='_blank'>
+      <div onClick={goDataScreen}>
         <Icon
           className="flex items-center justify-center text-lg mr-3 cursor-pointer"
           icon='ion:bar-chart-sharp'
         />
-      </Link>
+      </div>
     </Tooltip>
   )
 }

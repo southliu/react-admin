@@ -33,13 +33,12 @@ specifiers:
   '@wangeditor/editor': ^5.1.21
   '@wangeditor/editor-for-react': ^1.0.5
   ahooks: ^3.7.1
-  antd: 5.2.1
+  antd: ^5.2.1
   axios: ^0.27.2
   cross-env: ^7.0.3
   crypto-js: ^4.1.1
   dayjs: ^1.11.6
   echarts: ^5.3.3
-  echarts-liquidfill: ^3.1.0
   eslint: ^8.22.0
   eslint-plugin-react: ^7.31.0
   eslint-plugin-react-hooks: ^4.6.0
@@ -97,7 +96,6 @@ dependencies:
   crypto-js: 4.1.1
   dayjs: 1.11.7
   echarts: 5.4.1
-  echarts-liquidfill: 3.1.0_echarts@5.4.1
   nprogress: 0.2.0
   rc-resize-observer: 1.2.1_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
@@ -3269,14 +3267,6 @@ packages:
   /duplexer3/0.1.5:
     resolution: {integrity: sha512-1A8za6ws41LQgv9HrE/66jyC5yuSjQ3L/KOpFtoBilsAK2iA2wuS5rTt1OCzIvtS2V7nVmedsUU+DGRcjBmOYA==}
     dev: true
-
-  /echarts-liquidfill/3.1.0_echarts@5.4.1:
-    resolution: {integrity: sha512-5Dlqs/jTsdTUAsd+K5LPLLTgrbbNORUSBQyk8PSy1Mg2zgHDWm83FmvA4s0ooNepCJojFYRITTQ4GU1UUSKYLw==}
-    peerDependencies:
-      echarts: ^5.0.1
-    dependencies:
-      echarts: 5.4.1
-    dev: false
 
   /echarts/5.4.1:
     resolution: {integrity: sha512-9ltS3M2JB0w2EhcYjCdmtrJ+6haZcW6acBolMGIuf01Hql1yrIV01L1aRj7jsaaIULJslEP9Z3vKlEmnJaWJVQ==}

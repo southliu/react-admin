@@ -10,7 +10,7 @@ export function layoutRoutes(routes: RouteObject[]): RouteObject[] {
   for (let i = 0; i < routes.length; i++) {
     const { path } = routes[i]
     // 路径为登录页不添加layouts
-    if (path !== 'login' && path !== 'dataScreen') {
+    if (path !== 'login') {
       layouts.push(routes[i])
     }
   }
