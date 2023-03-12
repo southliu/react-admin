@@ -24,7 +24,7 @@ export function firstLoad(path: string, lazyJs: string[], lazyCss: string[]) {
   for (let i = lazyJs.length - 1; i >= 0; i--) {
     // 数据大屏或首页echarts提前渲染
     if (
-      (path === 'dataScreen' || path === 'dashboard') &&
+      (path === 'dashboard') &&
       lazyJs[i]?.includes('echarts')
     ) {
       createPreloadJs(lazyJs[i])
@@ -33,7 +33,6 @@ export function firstLoad(path: string, lazyJs: string[], lazyCss: string[]) {
 
     // 内容编辑提前加载wangeditor
     if (
-      path === 'dataScreen' &&
       (lazyJs[i]?.includes('@wangeditor_editor') ||
       lazyJs[i]?.includes('@wangeditor_editor/editor-for-react'))
     ) {
@@ -47,36 +46,6 @@ export function firstLoad(path: string, lazyJs: string[], lazyCss: string[]) {
     // 内容编辑提前加载wangeditor
     if (path === 'content/article/option' && lazyCss?.includes('@wangeditor_editor')) {
       createCss(lazyCss[i])
-      lazyCss.splice(i, 1)
-    }
-  }
-
-  return [lazyJs, lazyCss] as const
-}
-
-/**
- * 特定页面才会加载(特殊处理)
- * 如：需要跳转新页面才加载的数据，平时不加载
- */
-export function excludeLoad(path: string, lazyJs: string[], lazyCss: string[]) {
-  for (let i = lazyJs.length - 1; i >= 0; i--) {
-    // 当前页面不是数据展览则不加载
-    if (
-      path !== 'dataScreen' &&
-      (lazyJs[i].includes('dataScreen') ||
-      lazyJs[i].includes('DataScreen'))
-    ) {
-      lazyJs.splice(i, 1)
-    }
-  }
-  
-  for (let i = lazyCss.length - 1; i >= 0; i--) {
-    // 当前页面不是数据展览则不加载
-    if (
-      path !== 'dataScreen' &&
-      (lazyCss[i].includes('dataScreen') ||
-      lazyCss[i].includes('DataScreen'))
-    ) {
       lazyCss.splice(i, 1)
     }
   }
@@ -187,11 +156,6 @@ export function handlePreload(
       lazyCss.splice(i, 1)
     }
   }
-
-  // 排除加载模块
-  const [newExcludeJs, newExcludeCss] = excludeLoad(path, lazyJs, lazyCss)
-  lazyJs = newExcludeJs
-  lazyCss = newExcludeCss
 
   // 提前加载模块
   const [newFirstJs, newFirstCss] = firstLoad(path, lazyJs, lazyCss)

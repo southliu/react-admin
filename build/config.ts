@@ -38,7 +38,6 @@ export const lazyJs = [
   PAGE_PREFIX,
   'zrender',
   'echarts',
-  'echarts-liquidfill',
   '@wangeditor_editor',
   '@wangeditor_editor-for-react',
 ]

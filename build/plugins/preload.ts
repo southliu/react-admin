@@ -14,7 +14,6 @@ import {
   createCss,
   handleJs,
   handleCss,
-  excludeLoad
 } from '../utils/html'
 
 /**
@@ -57,7 +56,6 @@ export const preloadPlugin = (time = 1000): PluginOption => {
         ${createCss}
         ${handleJs}
         ${handleCss}
-        ${excludeLoad}
         ${handlePreload}
 
         const time = ${time};

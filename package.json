@@ -24,7 +24,6 @@
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.6",
     "echarts": "^5.3.3",
-    "echarts-liquidfill": "^3.1.0",
     "nprogress": "^0.2.0",
     "rc-resize-observer": "^1.2.1",
     "react": "^18.2.0",
