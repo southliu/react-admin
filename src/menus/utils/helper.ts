@@ -211,24 +211,25 @@ export function filterMenus(
   permissions: string[]
 ): ISideMenu[] {
   const result: ISideMenu[] = []
+  const newMenus = JSON.parse(JSON.stringify(menus))
 
-  for (let i = 0; i < menus.length; i++) {
+  for (let i = 0; i < newMenus.length; i++) {
     // 处理子数组
-    if (hasChildren(menus[i])) {
+    if (hasChildren(newMenus[i])) {
       const result = filterMenus(
-        menus[i].children as ISideMenu[],
+        newMenus[i].children as ISideMenu[],
         permissions
       )
 
       // 有子权限数据则保留
-      menus[i].children = result?.length ? result : undefined
+      newMenus[i].children = result?.length ? result : undefined
     }
 
     // 有权限或有子数据累加
     if (
-      hasPermission(menus[i], permissions) ||
-      hasChildren(menus[i])
-    ) result.push(menus[i])
+      hasPermission(newMenus[i], permissions) ||
+      hasChildren(newMenus[i])
+    ) result.push(newMenus[i])
   }
 
   return result
