@@ -1,9 +1,10 @@
 import type { MenuProps } from 'antd'
 import type { ISideMenu } from '#/public'
 import type { AppDispatch } from '@/stores'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Menu } from 'antd'
 import { RootState } from '@/stores'
+import { Icon } from '@iconify/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { defaultMenus } from '@/menus'
 import { useNavigate, useLocation } from 'react-router-dom'
@@ -45,13 +46,32 @@ function LayoutMenu() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
+  /**
+   * 转换菜单icon格式
+   * @param menus - 菜单
+   */
+  const filterMenuIcon = useCallback((menus: ISideMenu[]) => {
+    for (let i = 0; i < menus.length; i++) {
+      if (menus[i]?.icon) {
+        menus[i].icon = (
+          <Icon icon={menus[i].icon as string} />
+        )
+      }
+
+      if (menus[i]?.children?.length) {
+        filterMenuIcon(menus[i].children as ISideMenu[])
+      }
+    }
+  }, [])
+
   // 过滤没权限菜单
   useEffect(() => {
     if (permissions.length > 0) {
       const newMenus = filterMenus(defaultMenus, permissions)
+      filterMenuIcon(newMenus)
       setMenus(newMenus || [])
     }
-  }, [permissions])
+  }, [filterMenuIcon, permissions])
 
   /**
    * 处理跳转
