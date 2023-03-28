@@ -12,7 +12,8 @@ import {
   Switch,
   Rate,
   Slider,
-  Upload
+  Upload,
+  Transfer
 } from 'antd'
 import ApiSelect from '@/components/Selects/ApiSelect'
 import ApiTreeSelect from '@/components/Selects/ApiTreeSelect'
@@ -39,6 +40,7 @@ componentMap.set('Switch', Switch)
 componentMap.set('Rate', Rate)
 componentMap.set('Slider', Slider)
 componentMap.set('Upload', Upload)
+componentMap.set('Transfer', Transfer)
 componentMap.set('DatePicker', BasicDatePicker)
 componentMap.set('RangePicker', BasicRangePicker)
 componentMap.set('TimePicker', BasicTimePicker)

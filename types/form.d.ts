@@ -10,7 +10,8 @@ import type {
   RateProps,
   CheckboxProps,
   SliderSingleProps,
-  TimeRangePickerProps
+  TimeRangePickerProps,
+  TransferProps
 } from "antd"
 import type { Key, ReactNode } from "react"
 import type { IAllDataType } from './public'
@@ -49,6 +50,9 @@ type IUploadComponents = 'Upload'
 // 星级组件
 type IRateComponents = 'Rate'
 
+// 穿梭俊组件
+type ITransfer = 'Transfer'
+
 // 滑动输入条组件
 type ISliderComponents = 'Slider'
 
@@ -73,8 +77,7 @@ export type IComponentType = IDefaultDataComponents |
                           ISliderComponents |
                           IEditorComponents |
                           IPasswordStrength |
-                          TimeRangePickerProps |
-                          RangePickerProps |
+                          ITransfer |
                           IBusinessComponents
 
 export interface IApiResult extends Omit<DefaultOptionType, 'value'> {
@@ -110,6 +113,9 @@ export type IComponentProps = InputProps |
                               UploadProps |
                               RateProps |
                               SliderSingleProps |
+                              TimeRangePickerProps |
+                              TransferProps |
+                              RangePickerProps |
                               IApiSelectProps |
                               IApiTreeSelectProps |
                               IEditorProps
@@ -117,7 +123,7 @@ export type IComponentProps = InputProps |
 // 表单规则
 export type IFormRule = RuleObject & {
   trigger?: 'blur' | 'change' | ['change', 'blur'];
-};
+}
 
 // 表单数据
 export type IFormList = {
