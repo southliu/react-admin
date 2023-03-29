@@ -12,8 +12,7 @@ import {
   Switch,
   Rate,
   Slider,
-  Upload,
-  Transfer
+  Upload
 } from 'antd'
 import ApiSelect from '@/components/Selects/ApiSelect'
 import ApiTreeSelect from '@/components/Selects/ApiTreeSelect'
@@ -21,6 +20,7 @@ import BasicDatePicker from '@/components/Dates/BasicDatePicker'
 import BasicRangePicker from '@/components/Dates/BasicRangePicker'
 import BasicTimePicker from '@/components/Dates/BasicTimePicker'
 import BasicTimeRangePicker from '@/components/Dates/BasicTimeRangePicker'
+import BasicTransfer from '@/components/Transfer/BasicTransfer'
 import PasswordStrength from '@/components/PasswordStrength'
 import WangEditor from '@/components/WangEditor'
 
@@ -40,7 +40,7 @@ componentMap.set('Switch', Switch)
 componentMap.set('Rate', Rate)
 componentMap.set('Slider', Slider)
 componentMap.set('Upload', Upload)
-componentMap.set('Transfer', Transfer)
+componentMap.set('Transfer', BasicTransfer)
 componentMap.set('DatePicker', BasicDatePicker)
 componentMap.set('RangePicker', BasicRangePicker)
 componentMap.set('TimePicker', BasicTimePicker)

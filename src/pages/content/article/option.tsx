@@ -2,6 +2,7 @@ import type { IFormData } from '#/form'
 import type { IPagePermission } from '#/public'
 import type { AppDispatch, RootState } from '@/stores'
 import type { IFormFn } from '@/components/Form/BasicForm'
+import type { TransferProps } from 'antd/es/transfer'
 import { message, Spin } from 'antd'
 import { createList } from './model'
 import { getUrlParam } from '@/utils/helper'
@@ -35,9 +36,24 @@ import BasicForm from '@/components/Form/BasicForm'
 import BasicContent from '@/components/Content/BasicContent'
 import SubmitBottom from '@/components/Bottom/SubmitBottom'
 
+interface RecordType {
+  key: string;
+  title: string;
+  description: string;
+}
+
+const mockData: RecordType[] = Array.from({ length: 20 }).map((_, i) => ({
+  key: i.toString(),
+  title: `content${i + 1}`,
+  description: `description of content${i + 1}`,
+}))
+
+const initialTargetKeys = mockData.filter((item) => Number(item.key) > 10).map((item) => item.key)
+
 // 初始化新增数据
 const initCreate = {
-  content: '<h4>初始化内容</h4>'
+  content: '<h4>初始化内容</h4>',
+  transfer: initialTargetKeys
 }
 
 // 父路径
@@ -69,6 +85,15 @@ function Page() {
   const pagePermission: IPagePermission = {
     create: checkPermission(`${permissionPrefix}/create`, permissions),
     update: checkPermission(`${permissionPrefix}/update`, permissions),
+  }
+
+  /**
+   * 穿梭俊
+   */
+  const transferProps: TransferProps<{ title: string }> = {
+    dataSource: mockData,
+    targetKeys: initialTargetKeys,
+    render: (item) => item.title
   }
 
   // 处理默认展开
@@ -177,7 +202,7 @@ function Page() {
           <Spin spinning={isLoading}>
             <BasicForm
               formRef={createFormRef}
-              list={createList}
+              list={createList(transferProps)}
               data={createData}
               labelCol={{ span: 5 }}
               handleFinish={handleFinish}
