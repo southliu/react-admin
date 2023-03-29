@@ -1,5 +1,6 @@
 import type { IFormList } from "#/form"
 import type { ITableColumn, ITableOptions } from '#/public'
+import type { TransferProps } from "antd"
 import { INPUT_REQUIRED } from '@/utils/config'
 import CustomizeInput from './components/CustomizeInput'
 
@@ -56,7 +57,7 @@ export const tableColumns = (optionRender: ITableOptions<object>): ITableColumn 
 }
 
 // 新增数据
-export const createList: IFormList[] = [
+export const createList = (transferProps: TransferProps<{ title: string }>): IFormList[] => [
   {
     label: '用户名',
     name: 'username',
@@ -75,6 +76,12 @@ export const createList: IFormList[] = [
     rules: INPUT_REQUIRED,
     component: 'customize',
     render: CustomizeInput
+  },
+  {
+    label: '数据传输',
+    name: 'transfer',
+    component: 'Transfer',
+    componentProps: transferProps
   },
   {
     label: '内容',
