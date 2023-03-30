@@ -27,7 +27,7 @@ export type IFormData = Record<string, IAllDataType>
 // 基础数据组件
 type IDefaultDataComponents = 'Input' |
                               'InputNumber' |
-                              'Textarea' |
+                              'TextArea' |
                               'InputPassword' |
                               'AutoComplete' |
                               'customize'
