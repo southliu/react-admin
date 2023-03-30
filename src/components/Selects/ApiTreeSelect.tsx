@@ -1,7 +1,7 @@
 import type { IApi } from '#/form'
 import type { TreeSelectProps } from 'antd'
 import { TreeSelect } from 'antd'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { MAX_TAG_COUNT, PLEASE_SELECT } from '@/utils/config'
 import Loading from './components/Loading'
 
@@ -23,7 +23,7 @@ function ApiTreeSelect(props: IProps) {
   delete params.params
 
   /** 获取接口数据 */
-  const getApiData = async () => {
+  const getApiData = useCallback(async () => {
     try {
       setLoading(true)
       const data = await props.api?.(props?.params)
@@ -31,7 +31,14 @@ function ApiTreeSelect(props: IProps) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [props])
+
+  useEffect(() => {
+    // 当有值且列表为空时，自动获取接口
+    if (props.value && options?.length === 0) {
+      getApiData()
+    }
+  }, [getApiData, options, props.value])
 
   /**
    * 展开下拉回调
