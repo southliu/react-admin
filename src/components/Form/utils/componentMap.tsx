@@ -28,6 +28,7 @@ const componentMap = new Map()
 
 // antd组件注入
 componentMap.set('Input', Input)
+componentMap.set('TextArea', Input.TextArea)
 componentMap.set('InputNumber', InputNumber)
 componentMap.set('InputPassword', Input.Password)
 componentMap.set('AutoComplete', AutoComplete)
