@@ -38,7 +38,8 @@ function ApiTreeSelect(props: IProps) {
     if (props.value && options?.length === 0) {
       getApiData()
     }
-  }, [getApiData, options, props.value])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.value])
 
   /**
    * 展开下拉回调
