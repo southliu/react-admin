@@ -4,7 +4,6 @@ import { configPageImportPlugin } from './pages'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { preloadPlugin } from './preload'
 import { timePlugin } from './time'
-import imagemin from 'unplugin-imagemin/vite'
 import react from '@vitejs/plugin-react'
 import Unocss from 'unocss/vite'
 import viteCompression from 'vite-plugin-compression'
@@ -27,8 +26,6 @@ export function createVitePlugins() {
     }),
     // 打包时间
     timePlugin(),
-    // 图片压缩
-    imagemin(),
     // 压缩包
     viteCompression(),
     // 自动生成路由
