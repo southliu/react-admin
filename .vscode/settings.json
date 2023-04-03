@@ -44,7 +44,6 @@
     "tsup",
     "YouSheBiaoTiHei",
     "zlevel",
-    "majesticons",
-    "unplugin"
+    "majesticons"
   ]
 }
