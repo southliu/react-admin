@@ -9,7 +9,7 @@ import { store } from './stores'
 
 // 样式
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs' // 兼容低版本浏览器
-import 'virtual:uno.css'
+import 'uno.css'
 import 'nprogress/nprogress.css'
 import '@/assets/css/scrollbar.less'
 import '@/assets/css/theme-color.less'

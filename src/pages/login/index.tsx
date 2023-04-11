@@ -3,18 +3,19 @@ import type { FormProps } from 'antd'
 import type { AppDispatch, RootState } from '@/stores'
 import type { IThemeType } from '@/stores/public'
 import { message } from 'antd'
-import { setThemeValue } from '@/stores/public'
 import { Form, Button, Input } from 'antd'
 import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { PASSWORD_RULE, THEME_KEY } from '@/utils/config'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { login } from '@/servers/login'
 import { useTitle } from '@/hooks/useTitle'
 import { useToken } from '@/hooks/useToken'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { setPermissions, setUserInfo } from '@/stores/user'
+import { setThemeValue } from '@/stores/public'
 import { permissionsToArray } from '@/utils/permissions'
+import { setPermissions, setUserInfo } from '@/stores/user'
+import { getPermissions } from '@/servers/permissions'
 import { getFirstMenu } from '@/menus/utils/helper'
 import { defaultMenus } from '@/menus'
 import Logo from '@/assets/images/logo.svg'
@@ -42,11 +43,34 @@ function Login() {
   useEffect(() => {
     // 如果存在token，则直接进入页面
     if (getToken()) {
-      const firstMenu = getFirstMenu(defaultMenus, permissions)
-      navigate(firstMenu)
-    } 
+      // 如果不存在缓存则获取权限
+      if (!permissions.length) {
+        getUserPermissions()
+      } else {
+        // 有权限则直接跳转
+        const firstMenu = getFirstMenu(defaultMenus, permissions)
+        navigate(firstMenu)
+      }
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  /** 获取用户权限 */
+  const getUserPermissions = async () => {
+    try {
+      setLoading(true)
+       const { data } = await getPermissions({ refresh_cache: false })
+       if (data) {
+         const { data: { permissions } } = data
+         const newPermissions = permissionsToArray(permissions)
+         const firstMenu = getFirstMenu(defaultMenus, newPermissions)
+         dispatch(setPermissions(newPermissions))
+         navigate(firstMenu)
+       }
+    } finally {
+      setLoading(false)
+    }
+  }
 
   /**
    * 处理登录
