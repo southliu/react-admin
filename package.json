@@ -81,6 +81,8 @@
     "unocss": "^0.45.9",
     "vite": "^4.0.4",
     "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-optimize-persist": "^0.1.2",
+    "vite-plugin-package-config": "^0.1.1",
     "vite-plugin-pages": "^0.26.0",
     "vite-plugin-purge-icons": "^0.9.0",
     "vite-plugin-windicss": "^1.8.8",
