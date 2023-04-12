@@ -61,11 +61,12 @@ function Login() {
       setLoading(true)
        const { data } = await getPermissions({ refresh_cache: false })
        if (data) {
-         const { data: { permissions } } = data
-         const newPermissions = permissionsToArray(permissions)
-         const firstMenu = getFirstMenu(defaultMenus, newPermissions)
-         dispatch(setPermissions(newPermissions))
-         navigate(firstMenu)
+          const { data: { user, permissions } } = data
+          const newPermissions = permissionsToArray(permissions)
+          const firstMenu = getFirstMenu(defaultMenus, newPermissions)
+          dispatch(setUserInfo(user))
+          dispatch(setPermissions(newPermissions))
+          navigate(firstMenu)
        }
     } finally {
       setLoading(false)
