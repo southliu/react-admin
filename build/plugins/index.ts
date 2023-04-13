@@ -7,8 +7,8 @@ import { timePlugin } from './time'
 import react from '@vitejs/plugin-react'
 import Unocss from 'unocss/vite'
 import viteCompression from 'vite-plugin-compression'
-import PkgConfig from 'vite-plugin-package-config'
-import OptimizationPersist from 'vite-plugin-optimize-persist'
+// import PkgConfig from 'vite-plugin-package-config'
+// import OptimizationPersist from 'vite-plugin-optimize-persist'
 
 export function createVitePlugins() {
   // 插件参数
@@ -22,8 +22,8 @@ export function createVitePlugins() {
       ],
     }),
     // 优化首次加载慢的问题
-    PkgConfig() as PluginOption,
-    OptimizationPersist(),
+    // PkgConfig() as PluginOption,
+    // OptimizationPersist(),
     // 包分析
     visualizer({
       gzipSize: true,
