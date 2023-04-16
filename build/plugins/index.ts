@@ -4,7 +4,7 @@ import { configPageImportPlugin } from './pages'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { preloadPlugin } from './preload'
 import { timePlugin } from './time'
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react-swc'
 import legacy from '@vitejs/plugin-legacy'
 import unocss from 'unocss/vite'
 import viteCompression from 'vite-plugin-compression'
@@ -20,13 +20,16 @@ export function createVitePlugins() {
         presetIcons()
       ],
     }),
+    // 自动生成路由
+    configPageImportPlugin()
+  ]
+
+  if (process.env.NODE_ENV === 'production') {
     // 包分析
     visualizer({
       gzipSize: true,
       brotliSize: true,
     }),
-    // 打包时间
-    timePlugin(),
     // 兼容低版本
     legacy({
       targets: [ 
@@ -39,11 +42,8 @@ export function createVitePlugins() {
         ], 
         additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
     }),
-    // 自动生成路由
-    configPageImportPlugin()
-  ]
-
-  if (process.env.NODE_ENV === 'production') {
+    // 打包时间
+    timePlugin(),
     // 预加载处理
     vitePlugins.push(preloadPlugin())
     // 压缩包
