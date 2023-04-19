@@ -120,36 +120,38 @@ function BasicSearch(props: IProps) {
           ))
         }
 
-        {
-          isSearch !== false &&
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className='!mb-5px'
-              loading={isLoading}
-              icon={<SearchOutlined />}
+        <div className='flex items-center flex-wrap'>
+          {
+            isSearch !== false &&
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className='!mb-5px'
+                loading={isLoading}
+                icon={<SearchOutlined />}
+              >
+                搜索
+              </Button>
+            </Form.Item>
+          }
+
+          {
+            isCreate !== false &&
+            <Form.Item>
+              <Button
+                type="primary"
+                className='!mb-5px'
+                icon={<PlusOutlined />}
+                onClick={onCreate}
             >
-              搜索
-            </Button>
-          </Form.Item>
-        }
+                新增
+              </Button>
+            </Form.Item>
+          }
 
-        {
-          isCreate !== false &&
-          <Form.Item>
-            <Button
-              type="primary"
-              className='!mb-5px'
-              icon={<PlusOutlined />}
-              onClick={onCreate}
-          >
-              新增
-            </Button>
-          </Form.Item>
-        }
-
-        { children }
+          { children }
+        </div>
       </Form>
     </div>
   )

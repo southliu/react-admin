@@ -213,7 +213,15 @@ function LayoutMenu() {
       {
         isPhone && !isCollapsed &&
         <div
-          className={`${styles.cover} fixed w-full h-full bg-gray-500 bg-opacity-10 z-1001`}
+          className={`
+            ${styles.cover}
+            fixed
+            w-full
+            h-full
+            bg-gray-500
+            bg-opacity-10
+            z-1001
+          `}
           onClick={hiddenMenu}
         />
       }

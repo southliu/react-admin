@@ -117,7 +117,7 @@ function Layout() {
             ${styles.con}
             ${isMaximize ? styles.conMaximize : ''}
             ${isCollapsed ? styles.conCloseMenu : ''}
-            ${isPhone ? `!left-0` : ''}
+            ${isPhone ? `!left-0 !w-full` : ''}
           `}
         >
           {
