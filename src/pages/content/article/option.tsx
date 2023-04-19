@@ -2,7 +2,6 @@ import type { IFormData } from '#/form'
 import type { IPagePermission } from '#/public'
 import type { AppDispatch, RootState } from '@/stores'
 import type { IFormFn } from '@/components/Form/BasicForm'
-import type { TransferProps } from 'antd/es/transfer'
 import { message, Spin } from 'antd'
 import { createList } from './model'
 import { getUrlParam } from '@/utils/helper'
@@ -85,15 +84,6 @@ function Page() {
   const pagePermission: IPagePermission = {
     create: checkPermission(`${permissionPrefix}/create`, permissions),
     update: checkPermission(`${permissionPrefix}/update`, permissions),
-  }
-
-  /**
-   * 穿梭俊
-   */
-  const transferProps: TransferProps<{ title: string }> = {
-    dataSource: mockData,
-    targetKeys: initialTargetKeys,
-    render: (item) => item.title
   }
 
   // 处理默认展开
@@ -202,7 +192,7 @@ function Page() {
           <Spin spinning={isLoading}>
             <BasicForm
               formRef={createFormRef}
-              list={createList(transferProps)}
+              list={createList}
               data={createData}
               labelCol={{ span: 5 }}
               handleFinish={handleFinish}
