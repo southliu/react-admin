@@ -7,9 +7,9 @@ import { getTableHeight, handleRowHeight, filterTableColumns } from './utils/hel
 import ResizableTitle from './components/ResizableTitle'
 import useVirtualTable from './hooks/useVirtual'
 
-type IComponents = TableProps<object>['components']
+type Components = TableProps<object>['components']
 
-interface IProps extends Omit<TableProps<object>, 'bordered'> {
+interface Props extends Omit<TableProps<object>, 'bordered'> {
   isBordered?: boolean; // 是否开启边框
   isZebra?: boolean; // 是否开启斑马线
   isVirtual?: boolean; // 是否开启虚拟滚动
@@ -17,7 +17,7 @@ interface IProps extends Omit<TableProps<object>, 'bordered'> {
   scrollY?: number;
 }
 
-function BasicTable(props: IProps) {
+function BasicTable(props: Props) {
   const {
     loading,
     isZebra,
@@ -78,11 +78,11 @@ function BasicTable(props: IProps) {
         wrapper: virtualOptions.body.wrapper
       },
       table: virtualOptions.table
-    } as IComponents
+    } as Components
   }, [virtualOptions])
 
   // 只带拖拽功能组件
-  const components: IComponents = isVirtual === true ? virtualComponents : {
+  const components: Components = isVirtual === true ? virtualComponents : {
     header: {
       cell: ResizableTitle,
     }

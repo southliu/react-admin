@@ -1,10 +1,10 @@
-interface IProps {
+interface Props {
   strength: number;
 }
 
 const arr = new Array(5).fill(0).map((_, index) => index + 1)
 
-function StrengthBar(props: IProps) {
+function StrengthBar(props: Props) {
   const { strength } = props
 
   return (

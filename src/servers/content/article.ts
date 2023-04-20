@@ -1,5 +1,5 @@
-import type { IFormData } from '#/form'
-import type { IPageServerResult, IPaginationData } from '#/public'
+import type { FormData } from '#/form'
+import type { PageServerResult, PaginationData } from '#/public'
 import { request } from '@/utils/request'
 
 enum API {
@@ -10,8 +10,8 @@ enum API {
  * 获取分页数据
  * @param data - 请求数据
  */
-export function getArticlePage(data: Partial<IFormData> & IPaginationData) {
-  return request.get<IPageServerResult<IFormData[]>>(
+export function getArticlePage(data: Partial<FormData> & PaginationData) {
+  return request.get<PageServerResult<FormData[]>>(
     `${API.URL}/index`,
     { params: data }
   )
@@ -29,7 +29,7 @@ export function getArticleById(id: string) {
  * 新增数据
  * @param data - 请求数据
  */
-export function createArticle(data: IFormData) {
+export function createArticle(data: FormData) {
   return request.post(API.URL, data)
 }
 
@@ -38,7 +38,7 @@ export function createArticle(data: IFormData) {
  * @param id - 修改id值
  * @param data - 请求数据
  */
-export function updateArticle(id: string, data: IFormData) {
+export function updateArticle(id: string, data: FormData) {
   return request.put(`${API.URL}/${id}`, data)
 }
 

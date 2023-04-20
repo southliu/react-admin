@@ -3,12 +3,12 @@ import type { TransferItem } from 'antd/es/transfer'
 import { useState } from 'react'
 import { Transfer } from 'antd'
 
-interface IProps extends TransferProps<TransferItem> {
+interface Props extends TransferProps<TransferItem> {
   value: string[];
   onChange: (value: string[]) => void;
 }
 
-function BasicTransfer(props: IProps) {
+function BasicTransfer(props: Props) {
   const { value } = props
   const [targetKeys, setTargetKeys] = useState(value || [])
 

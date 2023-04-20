@@ -14,18 +14,18 @@ import type {
   TransferProps
 } from "antd"
 import type { Key, ReactNode } from "react"
-import type { IAllDataType } from './public'
+import type { AllTypeData } from './public'
 import type { RangePickerProps } from 'antd/lib/date-picker'
 import type { DefaultOptionType } from 'antd/lib/select'
 import type { RuleObject } from 'antd/lib/form'
-import type { IBusinessComponents } from '@/components/Business'
-import type { IEditorProps } from '@/components/WangEditor'
+import type { BusinessComponents } from '@/components/Business'
+import type { EditorProps } from '@/components/WangEditor'
 
 // 数据类型
-export type IFormData = Record<string, IAllDataType>
+export type FormData = Record<string, AllTypeData>
 
 // 基础数据组件
-type IDefaultDataComponents = 'Input' |
+type DefaultDataComponents = 'Input' |
                               'InputNumber' |
                               'TextArea' |
                               'InputPassword' |
@@ -33,76 +33,76 @@ type IDefaultDataComponents = 'Input' |
                               'customize'
 
 // 下拉组件
-type ISelectComponents = 'Select' | 'TreeSelect' | 'ApiSelect' | 'ApiTreeSelect'
+type SelectComponents = 'Select' | 'TreeSelect' | 'ApiSelect' | 'ApiTreeSelect'
 
 // 复选框组件
-type ICheckboxComponents = 'Checkbox' | 'CheckboxGroup'
+type CheckboxComponents = 'Checkbox' | 'CheckboxGroup'
 
 // 单选框组件
-type IRadioComponents = 'RadioGroup' | 'Switch'
+type RadioComponents = 'RadioGroup' | 'Switch'
 
 // 时间组件
-type ITimeComponents = 'DatePicker' | 'RangePicker' | 'TimePicker' | 'TimeRangePicker'
+type TimeComponents = 'DatePicker' | 'RangePicker' | 'TimePicker' | 'TimeRangePicker'
 
 // 上传组件
-type IUploadComponents = 'Upload'
+type UploadComponents = 'Upload'
 
 // 星级组件
-type IRateComponents = 'Rate'
+type RateComponents = 'Rate'
 
 // 穿梭俊组件
-type ITransfer = 'Transfer'
+type TransferComponents = 'Transfer'
 
 // 滑动输入条组件
-type ISliderComponents = 'Slider'
+type SliderComponents = 'Slider'
 
 // 自定义组件
-type ICustomizeComponents = 'Customize'
+type CustomizeComponents = 'Customize'
 
 // 富文本编辑器
-type IEditorComponents = 'Editor'
+type EditorComponents = 'Editor'
 
 // 密码强度组件
-type IPasswordStrength = 'PasswordStrength'
+type PasswordStrength = 'PasswordStrength'
 
 // 组件集合
-export type IComponentType = IDefaultDataComponents |
-                          ISelectComponents |
-                          ICheckboxComponents |
-                          ITimeComponents |
-                          IRadioComponents |
-                          ICustomizeComponents |
-                          IUploadComponents |
-                          IRateComponents |
-                          ISliderComponents |
-                          IEditorComponents |
-                          IPasswordStrength |
-                          ITransfer |
-                          IBusinessComponents
+export type ComponentType = DefaultDataComponents |
+                            SelectComponents |
+                            CheckboxComponents |
+                            TimeComponents |
+                            RadioComponents |
+                            CustomizeComponents |
+                            UploadComponents |
+                            RateComponents |
+                            SliderComponents |
+                            EditorComponents |
+                            PasswordStrength |
+                            TransferComponents |
+                            BusinessComponents
 
-export interface IApiResult extends Omit<DefaultOptionType, 'value'> {
+export interface ApiResult extends Omit<DefaultOptionType, 'value'> {
   label: ReactNode;
   title?: ReactNode;
   key?: Key;
   value?: string | number;
 }
 
-export type IApi = (params?: object) => Promise<IApiResult[]>
+export type ApiFn = (params?: object) => Promise<ApiResult[]>
 
 // api参数
-interface IApiParam {
-  api?: IApi;
+interface ApiParam {
+  api?: ApiFn;
   params?: object;
 }
 
 // ApiSelect
-export type IApiSelectProps = IApiParam & SelectProps
+export type ApiSelectProps = ApiParam & SelectProps
 
 // ApiTreeSelect
-export type IApiTreeSelectProps = IApiParam & TreeSelectProps
+export type ApiTreeSelectProps = ApiParam & TreeSelectProps
 
 // 组件参数
-export type IComponentProps = InputProps |
+export type ComponentProps = InputProps |
                               InputNumberProps |
                               SelectProps |
                               TreeSelectProps |
@@ -116,25 +116,25 @@ export type IComponentProps = InputProps |
                               TimeRangePickerProps |
                               TransferProps |
                               RangePickerProps |
-                              IApiSelectProps |
-                              IApiTreeSelectProps |
-                              IEditorProps
+                              ApiSelectProps |
+                              ApiTreeSelectProps |
+                              EditorProps
 
 // 表单规则
-export type IFormRule = RuleObject & {
+export type FormRule = RuleObject & {
   trigger?: 'blur' | 'change' | ['change', 'blur'];
 }
 
 // 表单数据
-export type IFormList = {
+export type FormList = {
   name: string | string[]; // 表单域字段
   label: string; // 标签
   placeholder?: string; // 占位符
   hidden?: boolean; // 是否隐藏
-  rules?: IFormRule[]; // 规则
+  rules?: FormRule[]; // 规则
   labelCol?: number; // label宽度
   wrapperCol?: number; // 内容宽度
-  component: IComponentType; // 组件
-  componentProps?: IComponentProps; // 组件参数
+  component: ComponentType; // 组件
+  componentProps?: ComponentProps; // 组件参数
   render?: ReactElement; // 自定义渲染
 }

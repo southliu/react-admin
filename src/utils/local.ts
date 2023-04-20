@@ -8,7 +8,7 @@ import { encryption, decryption } from './crypto'
 // 默认缓存期限为2天
 const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 2
 
-interface IStorageData {
+interface StorageData {
   value: unknown;
   expire: number | null;
 }
@@ -23,7 +23,7 @@ export function setLocalInfo(key: string, value: unknown, expire: number | null 
   // 缓存时间
   const time = expire !== null ? new Date().getTime() + expire * 1000 : null
   // 缓存数据
-  const data: IStorageData = { value, expire: time }
+  const data: StorageData = { value, expire: time }
   const json = encryption(data)
   localStorage.setItem(key, json)
 }
@@ -36,7 +36,7 @@ export function getLocalInfo<T>(key: string) {
   const json = localStorage.getItem(key)
   
   if (json) {
-    let data: IStorageData | null = null
+    let data: StorageData | null = null
     try {
       data = decryption(json)
     } catch {

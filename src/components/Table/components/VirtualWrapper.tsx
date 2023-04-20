@@ -2,9 +2,9 @@ import type { DetailedHTMLProps, HTMLAttributes, ReactNode } from 'react'
 import { useContext } from 'react'
 import { ScrollContext } from '../utils/state'
 
-type IProps = DetailedHTMLProps<HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement>
+type Props = DetailedHTMLProps<HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement>
 
- function VirtualWrapper(props: IProps): JSX.Element {
+ function VirtualWrapper(props: Props): JSX.Element {
   const { children, ...restProps } = props
   const { renderLen, start, offsetStart } = useContext(ScrollContext)
   let tempNode = null

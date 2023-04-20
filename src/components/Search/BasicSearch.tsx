@@ -1,7 +1,7 @@
 import { ReactNode, Ref, useImperativeHandle } from 'react'
-import type { IFormData, IFormList } from '#/form'
+import type { FormData, FormList } from '#/form'
 import type { ColProps } from 'antd'
-import type { IFormFn } from '../Form/BasicForm'
+import type { FormFn } from '../Form/BasicForm'
 import { memo } from 'react'
 import { Button, FormProps } from 'antd'
 import { Form } from 'antd'
@@ -10,21 +10,21 @@ import { getComponent } from '../Form/utils/componentMap'
 import { handleValuePropName } from '../Form/utils/helper'
 import { filterDayjs } from '../Dates/utils/helper'
 
-interface IProps {
-  list: IFormList[];
-  data: IFormData;
+interface Props {
+  list: FormList[];
+  data: FormData;
   isLoading?: boolean;
   isSearch?: boolean;
   isCreate?: boolean;
   children?: ReactNode;
   labelCol?: Partial<ColProps>;
   wrapperCol?: Partial<ColProps>;
-  formRef?: Ref<IFormFn>;
+  formRef?: Ref<FormFn>;
   onCreate?: () => void;
   handleFinish: FormProps['onFinish'];
 }
 
-function BasicSearch(props: IProps) {
+function BasicSearch(props: Props) {
   const {
     list,
     data,
@@ -62,7 +62,7 @@ function BasicSearch(props: IProps) {
       handleSubmit: () => {
         form.submit()
       }
-    } as IFormFn)
+    } as FormFn)
   )
 
   /** 点击新增 */

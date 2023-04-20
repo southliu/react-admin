@@ -1,5 +1,5 @@
 import type { MenuProps } from 'antd'
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 import type { AppDispatch } from '@/stores'
 import { useCallback, useEffect, useState } from 'react'
 import { Menu } from 'antd'
@@ -24,7 +24,7 @@ function LayoutMenu() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const dispatch: AppDispatch = useDispatch()
-  const [menus, setMenus] = useState<ISideMenu[]>([])
+  const [menus, setMenus] = useState<SideMenu[]>([])
   const selectedKeys = useSelector((state: RootState) => state.menu.selectedKeys)
   const openKeys = useSelector((state: RootState) => state.menu.openKeys)
   // 是否窗口最大化
@@ -50,7 +50,7 @@ function LayoutMenu() {
    * 转换菜单icon格式
    * @param menus - 菜单
    */
-  const filterMenuIcon = useCallback((menus: ISideMenu[]) => {
+  const filterMenuIcon = useCallback((menus: SideMenu[]) => {
     for (let i = 0; i < menus.length; i++) {
       if (menus[i]?.icon) {
         menus[i].icon = (
@@ -59,7 +59,7 @@ function LayoutMenu() {
       }
 
       if (menus[i]?.children?.length) {
-        filterMenuIcon(menus[i].children as ISideMenu[])
+        filterMenuIcon(menus[i].children as SideMenu[])
       }
     }
   }, [])

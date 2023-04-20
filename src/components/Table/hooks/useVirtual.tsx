@@ -1,4 +1,4 @@
-import type { IInitTableState } from '../utils/reducer'
+import type { InitTableState } from '../utils/reducer'
 import type { CSSProperties, ReactNode } from 'react'
 import type { SizeType } from 'antd/es/config-provider/SizeContext'
 import {
@@ -15,14 +15,14 @@ import { handleRowHeight } from '../utils/helper'
 import { useThrottleFn } from 'ahooks'
 import VirtualWrapper from '../components/VirtualWrapper'
 
-const initialState: IInitTableState = {
+const initialState: InitTableState = {
   rowHeight: 38, // 行高度
   curScrollTop: 0, // 当前的滚动高度
   scrollHeight: 0, // 可滚动区域的高度
   tableScrollY: 0 // 可滚动区域值
 }
 
-type IChildren = ReactNode & Array<{
+type Children = ReactNode & Array<{
   props: {
     data: {
       length: number
@@ -30,9 +30,9 @@ type IChildren = ReactNode & Array<{
   }
 }>
 
-interface IVirtualTableProps {
+interface VirtualTableProps {
   style?: CSSProperties;
-  children: IChildren;
+  children: Children;
 }
 
 let scrollY: number | string = 0
@@ -41,7 +41,7 @@ let scrollY: number | string = 0
  * 表格渲染
  * @param props - 传递值
  */
-function VirtualTable(props: IVirtualTableProps) {
+function VirtualTable(props: VirtualTableProps) {
   const { style, children, ...rest } = props
   const { width, ...restStyle } = style as CSSProperties
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -75,7 +75,7 @@ function VirtualTable(props: IVirtualTableProps) {
     tableScrollY = scrollY
   }
 
-  if (isNumber(tableHeight) && tableHeight < tableScrollY) {
+  if (isNumber(tableHeight) && Number(tableHeight) < tableScrollY) {
     tableScrollY = tableHeight as number
   }
 
@@ -194,12 +194,12 @@ function VirtualTable(props: IVirtualTableProps) {
   )
 }
 
-interface IProps {
+interface Props {
   height: number | string;
   size: SizeType
 }
 
-export default function useVirtualTable(props: IProps) {
+export default function useVirtualTable(props: Props) {
   const { height, size } = props
   scrollY = height
   initialState.rowHeight = handleRowHeight(size)

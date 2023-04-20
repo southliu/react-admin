@@ -1,7 +1,7 @@
-import type { ILoginData } from './model'
+import type { LoginData } from './model'
 import type { FormProps } from 'antd'
 import type { AppDispatch, RootState } from '@/stores'
-import type { IThemeType } from '@/stores/public'
+import type { ThemeType } from '@/stores/public'
 import { message } from 'antd'
 import { Form, Button, Input } from 'antd'
 import { useEffect, useState } from 'react'
@@ -27,7 +27,7 @@ function Login() {
   const [getToken, setToken] = useToken()
   const [isLoading, setLoading] = useState(false)
   const permissions = useSelector((state: RootState) => state.user.permissions)
-  const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as IThemeType
+  const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType
 
   useEffect(() => {
     if (!themeCache) {
@@ -77,7 +77,7 @@ function Login() {
    * 处理登录
    * @param values - 表单数据
    */
-  const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
+  const handleFinish: FormProps['onFinish'] = async (values: LoginData) => {
     try {
       setLoading(true)
       const { data } = await login(values)

@@ -1,11 +1,11 @@
-import type { IFormList } from "#/form"
-import type { ITableColumn, ITableOptions } from '#/public'
+import type { FormList } from "#/form"
+import type { TableColumn, TableOptions } from '#/public'
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
 import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from '@/utils/constants'
 import { valueToLabel } from "@/utils/helper"
 
 // 搜索数据
-export const searchList: IFormList[] = [
+export const searchList: FormList[] = [
   {
     label: '状态',
     name: 'status',
@@ -34,7 +34,7 @@ export const searchList: IFormList[] = [
  * 表格数据
  * @param optionRender - 渲染操作函数
  */
-export const tableColumns = (optionRender: ITableOptions<object>): ITableColumn => {
+export const tableColumns = (optionRender: TableOptions<object>): TableColumn => {
   return [
     {
       title: 'ID',
@@ -85,7 +85,7 @@ export const tableColumns = (optionRender: ITableOptions<object>): ITableColumn 
 }
 
 // 新增数据
-export const createList: (id: string) => IFormList[] = id => [
+export const createList: (id: string) => FormList[] = id => [
   {
     label: '名称',
     name: 'name',

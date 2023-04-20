@@ -1,12 +1,12 @@
-import type { IApiResult } from '#/form'
-import type { IServerResult } from '#/public'
+import type { ApiResult } from '#/form'
+import type { ServerResult } from '#/public'
 import { request } from '@/utils/request'
 
 enum API {
   URL = '/platform/partner',
 }
 
-interface IResult {
+interface Result {
   id: string;
   name: string;
 }
@@ -15,10 +15,10 @@ interface IResult {
  * 获取分页数据
  * @param data - 请求数据
  */
-export function getPartner(data?: unknown): Promise<IApiResult[]> {
+export function getPartner(data?: unknown): Promise<ApiResult[]> {
   return new Promise((resolve, reject) => {
-    request.get<IServerResult<IResult[]>>(`${API.URL}`, { params: data }).then(res => {
-      const data: IApiResult[] = []
+    request.get<ServerResult<Result[]>>(`${API.URL}`, { params: data }).then(res => {
+      const data: ApiResult[] = []
 
       res?.data?.data.forEach(item => {
         data.push({

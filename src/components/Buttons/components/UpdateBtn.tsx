@@ -1,15 +1,15 @@
 import type { ButtonProps } from 'antd'
 import { Button } from 'antd'
 
-interface IProps extends Omit<ButtonProps, 'loading'> {
+interface Props extends Omit<ButtonProps, 'loading'> {
   isLoading: boolean;
 }
 
-function UpdateBtn(props: IProps) {
+function UpdateBtn(props: Props) {
   const { isLoading } = props
 
   // 清除自定义属性
-  const params: Partial<IProps> = { ...props }
+  const params: Partial<Props> = { ...props }
   delete params.isLoading
 
   return (

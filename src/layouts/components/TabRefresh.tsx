@@ -1,12 +1,12 @@
 import { Tooltip } from 'antd'
 import { Icon } from '@iconify/react'
 
-interface IProps {
+interface Props {
   isRefresh: boolean;
   onClick: () => void;
 }
 
-function TabRefresh(props: IProps) {
+function TabRefresh(props: Props) {
   const { isRefresh, onClick } = props
 
   return (

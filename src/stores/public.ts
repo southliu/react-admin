@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export type IThemeType = 'dark' | 'light'
+export type ThemeType = 'dark' | 'light'
 
 export const publicSlice = createSlice({
   name: 'public',
   initialState: {
-    theme: 'light' as IThemeType, // 主题
+    theme: 'light' as ThemeType, // 主题
     isFullscreen: false, // 是否全屏
     isRefresh: false, // 重新加载
     isRefreshPage: false // 重新加载页面

@@ -1,5 +1,5 @@
-import type { IAllDataType, IArrayData } from '#/public'
-import type { IConstant } from './constants'
+import type { AllTypeData, ArrayData } from '#/public'
+import type { Constant } from './constants'
 
 /**
  * 首字母大写
@@ -33,7 +33,7 @@ export function amountFormatter(amount: number) {
  * @param value - 值
  * @param arr - 常量值
  */
-export function valueToLabel(value: string | number | boolean, arr: IConstant[]): string {
+export function valueToLabel(value: string | number | boolean, arr: Constant[]): string {
   for (let i = 0; i < arr?.length; i++) {
     if (arr[i].value === value) {
       return arr[i].label
@@ -76,9 +76,9 @@ export function getUrlParam(search: string, key: string) {
  * 过滤空数据
  * @param obj - 传入对象
  */
-type IEmptyData = Record<string, IAllDataType>
-export function filterEmptyValue(obj: IEmptyData): IEmptyData {
-  const res: IEmptyData = {}
+type EmptyData = Record<string, AllTypeData>
+export function filterEmptyValue(obj: EmptyData): EmptyData {
+  const res: EmptyData = {}
 
   for (let key in obj) {
     // 去除key中多余的空格
@@ -93,7 +93,7 @@ export function filterEmptyValue(obj: IEmptyData): IEmptyData {
     // 空数组过滤
     if (
       obj[key]?.constructor === Array &&
-      (obj[key] as IArrayData).length === 0
+      (obj[key] as ArrayData).length === 0
     ) continue
 
     // 空字符串过滤
@@ -123,8 +123,8 @@ export function filterEmptyValue(obj: IEmptyData): IEmptyData {
  * 递归数据
  * @param data - 数据源
  */
-interface IRecursiveChildren<T> { children?: T[] }
-export function recursiveData<T extends IRecursiveChildren<T>, U>(
+interface RecursiveChildren<T> { children?: T[] }
+export function recursiveData<T extends RecursiveChildren<T>, U>(
   data: T[],
   callback: (data: T) => U
 ): U[] {

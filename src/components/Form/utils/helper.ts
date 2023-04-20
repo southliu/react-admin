@@ -1,4 +1,4 @@
-import type { IComponentProps, IComponentType } from '#/form'
+import type { ComponentProps, ComponentType } from '#/form'
 import { PLEASE_ENTER, PLEASE_SELECT } from '@/utils/config'
 import { DATE_FORMAT, TIME_FORMAT } from '@/utils/constants'
 
@@ -6,7 +6,7 @@ import { DATE_FORMAT, TIME_FORMAT } from '@/utils/constants'
  * 处理子节点的值的属性
  * @param component - 组件名
  */
-export function handleValuePropName(component: IComponentType): string {
+export function handleValuePropName(component: ComponentType): string {
   switch (component) {
     case 'Switch':
     case 'Checkbox':
@@ -25,7 +25,7 @@ export function handleValuePropName(component: IComponentType): string {
  * 初始化组件自定义属性
  * @param component - 组件名
  */
-export function initCompProps(component: IComponentType): IComponentProps {
+export function initCompProps(component: ComponentType): ComponentProps {
   switch (component) {
     // 下拉框
     case 'Select':

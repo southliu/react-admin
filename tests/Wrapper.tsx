@@ -3,11 +3,11 @@ import { HashRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from '../src/stores'
 
-interface IProps {
+interface Props {
   children: JSX.Element;
 }
 
-function Page(props: IProps) {
+function Page(props: Props) {
   return (
     <Provider store={store}>
       <Router>

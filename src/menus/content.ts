@@ -1,6 +1,6 @@
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 
-export const content: ISideMenu[] = [
+export const content: SideMenu[] = [
   {
     label: '内容管理',
     key: 'content',

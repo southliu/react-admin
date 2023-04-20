@@ -7,15 +7,15 @@ import { updatePassword } from '@/servers/login'
 import BasicModal from '@/components/Modal/BasicModal'
 import PasswordStrength from '@/components/PasswordStrength'
 
-export interface IPasswordModal {
+export interface PasswordModal {
   open: () => void;
 }
 
-interface IProps {
-  passwordRef: Ref<IPasswordModal>;
+interface Props {
+  passwordRef: Ref<PasswordModal>;
 }
 
-function UpdatePassword(props: IProps) {
+function UpdatePassword(props: Props) {
   const { passwordRef } = props
   const [form] = Form.useForm()
   const [isOpen, setOpen] = useState(false)

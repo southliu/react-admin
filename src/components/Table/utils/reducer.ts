@@ -1,12 +1,12 @@
 
-export interface IInitTableState {
+export interface InitTableState {
   rowHeight: number
   curScrollTop: number
   scrollHeight: number
   tableScrollY: number
 }
 
-export interface ITableAction extends Partial<IInitTableState> {
+export interface TableAction extends Partial<InitTableState> {
   type: 'changeScroll' | 'reset';
 }
 
@@ -15,7 +15,7 @@ export interface ITableAction extends Partial<IInitTableState> {
  * @param state - 初始化值
  * @param action - 触发值
  */
-export function reducer(state: IInitTableState, action: ITableAction) {
+export function reducer(state: InitTableState, action: TableAction) {
   switch (action.type) {
     // 监听滚动变化
     case 'changeScroll':

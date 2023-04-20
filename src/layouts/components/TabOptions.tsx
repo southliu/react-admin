@@ -3,12 +3,12 @@ import { Dropdown } from 'antd'
 import { Icon } from '@iconify/react'
 import { useDropdownMenu } from '../hooks/useDropdownMenu'
 
-interface IProps {
+interface Props {
   activeKey: string;
   handleRefresh: (activeKey: string) => void;
 }
 
-function TabOptions(props: IProps) {
+function TabOptions(props: Props) {
   const { activeKey, handleRefresh } = props
   const [isOpen, setOpen] = useState(false)
 

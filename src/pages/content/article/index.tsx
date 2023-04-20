@@ -1,7 +1,7 @@
-import type { IFormData } from '#/form'
+import type { FormData } from '#/form'
 import type { AppDispatch, RootState } from '@/stores'
-import type { IPagePermission, ITableOptions } from '#/public'
-import type { IFormFn } from '@/components/Form/BasicForm'
+import type { PagePermission, TableOptions } from '#/public'
+import type { FormFn } from '@/components/Form/BasicForm'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { searchList, tableColumns } from './model'
 import { message } from 'antd'
@@ -18,7 +18,7 @@ import BasicTable from '@/components/Table/BasicTable'
 import BasicPagination from '@/components/Pagination/BasicPagination'
 
 // 当前行数据
-interface IRowData {
+interface RowData {
   id: string;
 }
 
@@ -32,12 +32,12 @@ function Page() {
   useTitle('文章管理')
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
-  const searchFormRef = useRef<IFormFn>(null)
+  const searchFormRef = useRef<FormFn>(null)
   const [isLoading, setLoading] = useState(false)
   const [page, setPage] = useState(initSearch.page)
   const [pageSize, setPageSize] = useState(initSearch.pageSize)
   const [total, setTotal] = useState(0)
-  const [tableData, setTableData] = useState<IFormData[]>([])
+  const [tableData, setTableData] = useState<FormData[]>([])
   const permissions = useSelector((state: RootState) => state.user.permissions)
   const isRefreshPage = useSelector((state: RootState) => state.public.isRefreshPage)
 
@@ -45,7 +45,7 @@ function Page() {
   const permissionPrefix = '/content/article'
 
   // 权限
-  const pagePermission: IPagePermission = {
+  const pagePermission: PagePermission = {
     page: checkPermission(`${permissionPrefix}/index`, permissions),
     create: checkPermission(`${permissionPrefix}/create`, permissions),
     update: checkPermission(`${permissionPrefix}/update`, permissions),
@@ -56,7 +56,7 @@ function Page() {
    * 点击搜索
    * @param values - 表单返回数据
    */
-  const onSearch = (values: IFormData) => {
+  const onSearch = (values: FormData) => {
     setPage(1)
     handleSearch({ page: 1, pageSize, ...values })
   }
@@ -65,7 +65,7 @@ function Page() {
    * 搜索提交
    * @param values - 表单返回数据
    */
-  const handleSearch = useCallback(async (values: IFormData) => {
+  const handleSearch = useCallback(async (values: FormData) => {
     try {
       setLoading(true)
       const { data: { data } } = await getArticlePage(values)
@@ -146,14 +146,14 @@ function Page() {
    * @param _ - 当前值
    * @param record - 当前行参数
    */
-  const optionRender: ITableOptions<object> = (_, record) => (
+  const optionRender: TableOptions<object> = (_, record) => (
     <>
       {
         pagePermission.update === true &&
         <UpdateBtn
           className='mr-5px'
           isLoading={isLoading}
-          onClick={() => onUpdate((record as IRowData).id)}
+          onClick={() => onUpdate((record as RowData).id)}
         />
       }
       {
@@ -161,7 +161,7 @@ function Page() {
         <DeleteBtn
           className='mr-5px'
           isLoading={isLoading}
-          handleDelete={() => onDelete((record as IRowData).id)}
+          handleDelete={() => onDelete((record as RowData).id)}
         />
       }
     </>

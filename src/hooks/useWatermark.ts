@@ -1,4 +1,4 @@
-interface IOption {
+interface Option {
   content: string; // 内容
   height: number; // 水印行高
   width: number; // 水印宽度
@@ -16,7 +16,7 @@ export function useWatermark() {
    * 水印
    * @param options - 操作值
    */
-  const Watermark = (options: IOption) => {
+  const Watermark = (options: Option) => {
     const {
       content,
       height,

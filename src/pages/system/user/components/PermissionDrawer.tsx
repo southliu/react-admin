@@ -3,7 +3,7 @@ import type { Key } from 'antd/lib/table/interface'
 import { Drawer, Tree, Button } from 'antd'
 import { useState } from 'react'
 
-interface IProps {
+interface Props {
   isVisible: boolean;
   treeData: DataNode[];
   checkedKeys: Key[];
@@ -12,7 +12,7 @@ interface IProps {
   onSubmit: (checked: Key[]) => Promise<void>
 }
 
-function PermissionDrawer(props: IProps) {
+function PermissionDrawer(props: Props) {
   const {
     title,
     isVisible,

@@ -1,4 +1,4 @@
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 import type { AppDispatch, RootState } from '@/stores'
 import { Fragment } from 'react'
 import { Icon } from '@iconify/react'
@@ -9,14 +9,14 @@ import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
 import { addTabs, setActiveKey } from '@/stores/tabs'
 import { defaultMenus } from '@/menus'
 
-interface IProps {
-  list: ISideMenu[]; // 列表
+interface Props {
+  list: SideMenu[]; // 列表
   active: string; // 选中值
   onCancel: () => void; // 关闭模态框
   changActive: (value: string) => void; // 更改选中值
 }
 
-function SearchResult(props: IProps) {
+function SearchResult(props: Props) {
   const { list, active, onCancel, changActive } = props
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()

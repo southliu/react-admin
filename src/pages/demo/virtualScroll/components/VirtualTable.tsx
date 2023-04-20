@@ -1,8 +1,8 @@
-import type { ITableColumn } from '#/public'
+import type { TableColumn } from '#/public'
 import BasicTable from '@/components/Table/BasicTable'
 
 function VirtualTable() {
-  const columns: ITableColumn = [
+  const columns: TableColumn = [
     { title: 'ID', dataIndex: 'id', width: 200 },
     { title: '名称', dataIndex: 'name', width: 200 },
     { title: '电话', dataIndex: 'phone', width: 200 },

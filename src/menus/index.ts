@@ -1,9 +1,9 @@
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 import { system } from './system'
 import { demo } from './demo'
 import { content } from './content'
 
-export const defaultMenus: ISideMenu[] = [
+export const defaultMenus: SideMenu[] = [
   {
     label: '仪表盘',
     key: 'dashboard',
@@ -16,7 +16,7 @@ export const defaultMenus: ISideMenu[] = [
       }
     ]
   },
-  ...demo as ISideMenu[],
-  ...system as ISideMenu[],
-  ...content as ISideMenu[],
+  ...demo as SideMenu[],
+  ...system as SideMenu[],
+  ...content as SideMenu[],
 ]

@@ -1,10 +1,10 @@
-import type { IFormList } from '#/form'
-import type { ITableColumn, ITableOptions } from '#/public'
+import type { FormList } from '#/form'
+import type { TableColumn, TableOptions } from '#/public'
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
 import { OPEN_CLOSE } from '@/utils/constants'
 
 // 搜索数据
-export const searchList: IFormList[] = [
+export const searchList: FormList[] = [
   {
     label: '年龄',
     name: 'age',
@@ -21,7 +21,7 @@ export const searchList: IFormList[] = [
  * 表格数据
  * @param optionRender - 渲染操作函数
  */
- export const tableColumns = (optionRender: ITableOptions<object>): ITableColumn => {
+ export const tableColumns = (optionRender: TableOptions<object>): TableColumn => {
   return [
     {
       title: 'ID',
@@ -69,7 +69,7 @@ export const searchList: IFormList[] = [
 }
 
 // 新增数据
-export const createList: IFormList[] = [
+export const createList: FormList[] = [
   {
     label: '用户名',
     name: 'username',

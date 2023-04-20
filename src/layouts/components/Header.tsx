@@ -1,5 +1,5 @@
 import type { AppDispatch, RootState } from '@/stores'
-import type { IPasswordModal } from './UpdatePassword'
+import type { PasswordModal } from './UpdatePassword'
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAliveController } from 'react-activation'
@@ -25,7 +25,7 @@ import Theme from '@/components/Theme'
 import UpdatePassword from './UpdatePassword'
 import Nav from './Nav'
 
-type IMenuKey = 'password' | 'logout'
+type MenuKey = 'password' | 'logout'
 
 function Header() {
   const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
@@ -37,7 +37,7 @@ function Header() {
   // 是否窗口最大化
   const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
   const nav = useSelector((state: RootState) => state.tabs.nav)
-  const passwordRef = useRef<IPasswordModal>(null)
+  const passwordRef = useRef<PasswordModal>(null)
 
   // 下拉菜单内容
   const items: MenuProps['items'] = [
@@ -55,7 +55,7 @@ function Header() {
 
   /** 点击菜单 */
   const onClick: MenuProps['onClick'] = e => {
-    switch (e.key as IMenuKey) {
+    switch (e.key as MenuKey) {
       case 'password':
         passwordRef.current?.open()
         break
