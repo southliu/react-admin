@@ -26,13 +26,13 @@ enum ITabEnums {
   CLOSE_RIGHT = 'close_right' // 关闭右侧
 }
 
-interface IProps {
+interface Props {
   activeKey: string;
   onOpenChange?: (open: boolean) => void;
   handleRefresh: (activeKey: string) => void;
 }
 
-export function useDropdownMenu(props: IProps) {
+export function useDropdownMenu(props: Props) {
   const { activeKey, onOpenChange, handleRefresh } = props
   const { pathname } = useLocation()
   const navigate = useNavigate()

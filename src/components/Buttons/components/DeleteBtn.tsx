@@ -4,16 +4,16 @@ import { ExclamationCircleOutlined } from '@ant-design/icons'
 
 const { confirm } = Modal
 
-interface IProps extends Omit<ButtonProps, 'loading'> {
+interface Props extends Omit<ButtonProps, 'loading'> {
   isLoading: boolean;
   handleDelete: () => void;
 }
 
-function DeleteBtn(props: IProps) {
+function DeleteBtn(props: Props) {
   const { isLoading, handleDelete } = props
 
   // 清除自定义属性
-  const params: Partial<IProps> = { ...props }
+  const params: Partial<Props> = { ...props }
   delete params.isLoading
   delete params.handleDelete
 

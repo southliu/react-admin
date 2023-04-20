@@ -1,4 +1,4 @@
-import type { IComponentType, IFormList } from '#/form'
+import type { ComponentType, FormList } from '#/form'
 import { initCompProps } from './helper'
 import { CreateBusiness } from '@/components/Business'
 import {
@@ -58,7 +58,7 @@ CreateBusiness()
  * 获取组件
  * @param item - 表单项
  */
-export function getComponent(item: IFormList) {
+export function getComponent(item: FormList) {
   const { component, componentProps } = item
 
   // 当组件类型为自定义时
@@ -86,7 +86,7 @@ export function getComponent(item: IFormList) {
  * @param name - 组件名
  * @param component - 组件
  */
-export function addComponent(name: IComponentType, component: unknown): void {
+export function addComponent(name: ComponentType, component: unknown): void {
   componentMap.set(name, component)
 }
 
@@ -94,6 +94,6 @@ export function addComponent(name: IComponentType, component: unknown): void {
  * 删除组件
  * @param name - 组件名
  */
-export function deleteComponent(name: IComponentType): void {
+export function deleteComponent(name: ComponentType): void {
   componentMap.delete(name)
 }

@@ -1,7 +1,7 @@
 import type { TabPaneProps } from 'antd'
 import { createSlice } from '@reduxjs/toolkit'
 
-interface ITabs extends Omit<TabPaneProps, 'tab'> {
+interface Tabs extends Omit<TabPaneProps, 'tab'> {
   key: string;
   label: React.ReactNode;
 }
@@ -13,7 +13,7 @@ const tabsSlice = createSlice({
     isMaximize: false,
     activeKey: '',
     nav: [] as string[],
-    tabs: [] as ITabs[]
+    tabs: [] as Tabs[]
   },
   reducers: {
     /** 设置锁 */

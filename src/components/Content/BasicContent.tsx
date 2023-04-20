@@ -1,11 +1,11 @@
 import Forbidden from '@/pages/403'
 
-interface IProps {
+interface Props {
   isPermission?: boolean;
   children: JSX.Element;
 }
 
-function BasicContent(props: IProps) {
+function BasicContent(props: Props) {
   const { isPermission, children} = props
 
   return (

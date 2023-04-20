@@ -1,13 +1,13 @@
 import { Button } from 'antd'
 
-interface IProps {
+interface Props {
   goBack: () => void;
   handleSubmit: () => void;
   isLoading?: boolean;
   children?: JSX.Element;
 }
 
-function SubmitBottom(props: IProps) {
+function SubmitBottom(props: Props) {
   const { goBack, handleSubmit, isLoading, children } = props
 
   return (

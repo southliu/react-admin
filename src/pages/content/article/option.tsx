@@ -1,7 +1,7 @@
-import type { IFormData } from '#/form'
-import type { IPagePermission } from '#/public'
+import type { FormData } from '#/form'
+import type { PagePermission } from '#/public'
 import type { AppDispatch, RootState } from '@/stores'
-import type { IFormFn } from '@/components/Form/BasicForm'
+import type { FormFn } from '@/components/Form/BasicForm'
 import { message, Spin } from 'antd'
 import { createList } from './model'
 import { getUrlParam } from '@/utils/helper'
@@ -62,11 +62,11 @@ function Page() {
   const { pathname, search } = useLocation()
   const uri = pathname + search
   const id = getUrlParam(search, 'id')
-  const createFormRef = useRef<IFormFn>(null)
+  const createFormRef = useRef<FormFn>(null)
   const dispatch: AppDispatch = useDispatch()
   const [isLoading, setLoading] = useState(false)
   const [createId, setCreateId] = useState('')
-  const [createData, setCreateData] = useState<IFormData>(initCreate)
+  const [createData, setCreateData] = useState<FormData>(initCreate)
 
   const permissions = useSelector((state: RootState) => state.user.permissions)
   const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
@@ -81,7 +81,7 @@ function Page() {
   const permissionPrefix = '/content/article'
 
   // 权限
-  const pagePermission: IPagePermission = {
+  const pagePermission: PagePermission = {
     create: checkPermission(`${permissionPrefix}/create`, permissions),
     update: checkPermission(`${permissionPrefix}/update`, permissions),
   }
@@ -172,7 +172,7 @@ function Page() {
    * 新增/编辑提交
    * @param values - 表单返回数据
    */
-  const handleFinish = async (values: IFormData) => {
+  const handleFinish = async (values: FormData) => {
     try {
       setLoading(true)
       const functions = () => createId ? updateArticle(createId, values) : createArticle(values)

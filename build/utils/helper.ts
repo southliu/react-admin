@@ -1,9 +1,9 @@
 import { PAGES_PATH, PAGE_PREFIX } from '../config'
 
-type IEnvConfigs = Record<string, string>
+type EnvConfigs = Record<string, string>
 
 // env数据
-interface IViteEnv {
+interface ViteEnv {
   VITE_SERVER_PORT: number;
   VITE_PROXY: [string, string][];
 }
@@ -12,7 +12,7 @@ interface IViteEnv {
  * 处理转化env
  * @param envConfigs 
  */
-export function handleEnv(envConfigs: IEnvConfigs): IViteEnv {
+export function handleEnv(envConfigs: EnvConfigs): ViteEnv {
   const {
     VITE_SERVER_PORT,
     VITE_PROXY
@@ -20,7 +20,7 @@ export function handleEnv(envConfigs: IEnvConfigs): IViteEnv {
 
   const proxy: [string, string][] = VITE_PROXY ? JSON.parse(VITE_PROXY.replace(/'/g, '"')) : []
 
-  const res: IViteEnv = {
+  const res: ViteEnv = {
     VITE_SERVER_PORT: Number(VITE_SERVER_PORT) || 8080,
     VITE_PROXY: proxy
   }
@@ -130,7 +130,7 @@ function delRow(html: string, index: number) {
   return [result, prevLink] as const
 }
 
-interface ILazyProps {
+interface LazyProps {
   html: string;
   path: string;
   arr: string[];
@@ -144,7 +144,7 @@ interface ILazyProps {
  * @param start - 从第几位开始查找
  * @param arr - 返回结果
  */
-export function handleLazyCss({ html, path, start, arr }: ILazyProps) {
+export function handleLazyCss({ html, path, start, arr }: LazyProps) {
   if (html.includes(path)) {
     if (!start) start = html.indexOf('stylesheet')
 
@@ -178,7 +178,7 @@ export function handleLazyCss({ html, path, start, arr }: ILazyProps) {
  * @param start - 从第几位开始查找
  * @param arr - 返回结果
  */
-export function handleLazyJs({ html, path, start, arr }: ILazyProps) {
+export function handleLazyJs({ html, path, start, arr }: LazyProps) {
   if (html.includes(path)) {
     if (!start) start = 0
 

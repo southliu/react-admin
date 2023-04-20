@@ -6,11 +6,11 @@ import { Modal, Tooltip } from 'antd'
 import { Icon } from '@iconify/react'
 import Draggable from 'react-draggable'
 
-interface IProps extends Omit<ModalProps, 'onCancel'> {
+interface Props extends Omit<ModalProps, 'onCancel'> {
   onCancel: () => void;
 }
 
-function BasicModal(props: IProps) {
+function BasicModal(props: Props) {
   const { width, children, wrapClassName, onCancel } = props
   const [isDisabled, setDisabled] = useState(true)
   const [isFullscreen, setFullscreen] = useState(false)

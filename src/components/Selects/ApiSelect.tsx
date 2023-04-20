@@ -1,4 +1,4 @@
-import type { IApi } from '#/form'
+import type { ApiFn } from '#/form'
 import type { SelectProps } from 'antd'
 import type { DefaultOptionType } from 'antd/es/select'
 import { Select } from 'antd'
@@ -6,20 +6,20 @@ import { useState, useEffect, useCallback } from 'react'
 import { MAX_TAG_COUNT, PLEASE_SELECT } from '@/utils/config'
 import Loading from './components/Loading'
 
-interface IProps extends SelectProps {
-  api: IApi;
+interface Props extends SelectProps {
+  api: ApiFn;
   params?: object;
 }
 
 /**
  * @description: 根据API获取数据下拉组件
  */
-function ApiSelect(props: IProps) {
+function ApiSelect(props: Props) {
   const [isLoading, setLoading] = useState(false)
   const [options, setOptions] = useState<DefaultOptionType[]>([])
 
   // 清除自定义属性
-  const params: Partial<IProps> = { ...props }
+  const params: Partial<Props> = { ...props }
   delete params.api
   delete params.params
 

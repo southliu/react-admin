@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux'
 
 const { Item } = Breadcrumb
 
-interface IProps {
+interface Props {
   className?: string;
   list: string[];
 }
 
-function Nav(props: IProps) {
+function Nav(props: Props) {
   const { className, list } = props
   
   // 是否手机端

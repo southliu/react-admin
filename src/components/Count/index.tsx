@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { amountFormatter } from '@/utils/helper'
 
-interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   prefix?: string;
   start: number;
   end: number;
 }
 
-function Count(props: IProps) {
+function Count(props: Props) {
   const { prefix, start, end } = props
   const [num, setNum] = useState(start)
   const [timer, setTimer] = useState<NodeJS.Timer | null>(null)

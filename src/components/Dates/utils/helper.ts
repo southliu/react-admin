@@ -1,4 +1,4 @@
-import type { IFormData, IFormList } from '#/form'
+import type { FormData, FormList } from '#/form'
 import type { Dayjs } from 'dayjs'
 import type { RangeValue } from '#/public'
 import type { DatePickerProps } from 'antd'
@@ -100,7 +100,7 @@ export function stringRang2DayjsRang(
  * @param list - 列表值
  * @param key - 键值
  */
-function getListKeyParam(list: IFormList[], key: string): string {
+function getListKeyParam(list: FormList[], key: string): string {
   for (let i = 0; i < list.length; i++) {
     if (list[i].name === key) {
       return (list[i].componentProps as DatePickerProps)?.format as string
@@ -116,7 +116,7 @@ function getListKeyParam(list: IFormList[], key: string): string {
  * @param obj - 检测对象
  * @param list - 列表值
  */
-export function filterDayjs(obj: IFormData, list: IFormList[]): object {
+export function filterDayjs(obj: FormData, list: FormList[]): object {
   for (const key in obj) {
     // 判断是否是时间区间
     if (
