@@ -6,6 +6,8 @@
 [演示地址](https://southliu.github.io/)<br>
 [国内访问](https://southliu.gitee.io)
 
+![image](https://user-images.githubusercontent.com/26358837/235359226-f6118a26-64d8-4ccd-95c4-f5876b27db68.png)
+
 ## 💻 安装使用
 
 - 获取项目代码
@@ -55,7 +57,6 @@ pnpm build
 - [x] 可视化数据大屏
 - [x] 打包分包
 - [x] 手机端适配
-- [ ] tsup打包提速
 - [ ] Web Worker
 - [ ] Web Assembly
 - [ ] 测试用例
