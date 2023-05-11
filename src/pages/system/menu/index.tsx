@@ -1,13 +1,12 @@
 import type { FormData } from '#/form'
-import type { RootState } from '@/stores'
 import type { PagePermission, TableOptions } from '#/public'
 import type { FormFn } from '@/components/Form/BasicForm'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { searchList, createList, tableColumns } from './model'
 import { message } from 'antd'
 import { useTitle } from '@/hooks/useTitle'
-import { useSelector } from 'react-redux'
 import { checkPermission } from '@/utils/permissions'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import {
@@ -54,7 +53,7 @@ function Page() {
   const [pageSize, setPageSize] = useState(initSearch.pageSize)
   const [total, setTotal] = useState(0)
   const [tableData, setTableData] = useState<FormData[]>([])
-  const permissions = useSelector((state: RootState) => state.user.permissions)
+  const { permissions } = useCommonStore()
 
   // 权限前缀
   const permissionPrefix = '/authority/menu'

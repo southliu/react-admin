@@ -1,11 +1,11 @@
 import type { LoginData } from './model'
 import type { FormProps } from 'antd'
-import type { AppDispatch, RootState } from '@/stores'
+import type { AppDispatch } from '@/stores'
 import type { ThemeType } from '@/stores/public'
 import { message } from 'antd'
 import { Form, Button, Input } from 'antd'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { PASSWORD_RULE, THEME_KEY } from '@/utils/config'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
@@ -15,6 +15,7 @@ import { useToken } from '@/hooks/useToken'
 import { setThemeValue } from '@/stores/public'
 import { permissionsToArray } from '@/utils/permissions'
 import { setPermissions, setUserInfo } from '@/stores/user'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import { getPermissions } from '@/servers/permissions'
 import { getFirstMenu } from '@/menus/utils/helper'
 import { defaultMenus } from '@/menus'
@@ -26,7 +27,7 @@ function Login() {
   const dispatch: AppDispatch = useDispatch()
   const [getToken, setToken] = useToken()
   const [isLoading, setLoading] = useState(false)
-  const permissions = useSelector((state: RootState) => state.user.permissions)
+  const { permissions } = useCommonStore()
   const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType
 
   useEffect(() => {

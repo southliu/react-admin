@@ -1,7 +1,7 @@
 import type { MenuProps } from 'antd'
-import type { AppDispatch, RootState } from '@/stores'
+import type { AppDispatch } from '@/stores'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   closeLeft,
   closeOther,
@@ -17,6 +17,7 @@ import {
 } from '@ant-design/icons'
 import { defaultMenus } from '@/menus'
 import { getMenuByKey } from '@/menus/utils/helper'
+import { useCommonStore } from '@/hooks/useCommonStore'
 
 enum ITabEnums {
   REFRESH = 'refresh', // 重新加载
@@ -35,10 +36,9 @@ interface Props {
 export function useDropdownMenu(props: Props) {
   const { activeKey, onOpenChange, handleRefresh } = props
   const { pathname } = useLocation()
+  const { tabs, permissions } = useCommonStore()
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
-  const tabs = useSelector((state: RootState) => state.tabs.tabs)
-  const permissions = useSelector((state: RootState) => state.user.permissions)
 
   // 菜单项
   const items: (key?: string) => MenuProps['items'] = (key = activeKey) => {

@@ -1,6 +1,5 @@
-import type { RootState } from '@/stores'
 import { Breadcrumb } from 'antd'
-import { useSelector } from 'react-redux'
+import { useCommonStore } from '@/hooks/useCommonStore'
 
 const { Item } = Breadcrumb
 
@@ -13,7 +12,7 @@ function Nav(props: Props) {
   const { className, list } = props
   
   // 是否手机端
-  const isPhone = useSelector((state: RootState) => state.menu.isPhone)
+  const { isPhone } = useCommonStore()
 
   return (
     <>

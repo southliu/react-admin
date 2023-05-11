@@ -1,8 +1,7 @@
 import type { EChartsCoreOption } from 'echarts'
-import type { RootState } from '@/stores'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { useEcharts } from '@/hooks/useEcharts'
+import { useCommonStore } from '@/hooks/useCommonStore'
 
 const option: EChartsCoreOption = {
   title: {
@@ -56,7 +55,7 @@ const option: EChartsCoreOption = {
 }
 
 function Line() {
-  const permissions = useSelector((state: RootState) => state.user.permissions)
+  const { permissions } = useCommonStore()
   const [echartsRef, init] = useEcharts(option)
 
   useEffect(() => {

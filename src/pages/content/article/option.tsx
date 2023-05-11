@@ -1,18 +1,19 @@
 import type { FormData } from '#/form'
 import type { PagePermission } from '#/public'
-import type { AppDispatch, RootState } from '@/stores'
+import type { AppDispatch } from '@/stores'
 import type { FormFn } from '@/components/Form/BasicForm'
 import { message, Spin } from 'antd'
 import { createList } from './model'
 import { getUrlParam } from '@/utils/helper'
 import { useTitle } from '@/hooks/useTitle'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { checkPermission } from '@/utils/permissions'
 import { getOpenMenuByRouter } from '@/menus/utils/helper'
 import { setOpenKeys, setSelectedKeys } from '@/stores/menu'
 import { useActivate } from 'react-activation'
 import { setRefreshPage } from '@/stores/public'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import {
   useCallback,
@@ -68,9 +69,11 @@ function Page() {
   const [createId, setCreateId] = useState('')
   const [createData, setCreateData] = useState<FormData>(initCreate)
 
-  const permissions = useSelector((state: RootState) => state.user.permissions)
-  const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
-  const isPhone = useSelector((state: RootState) => state.menu.isPhone)
+  const {
+    permissions,
+    isCollapsed,
+    isPhone
+  } = useCommonStore()
   
   const title = '文章管理'
   const createTitle = `${ADD_TITLE}${title}`

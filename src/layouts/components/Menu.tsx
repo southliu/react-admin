@@ -3,10 +3,10 @@ import type { SideMenu } from '#/public'
 import type { AppDispatch } from '@/stores'
 import { useCallback, useEffect, useState } from 'react'
 import { Menu } from 'antd'
-import { RootState } from '@/stores'
 import { Icon } from '@iconify/react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { defaultMenus } from '@/menus'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
 import { setOpenKeys, setSelectedKeys, toggleCollapsed } from '@/stores/menu'
@@ -25,16 +25,15 @@ function LayoutMenu() {
   const { pathname } = useLocation()
   const dispatch: AppDispatch = useDispatch()
   const [menus, setMenus] = useState<SideMenu[]>([])
-  const selectedKeys = useSelector((state: RootState) => state.menu.selectedKeys)
-  const openKeys = useSelector((state: RootState) => state.menu.openKeys)
-  // 是否窗口最大化
-  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
-  // 菜单是否收缩
-  const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
-  // 是否手机端
-  const isPhone = useSelector((state: RootState) => state.menu.isPhone)
-  // 权限
-  const permissions = useSelector((state: RootState) => state.user.permissions)
+
+  const {
+    isMaximize,
+    isCollapsed,
+    isPhone,
+    openKeys,
+    selectedKeys,
+    permissions
+  } = useCommonStore()
 
   // 处理默认展开
   useEffect(() => {

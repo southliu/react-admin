@@ -1,10 +1,11 @@
-import type { AppDispatch, RootState } from "@/stores"
+import type { AppDispatch } from "@/stores"
 import { setFullscreen } from "@/stores/public"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
+import { useCommonStore } from "./useCommonStore"
 
 export function useFullscreen() {
   const dispatch: AppDispatch = useDispatch()
-  const isFullscreen = useSelector((state: RootState) => state.public.isFullscreen)
+  const { isFullscreen } = useCommonStore()
 
   /** 切换全屏 */
   const toggleFullscreen = () => {

@@ -1,13 +1,14 @@
 import type { SideMenu } from '#/public'
-import type { AppDispatch, RootState } from '@/stores'
+import type { AppDispatch } from '@/stores'
 import { Fragment } from 'react'
 import { Icon } from '@iconify/react'
 import { useNavigate } from 'react-router-dom'
 import { setOpenKeys } from '@/stores/menu'
-import { useDispatch, useSelector } from 'react-redux'
-import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
-import { addTabs, setActiveKey } from '@/stores/tabs'
+import { useDispatch } from 'react-redux'
 import { defaultMenus } from '@/menus'
+import { useCommonStore } from '@/hooks/useCommonStore'
+import { addTabs, setActiveKey } from '@/stores/tabs'
+import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
 
 interface Props {
   list: SideMenu[]; // 列表
@@ -18,9 +19,9 @@ interface Props {
 
 function SearchResult(props: Props) {
   const { list, active, onCancel, changActive } = props
+  const { permissions } = useCommonStore()
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
-  const permissions = useSelector((state: RootState) => state.user.permissions)
 
   /**
    * 点击菜单跳转页面

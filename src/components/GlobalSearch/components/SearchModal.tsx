@@ -1,5 +1,5 @@
 import type { SideMenu } from '#/public'
-import type { AppDispatch, RootState } from '@/stores'
+import type { AppDispatch } from '@/stores'
 import type { InputProps, InputRef } from 'antd'
 import { Ref, useImperativeHandle, useLayoutEffect } from 'react'
 import { useEffect, useRef, useState } from 'react'
@@ -7,7 +7,7 @@ import { Modal, Input } from 'antd'
 import { Icon } from '@iconify/react'
 import { useDebounceFn } from 'ahooks'
 import { defaultMenus } from '@/menus'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useKeyStroke } from '@/hooks/useKeyStroke'
 import { getMenuByKey, getOpenMenuByRouter, searchMenuValue } from '@/menus/utils/helper'
@@ -15,6 +15,7 @@ import { addTabs, setActiveKey } from '@/stores/tabs'
 import { setOpenKeys } from '@/stores/menu'
 import SearchResult from './SearchResult'
 import SearchFooter from './SearchFooter'
+import { useCommonStore } from '@/hooks/useCommonStore'
 
 export interface SearchModalProps {
   toggle: () => void;
@@ -28,12 +29,12 @@ function SearchModal(props: Props) {
   const navigate = useNavigate()
   const inputRef = useRef<InputRef>(null)
   const { modalRef } = props
+  const { permissions } = useCommonStore()
   const [value, setValue] = useState('') // 输入框值
   const [active, setActive] = useState('') // 选中值
   const [list, setList] = useState<SideMenu[]>([])
   const [isOpen, setOpen] = useState(false)
   const dispatch: AppDispatch = useDispatch()
-  const permissions = useSelector((state: RootState) => state.user.permissions)
 
   // 抛出外部方法
   useImperativeHandle(

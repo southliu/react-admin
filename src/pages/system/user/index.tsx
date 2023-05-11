@@ -1,5 +1,4 @@
 import type { FormData } from '#/form'
-import type { RootState } from '@/stores'
 import type { DataNode } from 'antd/es/tree'
 import type { Key } from 'antd/es/table/interface'
 import type { PagePermission, TableOptions } from '#/public'
@@ -8,8 +7,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { createList, searchList, tableColumns } from './model'
 import { Button, message } from 'antd'
 import { useTitle } from '@/hooks/useTitle'
-import { useSelector } from 'react-redux'
 import { checkPermission } from '@/utils/permissions'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { getPermission, savePermission } from '@/servers/system/menu'
@@ -64,7 +63,7 @@ function Page() {
   const [promiseCheckedKeys, setPromiseCheckedKeys] = useState<Key[]>([])
   const [promiseTreeData, setPromiseTreeData] = useState<DataNode[]>([])
 
-  const permissions = useSelector((state: RootState) => state.user.permissions)
+  const { permissions } = useCommonStore()
 
   // 权限前缀
   const permissionPrefix = '/authority/user'

@@ -1,12 +1,13 @@
-import type { AppDispatch, RootState } from '@/stores'
+import type { AppDispatch } from '@/stores'
 import { useToken } from '@/hooks/useToken'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useOutlet } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
 import { setPermissions, setUserInfo } from '@/stores/user'
 import { toggleCollapsed, togglePhone } from '@/stores/menu'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import { useLocation } from 'react-router-dom'
 import { useDebounceFn } from 'ahooks'
 import { Icon } from '@iconify/react'
@@ -28,18 +29,14 @@ function Layout() {
   const outlet = useOutlet()
   const [isLoading, setLoading] = useState(true)
 
-  // 权限
-  const permissions = useSelector((state: RootState) => state.user.permissions)
-  // 用户ID
-  const userId = useSelector((state: RootState) => state.user.userInfo.id)
-  // 是否窗口最大化
-  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
-  // 菜单是否收缩
-  const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
-  // 是否手机端
-  const isPhone = useSelector((state: RootState) => state.menu.isPhone)
-  // 是否重新加载
-  const isRefresh = useSelector((state: RootState) => state.public.isRefresh)
+  const {
+    permissions,
+    userId,
+    isMaximize,
+    isCollapsed,
+    isPhone,
+    isRefresh
+  } = useCommonStore()
 
   /** 获取用户信息和权限 */
   const getUserInfo = useCallback(async () => {

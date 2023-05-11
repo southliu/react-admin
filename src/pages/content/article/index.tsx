@@ -10,6 +10,7 @@ import { useTitle } from '@/hooks/useTitle'
 import { useNavigate } from 'react-router-dom'
 import { setRefreshPage } from '@/stores/public'
 import { checkPermission } from '@/utils/permissions'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { getArticlePage, deleteArticle } from '@/servers/content/article'
 import BasicContent from '@/components/Content/BasicContent'
@@ -33,12 +34,12 @@ function Page() {
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
   const searchFormRef = useRef<FormFn>(null)
+  const { permissions } = useCommonStore()
   const [isLoading, setLoading] = useState(false)
   const [page, setPage] = useState(initSearch.page)
   const [pageSize, setPageSize] = useState(initSearch.pageSize)
   const [total, setTotal] = useState(0)
   const [tableData, setTableData] = useState<FormData[]>([])
-  const permissions = useSelector((state: RootState) => state.user.permissions)
   const isRefreshPage = useSelector((state: RootState) => state.public.isRefreshPage)
 
   // 权限前缀

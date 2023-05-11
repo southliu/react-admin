@@ -8,15 +8,15 @@ import { theme, ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 
 // antd主题
-import type { RootState } from '@/stores'
-import { useSelector } from 'react-redux'
 const { defaultAlgorithm, darkAlgorithm } = theme
 
 // keepalive
 import { AliveScope } from 'react-activation'
 
+import { useCommonStore } from '@/hooks/useCommonStore'
+
 function Page() {
-  const theme = useSelector((state: RootState) => state.public.theme)
+  const { theme } = useCommonStore()
 
   // 顶部进度条
   useEffect(() => {

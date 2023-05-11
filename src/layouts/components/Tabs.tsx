@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useAliveController } from 'react-activation'
 import { useDropdownMenu } from '../hooks/useDropdownMenu'
 import { useDispatch, useSelector } from 'react-redux'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import { setRefresh } from '@/stores/public'
 import {
   setActiveKey,
@@ -29,13 +30,15 @@ function LayoutTabs() {
   const { refresh } = useAliveController()
   const [time, setTime] = useState<null | NodeJS.Timeout>(null)
   const [refreshTime, seRefreshTime] = useState<null | NodeJS.Timeout>(null)
-
-  const tabs = useSelector((state: RootState) => state.tabs.tabs)
   const isLock = useSelector((state: RootState) => state.tabs.isLock)
+  // 选中的标签值
   const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
-  const permissions = useSelector((state: RootState) => state.user.permissions)
-  // 是否窗口最大化
-  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
+
+  const {
+    tabs,
+    permissions,
+    isMaximize
+  } = useCommonStore()
 
   /**
    * 添加标签

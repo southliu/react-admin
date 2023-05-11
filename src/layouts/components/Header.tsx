@@ -1,7 +1,7 @@
-import type { AppDispatch, RootState } from '@/stores'
+import type { AppDispatch } from '@/stores'
 import type { PasswordModal } from './UpdatePassword'
 import { useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useAliveController } from 'react-activation'
 import { toggleCollapsed } from '@/stores/menu'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +9,7 @@ import { useToken } from '@/hooks/useToken'
 import { clearInfo } from '@/stores/user'
 import { closeAllTab, setActiveKey } from '@/stores/tabs'
 import { Modal, Dropdown, MenuProps } from 'antd'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -28,15 +29,17 @@ import Nav from './Nav'
 type MenuKey = 'password' | 'logout'
 
 function Header() {
-  const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
-  const username = useSelector((state: RootState) => state.user.userInfo.username)
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
   const [, , removeToken] = useToken()
   const { clear } = useAliveController()
+  const {
+    isCollapsed,
+    isMaximize,
+    username,
+    nav
+  } = useCommonStore()
   // 是否窗口最大化
-  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
-  const nav = useSelector((state: RootState) => state.tabs.nav)
   const passwordRef = useRef<PasswordModal>(null)
 
   // 下拉菜单内容
