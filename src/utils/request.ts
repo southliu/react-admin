@@ -12,7 +12,7 @@ const source = CancelToken.source()
 
 // 请求配置
 const request = axios.create({
-  baseURL: process.env.NODE_ENV !== 'development' ? prefixUrl : '/api',
+  baseURL: import.meta.env.NODE_ENV !== 'development' ? prefixUrl : '/api',
   timeout: 180 * 1000
 })
 
