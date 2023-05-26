@@ -1,15 +1,15 @@
 // 全局组件路径
-export const COMP_PATH = '/src/components/'
+export const COMP_PATH = '/src/components/';
 // 页面路径
-export const PAGES_PATH = '/src/pages/'
+export const PAGES_PATH = '/src/pages/';
 // 布局路径
-export const LAYOUTS_PATH = '/src/layouts'
+export const LAYOUTS_PATH = '/src/layouts';
 // 打包页面文件的前缀
-export const PAGE_PREFIX = 'page_'
+export const PAGE_PREFIX = 'page_';
 // 全局组件的前缀
-export const COMP_PREFIX = 'components_'
+export const COMP_PREFIX = 'components_';
 // 布局组件的前缀
-export const LAYOUTS_NAME = 'layouts'
+export const LAYOUTS_NAME = 'layouts';
 
 // 预加载js
 export const preloadLoad = [
@@ -28,7 +28,7 @@ export const preloadLoad = [
   '@ant-design_icons-svg',
   '@ant-design_colors',
   '@ant-design_icons',
-]
+];
 
 // 懒加载js
 export const lazyJs = [
@@ -40,11 +40,11 @@ export const lazyJs = [
   'echarts',
   '@wangeditor_editor',
   '@wangeditor_editor-for-react',
-]
+];
 
 // 懒加载css
 export const lazyCss = [
   COMP_PREFIX,
   PAGE_PREFIX,
   '@wangeditor_editor',
-]
+];

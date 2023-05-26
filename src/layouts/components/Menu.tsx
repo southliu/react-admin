@@ -1,30 +1,30 @@
-import type { MenuProps } from 'antd'
-import type { SideMenu } from '#/public'
-import type { AppDispatch } from '@/stores'
-import { useCallback, useEffect, useState } from 'react'
-import { Menu } from 'antd'
-import { Icon } from '@iconify/react'
-import { useDispatch } from 'react-redux'
-import { defaultMenus } from '@/menus'
-import { useCommonStore } from '@/hooks/useCommonStore'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
-import { setOpenKeys, setSelectedKeys, toggleCollapsed } from '@/stores/menu'
+import type { MenuProps } from 'antd';
+import type { SideMenu } from '#/public';
+import type { AppDispatch } from '@/stores';
+import { useCallback, useEffect, useState } from 'react';
+import { Menu } from 'antd';
+import { Icon } from '@iconify/react';
+import { useDispatch } from 'react-redux';
+import { defaultMenus } from '@/menus';
+import { useCommonStore } from '@/hooks/useCommonStore';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { addTabs, setNav, setActiveKey } from '@/stores/tabs';
+import { setOpenKeys, setSelectedKeys, toggleCollapsed } from '@/stores/menu';
 import {
   filterMenus,
   getFirstMenu,
   getMenuByKey,
   getOpenMenuByRouter,
   splitPath
-} from '@/menus/utils/helper'
-import styles from '../index.module.less'
-import Logo from '@/assets/images/logo.svg'
+} from '@/menus/utils/helper';
+import styles from '../index.module.less';
+import Logo from '@/assets/images/logo.svg';
 
 function LayoutMenu() {
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
-  const dispatch: AppDispatch = useDispatch()
-  const [menus, setMenus] = useState<SideMenu[]>([])
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const dispatch: AppDispatch = useDispatch();
+  const [menus, setMenus] = useState<SideMenu[]>([]);
 
   const {
     isMaximize,
@@ -33,17 +33,17 @@ function LayoutMenu() {
     openKeys,
     selectedKeys,
     permissions
-  } = useCommonStore()
+  } = useCommonStore();
 
   // 处理默认展开
   useEffect(() => {
-    const newOpenKey = getOpenMenuByRouter(pathname)
+    const newOpenKey = getOpenMenuByRouter(pathname);
     if (!isPhone && !isCollapsed) {
-      dispatch(setOpenKeys(newOpenKey))
-      dispatch(setSelectedKeys(pathname))
+      dispatch(setOpenKeys(newOpenKey));
+      dispatch(setSelectedKeys(pathname));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+  }, [pathname]);
 
   /**
    * 转换菜单icon格式
@@ -54,47 +54,47 @@ function LayoutMenu() {
       if (menus[i]?.icon) {
         menus[i].icon = (
           <Icon icon={menus[i].icon as string} />
-        )
+        );
       }
 
       if (menus[i]?.children?.length) {
-        filterMenuIcon(menus[i].children as SideMenu[])
+        filterMenuIcon(menus[i].children as SideMenu[]);
       }
     }
-  }, [])
+  }, []);
 
   // 过滤没权限菜单
   useEffect(() => {
     if (permissions.length > 0) {
-      const newMenus = filterMenus(defaultMenus, permissions)
-      filterMenuIcon(newMenus)
-      setMenus(newMenus || [])
+      const newMenus = filterMenus(defaultMenus, permissions);
+      filterMenuIcon(newMenus);
+      setMenus(newMenus || []);
     }
-  }, [filterMenuIcon, permissions])
+  }, [filterMenuIcon, permissions]);
 
   /**
    * 处理跳转
    * @param path - 路径
    */
   const goPath = (path: string) => {
-    navigate(path)
-    const menuByKeyProps = { menus, permissions, key: path }
-    const newTab = getMenuByKey(menuByKeyProps)
+    navigate(path);
+    const menuByKeyProps = { menus, permissions, key: path };
+    const newTab = getMenuByKey(menuByKeyProps);
     if (newTab) {
-      dispatch(setActiveKey(newTab.key))
-      dispatch(setNav(newTab.nav))
-      dispatch(addTabs(newTab))
+      dispatch(setActiveKey(newTab.key));
+      dispatch(setNav(newTab.nav));
+      dispatch(addTabs(newTab));
     }
-  }
+  };
 
   /** 
    * 点击菜单
    * @param e - 菜单事件
    */
   const onClick: MenuProps['onClick'] = e => {
-    goPath(e.key)
-    if (isPhone) hiddenMenu()
-  }
+    goPath(e.key);
+    if (isPhone) hiddenMenu();
+  };
 
   /**
    * 对比当前展开目录是否是同一层级
@@ -102,54 +102,54 @@ function LayoutMenu() {
    * @param lastArr - 最后展开的目录
    */
   const diffOpenMenu = (arr: string[], lastArr: string[]) => {
-    let result = true
+    let result = true;
 
     for (let j = 0; j < arr.length; j++) {
       if (arr[j] !== lastArr[j]) {
-        result = false
-        break
+        result = false;
+        break;
       }
     }
 
-    return result
-  }
+    return result;
+  };
 
   /**
    * 展开/关闭回调
    * @param openKeys - 展开键值
    */
   const onOpenChange = (openKeys: string[]) => {
-    const newOpenKey: string[] = []
-    let last = '' // 最后一个目录结构
+    const newOpenKey: string[] = [];
+    let last = ''; // 最后一个目录结构
 
     // 当目录有展开值
     if (openKeys.length > 0) {
-      last = openKeys[openKeys.length - 1]
-      const lastArr: string[] = splitPath(last)
-      newOpenKey.push(last)
+      last = openKeys[openKeys.length - 1];
+      const lastArr: string[] = splitPath(last);
+      newOpenKey.push(last);
 
       // 对比当前展开目录是否是同一层级
       for (let i = openKeys.length - 2; i >= 0; i--) {
-        const arr = splitPath(openKeys[i])
-        const hasOpenKey = diffOpenMenu(arr, lastArr)
-        if (hasOpenKey) newOpenKey.unshift(openKeys[i])
+        const arr = splitPath(openKeys[i]);
+        const hasOpenKey = diffOpenMenu(arr, lastArr);
+        if (hasOpenKey) newOpenKey.unshift(openKeys[i]);
       }
     }
 
-    dispatch(setOpenKeys(newOpenKey))
-  }
+    dispatch(setOpenKeys(newOpenKey));
+  };
 
   /** 点击logo */
   const onClickLogo = () => {
-    const firstMenu = getFirstMenu(menus, permissions)
-    goPath(firstMenu)
-    if (isPhone) hiddenMenu()
-  }
+    const firstMenu = getFirstMenu(menus, permissions);
+    goPath(firstMenu);
+    if (isPhone) hiddenMenu();
+  };
 
   /** 隐藏菜单 */
   const hiddenMenu = () => {
-    dispatch(toggleCollapsed(true))
-  }
+    dispatch(toggleCollapsed(true));
+  };
 
   return (
     <>
@@ -225,7 +225,7 @@ function LayoutMenu() {
         />
       }
     </>
-  )
+  );
 }
 
-export default LayoutMenu
+export default LayoutMenu;

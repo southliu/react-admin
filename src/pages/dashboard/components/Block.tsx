@@ -1,13 +1,13 @@
-import { Row, Col } from 'antd'
-import { Icon } from '@iconify/react'
-import Count from '@/components/Count'
+import { Row, Col } from 'antd';
+import { Icon } from '@iconify/react';
+import Count from '@/components/Count';
 
 const data = [
   { title: '用户数', num: 14966, all: 16236, icon: 'icon-park:peoples' },
   { title: '充值数', num: 4286, all: 6142, icon: 'icon-park:paper-money' },
   { title: '订单数', num: 5649, all: 5232, icon: 'icon-park:transaction-order' },
   { title: '游戏数', num: 619, all: 2132, icon: 'icon-park:game-handle' },
-]
+];
 
 function Block() {
   return (
@@ -39,7 +39,7 @@ function Block() {
         ))
       }
     </Row>
-  )
+  );
 }
 
-export default Block
+export default Block;

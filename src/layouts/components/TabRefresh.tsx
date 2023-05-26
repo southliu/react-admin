@@ -1,5 +1,5 @@
-import { Tooltip } from 'antd'
-import { Icon } from '@iconify/react'
+import { Tooltip } from 'antd';
+import { Icon } from '@iconify/react';
 
 interface Props {
   isRefresh: boolean;
@@ -7,7 +7,7 @@ interface Props {
 }
 
 function TabRefresh(props: Props) {
-  const { isRefresh, onClick } = props
+  const { isRefresh, onClick } = props;
 
   return (
     <Tooltip title="重新加载" placement="bottom">
@@ -25,7 +25,7 @@ function TabRefresh(props: Props) {
         icon="ant-design:reload-outlined"
       />
     </Tooltip>
-  )
+  );
 }
 
-export default TabRefresh
+export default TabRefresh;

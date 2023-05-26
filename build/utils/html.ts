@@ -4,13 +4,13 @@
 
 /** 获取路径 */
 export function getHtmlPath() {
-  let href = location.href
+  let href = location.href;
   // 去除search
-  const searchIndex = href.indexOf('?')
-  if (searchIndex > 0) href = href.substring(0, searchIndex)
-  const arr = href.split('/')
-  const result = arr[arr.length - 1] // 获取名称
-  return result
+  const searchIndex = href.indexOf('?');
+  if (searchIndex > 0) href = href.substring(0, searchIndex);
+  const arr = href.split('/');
+  const result = arr[arr.length - 1]; // 获取名称
+  return result;
 }
 
 /**
@@ -27,8 +27,8 @@ export function firstLoad(path: string, lazyJs: string[], lazyCss: string[]) {
       (path === 'dashboard') &&
       lazyJs[i]?.includes('echarts')
     ) {
-      createPreloadJs(lazyJs[i])
-      lazyJs.splice(i, 1)
+      createPreloadJs(lazyJs[i]);
+      lazyJs.splice(i, 1);
     }
 
     // 内容编辑提前加载wangeditor
@@ -36,8 +36,8 @@ export function firstLoad(path: string, lazyJs: string[], lazyCss: string[]) {
       (lazyJs[i]?.includes('@wangeditor_editor') ||
       lazyJs[i]?.includes('@wangeditor_editor/editor-for-react'))
     ) {
-      createPreloadJs(lazyJs[i])
-      lazyJs.splice(i, 1)
+      createPreloadJs(lazyJs[i]);
+      lazyJs.splice(i, 1);
     }
   }
 
@@ -45,12 +45,12 @@ export function firstLoad(path: string, lazyJs: string[], lazyCss: string[]) {
   for (let i = lazyCss.length - 1; i >= 0; i--) {
     // 内容编辑提前加载wangeditor
     if (path === 'content/article/option' && lazyCss?.includes('@wangeditor_editor')) {
-      createCss(lazyCss[i])
-      lazyCss.splice(i, 1)
+      createCss(lazyCss[i]);
+      lazyCss.splice(i, 1);
     }
   }
 
-  return [lazyJs, lazyCss] as const
+  return [lazyJs, lazyCss] as const;
 }
 
 /**
@@ -59,11 +59,11 @@ export function firstLoad(path: string, lazyJs: string[], lazyCss: string[]) {
  * @param callback - 加载完毕回调
  */
 export function createPreloadJs(href: string, callback?: () => void) {
-  const elem = document.createElement("link")
-  elem.rel = "modulepreload"
-  elem.href = href
-  document.body.appendChild(elem)
-  elem.onload = () => callback?.()
+  const elem = document.createElement("link");
+  elem.rel = "modulepreload";
+  elem.href = href;
+  document.body.appendChild(elem);
+  elem.onload = () => callback?.();
 }
 
 /**
@@ -72,12 +72,12 @@ export function createPreloadJs(href: string, callback?: () => void) {
  * @param callback - 加载完毕回调
  */
 export function createLazyJs(href: string, callback?: () => void) {
-  const elem = document.createElement("script")
-  elem.type = "module"
-  elem.async = true
-  elem.src = href
-  document.body.appendChild(elem)
-  elem.onload = () => callback?.()
+  const elem = document.createElement("script");
+  elem.type = "module";
+  elem.async = true;
+  elem.src = href;
+  document.body.appendChild(elem);
+  elem.onload = () => callback?.();
 }
 
 /**
@@ -86,12 +86,12 @@ export function createLazyJs(href: string, callback?: () => void) {
  * @param callback - 加载完毕回调
  */
 export function createCss(href: string, callback?: () => void) {
-  const elem = document.createElement("link")
-  elem.rel = "stylesheet"
-  elem.type = "text/css"
-  elem.href = href
-  document.body.appendChild(elem)
-  elem.onload = () => callback?.()
+  const elem = document.createElement("link");
+  elem.rel = "stylesheet";
+  elem.type = "text/css";
+  elem.href = href;
+  document.body.appendChild(elem);
+  elem.onload = () => callback?.();
 }
 
 /**
@@ -102,13 +102,13 @@ export function createCss(href: string, callback?: () => void) {
  */
 export function handleJs(lazyJs: string[], jsNum = 0, jsLimit = 3) {
   for (let i = 0; i < lazyJs.length && jsNum < jsLimit; i++) {
-    jsNum++
-    const current = lazyJs[0]
-    lazyJs.splice(0, 1)
+    jsNum++;
+    const current = lazyJs[0];
+    lazyJs.splice(0, 1);
     createLazyJs(current, () => {
-      jsNum--
-      handleJs(lazyJs, jsNum)
-    })
+      jsNum--;
+      handleJs(lazyJs, jsNum);
+    });
   }
 }
 
@@ -120,13 +120,13 @@ export function handleJs(lazyJs: string[], jsNum = 0, jsLimit = 3) {
  */
 export function handleCss(lazyCss: string[], cssNum = 0, cssLimit = 3) {
   for (let i = 0; i < lazyCss.length && cssNum < cssLimit; i++) {
-    const current = lazyCss[0]
-    lazyCss.splice(0, 1)
-    cssNum++
+    const current = lazyCss[0];
+    lazyCss.splice(0, 1);
+    cssNum++;
     createCss(current, () => {
-      cssNum--
-      handleCss(lazyCss, cssNum)
-    })
+      cssNum--;
+      handleCss(lazyCss, cssNum);
+    });
   }
 }
 
@@ -139,31 +139,31 @@ export function handlePreload(
   lazyJs: string[], // 懒加载js
   lazyCss: string[] // 懒加载css
 ) {
-  const path = getHtmlPath()
+  const path = getHtmlPath();
 
   // 加载当前页面所需的js
   for (let i = lazyJs.length - 1; i >= 0; i--) {
     if (path && lazyJs[i].includes(path)) {
-      createPreloadJs(lazyJs[i])
-      lazyJs.splice(i, 1)
+      createPreloadJs(lazyJs[i]);
+      lazyJs.splice(i, 1);
     }
   }
 
   // 加载当前页面所需的css
   for (let i = lazyCss.length - 1; i >= 0; i--) {
     if (path && lazyCss[i].includes(path)) {
-      createCss(lazyCss[i])
-      lazyCss.splice(i, 1)
+      createCss(lazyCss[i]);
+      lazyCss.splice(i, 1);
     }
   }
 
   // 提前加载模块
-  const [newFirstJs, newFirstCss] = firstLoad(path, lazyJs, lazyCss)
-  lazyJs = newFirstJs
-  lazyCss = newFirstCss
+  const [newFirstJs, newFirstCss] = firstLoad(path, lazyJs, lazyCss);
+  lazyJs = newFirstJs;
+  lazyCss = newFirstCss;
 
   setTimeout(function() {
-    handleCss(lazyCss)
-    handleJs(lazyJs)
-  }, time)
+    handleCss(lazyCss);
+    handleJs(lazyJs);
+  }, time);
 }

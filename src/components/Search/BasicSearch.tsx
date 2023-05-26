@@ -1,14 +1,14 @@
-import { ReactNode, Ref, useImperativeHandle } from 'react'
-import type { FormData, FormList } from '#/form'
-import type { ColProps } from 'antd'
-import type { FormFn } from '../Form/BasicForm'
-import { memo } from 'react'
-import { Button, FormProps } from 'antd'
-import { Form } from 'antd'
-import { SearchOutlined, PlusOutlined } from '@ant-design/icons'
-import { getComponent } from '../Form/utils/componentMap'
-import { handleValuePropName } from '../Form/utils/helper'
-import { filterDayjs } from '../Dates/utils/helper'
+import { ReactNode, Ref, useImperativeHandle } from 'react';
+import type { FormData, FormList } from '#/form';
+import type { ColProps } from 'antd';
+import type { FormFn } from '../Form/BasicForm';
+import { memo } from 'react';
+import { Button, FormProps } from 'antd';
+import { Form } from 'antd';
+import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
+import { getComponent } from '../Form/utils/componentMap';
+import { handleValuePropName } from '../Form/utils/helper';
+import { filterDayjs } from '../Dates/utils/helper';
 
 interface Props {
   list: FormList[];
@@ -36,8 +36,8 @@ function BasicSearch(props: Props) {
     labelCol,
     wrapperCol,
     handleFinish
-  } = props
-  const [form] = Form.useForm()
+  } = props;
+  const [form] = Form.useForm();
 
   // 抛出外部方法
   useImperativeHandle(
@@ -48,27 +48,27 @@ function BasicSearch(props: Props) {
        * @param key - 表单唯一值
        */
       getFieldValue: (key: string) => {
-        return form.getFieldValue(key)
+        return form.getFieldValue(key);
       },
       /** 获取表单全部值 */
       getFieldsValue: () => {
-        return form.getFieldsValue()
+        return form.getFieldsValue();
       },
       /** 重置表单 */
       handleReset: () => {
-        form.resetFields()
+        form.resetFields();
       },
       /** 提交表单  */
       handleSubmit: () => {
-        form.submit()
+        form.submit();
       }
     } as FormFn)
-  )
+  );
 
   /** 点击新增 */
   const onCreate = () => {
-    props.onCreate?.()
-  }
+    props.onCreate?.();
+  };
 
   /**
    * 提交表单
@@ -77,18 +77,18 @@ function BasicSearch(props: Props) {
   const onFinish: FormProps['onFinish'] = values => {
     if (handleFinish) {
       // 将dayjs类型转为字符串
-      const params = filterDayjs(values, list)
-      handleFinish?.(params)
+      const params = filterDayjs(values, list);
+      handleFinish?.(params);
     }
-  }
+  };
   
   /**
    * 表单提交失败处理
    * @param errorInfo - 错误信息
    */
   const onFinishFailed: FormProps['onFinishFailed'] = errorInfo => {
-    console.warn('搜索错误:', errorInfo)
-  }
+    console.warn('搜索错误:', errorInfo);
+  };
 
   return (
     <div id="searches" className="py-3">
@@ -154,7 +154,7 @@ function BasicSearch(props: Props) {
         </div>
       </Form>
     </div>
-  )
+  );
 }
 
-export default memo(BasicSearch)
+export default memo(BasicSearch);

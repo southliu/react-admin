@@ -1,7 +1,7 @@
-import { Breadcrumb } from 'antd'
-import { useCommonStore } from '@/hooks/useCommonStore'
+import { Breadcrumb } from 'antd';
+import { useCommonStore } from '@/hooks/useCommonStore';
 
-const { Item } = Breadcrumb
+const { Item } = Breadcrumb;
 
 interface Props {
   className?: string;
@@ -9,10 +9,10 @@ interface Props {
 }
 
 function Nav(props: Props) {
-  const { className, list } = props
+  const { className, list } = props;
   
   // 是否手机端
-  const { isPhone } = useCommonStore()
+  const { isPhone } = useCommonStore();
 
   return (
     <>
@@ -34,7 +34,7 @@ function Nav(props: Props) {
         </div>
       }
     </>
-  )
+  );
 }
 
-export default Nav
+export default Nav;

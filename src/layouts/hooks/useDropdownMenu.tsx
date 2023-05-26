@@ -1,23 +1,23 @@
-import type { MenuProps } from 'antd'
-import type { AppDispatch } from '@/stores'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import type { MenuProps } from 'antd';
+import type { AppDispatch } from '@/stores';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   closeLeft,
   closeOther,
   closeRight,
   closeTabs,
   setNav
-} from '@/stores/tabs'
+} from '@/stores/tabs';
 import {
   RedoOutlined,
   CloseOutlined,
   VerticalAlignTopOutlined,
   VerticalAlignMiddleOutlined
-} from '@ant-design/icons'
-import { defaultMenus } from '@/menus'
-import { getMenuByKey } from '@/menus/utils/helper'
-import { useCommonStore } from '@/hooks/useCommonStore'
+} from '@ant-design/icons';
+import { defaultMenus } from '@/menus';
+import { getMenuByKey } from '@/menus/utils/helper';
+import { useCommonStore } from '@/hooks/useCommonStore';
 
 enum ITabEnums {
   REFRESH = 'refresh', // 重新加载
@@ -34,15 +34,15 @@ interface Props {
 }
 
 export function useDropdownMenu(props: Props) {
-  const { activeKey, onOpenChange, handleRefresh } = props
-  const { pathname } = useLocation()
-  const { tabs, permissions } = useCommonStore()
-  const navigate = useNavigate()
-  const dispatch: AppDispatch = useDispatch()
+  const { activeKey, onOpenChange, handleRefresh } = props;
+  const { pathname } = useLocation();
+  const { tabs, permissions } = useCommonStore();
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
 
   // 菜单项
   const items: (key?: string) => MenuProps['items'] = (key = activeKey) => {
-    const index = tabs.findIndex(item => item.key === key)
+    const index = tabs.findIndex(item => item.key === key);
     return [
       {
         key: ITabEnums.REFRESH,
@@ -74,68 +74,68 @@ export function useDropdownMenu(props: Props) {
         disabled: index === tabs.length - 1,
         icon: <VerticalAlignTopOutlined className="mr-5px transform rotate-90" />
       }
-    ]
-  }
+    ];
+  };
 
   /** 点击菜单 */
   const onClick = (type: string, key = activeKey) => {
     // 复原箭头
-    onOpenChange?.(false)
+    onOpenChange?.(false);
 
     switch (type) {
       // 重新加载
       case ITabEnums.REFRESH:
-        handleRefresh(key)
-        break
+        handleRefresh(key);
+        break;
 
       // 关闭当前
       case ITabEnums.CLOSE_CURRENT:
-        dispatch(closeTabs(key))
-        break
+        dispatch(closeTabs(key));
+        break;
 
       // 关闭其他
       case ITabEnums.CLOSE_OTHER:
-        dispatch(closeOther(key))
-        break
+        dispatch(closeOther(key));
+        break;
 
       // 关闭左侧
       case ITabEnums.CLOSE_LEFT:
-        dispatch(closeLeft(key))
+        dispatch(closeLeft(key));
         if (pathname !== key) {
           const menuByKeyProps = {
             menus: defaultMenus,
             permissions,
             key
-          }
-          const newItems = getMenuByKey(menuByKeyProps)
+          };
+          const newItems = getMenuByKey(menuByKeyProps);
           if (newItems?.key) {
-            navigate(key)
-            dispatch(setNav(newItems.nav))
+            navigate(key);
+            dispatch(setNav(newItems.nav));
           }
         }
-        break
+        break;
 
       // 关闭右侧
       case ITabEnums.CLOSE_RIGHT:
-        dispatch(closeRight(key))
+        dispatch(closeRight(key));
         if (pathname !== key) {
           const menuByKeyProps = {
             menus: defaultMenus,
             permissions,
             key
-          }
-          const newItems = getMenuByKey(menuByKeyProps)
+          };
+          const newItems = getMenuByKey(menuByKeyProps);
           if (newItems?.key) {
-            navigate(key)
-            dispatch(setNav(newItems.nav))
+            navigate(key);
+            dispatch(setNav(newItems.nav));
           }
         }
-        break
+        break;
 
       default:
-        break
+        break;
     }
-  }
+  };
 
-  return [items, onClick] as const
+  return [items, onClick] as const;
 }

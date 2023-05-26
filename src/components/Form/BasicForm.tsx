@@ -1,13 +1,13 @@
-import type { ReactNode, Ref } from 'react'
-import type { FormData, FormList } from '#/form'
-import type { ColProps } from 'antd'
-import type { AllTypeData } from '#/public'
-import { useEffect, useImperativeHandle } from 'react'
-import { FormProps } from 'antd'
-import { Form } from 'antd'
-import { getComponent } from '../Form/utils/componentMap'
-import { handleValuePropName } from './utils/helper'
-import { filterDayjs } from '../Dates/utils/helper'
+import type { ReactNode, Ref } from 'react';
+import type { FormData, FormList } from '#/form';
+import type { ColProps } from 'antd';
+import type { AllTypeData } from '#/public';
+import { useEffect, useImperativeHandle } from 'react';
+import { FormProps } from 'antd';
+import { Form } from 'antd';
+import { getComponent } from '../Form/utils/componentMap';
+import { handleValuePropName } from './utils/helper';
+import { filterDayjs } from '../Dates/utils/helper';
 
 export interface FormFn {
   getFieldValue: (key: string) => AllTypeData;
@@ -35,8 +35,8 @@ function BasicForm(props: Props) {
     wrapperCol,
     formRef,
     handleFinish
-  } = props
-  const [form] = Form.useForm()
+  } = props;
+  const [form] = Form.useForm();
 
   // 抛出外部方法
   useImperativeHandle(
@@ -47,28 +47,28 @@ function BasicForm(props: Props) {
        * @param key - 表单唯一值
        */
       getFieldValue: (key: string) => {
-        return form.getFieldValue(key) || {}
+        return form.getFieldValue(key) || {};
       },
       /** 获取表单全部值 */
       getFieldsValue: () => {
-        return form.getFieldsValue() || {}
+        return form.getFieldsValue() || {};
       },
       /** 重置表单 */
       handleReset: () => {
-        form.resetFields()
+        form.resetFields();
       },
       /** 提交表单  */
       handleSubmit: () => {
-        form.submit()
+        form.submit();
       }
     } as FormFn)
-  )
+  );
 
   // 监听传入表单数据，如果变化则替换表单
   useEffect(() => {
-    form.resetFields()
-    form.setFieldsValue(props.data)
-  }, [form, props.data])
+    form.resetFields();
+    form.setFieldsValue(props.data);
+  }, [form, props.data]);
 
   /**
    * 提交表单
@@ -77,18 +77,18 @@ function BasicForm(props: Props) {
   const onFinish: FormProps['onFinish'] = values => {
     if (handleFinish) {
       // 将dayjs类型转为字符串
-      const params = filterDayjs(values, list)
-      handleFinish?.(params)
+      const params = filterDayjs(values, list);
+      handleFinish?.(params);
     }
-  }
+  };
   
   /**
    * 表单提交失败处理
    * @param errorInfo - 错误信息
    */
   const onFinishFailed: FormProps['onFinishFailed'] = errorInfo => {
-    console.warn('表单错误:', errorInfo)
-  }
+    console.warn('表单错误:', errorInfo);
+  };
 
   return (
     <div>
@@ -120,7 +120,7 @@ function BasicForm(props: Props) {
         { children }
       </Form>
     </div>
-  )
+  );
 }
 
-export default BasicForm
+export default BasicForm;

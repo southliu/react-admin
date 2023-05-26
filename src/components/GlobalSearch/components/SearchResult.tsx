@@ -1,14 +1,14 @@
-import type { SideMenu } from '#/public'
-import type { AppDispatch } from '@/stores'
-import { Fragment } from 'react'
-import { Icon } from '@iconify/react'
-import { useNavigate } from 'react-router-dom'
-import { setOpenKeys } from '@/stores/menu'
-import { useDispatch } from 'react-redux'
-import { defaultMenus } from '@/menus'
-import { useCommonStore } from '@/hooks/useCommonStore'
-import { addTabs, setActiveKey } from '@/stores/tabs'
-import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
+import type { SideMenu } from '#/public';
+import type { AppDispatch } from '@/stores';
+import { Fragment } from 'react';
+import { Icon } from '@iconify/react';
+import { useNavigate } from 'react-router-dom';
+import { setOpenKeys } from '@/stores/menu';
+import { useDispatch } from 'react-redux';
+import { defaultMenus } from '@/menus';
+import { useCommonStore } from '@/hooks/useCommonStore';
+import { addTabs, setActiveKey } from '@/stores/tabs';
+import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper';
 
 interface Props {
   list: SideMenu[]; // 列表
@@ -18,36 +18,36 @@ interface Props {
 }
 
 function SearchResult(props: Props) {
-  const { list, active, onCancel, changActive } = props
-  const { permissions } = useCommonStore()
-  const navigate = useNavigate()
-  const dispatch: AppDispatch = useDispatch()
+  const { list, active, onCancel, changActive } = props;
+  const { permissions } = useCommonStore();
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
 
   /**
    * 点击菜单跳转页面
    * @param key - 唯一值
    */
   const onClick = (key: string) => {
-    navigate(key)
+    navigate(key);
     // 添加标签
-    const menuByKeyProps = { menus: defaultMenus, permissions, key }
-    const newTab = getMenuByKey(menuByKeyProps)
-    dispatch(addTabs(newTab))
-    dispatch(setActiveKey(key))
+    const menuByKeyProps = { menus: defaultMenus, permissions, key };
+    const newTab = getMenuByKey(menuByKeyProps);
+    dispatch(addTabs(newTab));
+    dispatch(setActiveKey(key));
     // 处理菜单展开
-    const openKeys = getOpenMenuByRouter(key)
-    dispatch(setOpenKeys(openKeys))
+    const openKeys = getOpenMenuByRouter(key);
+    dispatch(setOpenKeys(openKeys));
     // 关闭
-    onCancel()
-  }
+    onCancel();
+  };
 
   /**
    * 鼠标进入事件
    * @param key - 唯一值
    */
   const onMouseEnter = (key: string) => {
-    changActive(key)
-  }
+    changActive(key);
+  };
 
   return (
     <>
@@ -113,7 +113,7 @@ function SearchResult(props: Props) {
         </div>
       }
     </>
-  )
+  );
 }
 
-export default SearchResult
+export default SearchResult;

@@ -1,10 +1,10 @@
-import type { PluginOption } from 'vite'
-import { lazyCss, lazyJs, preloadLoad } from '../config'
+import type { PluginOption } from 'vite';
+import { lazyCss, lazyJs, preloadLoad } from '../config';
 import {
   handleLazyCss,
   handleLazyJs,
   handlePreloadHtml
-} from '../utils/helper'
+} from '../utils/helper';
 import {
   handlePreload,
   getHtmlPath,
@@ -14,7 +14,7 @@ import {
   createCss,
   handleJs,
   handleCss,
-} from '../utils/html'
+} from '../utils/html';
 
 /**
  * 预加载处理
@@ -24,28 +24,28 @@ export const preloadPlugin = (time = 1000): PluginOption => {
   return {
     name: 'vite-prefetch-plugin',
     transformIndexHtml: (html: string) => {
-      html = html.replace(/modulepreload/g, 'prefetch')
+      html = html.replace(/modulepreload/g, 'prefetch');
 
-      if (!preloadLoad.length) return html
+      if (!preloadLoad.length) return html;
 
       // 预加载js
       preloadLoad.forEach((item) => {
-        html = handlePreloadHtml(html, `/${item}`)
-      })
+        html = handlePreloadHtml(html, `/${item}`);
+      });
 
       // 懒加载js
-      const lazyJsArr: string[] = []
+      const lazyJsArr: string[] = [];
       lazyJs.forEach((item) => {
-        const props = { html, path: `/${item}`, arr: lazyJsArr }
-        html = handleLazyJs(props)
-      })
+        const props = { html, path: `/${item}`, arr: lazyJsArr };
+        html = handleLazyJs(props);
+      });
 
       // 懒加载css
-      const lazyCssArr: string[] = []
+      const lazyCssArr: string[] = [];
       lazyCss.forEach((item) => {
-        const props = { html, path: `/${item}`, arr: lazyCssArr }
-        html = handleLazyCss(props)
-      })
+        const props = { html, path: `/${item}`, arr: lazyCssArr };
+        html = handleLazyCss(props);
+      });
 
       const timeout = `</body>
       <script>
@@ -63,9 +63,9 @@ export const preloadPlugin = (time = 1000): PluginOption => {
         const lazyCss = ${JSON.stringify(lazyCssArr)};
 
         handlePreload(time, lazyJs, lazyCss)
-      </script>`
+      </script>`;
 
-      return html.replace('</body>', timeout)
+      return html.replace('</body>', timeout);
     }
-  }
-}
+  };
+};

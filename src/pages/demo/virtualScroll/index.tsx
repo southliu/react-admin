@@ -1,9 +1,9 @@
-import { useTitle } from '@/hooks/useTitle'
-import VirtualList from './components/VirtualList'
-import VirtualTable from './components/VirtualTable'
+import { useTitle } from '@/hooks/useTitle';
+import VirtualList from './components/VirtualList';
+import VirtualTable from './components/VirtualTable';
 
 function VirtualScroll() {
-  useTitle('虚拟滚动')
+  useTitle('虚拟滚动');
   return (
     <div className='flex px-30px h-full'>
       <div className='flex flex-col mr-30px'>
@@ -18,7 +18,7 @@ function VirtualScroll() {
         <VirtualTable />
       </div>
     </div>
-  )
+  );
 }
 
-export default VirtualScroll
+export default VirtualScroll;

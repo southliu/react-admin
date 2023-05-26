@@ -1,8 +1,8 @@
-import type { FormList } from "#/form"
-import type { TableColumn, TableOptions } from '#/public'
-import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
-import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from '@/utils/constants'
-import { valueToLabel } from "@/utils/helper"
+import type { FormList } from "#/form";
+import type { TableColumn, TableOptions } from '#/public';
+import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config';
+import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from '@/utils/constants';
+import { valueToLabel } from "@/utils/helper";
 
 // 搜索数据
 export const searchList: FormList[] = [
@@ -28,7 +28,7 @@ export const searchList: FormList[] = [
     name: 'controller',
     component: 'Input'
   }
-]
+];
 
 /**
  * 表格数据
@@ -81,8 +81,8 @@ export const tableColumns = (optionRender: TableOptions<object>): TableColumn =>
       fixed: 'right',
       render: (value: unknown, record: object) => optionRender(value, record)
     },
-  ]
-}
+  ];
+};
 
 // 新增数据
 export const createList: (id: string) => FormList[] = id => [
@@ -125,4 +125,4 @@ export const createList: (id: string) => FormList[] = id => [
       options: MENU_ACTIONS
     }
   }
-]
+];

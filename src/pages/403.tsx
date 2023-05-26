@@ -1,29 +1,29 @@
-import type { AppDispatch } from '@/stores'
-import { defaultMenus } from '@/menus'
-import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper'
-import { addTabs, setActiveKey } from '@/stores/tabs'
-import { Button } from 'antd'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useCommonStore } from '@/hooks/useCommonStore'
-import styles from './all.module.less'
+import type { AppDispatch } from '@/stores';
+import { defaultMenus } from '@/menus';
+import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
+import { addTabs, setActiveKey } from '@/stores/tabs';
+import { Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useCommonStore } from '@/hooks/useCommonStore';
+import styles from './all.module.less';
 
 function Forbidden() {
-  const navigate = useNavigate()
-  const dispatch: AppDispatch = useDispatch()
-  const { permissions } = useCommonStore()
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+  const { permissions } = useCommonStore();
 
   /** 跳转首页 */
   const goIndex = () => {
-    const firstMenu = getFirstMenu(defaultMenus, permissions)
-    navigate(firstMenu)
-    const menuByKeyProps = { menus: defaultMenus, permissions, key: firstMenu }
-    const newItems = getMenuByKey(menuByKeyProps)
+    const firstMenu = getFirstMenu(defaultMenus, permissions);
+    navigate(firstMenu);
+    const menuByKeyProps = { menus: defaultMenus, permissions, key: firstMenu };
+    const newItems = getMenuByKey(menuByKeyProps);
     if (newItems?.key) {
-      dispatch(setActiveKey(newItems.key))
-      dispatch(addTabs(newItems))
+      dispatch(setActiveKey(newItems.key));
+      dispatch(addTabs(newItems));
     }
-  }
+  };
   
   return (
     <div className="absolute left-50% top-50% -translate-x-1/2 -translate-y-1/2 text-center">
@@ -37,7 +37,7 @@ function Forbidden() {
         返回首页
       </Button>
     </div>
-  )
+  );
 }
 
-export default Forbidden
+export default Forbidden;

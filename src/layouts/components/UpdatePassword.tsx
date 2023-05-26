@@ -1,11 +1,11 @@
-import type { FormProps } from 'antd/es/form/Form'
-import { Ref, useImperativeHandle } from 'react'
-import { useState } from 'react'
-import { Form, Input, message } from 'antd'
-import { PLEASE_ENTER } from '@/utils/config'
-import { updatePassword } from '@/servers/login'
-import BasicModal from '@/components/Modal/BasicModal'
-import PasswordStrength from '@/components/PasswordStrength'
+import type { FormProps } from 'antd/es/form/Form';
+import { Ref, useImperativeHandle } from 'react';
+import { useState } from 'react';
+import { Form, Input, message } from 'antd';
+import { PLEASE_ENTER } from '@/utils/config';
+import { updatePassword } from '@/servers/login';
+import BasicModal from '@/components/Modal/BasicModal';
+import PasswordStrength from '@/components/PasswordStrength';
 
 export interface PasswordModal {
   open: () => void;
@@ -16,25 +16,25 @@ interface Props {
 }
 
 function UpdatePassword(props: Props) {
-  const { passwordRef } = props
-  const [form] = Form.useForm()
-  const [isOpen, setOpen] = useState(false)
-  const [isLoading, setLoading] = useState(false)
+  const { passwordRef } = props;
+  const [form] = Form.useForm();
+  const [isOpen, setOpen] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   // 抛出外部方法
   useImperativeHandle(
     passwordRef,
     () => ({
       open: () => {
-        setOpen(true)
+        setOpen(true);
       }
     })
-  )
+  );
 
   /** 点击模态框确定 */
   const onOk = () => {
-    form.submit()
-  }
+    form.submit();
+  };
 
   /**
    * 提交表单
@@ -46,19 +46,19 @@ function UpdatePassword(props: Props) {
       return message.warning({
         content: "密码和确认密码不相同!",
         key: 'confirmPassword'
-      })
+      });
     }
     try {
-      setLoading(true)
-      const data = await updatePassword(values)
+      setLoading(true);
+      const data = await updatePassword(values);
       if (data.code === 200) {
-        setOpen(false)
-        message.success(data.message)
+        setOpen(false);
+        message.success(data.message);
       }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <BasicModal
@@ -101,7 +101,7 @@ function UpdatePassword(props: Props) {
         </Form.Item>
       </Form>
     </BasicModal>
-  )
+  );
 }
 
-export default UpdatePassword
+export default UpdatePassword;

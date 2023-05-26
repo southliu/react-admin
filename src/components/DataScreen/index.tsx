@@ -1,11 +1,11 @@
-import { Tooltip } from 'antd'
-import { Icon } from '@iconify/react'
+import { Tooltip } from 'antd';
+import { Icon } from '@iconify/react';
 
 function DataScreen() {
   /** 跳转数据大屏 */
   const goDataScreen = () => {
-    window.open('https://iamsouth.github.io')
-  }
+    window.open('https://iamsouth.github.io');
+  };
 
   return (
     <Tooltip title='数据大屏'>
@@ -16,7 +16,7 @@ function DataScreen() {
         />
       </div>
     </Tooltip>
-  )
+  );
 }
 
-export default DataScreen
+export default DataScreen;

@@ -1,7 +1,7 @@
-import type { FormList } from "#/form"
-import type { TableColumn, TableOptions } from '#/public'
-import { INPUT_REQUIRED } from '@/utils/config'
-import CustomizeInput from './components/CustomizeInput'
+import type { FormList } from "#/form";
+import type { TableColumn, TableOptions } from '#/public';
+import { INPUT_REQUIRED } from '@/utils/config';
+import CustomizeInput from './components/CustomizeInput';
 
 // 搜索数据
 export const searchList: FormList[] = [
@@ -15,7 +15,7 @@ export const searchList: FormList[] = [
     name: 'title',
     component: 'Input'
   }
-]
+];
 
 /**
  * 表格数据
@@ -52,8 +52,8 @@ export const tableColumns = (optionRender: TableOptions<object>): TableColumn =>
       fixed: 'right',
       render: (value: unknown, record: object) => optionRender(value, record)
     },
-  ]
-}
+  ];
+};
 
 // 新增数据
 export const createList: FormList[] = [
@@ -81,4 +81,4 @@ export const createList: FormList[] = [
     name: 'content',
     component: 'Editor'
   }
-]
+];

@@ -1,16 +1,16 @@
-import type { ButtonProps } from 'antd'
-import { Button } from 'antd'
+import type { ButtonProps } from 'antd';
+import { Button } from 'antd';
 
 interface Props extends Omit<ButtonProps, 'loading'> {
   isLoading: boolean;
 }
 
 function UpdateBtn(props: Props) {
-  const { isLoading } = props
+  const { isLoading } = props;
 
   // 清除自定义属性
-  const params: Partial<Props> = { ...props }
-  delete params.isLoading
+  const params: Partial<Props> = { ...props };
+  delete params.isLoading;
 
   return (
     <Button
@@ -20,7 +20,7 @@ function UpdateBtn(props: Props) {
     >
       编辑
     </Button>
-  )
+  );
 }
 
-export default UpdateBtn
+export default UpdateBtn;

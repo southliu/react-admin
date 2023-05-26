@@ -1,76 +1,76 @@
-import type { LoginData } from './model'
-import type { FormProps } from 'antd'
-import type { AppDispatch } from '@/stores'
-import type { ThemeType } from '@/stores/public'
-import { message } from 'antd'
-import { Form, Button, Input } from 'antd'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { PASSWORD_RULE, THEME_KEY } from '@/utils/config'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
-import { login } from '@/servers/login'
-import { useTitle } from '@/hooks/useTitle'
-import { useToken } from '@/hooks/useToken'
-import { setThemeValue } from '@/stores/public'
-import { permissionsToArray } from '@/utils/permissions'
-import { setPermissions, setUserInfo } from '@/stores/user'
-import { useCommonStore } from '@/hooks/useCommonStore'
-import { getPermissions } from '@/servers/permissions'
-import { getFirstMenu } from '@/menus/utils/helper'
-import { defaultMenus } from '@/menus'
-import Logo from '@/assets/images/logo.svg'
+import type { LoginData } from './model';
+import type { FormProps } from 'antd';
+import type { AppDispatch } from '@/stores';
+import type { ThemeType } from '@/stores/public';
+import { message } from 'antd';
+import { Form, Button, Input } from 'antd';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { PASSWORD_RULE, THEME_KEY } from '@/utils/config';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { login } from '@/servers/login';
+import { useTitle } from '@/hooks/useTitle';
+import { useToken } from '@/hooks/useToken';
+import { setThemeValue } from '@/stores/public';
+import { permissionsToArray } from '@/utils/permissions';
+import { setPermissions, setUserInfo } from '@/stores/user';
+import { useCommonStore } from '@/hooks/useCommonStore';
+import { getPermissions } from '@/servers/permissions';
+import { getFirstMenu } from '@/menus/utils/helper';
+import { defaultMenus } from '@/menus';
+import Logo from '@/assets/images/logo.svg';
 
 function Login() {
-  useTitle('登录')
-  const navigate = useNavigate()
-  const dispatch: AppDispatch = useDispatch()
-  const [getToken, setToken] = useToken()
-  const [isLoading, setLoading] = useState(false)
-  const { permissions } = useCommonStore()
-  const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType
+  useTitle('登录');
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+  const [getToken, setToken] = useToken();
+  const [isLoading, setLoading] = useState(false);
+  const { permissions } = useCommonStore();
+  const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType;
 
   useEffect(() => {
     if (!themeCache) {
-      localStorage.setItem(THEME_KEY, 'light')
+      localStorage.setItem(THEME_KEY, 'light');
     }
     if (themeCache === 'dark') {
-      document.body.className = 'theme-dark'
+      document.body.className = 'theme-dark';
     }
-    dispatch(setThemeValue(themeCache === 'dark' ? 'dark' : 'light'))
+    dispatch(setThemeValue(themeCache === 'dark' ? 'dark' : 'light'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [themeCache])
+  }, [themeCache]);
 
   useEffect(() => {
     // 如果存在token，则直接进入页面
     if (getToken()) {
       // 如果不存在缓存则获取权限
       if (!permissions.length) {
-        getUserPermissions()
+        getUserPermissions();
       } else {
         // 有权限则直接跳转
-        const firstMenu = getFirstMenu(defaultMenus, permissions)
-        navigate(firstMenu)
+        const firstMenu = getFirstMenu(defaultMenus, permissions);
+        navigate(firstMenu);
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   /** 获取用户权限 */
   const getUserPermissions = async () => {
     try {
-      setLoading(true)
-      const { data } = await getPermissions({ refresh_cache: false })
-      const { user, permissions } = data
-      const newPermissions = permissionsToArray(permissions)
-      const firstMenu = getFirstMenu(defaultMenus, newPermissions)
-      dispatch(setUserInfo(user))
-      dispatch(setPermissions(newPermissions))
-      navigate(firstMenu)
+      setLoading(true);
+      const { data } = await getPermissions({ refresh_cache: false });
+      const { user, permissions } = data;
+      const newPermissions = permissionsToArray(permissions);
+      const firstMenu = getFirstMenu(defaultMenus, newPermissions);
+      dispatch(setUserInfo(user));
+      dispatch(setPermissions(newPermissions));
+      navigate(firstMenu);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   /**
    * 处理登录
@@ -78,32 +78,32 @@ function Login() {
    */
   const handleFinish: FormProps['onFinish'] = async (values: LoginData) => {
     try {
-      setLoading(true)
-      const { data } = await login(values)
-      const { token, user, permissions } = data
+      setLoading(true);
+      const { data } = await login(values);
+      const { token, user, permissions } = data;
 
       if (!permissions?.length || !token) {
-        return message.error({ content: '用户暂无权限登录', key: 'permissions' })
+        return message.error({ content: '用户暂无权限登录', key: 'permissions' });
       }
 
-      const newPermissions = permissionsToArray(permissions)
-      const firstMenu = getFirstMenu(defaultMenus, newPermissions)
-      setToken(token)
-      dispatch(setUserInfo(user))
-      dispatch(setPermissions(newPermissions))
-      navigate(firstMenu)
+      const newPermissions = permissionsToArray(permissions);
+      const firstMenu = getFirstMenu(defaultMenus, newPermissions);
+      setToken(token);
+      dispatch(setUserInfo(user));
+      dispatch(setPermissions(newPermissions));
+      navigate(firstMenu);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   /**
    * 处理失败
    * @param errors - 错误信息
    */
   const handleFinishFailed: FormProps['onFinishFailed'] = errors => {
-    console.error('错误信息:', errors)
-  }
+    console.error('错误信息:', errors);
+  };
 
   return (
     <>
@@ -187,7 +187,7 @@ function Login() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default Login
+export default Login;

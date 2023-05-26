@@ -1,19 +1,19 @@
-import type { AppDispatch } from '@/stores'
-import { Tooltip } from 'antd'
-import { Icon } from '@iconify/react'
-import { useDispatch } from 'react-redux'
-import { toggleMaximize } from '@/stores/tabs'
-import { useCommonStore } from '@/hooks/useCommonStore'
+import type { AppDispatch } from '@/stores';
+import { Tooltip } from 'antd';
+import { Icon } from '@iconify/react';
+import { useDispatch } from 'react-redux';
+import { toggleMaximize } from '@/stores/tabs';
+import { useCommonStore } from '@/hooks/useCommonStore';
 
 function TabMaximize() {
-  const dispatch: AppDispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch();
   // 是否窗口最大化
-  const { isMaximize } = useCommonStore()
+  const { isMaximize } = useCommonStore();
 
   /** 点击最大化/最小化 */
   const onClick = () => {
-    dispatch(toggleMaximize(!isMaximize))
-  }
+    dispatch(toggleMaximize(!isMaximize));
+  };
 
   return (
     <Tooltip
@@ -32,7 +32,7 @@ function TabMaximize() {
         onClick={onClick}
       />
     </Tooltip>
-  )
+  );
 }
 
-export default TabMaximize
+export default TabMaximize;

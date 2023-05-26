@@ -1,9 +1,9 @@
-import { useTitle } from '@/hooks/useTitle'
-import CopyInput from '@/components/Copy/CopyInput'
-import CopyBtn from '@/components/Copy/CopyBtn'
+import { useTitle } from '@/hooks/useTitle';
+import CopyInput from '@/components/Copy/CopyInput';
+import CopyBtn from '@/components/Copy/CopyBtn';
 
 function CopyPage() {
-  useTitle('剪切板')
+  useTitle('剪切板');
   return (
     <div className="max-w-350px m-30px">
       <h1>剪切板：</h1>
@@ -14,7 +14,7 @@ function CopyPage() {
         <CopyBtn text="复制" value="admin" />
       </div>
     </div>
-  )
+  );
 }
 
-export default CopyPage
+export default CopyPage;

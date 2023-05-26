@@ -1,7 +1,7 @@
-import type { EChartsCoreOption } from 'echarts'
-import { useEffect } from 'react'
-import { useEcharts } from '@/hooks/useEcharts'
-import { useCommonStore } from '@/hooks/useCommonStore'
+import type { EChartsCoreOption } from 'echarts';
+import { useEffect } from 'react';
+import { useEcharts } from '@/hooks/useEcharts';
+import { useCommonStore } from '@/hooks/useCommonStore';
 
 const data = [
   962,
@@ -16,7 +16,7 @@ const data = [
   1643,
   1782,
   1928,
-]
+];
 
 const option: EChartsCoreOption = {
   title: {
@@ -65,25 +65,25 @@ const option: EChartsCoreOption = {
       data
     }
   ]
-}
+};
 
 function Bar() {
-  const { permissions } = useCommonStore()
-  const [echartsRef, init] = useEcharts(option, data)
+  const { permissions } = useCommonStore();
+  const [echartsRef, init] = useEcharts(option, data);
 
   useEffect(() => {
     if (permissions.length) {
       setTimeout(() => {
-        init()
-      }, 100)
+        init();
+      }, 100);
     }
-  }, [init, permissions.length])
+  }, [init, permissions.length]);
   
   return (
     <div className='w-38% h-550px border border-gray-200 rounded-10px'>
       <div ref={echartsRef} className='w-full h-full'></div>
     </div>
-  )
+  );
 }
 
-export default Bar
+export default Bar;

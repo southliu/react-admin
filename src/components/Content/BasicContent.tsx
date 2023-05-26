@@ -1,4 +1,4 @@
-import Forbidden from '@/pages/403'
+import Forbidden from '@/pages/403';
 
 interface Props {
   isPermission?: boolean;
@@ -6,7 +6,7 @@ interface Props {
 }
 
 function BasicContent(props: Props) {
-  const { isPermission, children} = props
+  const { isPermission, children} = props;
 
   return (
     <div className="min-w-980px h-full p-10px box-border overflow-auto">
@@ -28,7 +28,7 @@ function BasicContent(props: Props) {
         <Forbidden />
       }
     </div>
-  )
+  );
 }
 
-export default BasicContent
+export default BasicContent;
