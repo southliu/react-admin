@@ -24,7 +24,7 @@ export function createVitePlugins() {
     configPageImportPlugin()
   ]
 
-  if (import.meta.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     // 包分析
     visualizer({
       gzipSize: true,

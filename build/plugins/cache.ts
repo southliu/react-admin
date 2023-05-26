@@ -10,7 +10,7 @@ const name = 'vite-cache-plugin'
  */
 export const cachePlugin = (): PluginOption => {
   // 非开发环境退出
-  if (import.meta.env.NODE_ENV !== 'development') return { name }
+  if (process.env.NODE_ENV !== 'development') return { name }
 
   let _server: ViteDevServer
   let cache = {}
