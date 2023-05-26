@@ -25,14 +25,14 @@ export function useWatermark() {
       color,
       fontSize,
       opacity
-    } = options
+    } = options;
 
     // 判断水印是否存在，如果存在，那么不执行
     if (document.getElementById('south_watermark') !== null) {
-      return
+      return;
     }
-    const TpLine = Math.floor(document.body.clientWidth / width) * 2 // 一行显示几列
-    let StrLine = ''
+    const TpLine = Math.floor(document.body.clientWidth / width) * 2; // 一行显示几列
+    let StrLine = '';
     for (let i = 0; i < TpLine; i++) {
       const style = `
         display: inline-block;
@@ -43,46 +43,46 @@ export function useWatermark() {
         color: ${color};
         font-size: ${fontSize}px;
         opacity: ${opacity};
-        `
+        `;
       StrLine += `
         <span style="${style}">
           ${content}
         </span>
-      `
+      `;
     }
-    const DivLine = document.createElement('div')
-    DivLine.innerHTML = StrLine
+    const DivLine = document.createElement('div');
+    DivLine.innerHTML = StrLine;
 
-    const TpColumn = (Math.floor(document.body.clientHeight / height) * 2) || 4 // 一列显示几行
+    const TpColumn = (Math.floor(document.body.clientHeight / height) * 2) || 4; // 一列显示几行
 
-    let StrColumn = ''
+    let StrColumn = '';
     for (let i = 0; i < TpColumn; i++) {
-      StrColumn += `<div style="white-space: nowrap;">${DivLine.innerHTML}</div>`
+      StrColumn += `<div style="white-space: nowrap;">${DivLine.innerHTML}</div>`;
     }
-    const DivLayer = document.createElement('div')
-    DivLayer.innerHTML = StrColumn
-    DivLayer.id = 'south_watermark' // 给水印盒子添加类名
-    DivLayer.style.position = 'fixed'
-    DivLayer.style.top = '0px' // 整体水印距离顶部距离
-    DivLayer.style.left = '-100px' // 改变整体水印的left值
-    DivLayer.style.zIndex = '999999' // 水印页面层级
-    DivLayer.style.pointerEvents = 'none'
-    DivLayer.style.userSelect = 'none'
+    const DivLayer = document.createElement('div');
+    DivLayer.innerHTML = StrColumn;
+    DivLayer.id = 'south_watermark'; // 给水印盒子添加类名
+    DivLayer.style.position = 'fixed';
+    DivLayer.style.top = '0px'; // 整体水印距离顶部距离
+    DivLayer.style.left = '-100px'; // 改变整体水印的left值
+    DivLayer.style.zIndex = '999999'; // 水印页面层级
+    DivLayer.style.pointerEvents = 'none';
+    DivLayer.style.userSelect = 'none';
 
-    document.body.appendChild(DivLayer) // 到页面中
-  }
+    document.body.appendChild(DivLayer); // 到页面中
+  };
 
   /** 删除水印 */
   const RemoveWatermark = () => {
     // 判断水印是否存在，如果存在，那么执行
     if (document.getElementById('south_watermark') === null) {
-      return
+      return;
     } 
     if (document.getElementById('south_watermark') !== null) {
-      const element = document.getElementById('south_watermark')
-      document.body.removeChild(element as HTMLElement)
+      const element = document.getElementById('south_watermark');
+      document.body.removeChild(element as HTMLElement);
     }
-  }
+  };
 
-  return [Watermark, RemoveWatermark] as const
+  return [Watermark, RemoveWatermark] as const;
 }

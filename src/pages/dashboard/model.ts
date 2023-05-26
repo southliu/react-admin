@@ -1,4 +1,4 @@
-import type { FormList } from "#/form"
+import type { FormList } from "#/form";
 
 // 搜索数据
 export const searchList: FormList[] = [
@@ -28,4 +28,4 @@ export const searchList: FormList[] = [
     wrapperCol: 15,
     component: 'Checkbox'
   }
-]
+];

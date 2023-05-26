@@ -1,11 +1,11 @@
-import type { ResizeCallbackData } from 'react-resizable'
-import type { ColumnsType, ColumnType } from 'antd/es/table'
-import type { TableProps } from 'antd'
-import { useMemo, useState, useEffect, useRef, memo } from 'react'
-import { Table, Skeleton } from 'antd'
-import { getTableHeight, handleRowHeight, filterTableColumns } from './utils/helper'
-import ResizableTitle from './components/ResizableTitle'
-import useVirtualTable from './hooks/useVirtual'
+import type { ResizeCallbackData } from 'react-resizable';
+import type { ColumnsType, ColumnType } from 'antd/es/table';
+import type { TableProps } from 'antd';
+import { useMemo, useState, useEffect, useRef, memo } from 'react';
+import { Table, Skeleton } from 'antd';
+import { getTableHeight, handleRowHeight, filterTableColumns } from './utils/helper';
+import ResizableTitle from './components/ResizableTitle';
+import useVirtualTable from './hooks/useVirtual';
 
 type Components = TableProps<object>['components']
 
@@ -27,16 +27,16 @@ function BasicTable(props: Props) {
     scrollY,
     rowClassName,
     size
-  } = props
-  const [columns, setColumns] = useState(filterTableColumns(props.columns as ColumnsType<object>))
-  const tableRef = useRef<HTMLDivElement>(null)
+  } = props;
+  const [columns, setColumns] = useState(filterTableColumns(props.columns as ColumnsType<object>));
+  const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setColumns(filterTableColumns(props.columns as ColumnsType<object>))
-  }, [props.columns])
+    setColumns(filterTableColumns(props.columns as ColumnsType<object>));
+  }, [props.columns]);
 
   // 表格高度
-  const tableHeight = getTableHeight(tableRef.current)
+  const tableHeight = getTableHeight(tableRef.current);
 
   /**
    * 处理拖拽
@@ -44,14 +44,14 @@ function BasicTable(props: Props) {
    */
   const handleResize = (index: number) => {
     return (_: React.SyntheticEvent<Element>, { size }: ResizeCallbackData) => {
-      const newColumns = [...columns]
+      const newColumns = [...columns];
       newColumns[index] = {
         ...newColumns[index],
         width: size.width,
-      }
-      setColumns(newColumns)
-    }
-  }
+      };
+      setColumns(newColumns);
+    };
+  };
 
   // 合并列表
   const mergeColumns = columns.map((col, index) => ({
@@ -60,13 +60,13 @@ function BasicTable(props: Props) {
       width: column.width,
       onResize: handleResize(index),
     }),
-  }))
+  }));
 
   // 虚拟滚动操作值
   const virtualOptions = useVirtualTable({
     height: tableHeight, // 设置可视高度
     size: size || 'small'
-  })
+  });
 
   // 虚拟滚动组件
   const virtualComponents = useMemo(() => {
@@ -78,32 +78,32 @@ function BasicTable(props: Props) {
         wrapper: virtualOptions.body.wrapper
       },
       table: virtualOptions.table
-    } as Components
-  }, [virtualOptions])
+    } as Components;
+  }, [virtualOptions]);
 
   // 只带拖拽功能组件
   const components: Components = isVirtual === true ? virtualComponents : {
     header: {
       cell: ResizableTitle,
     }
-  }
+  };
 
   // 滚动
   const scroll = {
     ...props.scroll,
     x: scrollX ?? 'max-content',
     y: scrollY || tableHeight || undefined
-  }
+  };
 
   /**
    * 处理行内样式
    */
   const handleRowClassName: TableProps<object>['rowClassName'] = (record: object, index: number, indent: number) => {
-    const className = typeof rowClassName === 'string' ? rowClassName : rowClassName?.(record, index, indent)
-    const rowSize = `!h-${handleRowHeight(size)}px`
+    const className = typeof rowClassName === 'string' ? rowClassName : rowClassName?.(record, index, indent);
+    const rowSize = `!h-${handleRowHeight(size)}px`;
 
-    return `${className || ''} ${rowSize}`
-  }
+    return `${className || ''} ${rowSize}`;
+  };
 
   return (
     <div
@@ -142,7 +142,7 @@ function BasicTable(props: Props) {
         />
       }
     </div>
-  )
+  );
 }
 
-export default memo(BasicTable)
+export default memo(BasicTable);

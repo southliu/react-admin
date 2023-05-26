@@ -1,6 +1,6 @@
-import type { ComponentProps, ComponentType } from '#/form'
-import { PLEASE_ENTER, PLEASE_SELECT } from '@/utils/config'
-import { DATE_FORMAT, TIME_FORMAT } from '@/utils/constants'
+import type { ComponentProps, ComponentType } from '#/form';
+import { PLEASE_ENTER, PLEASE_SELECT } from '@/utils/config';
+import { DATE_FORMAT, TIME_FORMAT } from '@/utils/constants';
 
 /**
  * 处理子节点的值的属性
@@ -11,13 +11,13 @@ export function handleValuePropName(component: ComponentType): string {
     case 'Switch':
     case 'Checkbox':
     case 'CheckboxGroup':
-      return 'checked'
+      return 'checked';
 
     case 'Upload':
-      return 'fileList'
+      return 'fileList';
 
     default:
-      return 'value'
+      return 'value';
   }
 }
 
@@ -32,54 +32,54 @@ export function initCompProps(component: ComponentType): ComponentProps {
       return {
         allowClear: true,
         placeholder: PLEASE_SELECT
-      }
+      };
 
     // 数字框
     case 'InputNumber':
       return {
         placeholder: PLEASE_ENTER
-      }
+      };
 
     // 勾选框
     case 'Checkbox':
-      return {}
+      return {};
 
     // 勾选框组
     case 'CheckboxGroup':
-      return {}
+      return {};
 
     // 日期
     case 'DatePicker':
       return {
         placeholder: PLEASE_SELECT,
         format: DATE_FORMAT,
-      }
+      };
 
     // 日期区间
     case 'RangePicker':
       return {
         placeholder: [PLEASE_SELECT, PLEASE_SELECT],
         format: [DATE_FORMAT, DATE_FORMAT],
-      }
+      };
 
     // 时间
     case 'TimePicker':
       return {
         placeholder: PLEASE_SELECT,
         format: TIME_FORMAT,
-      }
+      };
 
     // 时间区间
     case 'TimeRangePicker':
       return {
         placeholder: [PLEASE_SELECT, PLEASE_SELECT],
         format: [TIME_FORMAT, TIME_FORMAT],
-      }
+      };
     
     default:
       return {
         allowClear: true,
         placeholder: PLEASE_ENTER
-      }
+      };
   }
 }

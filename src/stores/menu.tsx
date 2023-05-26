@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 const menuSlice = createSlice({
   name: 'menu',
@@ -10,25 +10,25 @@ const menuSlice = createSlice({
   },
   reducers: {
     toggleCollapsed: (state, action) => {
-      state.isCollapsed = !!action.payload
+      state.isCollapsed = !!action.payload;
     },
     togglePhone: (state, action) => {
-      state.isPhone = !!action.payload
+      state.isPhone = !!action.payload;
     },
     setSelectedKeys: (state, action) => {
-      state.selectedKeys = action.payload
+      state.selectedKeys = action.payload;
     },
     setOpenKeys: (state, action) => {
-      state.openKeys = action.payload
+      state.openKeys = action.payload;
     }
   }
-})
+});
 
 export const {
   toggleCollapsed,
   togglePhone,
   setSelectedKeys,
   setOpenKeys
-} = menuSlice.actions
+} = menuSlice.actions;
 
-export default menuSlice.reducer
+export default menuSlice.reducer;

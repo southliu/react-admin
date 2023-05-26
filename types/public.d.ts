@@ -1,6 +1,6 @@
-import type { SubMenuType } from 'antd/lib/menu/hooks/useItems'
-import type { ColumnsType } from 'antd/lib/table'
-import type { Dayjs } from 'dayjs'
+import type { SubMenuType } from 'antd/lib/menu/hooks/useItems';
+import type { ColumnsType } from 'antd/lib/table';
+import type { Dayjs } from 'dayjs';
 
 // 区间值
 type EventValue<T> = T | null

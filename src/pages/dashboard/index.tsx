@@ -1,22 +1,22 @@
-import type { FormData } from '#/form'
-import { useCallback, useEffect, useState } from 'react'
-import { getDataTrends } from '@/servers/dashboard'
-import { searchList } from './model'
-import { useTitle } from '@/hooks/useTitle'
-import BasicSearch from '@/components/Search/BasicSearch'
-import BasicContent from '@/components/Content/BasicContent'
-import Line from './components/Line'
-import Bar from './components/Bar'
-import Block from './components/Block'
+import type { FormData } from '#/form';
+import { useCallback, useEffect, useState } from 'react';
+import { getDataTrends } from '@/servers/dashboard';
+import { searchList } from './model';
+import { useTitle } from '@/hooks/useTitle';
+import BasicSearch from '@/components/Search/BasicSearch';
+import BasicContent from '@/components/Content/BasicContent';
+import Line from './components/Line';
+import Bar from './components/Bar';
+import Block from './components/Block';
 
 // 初始化搜索
 const initSearch = {
   pay_date: ['2022-10-19', '2022-10-29']
-}
+};
 
 function Dashboard() {
-  useTitle('数据展览')
-  const [isLoading, setLoading] = useState(false)
+  useTitle('数据展览');
+  const [isLoading, setLoading] = useState(false);
 
   /**
    * 搜索提交
@@ -24,20 +24,20 @@ function Dashboard() {
    */
   const handleSearch = useCallback(async (values: FormData) => {
     // 数据转换
-    values.all_pay = values.all_pay ? 1 : undefined
+    values.all_pay = values.all_pay ? 1 : undefined;
 
-    const query = { ...values }
+    const query = { ...values };
     try {
-      setLoading(true)
-      await getDataTrends(query)
+      setLoading(true);
+      await getDataTrends(query);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    handleSearch(initSearch)
-  }, [handleSearch])
+    handleSearch(initSearch);
+  }, [handleSearch]);
 
   return (
     <BasicContent isPermission={true}>
@@ -60,7 +60,7 @@ function Dashboard() {
         </div>
       </>
     </BasicContent>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

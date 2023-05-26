@@ -1,6 +1,6 @@
 
-import { vi } from 'vitest'
-import '@testing-library/jest-dom'
+import { vi } from 'vitest';
+import '@testing-library/jest-dom';
 
 // 解决matchMedia报错
 if (typeof window !== 'undefined' && !window.matchMedia) {
@@ -10,5 +10,5 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
       addListener: vi.fn(),
       removeListener: vi.fn(),
     }))
-  })
+  });
 }

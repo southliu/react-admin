@@ -3,7 +3,7 @@
  * @param val - 参数
  */
 export function isFunction(val: unknown): boolean {
-  return typeof val === 'function'
+  return typeof val === 'function';
 }
 
 /**
@@ -11,7 +11,7 @@ export function isFunction(val: unknown): boolean {
  * @param obj - 值
  */
 export function isNumber(obj: unknown): boolean {
-  return typeof obj === 'number' && isFinite(obj)
+  return typeof obj === 'number' && isFinite(obj);
 }
 
 /**
@@ -20,8 +20,8 @@ export function isNumber(obj: unknown): boolean {
  */
 export function isUrl(path: string): boolean {
   const reg =
-    /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/
-  return reg.test(path)
+    /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
+  return reg.test(path);
 }
 
 /**
@@ -29,5 +29,5 @@ export function isUrl(path: string): boolean {
  * @param value - 值
  */
 export function isNull(value: unknown): boolean {
-  return value === null
+  return value === null;
 }

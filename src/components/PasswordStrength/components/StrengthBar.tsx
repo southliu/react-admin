@@ -2,10 +2,10 @@ interface Props {
   strength: number;
 }
 
-const arr = new Array(5).fill(0).map((_, index) => index + 1)
+const arr = new Array(5).fill(0).map((_, index) => index + 1);
 
 function StrengthBar(props: Props) {
-  const { strength } = props
+  const { strength } = props;
 
   return (
     <div className="flex items-center">
@@ -28,7 +28,7 @@ function StrengthBar(props: Props) {
         ))
       }
     </div>
-  )
+  );
 }
 
-export default StrengthBar
+export default StrengthBar;

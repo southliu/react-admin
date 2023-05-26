@@ -1,10 +1,10 @@
-import type { CSSProperties } from 'react'
-import { FixedSizeList as List } from 'react-window'
-import { useCommonStore } from '@/hooks/useCommonStore'
-import AutoSizer from 'react-virtualized-auto-sizer'
+import type { CSSProperties } from 'react';
+import { FixedSizeList as List } from 'react-window';
+import { useCommonStore } from '@/hooks/useCommonStore';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 function VirtualList() {
-  const { theme } = useCommonStore()
+  const { theme } = useCommonStore();
 
   const Row = (
     { index, style }: { index: number, style: CSSProperties }
@@ -19,7 +19,7 @@ function VirtualList() {
     >
       Row {index + 1}
     </div>
-  )
+  );
 
   return (
     <AutoSizer>
@@ -34,7 +34,7 @@ function VirtualList() {
         </List>
       )}
     </AutoSizer>
-  )
+  );
 }
 
-export default VirtualList
+export default VirtualList;

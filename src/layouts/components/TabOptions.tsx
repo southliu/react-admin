@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { Dropdown } from 'antd'
-import { Icon } from '@iconify/react'
-import { useDropdownMenu } from '../hooks/useDropdownMenu'
+import { useState } from 'react';
+import { Dropdown } from 'antd';
+import { Icon } from '@iconify/react';
+import { useDropdownMenu } from '../hooks/useDropdownMenu';
 
 interface Props {
   activeKey: string;
@@ -9,20 +9,20 @@ interface Props {
 }
 
 function TabOptions(props: Props) {
-  const { activeKey, handleRefresh } = props
-  const [isOpen, setOpen] = useState(false)
+  const { activeKey, handleRefresh } = props;
+  const [isOpen, setOpen] = useState(false);
 
   /**
    * 菜单显示变化
    * @param open - 显示值
    */
   const onOpenChange = (open: boolean) => {
-    setOpen(open)
-  }
+    setOpen(open);
+  };
 
   // 下拉菜单
-  const dropdownMenuParams = { activeKey, onOpenChange, handleRefresh }
-  const [items, onClick] = useDropdownMenu(dropdownMenuParams)
+  const dropdownMenuParams = { activeKey, onOpenChange, handleRefresh };
+  const [items, onClick] = useDropdownMenu(dropdownMenuParams);
 
   return (
     <Dropdown
@@ -47,7 +47,7 @@ function TabOptions(props: Props) {
         icon="ant-design:down-outlined"
       />
     </Dropdown>
-  )
+  );
 }
 
-export default TabOptions
+export default TabOptions;

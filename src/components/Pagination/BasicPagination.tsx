@@ -1,6 +1,6 @@
-import type { PaginationProps } from 'antd'
-import { Pagination } from 'antd'
-import { memo } from 'react'
+import type { PaginationProps } from 'antd';
+import { Pagination } from 'antd';
+import { memo } from 'react';
 
 function BasicPagination(props: PaginationProps) {
   /**
@@ -8,8 +8,8 @@ function BasicPagination(props: PaginationProps) {
    * @param total - 总数
    */
   const showTotal = (total?: number): string => {
-    return `共 ${total || 0} 条数据`
-  }
+    return `共 ${total || 0} 条数据`;
+  };
 
   return (
     <div
@@ -32,7 +32,7 @@ function BasicPagination(props: PaginationProps) {
         {...props}
       />
     </div>
-  )
+  );
 }
 
-export default memo(BasicPagination)
+export default memo(BasicPagination);

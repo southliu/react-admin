@@ -1,7 +1,7 @@
-import type { FormList } from '#/form'
-import type { TableColumn, TableOptions } from '#/public'
-import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
-import { OPEN_CLOSE } from '@/utils/constants'
+import type { FormList } from '#/form';
+import type { TableColumn, TableOptions } from '#/public';
+import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config';
+import { OPEN_CLOSE } from '@/utils/constants';
 
 // 搜索数据
 export const searchList: FormList[] = [
@@ -15,7 +15,7 @@ export const searchList: FormList[] = [
     name: 'keyword',
     component: 'Input'
   }
-]
+];
 
 /**
  * 表格数据
@@ -65,8 +65,8 @@ export const searchList: FormList[] = [
       fixed: 'right',
       render: (value: unknown, record: object) => optionRender(value, record)
     },
-  ]
-}
+  ];
+};
 
 // 新增数据
 export const createList: FormList[] = [
@@ -97,4 +97,4 @@ export const createList: FormList[] = [
       options: OPEN_CLOSE
     }
   }
-]
+];

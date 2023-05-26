@@ -1,37 +1,37 @@
-import { useEffect } from 'react'
-import { HashRouter as Router } from 'react-router-dom'
-import nprogress from 'nprogress'
-import App from './App'
+import { useEffect } from 'react';
+import { HashRouter as Router } from 'react-router-dom';
+import nprogress from 'nprogress';
+import App from './App';
 
 // antd
-import { theme, ConfigProvider } from 'antd'
-import zhCN from 'antd/es/locale/zh_CN'
+import { theme, ConfigProvider } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
 
 // antd主题
-const { defaultAlgorithm, darkAlgorithm } = theme
+const { defaultAlgorithm, darkAlgorithm } = theme;
 
 // keepalive
-import { AliveScope } from 'react-activation'
+import { AliveScope } from 'react-activation';
 
-import { useCommonStore } from '@/hooks/useCommonStore'
+import { useCommonStore } from '@/hooks/useCommonStore';
 
 function Page() {
-  const { theme } = useCommonStore()
+  const { theme } = useCommonStore();
 
   // 顶部进度条
   useEffect(() => {
-    nprogress.done()
+    nprogress.done();
 
     // 关闭loading
-    const firstElement = document.getElementById('first')
+    const firstElement = document.getElementById('first');
     if (firstElement && firstElement.style?.display !== 'none') {
-      firstElement.style.display = 'none'
+      firstElement.style.display = 'none';
     }
 
     return () => {
-      nprogress.start()
-    }
-  }, [])
+      nprogress.start();
+    };
+  }, []);
 
   return (
       <Router>
@@ -46,7 +46,7 @@ function Page() {
           </AliveScope>
         </ConfigProvider>
       </Router>
-  )
+  );
 }
 
-export default Page
+export default Page;

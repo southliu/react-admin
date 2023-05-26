@@ -1,10 +1,10 @@
-import { Button } from 'antd'
-import { useTitle } from '@/hooks/useTitle'
-import { useWatermark } from '@/hooks/useWatermark'
+import { Button } from 'antd';
+import { useTitle } from '@/hooks/useTitle';
+import { useWatermark } from '@/hooks/useWatermark';
 
 function Watermark() {
-  useTitle('水印')
-  const [Watermark, RemoveWatermark] = useWatermark()
+  useTitle('水印');
+  const [Watermark, RemoveWatermark] = useWatermark();
   
   const openWatermark = () => {
     Watermark({
@@ -15,12 +15,12 @@ function Watermark() {
       color: '#000',
       fontSize: 30,
       opacity: .07
-    })
-  }
+    });
+  };
 
   const hidWatermark = () => {
-    RemoveWatermark()
-  }
+    RemoveWatermark();
+  };
 
   return (
     <div className="p-30px">
@@ -31,7 +31,7 @@ function Watermark() {
         隐藏水印
       </Button>
     </div>
-  )
+  );
 }
 
-export default Watermark
+export default Watermark;

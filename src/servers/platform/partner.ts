@@ -1,5 +1,5 @@
-import type { ServerResult } from '#/public'
-import { request } from '@/utils/request'
+import type { ServerResult } from '#/public';
+import { request } from '@/utils/request';
 
 enum API {
   URL = '/platform/partner',
@@ -18,5 +18,5 @@ export function getPartner(data?: unknown) {
   return request.get<ServerResult<Result[]>>(
     API.URL,
     { params: data }
-  )
+  );
 }

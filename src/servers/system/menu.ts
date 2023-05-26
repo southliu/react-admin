@@ -1,6 +1,6 @@
-import type { FormData } from '#/form'
-import type { PageServerResult, PaginationData, ServerResult } from '#/public'
-import { request } from '@/utils/request'
+import type { FormData } from '#/form';
+import type { PageServerResult, PaginationData, ServerResult } from '#/public';
+import { request } from '@/utils/request';
 
 enum API {
   URL = '/authority/menu'
@@ -14,7 +14,7 @@ export function getMenuPage(data: Partial<FormData> & PaginationData) {
   return request.get(
     `${API.URL}/index`,
     { params: data }
-  ) as Promise<PageServerResult<FormData[]>>
+  ) as Promise<PageServerResult<FormData[]>>;
 }
 
 /**
@@ -22,7 +22,7 @@ export function getMenuPage(data: Partial<FormData> & PaginationData) {
  * @param id - ID
  */
 export function getMenuById(id: string) {
-  return request.get(`${API.URL}/${id}`)
+  return request.get(`${API.URL}/${id}`);
 }
 
 /**
@@ -30,7 +30,7 @@ export function getMenuById(id: string) {
  * @param data - 请求数据
  */
 export function createMenu(data: FormData) {
-  return request.post(API.URL, data)
+  return request.post(API.URL, data);
 }
 
 /**
@@ -39,7 +39,7 @@ export function createMenu(data: FormData) {
  * @param data - 请求数据
  */
 export function updateMenu(id: string, data: FormData) {
-  return request.put(`${API.URL}/${id}`, data)
+  return request.put(`${API.URL}/${id}`, data);
 }
 
 /**
@@ -47,7 +47,7 @@ export function updateMenu(id: string, data: FormData) {
  * @param id - 删除id值
  */
 export function deleteMenu(id: string) {
-  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>
+  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>;
 }
 
 /**
@@ -55,7 +55,7 @@ export function deleteMenu(id: string) {
  * @param data - 搜索数据
  */
 export function getPermission(data: unknown) {
-  return request.get(`${API.URL}/tree`, { params: data })
+  return request.get(`${API.URL}/tree`, { params: data });
 }
 
 /**
@@ -63,5 +63,5 @@ export function getPermission(data: unknown) {
  * @param data - 权限数据
  */
 export function savePermission(data: unknown) {
-  return request.put(`${API.URL}/authorize/save`, data) as Promise<ServerResult>
+  return request.put(`${API.URL}/authorize/save`, data) as Promise<ServerResult>;
 }

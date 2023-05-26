@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button } from 'antd';
 
 interface Props {
   goBack: () => void;
@@ -8,7 +8,7 @@ interface Props {
 }
 
 function SubmitBottom(props: Props) {
-  const { goBack, handleSubmit, isLoading, children } = props
+  const { goBack, handleSubmit, isLoading, children } = props;
 
   return (
     <div className={`
@@ -42,7 +42,7 @@ function SubmitBottom(props: Props) {
         提交
       </Button>
     </div>
-  )
+  );
 }
 
-export default SubmitBottom
+export default SubmitBottom;

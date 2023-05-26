@@ -1,5 +1,5 @@
-import { Icon } from '@iconify/react'
-import styles from '../index.module.less'
+import { Icon } from '@iconify/react';
+import styles from '../index.module.less';
 
 function SearchFooter() {
   return (
@@ -18,7 +18,7 @@ function SearchFooter() {
         <span>关闭</span>
       </span>
     </div>
-  )
+  );
 }
 
-export default SearchFooter
+export default SearchFooter;

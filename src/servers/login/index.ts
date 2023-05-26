@@ -1,13 +1,13 @@
-import type { LoginData, LoginResult } from '@/pages/login/model'
-import type { ServerResult } from '#/public'
-import { request } from '@/utils/request'
+import type { LoginData, LoginResult } from '@/pages/login/model';
+import type { ServerResult } from '#/public';
+import { request } from '@/utils/request';
 
 /**
  * 登录
  * @param data - 请求数据
  */
 export function login(data: LoginData) {
-  return request.post('/login', data) as Promise<ServerResult<LoginResult>>
+  return request.post('/login', data) as Promise<ServerResult<LoginResult>>;
 }
 
 /**
@@ -15,5 +15,5 @@ export function login(data: LoginData) {
  * @param data - 请求数据
  */
 export function updatePassword(data: unknown) {
-  return request.post('/update-password', data) as Promise<ServerResult>
+  return request.post('/update-password', data) as Promise<ServerResult>;
 }

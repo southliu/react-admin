@@ -1,19 +1,19 @@
-import type { SearchModalProps } from './components/SearchModal'
-import { useRef } from 'react'
-import { Tooltip } from 'antd'
-import { Icon } from '@iconify/react'
-import SearchModal from './components/SearchModal'
+import type { SearchModalProps } from './components/SearchModal';
+import { useRef } from 'react';
+import { Tooltip } from 'antd';
+import { Icon } from '@iconify/react';
+import SearchModal from './components/SearchModal';
 
 /**
  * @description: 全局搜索菜单组件
  */
 function GlobalSearch() {
-  const modalRef = useRef<SearchModalProps>(null)
+  const modalRef = useRef<SearchModalProps>(null);
 
   /** 切换显示 */
   const toggle = () => {
-    modalRef.current?.toggle()
-  }
+    modalRef.current?.toggle();
+  };
 
   return (
     <>
@@ -29,7 +29,7 @@ function GlobalSearch() {
         modalRef={modalRef}
       />
     </>
-  )
+  );
 }
 
-export default GlobalSearch
+export default GlobalSearch;

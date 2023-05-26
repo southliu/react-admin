@@ -1,6 +1,6 @@
-import type { FormData } from '#/form'
-import type { PageServerResult, PaginationData, ServerResult } from '#/public'
-import { request } from '@/utils/request'
+import type { FormData } from '#/form';
+import type { PageServerResult, PaginationData, ServerResult } from '#/public';
+import { request } from '@/utils/request';
 
 enum API {
   URL = '/content/article'
@@ -14,7 +14,7 @@ export function getArticlePage(data: Partial<FormData> & PaginationData) {
   return request.get(
     `${API.URL}/index`,
     { params: data }
-  ) as Promise<PageServerResult<FormData[]>>
+  ) as Promise<PageServerResult<FormData[]>>;
 }
 
 /**
@@ -22,7 +22,7 @@ export function getArticlePage(data: Partial<FormData> & PaginationData) {
  * @param id - ID
  */
 export function getArticleById(id: string) {
-  return request.get(`${API.URL}/${id}`)
+  return request.get(`${API.URL}/${id}`);
 }
 
 /**
@@ -30,7 +30,7 @@ export function getArticleById(id: string) {
  * @param data - 请求数据
  */
 export function createArticle(data: FormData) {
-  return request.post(API.URL, data)
+  return request.post(API.URL, data);
 }
 
 /**
@@ -39,7 +39,7 @@ export function createArticle(data: FormData) {
  * @param data - 请求数据
  */
 export function updateArticle(id: string, data: FormData) {
-  return request.put(`${API.URL}/${id}`, data)
+  return request.put(`${API.URL}/${id}`, data);
 }
 
 /**
@@ -47,5 +47,5 @@ export function updateArticle(id: string, data: FormData) {
  * @param id - 删除id值
  */
 export function deleteArticle(id: string) {
-  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>
+  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>;
 }
