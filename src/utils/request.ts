@@ -66,22 +66,22 @@ request.interceptors.response.use(
     // 后端框架错误提醒
     if (res?.code === 0) {
       handleError(res?.message, '权限不足，请重新登录')
-      return Promise.reject(response)
+      return Promise.reject(res)
     }
 
     // 权限不足
     if (res?.code === 601) {
       handleError(res?.message)
-      return Promise.reject(response)
+      return Promise.reject(res)
     }
 
     // 错误处理
     if (res?.code !== 200) {
       handleError(res?.message)
-      return Promise.reject(response)
+      return Promise.reject(res)
     }
 
-    return Promise.resolve(response)
+    return Promise.resolve(res)
   },
   (error) => {
     //置空请求列表

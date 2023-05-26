@@ -82,7 +82,7 @@ function Page() {
   const handleSearch = useCallback(async (values: FormData) => {
     try {
       setLoading(true)
-      const { data: { data } } = await getMenuPage(values)
+      const { data } = await getMenuPage(values)
       const { items, total } = data
       setTotal(total)
       setTableData(items)
@@ -114,7 +114,7 @@ function Page() {
       setCreateTitle(EDIT_TITLE(id))
       setCreateId(id)
       setCreateLoading(true)
-      const { data: { data } } = await getMenuById(id as string)
+      const { data } = await getMenuById(id as string)
       setCreateData(data)
     } finally {
       setCreateLoading(false)
@@ -162,7 +162,7 @@ function Page() {
   const onDelete = async (id: string) => {
     try {
       setLoading(true)
-      const { data } = await deleteMenu(id as string)
+      const data = await deleteMenu(id as string)
       if (data?.code === 200) {
         message.success(data?.message || '删除成功')
         getPage()

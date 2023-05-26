@@ -12,6 +12,7 @@ function GameSelect(props: TreeSelectProps) {
         {...props}
         multiple={true}
         api={getGames}
+        fieldNames={{ label: 'name', value: 'id' }}
       />
     </>
   )

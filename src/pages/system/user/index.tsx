@@ -93,7 +93,7 @@ function Page() {
   const handleSearch = useCallback(async (values: FormData) => {
     try {
       setLoading(true)
-      const { data: { data } } = await getUserPage(values)
+      const { data } = await getUserPage(values)
       const { items, total } = data
       setTotal(total)
       setTableData(items)
@@ -113,10 +113,10 @@ function Page() {
       setLoading(true)
       const params = { userId: id }
       const { data } = await getPermission(params)
-      const { data: { defaultCheckedKeys, treeData } } = data
+      const { defaultCheckedKeys, treeData } = data
       setPromiseId(id)
       setPromiseTreeData(treeData)
-      setPromiseCheckedKeys(Object.values(defaultCheckedKeys))
+      setPromiseCheckedKeys(defaultCheckedKeys)
       setPromiseVisible(true)
     } finally {
       setLoading(false)
@@ -138,7 +138,7 @@ function Page() {
         menuIds: checked,
         userId: promiseId
       }
-      const { data } = await savePermission(params)
+      const data = await savePermission(params)
       message.success(data.message || '授权成功')
       setPromiseVisible(false)
     } finally {
@@ -164,7 +164,7 @@ function Page() {
       setCreateTitle(EDIT_TITLE(id))
       setCreateId(id)
       setCreateLoading(true)
-      const { data: { data } } = await getUserById(id as string)
+      const { data } = await getUserById(id as string)
       setCreateData(data)
     } finally {
       setCreateLoading(false)
@@ -212,7 +212,7 @@ function Page() {
   const onDelete = async (id: string) => {
     try {
       setLoading(true)
-      const { data } = await deleteUser(id as string)
+      const data = await deleteUser(id as string)
       if (data?.code === 200) {
         message.success(data?.message || '删除成功')
         getPage()

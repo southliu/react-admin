@@ -50,7 +50,7 @@ function UpdatePassword(props: Props) {
     }
     try {
       setLoading(true)
-      const { data } = await updatePassword(values)
+      const data = await updatePassword(values)
       if (data.code === 200) {
         setOpen(false)
         message.success(data.message)

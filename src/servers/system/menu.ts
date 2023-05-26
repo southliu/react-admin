@@ -1,5 +1,5 @@
 import type { FormData } from '#/form'
-import type { PageServerResult, PaginationData } from '#/public'
+import type { PageServerResult, PaginationData, ServerResult } from '#/public'
 import { request } from '@/utils/request'
 
 enum API {
@@ -11,10 +11,10 @@ enum API {
  * @param data - 请求数据
  */
 export function getMenuPage(data: Partial<FormData> & PaginationData) {
-  return request.get<PageServerResult<FormData[]>>(
+  return request.get(
     `${API.URL}/index`,
     { params: data }
-  )
+  ) as Promise<PageServerResult<FormData[]>>
 }
 
 /**
@@ -47,7 +47,7 @@ export function updateMenu(id: string, data: FormData) {
  * @param id - 删除id值
  */
 export function deleteMenu(id: string) {
-  return request.delete(`${API.URL}/${id}`)
+  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>
 }
 
 /**
@@ -63,5 +63,5 @@ export function getPermission(data: unknown) {
  * @param data - 权限数据
  */
 export function savePermission(data: unknown) {
-  return request.put(`${API.URL}/authorize/save`, data)
+  return request.put(`${API.URL}/authorize/save`, data) as Promise<ServerResult>
 }

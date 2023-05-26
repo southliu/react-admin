@@ -146,7 +146,7 @@ function Page() {
     try {
       setCreateId(id)
       setLoading(true)
-      const { data: { data } } = await getArticleById(id as string)
+      const { data } = await getArticleById(id as string)
       setCreateData(data)
     } finally {
       setLoading(false)

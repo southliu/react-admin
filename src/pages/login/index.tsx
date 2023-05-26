@@ -60,15 +60,13 @@ function Login() {
   const getUserPermissions = async () => {
     try {
       setLoading(true)
-       const { data } = await getPermissions({ refresh_cache: false })
-       if (data) {
-          const { data: { user, permissions } } = data
-          const newPermissions = permissionsToArray(permissions)
-          const firstMenu = getFirstMenu(defaultMenus, newPermissions)
-          dispatch(setUserInfo(user))
-          dispatch(setPermissions(newPermissions))
-          navigate(firstMenu)
-       }
+      const { data } = await getPermissions({ refresh_cache: false })
+      const { user, permissions } = data
+      const newPermissions = permissionsToArray(permissions)
+      const firstMenu = getFirstMenu(defaultMenus, newPermissions)
+      dispatch(setUserInfo(user))
+      dispatch(setPermissions(newPermissions))
+      navigate(firstMenu)
     } finally {
       setLoading(false)
     }
@@ -82,7 +80,7 @@ function Login() {
     try {
       setLoading(true)
       const { data } = await login(values)
-      const { data: { token, user, permissions } } = data
+      const { token, user, permissions } = data
 
       if (!permissions?.length || !token) {
         return message.error({ content: '用户暂无权限登录', key: 'permissions' })

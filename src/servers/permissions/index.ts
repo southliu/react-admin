@@ -7,8 +7,8 @@ import { request } from '@/utils/request'
  * @param data - 请求数据
  */
 export function getPermissions(data: unknown) {
-  return request.get<ServerResult<LoginResult>>(
+  return request.get(
     '/authority/user/refresh-permissions',
     { params: data }
-  )
+  ) as Promise<ServerResult<LoginResult>>
 }

@@ -7,7 +7,7 @@ import { request } from '@/utils/request'
  * @param data - 请求数据
  */
 export function login(data: LoginData) {
-  return request.post<ServerResult<LoginResult>>('/login', data)
+  return request.post('/login', data) as Promise<ServerResult<LoginResult>>
 }
 
 /**
@@ -15,5 +15,5 @@ export function login(data: LoginData) {
  * @param data - 请求数据
  */
 export function updatePassword(data: unknown) {
-  return request.post<ServerResult>('/update-password', data)
+  return request.post('/update-password', data) as Promise<ServerResult>
 }

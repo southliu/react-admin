@@ -27,8 +27,10 @@ function ApiSelect(props: Props) {
   const getApiData = useCallback(async () => {
     try {
       setLoading(true)
-      const data = await props.api?.(props?.params)
-      setOptions(data || [])
+      if (props.api) {
+        const { code, data } = await props.api(props?.params)
+        Number(code) === 200 && setOptions((data || []) as DefaultOptionType[])
+      }
     } finally {
       setLoading(false)
     }

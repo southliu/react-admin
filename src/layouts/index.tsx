@@ -43,12 +43,10 @@ function Layout() {
     try {
       setLoading(true)
       const { data } = await getPermissions({ refresh_cache: false })
-      if (data) {
-        const { data: { user, permissions } } = data
-        const newPermissions = permissionsToArray(permissions)
-        dispatch(setUserInfo(user))
-        dispatch(setPermissions(newPermissions))
-      }
+      const { user, permissions } = data
+      const newPermissions = permissionsToArray(permissions)
+      dispatch(setUserInfo(user))
+      dispatch(setPermissions(newPermissions))
     } catch(err) {
       console.error('获取用户数据失败:', err)
       setPermissions([])

@@ -69,10 +69,13 @@ function Page() {
   const handleSearch = useCallback(async (values: FormData) => {
     try {
       setLoading(true)
-      const { data: { data } } = await getArticlePage(values)
-      const { items, total } = data
-      setTotal(total)
-      setTableData(items)
+      const { code, data } = await getArticlePage(values)
+
+      if (Number(code) === 200) {
+        const { items, total } = data
+        setTotal(total)
+        setTableData(items)
+      }
     } finally {
       setLoading(false)
     }
@@ -120,7 +123,7 @@ function Page() {
   const onDelete = async (id: string) => {
     try {
       setLoading(true)
-      const { data } = await deleteArticle(id as string)
+      const data = await deleteArticle(id as string)
       if (data?.code === 200) {
         message.success(data?.message || '删除成功')
         getPage()

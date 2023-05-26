@@ -11,6 +11,7 @@ function PartnerSelect(props: SelectProps) {
       {...props}
       api={getPartner}
       mode='multiple'
+      fieldNames={{ label: 'name', value: 'id' }}
     />
   )
 }
