@@ -1,5 +1,22 @@
-import type { EChartsCoreOption } from "echarts"
-import Echarts from '@/components/Echarts/BasicEcharts'
+import type { EChartsCoreOption } from 'echarts'
+import { useEffect } from 'react'
+import { useEcharts } from '@/hooks/useEcharts'
+import { useCommonStore } from '@/hooks/useCommonStore'
+
+const data = [
+  962,
+  1023,
+  1112,
+  1123,
+  1239,
+  1382,
+  1420,
+  1523,
+  1622,
+  1643,
+  1782,
+  1928,
+]
 
 const option: EChartsCoreOption = {
   title: {
@@ -45,33 +62,26 @@ const option: EChartsCoreOption = {
     {
       name: '充值数',
       type: 'bar',
-      data: [
-        96285,
-        102352,
-        111235,
-        112356,
-        123984,
-        138205,
-        142059,
-        152362,
-        162231,
-        164324,
-        178291,
-        192830,
-      ]
+      data
     }
   ]
 }
 
 function Bar() {
+  const { permissions } = useCommonStore()
+  const [echartsRef, init] = useEcharts(option, data)
+
+  useEffect(() => {
+    if (permissions.length) {
+      setTimeout(() => {
+        init()
+      }, 100)
+    }
+  }, [init, permissions.length])
+  
   return (
-    <div className='w-38% border border-gray-200 rounded-10px'>
-      <Echarts
-        className="w-full mt-10px"
-        width="100%"
-        height="500px"
-        option={option}
-      />
+    <div className='w-38% h-550px border border-gray-200 rounded-10px'>
+      <div ref={echartsRef} className='w-full h-full'></div>
     </div>
   )
 }

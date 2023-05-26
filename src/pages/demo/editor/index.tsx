@@ -10,8 +10,8 @@ function MyEditor() {
   return (
     <div className='m-30px'>
       <WangEditor
-        content={html}
-        handleChange={content => setHtml(content)}
+        value={html}
+        onChange={content => setHtml(content)}
       />
     </div>
   )

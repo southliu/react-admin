@@ -10,6 +10,8 @@
   box-sizing: border-box;
   overflow: hidden;
   border-bottom: 1px solid #eee;
+  z-index: 3;
+  background-color: #fff;
 }
 
 .headerCloseMenu {
@@ -34,7 +36,8 @@
 }
 
 .con {
-  position: fixed;
+  width: calc(100% - @layoutLeft);
+  position: relative;
   left: @layoutLeft;
   top: @layoutTop;
   right: 0;
@@ -43,6 +46,7 @@
 
 .conCloseMenu {
   left: @layoutLeftClose;
+  width: calc(100% - @layoutLeftClose);
 }
 
 .conMaximize {

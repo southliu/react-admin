@@ -1,4 +1,4 @@
-interface IOptions {
+interface Options {
   ArrowUp?: () => void;
   ArrowDown?: () => void;
   ArrowLeft?: () => void;
@@ -10,7 +10,7 @@ interface IOptions {
  * 键盘按键事件
  * @param options
  */
-export function useKeyStroke(options: IOptions) {
+export function useKeyStroke(options: Options) {
   /**
    * 点击按键
    * @param even - 按键事件

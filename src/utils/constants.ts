@@ -1,3 +1,5 @@
+import { DefaultOptionType } from 'antd/es/select'
+
 /**
  * @description: 公用常量
  */
@@ -13,10 +15,11 @@
   info = '#909399'
 }
 
-interface IConstant {
+export interface Constant extends Omit<DefaultOptionType, 'children'> {
   value: string | number;
   label: string;
   color?: colors;
+  children?: Constant[];
 }
 
 // 日期格式化
@@ -26,7 +29,7 @@ export const TIME_FORMAT = 'YYYY-MM-DD hh:mm:ss'
 /**
  * 开启状态
  */
- export const OPEN_CLOSE: IConstant[] = [
+ export const OPEN_CLOSE: Constant[] = [
   { label: '开启', value: 1 },
   { label: '关闭', value: 0 }
 ]
@@ -34,7 +37,7 @@ export const TIME_FORMAT = 'YYYY-MM-DD hh:mm:ss'
 /**
  * 菜单状态
  */
- export const MENU_STATUS: IConstant[] = [
+ export const MENU_STATUS: Constant[] = [
   { label: '显示', value: 1 },
   { label: '隐藏', value: 0 }
 ]
@@ -42,7 +45,7 @@ export const TIME_FORMAT = 'YYYY-MM-DD hh:mm:ss'
 /**
  * 菜单模块
  */
- export const MENU_MODULE: IConstant[] = [
+ export const MENU_MODULE: Constant[] = [
   { value: 'authority', label: '权限系统' },
   { value: 'platform', label: '运营系统' },
   { value: 'stat', label: '统计系统' },
@@ -54,7 +57,7 @@ export const TIME_FORMAT = 'YYYY-MM-DD hh:mm:ss'
 /**
  * 菜单作用类型
  */
- export const MENU_ACTIONS: IConstant[] = [
+ export const MENU_ACTIONS: Constant[] = [
   { value: 'create', label: '创建' },
   { value: 'update', label: '更新' },
   { value: 'delete', label: '删除' },

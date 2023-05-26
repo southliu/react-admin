@@ -1,5 +1,7 @@
-import type { EChartsCoreOption } from "echarts"
-import Echarts from '@/components/Echarts/BasicEcharts'
+import type { EChartsCoreOption } from 'echarts'
+import { useEffect } from 'react'
+import { useEcharts } from '@/hooks/useEcharts'
+import { useCommonStore } from '@/hooks/useCommonStore'
 
 const option: EChartsCoreOption = {
   title: {
@@ -53,14 +55,20 @@ const option: EChartsCoreOption = {
 }
 
 function Line() {
+  const { permissions } = useCommonStore()
+  const [echartsRef, init] = useEcharts(option)
+
+  useEffect(() => {
+    if (permissions.length) {
+      setTimeout(() => {
+        init()
+      }, 100)
+    }
+  }, [init, permissions.length])
+  
   return (
-    <div className='w-60% border border-gray-200 rounded-10px'>
-      <Echarts
-        className="w-full mt-10px"
-        width="100%"
-        height="500px"
-        option={option}
-      />
+    <div className='w-60% h-550px border border-gray-200 rounded-10px'>
+      <div ref={echartsRef} className='w-full h-full'></div>
     </div>
   )
 }

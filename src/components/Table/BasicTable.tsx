@@ -1,39 +1,42 @@
 import type { ResizeCallbackData } from 'react-resizable'
 import type { ColumnsType, ColumnType } from 'antd/es/table'
 import type { TableProps } from 'antd'
-import { useMemo, useState, useEffect, memo } from 'react'
+import { useMemo, useState, useEffect, useRef, memo } from 'react'
 import { Table, Skeleton } from 'antd'
-import { getTableHeight } from './utils/helper'
+import { getTableHeight, handleRowHeight, filterTableColumns } from './utils/helper'
 import ResizableTitle from './components/ResizableTitle'
 import useVirtualTable from './hooks/useVirtual'
 
-type IComponents = TableProps<object>['components']
+type Components = TableProps<object>['components']
 
-interface IProps extends Omit<TableProps<object>, 'bordered'> {
-  scrollX?: number;
-  scrollY?: number;
+interface Props extends Omit<TableProps<object>, 'bordered'> {
   isBordered?: boolean; // 是否开启边框
   isZebra?: boolean; // 是否开启斑马线
   isVirtual?: boolean; // 是否开启虚拟滚动
+  scrollX?: number;
+  scrollY?: number;
 }
 
-function BasicTable(props: IProps) {
+function BasicTable(props: Props) {
   const {
     loading,
     isZebra,
     isBordered,
     isVirtual,
     scrollX,
-    scrollY
+    scrollY,
+    rowClassName,
+    size
   } = props
-  const [columns, setColumns] = useState(props.columns as ColumnsType<object>)
+  const [columns, setColumns] = useState(filterTableColumns(props.columns as ColumnsType<object>))
+  const tableRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setColumns(props.columns as ColumnsType<object>)
+    setColumns(filterTableColumns(props.columns as ColumnsType<object>))
   }, [props.columns])
 
   // 表格高度
-  const tableHeight = getTableHeight()
+  const tableHeight = getTableHeight(tableRef.current)
 
   /**
    * 处理拖拽
@@ -61,7 +64,8 @@ function BasicTable(props: IProps) {
 
   // 虚拟滚动操作值
   const virtualOptions = useVirtualTable({
-    height: tableHeight // 设置可视高度
+    height: tableHeight, // 设置可视高度
+    size: size || 'small'
   })
 
   // 虚拟滚动组件
@@ -74,11 +78,11 @@ function BasicTable(props: IProps) {
         wrapper: virtualOptions.body.wrapper
       },
       table: virtualOptions.table
-    } as IComponents
+    } as Components
   }, [virtualOptions])
 
   // 只带拖拽功能组件
-  const components: IComponents = isVirtual !== false ? virtualComponents : {
+  const components: Components = isVirtual === true ? virtualComponents : {
     header: {
       cell: ResizableTitle,
     }
@@ -87,8 +91,18 @@ function BasicTable(props: IProps) {
   // 滚动
   const scroll = {
     ...props.scroll,
-    x: scrollX,
-    y: scrollY || tableHeight
+    x: scrollX ?? 'max-content',
+    y: scrollY || tableHeight || undefined
+  }
+
+  /**
+   * 处理行内样式
+   */
+  const handleRowClassName: TableProps<object>['rowClassName'] = (record: object, index: number, indent: number) => {
+    const className = typeof rowClassName === 'string' ? rowClassName : rowClassName?.(record, index, indent)
+    const rowSize = `!h-${handleRowHeight(size)}px`
+
+    return `${className || ''} ${rowSize}`
   }
 
   return (
@@ -107,11 +121,20 @@ function BasicTable(props: IProps) {
       {
         tableHeight &&
         <Table
+          ref={tableRef}
           size='small'
           rowKey='id'
           pagination={false}
           loading={loading}
           {...props}
+          rowClassName={handleRowClassName}
+          style={{
+            borderRadius: 10,
+            borderRight: '1px solid rgba(0, 0, 0, .05)',
+            borderBottom: '1px solid rgba(0, 0, 0, .05)',
+            overflow: 'auto',
+            ...props.style
+          }}
           bordered={isBordered !== false}
           scroll={scroll}
           components={components}

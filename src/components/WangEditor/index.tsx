@@ -4,21 +4,21 @@ import { useState, useEffect } from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
 import { FILE_API } from '@/utils/config'
 
-interface IProps {
-  content: string; // 富文本内容
-  handleChange: (content: string) => void; // 处理更改内容
+export interface EditorProps {
+  value: string; // 富文本内容
+  onChange: (value: string) => void; // 处理更改内容
   height?: number; // 富文本高度
   className?: string;
 }
 
-function WangEditor(props: IProps) {
-  const { content, height, className, handleChange } = props
+function WangEditor(props: EditorProps) {
+  const { value, height, className, onChange } = props
 
   // editor 实例
   const [editor, setEditor] = useState<IDomEditor | null>(null)
 
   // 编辑器内容
-  const [html, setHtml] = useState(content)
+  const [html, setHtml] = useState(value)
 
   // 工具栏配置
   const toolbarConfig: Partial<IToolbarConfig> = {}
@@ -38,6 +38,11 @@ function WangEditor(props: IProps) {
     }
   }
 
+  // 监听值变化
+  useEffect(() => {
+    setHtml(value || '')
+  }, [value])
+
   // 及时销毁 editor ，重要！
   useEffect(() => {
     return () => {
@@ -50,9 +55,9 @@ function WangEditor(props: IProps) {
   /**
    * 更改富文本内容
    */
-  const onChange = (editor: IDomEditor) => {
+  const handleChange = (editor: IDomEditor) => {
     setHtml(editor.getHtml())
-    handleChange(editor.getHtml())
+    onChange(editor.getHtml())
   }
 
   return (
@@ -66,11 +71,12 @@ function WangEditor(props: IProps) {
         mode="default"
         style={{ borderBottom: '1px solid #ccc' }}
       />
+
       <Editor
         defaultConfig={editorConfig}
         value={html}
         onCreated={setEditor}
-        onChange={onChange}
+        onChange={handleChange}
         mode="default"
         style={{ height: height || 300, overflowY: 'hidden' }}
       />

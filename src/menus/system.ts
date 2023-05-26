@@ -1,11 +1,10 @@
-import type { ISideMenu } from '#/public'
-import { Icon } from '@iconify/react'
+import type { SideMenu } from '#/public'
 
-export const system: ISideMenu[] = [
+export const system: SideMenu[] = [
   {
     label: '系统管理',
     key: 'system',
-    icon: <Icon icon='ion:settings-outline' />,
+    icon: 'ion:settings-outline',
     children: [
       {
         label: '用户管理',

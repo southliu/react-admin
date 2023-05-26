@@ -1,4 +1,4 @@
-import type { IServerResult } from '#/public'
+import type { ServerResult } from '#/public'
 import { request } from '@/utils/request'
 
 /**
@@ -6,5 +6,5 @@ import { request } from '@/utils/request'
  * @param data - 请求数据
  */
 export function getDataTrends(data: object) {
-  return request.get<IServerResult>('/dashboard', { params: data })
+  return request.get<ServerResult>('/dashboard', { params: data })
 }

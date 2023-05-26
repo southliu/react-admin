@@ -1,4 +1,5 @@
-import type { IAllDataType, IArrayData } from '#/public'
+import type { AllTypeData, ArrayData } from '#/public'
+import type { Constant } from './constants'
 
 /**
  * 首字母大写
@@ -18,12 +19,66 @@ export function amountFormatter(amount: number) {
 }
 
 /**
+ * 生成随机数
+ * @param min - 最小值
+ * @param max - 最大值
+ */
+ export function randomNum(min: number, max: number): number {
+	const num = Math.floor(Math.random() * (min - max) + max)
+	return num
+}
+
+/**
+ * 值转化为label
+ * @param value - 值
+ * @param arr - 常量值
+ */
+export function valueToLabel(value: string | number | boolean, arr: Constant[]): string {
+  for (let i = 0; i < arr?.length; i++) {
+    if (arr[i].value === value) {
+      return arr[i].label
+    }
+  }
+
+  return ''
+}
+
+/**
+ * 获取url中参数某个值
+ * @param search - url参数
+ * @param key - 搜索值
+ */
+export function getUrlParam(search: string, key: string) {
+  if (!search || !key) return ''
+  // 去除首个字符串问号
+  if (search?.[0] === '?') search = search.substring(1, search.length)
+
+  const arr = search.split('&') // 分割数组
+  const pairArr: [string, string][] = []
+
+  for (let i = 0; i < arr.length; i++) {
+    const value = arr[i]?.split('=')
+    if (value?.length === 2) {
+      pairArr.push([value[0], value[1]])
+    }
+  }
+
+  for (let i = 0; i < pairArr.length; i++) {
+    if (pairArr[i][0] === key) {
+      return pairArr[i][1]
+    }
+  }
+
+  return ''
+}
+
+/**
  * 过滤空数据
  * @param obj - 传入对象
  */
-type IEmptyData = Record<string, IAllDataType>
-export function filterEmptyValue(obj: IEmptyData): IEmptyData {
-  const res: IEmptyData = {}
+type EmptyData = Record<string, AllTypeData>
+export function filterEmptyValue(obj: EmptyData): EmptyData {
+  const res: EmptyData = {}
 
   for (let key in obj) {
     // 去除key中多余的空格
@@ -38,7 +93,7 @@ export function filterEmptyValue(obj: IEmptyData): IEmptyData {
     // 空数组过滤
     if (
       obj[key]?.constructor === Array &&
-      (obj[key] as IArrayData).length === 0
+      (obj[key] as ArrayData).length === 0
     ) continue
 
     // 空字符串过滤
@@ -68,8 +123,8 @@ export function filterEmptyValue(obj: IEmptyData): IEmptyData {
  * 递归数据
  * @param data - 数据源
  */
-interface IRecursiveChildren<T> { children?: T[] }
-export function recursiveData<T extends IRecursiveChildren<T>, U>(
+interface RecursiveChildren<T> { children?: T[] }
+export function recursiveData<T extends RecursiveChildren<T>, U>(
   data: T[],
   callback: (data: T) => U
 ): U[] {

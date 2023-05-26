@@ -1,49 +1,52 @@
-import type { AppDispatch, RootState } from '@/stores'
+import type { AppDispatch } from '@/stores'
 import { useToken } from '@/hooks/useToken'
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate, Outlet } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useOutlet } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
 import { setPermissions, setUserInfo } from '@/stores/user'
 import { toggleCollapsed, togglePhone } from '@/stores/menu'
+import { useCommonStore } from '@/hooks/useCommonStore'
+import { useLocation } from 'react-router-dom'
 import { useDebounceFn } from 'ahooks'
+import { Icon } from '@iconify/react'
 import { Skeleton } from 'antd'
 import Menu from './components/Menu'
 import Header from './components/Header'
 import Tabs from './components/Tabs'
 import Forbidden from '@/pages/403'
+import KeepAlive from 'react-activation'
 import styles from './index.module.less'
 
 function Layout() {
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
   const [getToken] = useToken()
+  const { pathname, search } = useLocation()
+  const uri = pathname + search
   const token = getToken()
+  const outlet = useOutlet()
   const [isLoading, setLoading] = useState(true)
 
-  // 权限
-  const permissions = useSelector((state: RootState) => state.user.permissions)
-  // 用户ID
-  const userId = useSelector((state: RootState) => state.user.userInfo.id)
-  // 是否窗口最大化
-  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
-  // 菜单是否收缩
-  const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
-  // 是否手机端
-  const isPhone = useSelector((state: RootState) => state.menu.isPhone)
+  const {
+    permissions,
+    userId,
+    isMaximize,
+    isCollapsed,
+    isPhone,
+    isRefresh
+  } = useCommonStore()
 
   /** 获取用户信息和权限 */
   const getUserInfo = useCallback(async () => {
     try {
       setLoading(true)
       const { data } = await getPermissions({ refresh_cache: false })
-      if (data) {
-        const { data: { user, permissions } } = data
-        const newPermissions = permissionsToArray(permissions)
-        dispatch(setUserInfo(user))
-        dispatch(setPermissions(newPermissions))
-      }
+      const { user, permissions } = data
+      const newPermissions = permissionsToArray(permissions)
+      dispatch(setUserInfo(user))
+      dispatch(setPermissions(newPermissions))
     } catch(err) {
       console.error('获取用户数据失败:', err)
       setPermissions([])
@@ -87,14 +90,17 @@ function Layout() {
     <div id="layout">
       <Menu />
       <div className={styles.layout_right}>
-        <div className={`
-          border-bottom
-          transition-all
-          ${styles.header}
-          ${isCollapsed ? styles.headerCloseMenu : ''}
-          ${isMaximize ? styles.headerNone : ''}
-          ${isPhone ? `!left-0 z-999` : ''}
-        `}>
+        <div
+          id='header'
+          className={`
+            border-bottom
+            transition-all
+            ${styles.header}
+            ${isCollapsed ? styles.headerCloseMenu : ''}
+            ${isMaximize ? styles.headerNone : ''}
+            ${isPhone ? `!left-0 z-999` : ''}
+          `}
+        >
           <Header />
           <Tabs />
         </div>
@@ -106,7 +112,7 @@ function Layout() {
             ${styles.con}
             ${isMaximize ? styles.conMaximize : ''}
             ${isCollapsed ? styles.conCloseMenu : ''}
-            ${isPhone ? `!left-0` : ''}
+            ${isPhone ? `!left-0 !w-full` : ''}
           `}
         >
           {
@@ -124,8 +130,26 @@ function Layout() {
             <Forbidden />
           }
           {
+            isRefresh &&
+            <div className={`
+              absolute
+              left-50%
+              top-50%
+              -rotate-x-50%
+              -rotate-y-50%
+            `}>
+              <Icon
+                className='text-40px animate-spin'
+                icon='ri:loader-2-fill'
+              />
+            </div>
+          }
+          {
             permissions.length > 0 &&
-            <Outlet />
+            !isRefresh &&
+            <KeepAlive id={uri} name={uri}>
+              { outlet }
+            </KeepAlive>
           }
         </div>
       </div>

@@ -1,13 +1,13 @@
-import type { ISideMenu } from '#/public'
-import { Icon } from '@iconify/react'
+import type { SideMenu } from '#/public'
 import { system } from './system'
 import { demo } from './demo'
+import { content } from './content'
 
-export const defaultMenus: ISideMenu[] = [
+export const defaultMenus: SideMenu[] = [
   {
     label: '仪表盘',
     key: 'dashboard',
-    icon: <Icon icon='la:tachometer-alt' />,
+    icon: 'la:tachometer-alt',
     children: [
       {
         label: '数据总览',
@@ -16,6 +16,7 @@ export const defaultMenus: ISideMenu[] = [
       }
     ]
   },
-  ...demo as ISideMenu[],
-  ...system as ISideMenu[],
+  ...demo as SideMenu[],
+  ...system as SideMenu[],
+  ...content as SideMenu[],
 ]

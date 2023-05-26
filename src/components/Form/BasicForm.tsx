@@ -1,6 +1,7 @@
 import type { ReactNode, Ref } from 'react'
-import type { IFormData, IFormList } from '#/form'
+import type { FormData, FormList } from '#/form'
 import type { ColProps } from 'antd'
+import type { AllTypeData } from '#/public'
 import { useEffect, useImperativeHandle } from 'react'
 import { FormProps } from 'antd'
 import { Form } from 'antd'
@@ -8,24 +9,24 @@ import { getComponent } from '../Form/utils/componentMap'
 import { handleValuePropName } from './utils/helper'
 import { filterDayjs } from '../Dates/utils/helper'
 
-export interface IFormFn {
-  getFieldValue: (key: string) => IFormData;
-  getFieldsValue: () => IFormData;
+export interface FormFn {
+  getFieldValue: (key: string) => AllTypeData;
+  getFieldsValue: () => FormData;
   handleReset: () => void;
   handleSubmit: () => void;
 }
 
-interface IProps {
-  list: IFormList[];
-  data: IFormData;
+interface Props {
+  list: FormList[];
+  data: FormData;
   children?: ReactNode;
   labelCol?: Partial<ColProps>;
   wrapperCol?: Partial<ColProps>;
-  formRef?: Ref<IFormFn>;
+  formRef?: Ref<FormFn>;
   handleFinish: FormProps['onFinish'];
 }
 
-function BasicForm(props: IProps) {
+function BasicForm(props: Props) {
   const {
     list,
     data,
@@ -60,11 +61,12 @@ function BasicForm(props: IProps) {
       handleSubmit: () => {
         form.submit()
       }
-    } as IFormFn)
+    } as FormFn)
   )
 
   // 监听传入表单数据，如果变化则替换表单
   useEffect(() => {
+    form.resetFields()
     form.setFieldsValue(props.data)
   }, [form, props.data])
 

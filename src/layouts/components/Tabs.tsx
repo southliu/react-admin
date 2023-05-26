@@ -8,6 +8,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useAliveController } from 'react-activation'
 import { useDropdownMenu } from '../hooks/useDropdownMenu'
 import { useDispatch, useSelector } from 'react-redux'
+import { useCommonStore } from '@/hooks/useCommonStore'
+import { setRefresh } from '@/stores/public'
 import {
   setActiveKey,
   addTabs,
@@ -22,24 +24,27 @@ import TabOptions from './TabOptions'
 
 function LayoutTabs() {
   const navigate = useNavigate()
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
+  const uri = pathname + search
   const dispatch: AppDispatch = useDispatch()
   const { refresh } = useAliveController()
-  const [isRefresh, setRefresh] = useState(false) // 重新加载
   const [time, setTime] = useState<null | NodeJS.Timeout>(null)
-
-  const tabs = useSelector((state: RootState) => state.tabs.tabs)
+  const [refreshTime, seRefreshTime] = useState<null | NodeJS.Timeout>(null)
   const isLock = useSelector((state: RootState) => state.tabs.isLock)
+  // 选中的标签值
   const activeKey = useSelector((state: RootState) => state.tabs.activeKey)
-  const permissions = useSelector((state: RootState) => state.user.permissions)
-  // 是否窗口最大化
-  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
+
+  const {
+    tabs,
+    permissions,
+    isMaximize
+  } = useCommonStore()
 
   /**
    * 添加标签
    * @param path - 路径
    */
-  const handleAddTab = useCallback((path = pathname) => {
+  const handleAddTab = useCallback((path = uri) => {
     // 当值为空时匹配路由
     if (permissions.length > 0) {
       if (path === '/') return
@@ -53,6 +58,8 @@ function LayoutTabs() {
         dispatch(setActiveKey(newItems.key))
         dispatch(setNav(newItems.nav))
         dispatch(addTabs(newItems))
+      } else {
+        dispatch(setActiveKey(path))
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,9 +70,24 @@ function LayoutTabs() {
   }, [handleAddTab])
 
   useEffect(() => {
+    return () => {
+      if (time) {
+        clearTimeout(time)
+        setTime(null)
+      }
+
+      if (refreshTime) {
+        clearTimeout(refreshTime)
+        seRefreshTime(null)
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     // 当选中贴标签不等于当前路由则跳转
-    if (activeKey && activeKey !== pathname) {
-      const key = isLock ? activeKey : pathname
+    if (activeKey !== uri) {
+      const key = isLock ? activeKey : uri
       handleAddTab(key)
 
       if (isLock) {
@@ -74,7 +96,7 @@ function LayoutTabs() {
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeKey, pathname])
+  }, [activeKey, uri])
     
   /** 
    * 处理更改
@@ -105,6 +127,7 @@ function LayoutTabs() {
 
   /** 
    * 点击重新加载
+   * @param key - 点击值
    */
    const onClickRefresh = useCallback((key = activeKey) => {
     // 如果key不是字符串格式则退出
@@ -112,24 +135,23 @@ function LayoutTabs() {
 
     // 定时器没有执行时运行
     if (!time) {
-      setRefresh(true)
+      dispatch(setRefresh(true))
       refresh(key)
-      navigate('/loading')
 
       setTime(
         setTimeout(() => {
-          // 当选中的key和激活的key不同则更改
-          if (key !== activeKey) {
-            dispatch(setActiveKey(key))
-          }
-
-          setRefresh(false)
-          navigate(key)
           message.success({
             content: '刷新成功',
             key: 'refresh'
           })
+          dispatch(setRefresh(false))
           setTime(null)
+        }, 100)
+      )
+
+      seRefreshTime(
+        setTimeout(() => {
+          seRefreshTime(null)
         }, 1000)
       )
     }
@@ -140,11 +162,11 @@ function LayoutTabs() {
   const RefreshRender = useMemo(() => {
     return (
       <TabRefresh
-        isRefresh={isRefresh}
+        isRefresh={!!refreshTime}
         onClick={onClickRefresh}
       />
     )
-  }, [isRefresh, onClickRefresh])
+  }, [refreshTime, onClickRefresh])
 
   // 渲染标签操作
   const TabOptionsRender = useMemo(() => {

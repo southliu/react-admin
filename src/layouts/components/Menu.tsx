@@ -1,14 +1,15 @@
 import type { MenuProps } from 'antd'
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 import type { AppDispatch } from '@/stores'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Menu } from 'antd'
-import { RootState } from '@/stores'
-import { useDispatch, useSelector } from 'react-redux'
+import { Icon } from '@iconify/react'
+import { useDispatch } from 'react-redux'
 import { defaultMenus } from '@/menus'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { setOpenKeys, toggleCollapsed } from '@/stores/menu'
 import { addTabs, setNav, setActiveKey } from '@/stores/tabs'
+import { setOpenKeys, setSelectedKeys, toggleCollapsed } from '@/stores/menu'
 import {
   filterMenus,
   getFirstMenu,
@@ -23,33 +24,53 @@ function LayoutMenu() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const dispatch: AppDispatch = useDispatch()
-  const [menus, setMenus] = useState<ISideMenu[]>([])
-  const openKeys = useSelector((state: RootState) => state.menu.openKeys)
-  // 是否窗口最大化
-  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
-  // 菜单是否收缩
-  const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
-  // 是否手机端
-  const isPhone = useSelector((state: RootState) => state.menu.isPhone)
-  // 权限
-  const permissions = useSelector((state: RootState) => state.user.permissions)
+  const [menus, setMenus] = useState<SideMenu[]>([])
+
+  const {
+    isMaximize,
+    isCollapsed,
+    isPhone,
+    openKeys,
+    selectedKeys,
+    permissions
+  } = useCommonStore()
 
   // 处理默认展开
   useEffect(() => {
     const newOpenKey = getOpenMenuByRouter(pathname)
     if (!isPhone && !isCollapsed) {
       dispatch(setOpenKeys(newOpenKey))
+      dispatch(setSelectedKeys(pathname))
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
+
+  /**
+   * 转换菜单icon格式
+   * @param menus - 菜单
+   */
+  const filterMenuIcon = useCallback((menus: SideMenu[]) => {
+    for (let i = 0; i < menus.length; i++) {
+      if (menus[i]?.icon) {
+        menus[i].icon = (
+          <Icon icon={menus[i].icon as string} />
+        )
+      }
+
+      if (menus[i]?.children?.length) {
+        filterMenuIcon(menus[i].children as SideMenu[])
+      }
+    }
+  }, [])
 
   // 过滤没权限菜单
   useEffect(() => {
     if (permissions.length > 0) {
       const newMenus = filterMenus(defaultMenus, permissions)
+      filterMenuIcon(newMenus)
       setMenus(newMenus || [])
     }
-  }, [permissions])
+  }, [filterMenuIcon, permissions])
 
   /**
    * 处理跳转
@@ -136,10 +157,11 @@ function LayoutMenu() {
         className={`
           transition-all
           overflow-auto
+          z-2
           ${styles.menu}
           ${isCollapsed ? styles.menuClose : ''}
           ${isMaximize || (isPhone && isCollapsed) ? styles.menuNone : ''}
-          ${isPhone ? 'z-1002' : ''}
+          ${isPhone ? '!z-1002' : ''}
         `}
       >
         <div
@@ -173,9 +195,10 @@ function LayoutMenu() {
             后台管理系统
           </span>
         </div>
+
         <Menu
-          className="h-full z-1000"
-          selectedKeys={[pathname]}
+          className="z-1000"
+          selectedKeys={[selectedKeys]}
           openKeys={openKeys}
           mode="inline"
           theme="dark"
@@ -189,7 +212,15 @@ function LayoutMenu() {
       {
         isPhone && !isCollapsed &&
         <div
-          className={`${styles.cover} fixed w-full h-full bg-gray-500 bg-opacity-10 z-1001`}
+          className={`
+            ${styles.cover}
+            fixed
+            w-full
+            h-full
+            bg-gray-500
+            bg-opacity-10
+            z-1001
+          `}
           onClick={hiddenMenu}
         />
       }

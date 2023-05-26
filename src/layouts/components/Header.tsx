@@ -1,7 +1,7 @@
-import type { AppDispatch, RootState } from '@/stores'
-import type { IPasswordModal } from './UpdatePassword'
+import type { AppDispatch } from '@/stores'
+import type { PasswordModal } from './UpdatePassword'
 import { useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useAliveController } from 'react-activation'
 import { toggleCollapsed } from '@/stores/menu'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +9,7 @@ import { useToken } from '@/hooks/useToken'
 import { clearInfo } from '@/stores/user'
 import { closeAllTab, setActiveKey } from '@/stores/tabs'
 import { Modal, Dropdown, MenuProps } from 'antd'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -20,23 +21,26 @@ import Avatar from '@/assets/images/avatar.png'
 import styles from '../index.module.less'
 import Fullscreen from '@/components/Fullscreen'
 import GlobalSearch from '@/components/GlobalSearch'
+import DataScreen from '@/components/DataScreen'
 import Theme from '@/components/Theme'
 import UpdatePassword from './UpdatePassword'
 import Nav from './Nav'
 
-type IMenuKey = 'password' | 'logout'
+type MenuKey = 'password' | 'logout'
 
 function Header() {
-  const isCollapsed = useSelector((state: RootState) => state.menu.isCollapsed)
-  const username = useSelector((state: RootState) => state.user.userInfo.username)
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
   const [, , removeToken] = useToken()
   const { clear } = useAliveController()
+  const {
+    isCollapsed,
+    isMaximize,
+    username,
+    nav
+  } = useCommonStore()
   // 是否窗口最大化
-  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
-  const nav = useSelector((state: RootState) => state.tabs.nav)
-  const passwordRef = useRef<IPasswordModal>(null)
+  const passwordRef = useRef<PasswordModal>(null)
 
   // 下拉菜单内容
   const items: MenuProps['items'] = [
@@ -54,7 +58,7 @@ function Header() {
 
   /** 点击菜单 */
   const onClick: MenuProps['onClick'] = e => {
-    switch (e.key as IMenuKey) {
+    switch (e.key as MenuKey) {
       case 'password':
         passwordRef.current?.open()
         break
@@ -89,6 +93,7 @@ function Header() {
   const RightRender = () => {
     return (
       <div className="flex items-center">
+        <DataScreen />
         <GlobalSearch />
         <Fullscreen />
         <Theme />

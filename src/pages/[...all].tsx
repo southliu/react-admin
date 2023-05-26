@@ -1,16 +1,17 @@
-import type { AppDispatch, RootState } from '@/stores'
+import type { AppDispatch } from '@/stores'
 import { defaultMenus } from '@/menus'
 import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper'
 import { addTabs, setActiveKey } from '@/stores/tabs'
 import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import styles from './all.module.less'
 
 function NotFound() {
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
-  const permissions = useSelector((state: RootState) => state.user.permissions)
+  const { permissions } = useCommonStore()
 
   /** 跳转首页 */
   const goIndex = () => {

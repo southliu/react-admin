@@ -1,13 +1,14 @@
-import type { AppDispatch, RootState } from '@/stores'
+import type { AppDispatch } from '@/stores'
 import { Tooltip } from 'antd'
 import { Icon } from '@iconify/react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { toggleMaximize } from '@/stores/tabs'
+import { useCommonStore } from '@/hooks/useCommonStore'
 
 function TabMaximize() {
   const dispatch: AppDispatch = useDispatch()
   // 是否窗口最大化
-  const isMaximize = useSelector((state: RootState) => state.tabs.isMaximize)
+  const { isMaximize } = useCommonStore()
 
   /** 点击最大化/最小化 */
   const onClick = () => {

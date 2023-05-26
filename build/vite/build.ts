@@ -1,4 +1,15 @@
 import type { BuildOptions } from 'vite'
+import {
+  splitJSModules,
+  splitPage
+} from '../utils/helper'
+import {
+  COMP_PATH,
+  COMP_PREFIX,
+  LAYOUTS_PATH,
+  LAYOUTS_NAME,
+  PAGES_PATH
+} from '../config'
 
 /**
  * @description 分包配置
@@ -6,20 +17,35 @@ import type { BuildOptions } from 'vite'
 export function buildOptions(): BuildOptions {
   return {
     chunkSizeWarningLimit: 1000, // 大于1000k才警告
+    sourcemap: process.env.NODE_ENV !== 'production', // 非生产环境开启
     rollupOptions: {
       output: {
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
-        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+        chunkFileNames: 'assets/js/[name].[hash].js',
+        entryFileNames: 'assets/js/[name].[hash].js',
+        assetFileNames: 'assets/[ext]/[name].[hash].[ext]',
         manualChunks(id) {
+          // JS模块
           if (id.includes('node_modules')) {
-            // pnpm兼容
-            const pnpmName = id.includes('.pnpm') ? '.pnpm/' : ''
-            const fileName = `node_modules/${pnpmName}`
+            return splitJSModules(id)
+          }
 
-            return id
-              .split(fileName)[1]
+          // 布局
+          if (id.includes(LAYOUTS_PATH)) {
+            return LAYOUTS_NAME
+          }
+
+          // 公共组件
+          if (id.includes(COMP_PATH)) {
+            const result = id
+              .split(COMP_PATH)[1]
               .split('/')[0]
+
+            return `${COMP_PREFIX}${result}`
+          }
+
+          // 页面分包
+          if (id.includes(PAGES_PATH)) {
+            return splitPage(id)
           }
         }
       }

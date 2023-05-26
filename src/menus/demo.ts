@@ -1,11 +1,10 @@
-import type { ISideMenu } from '#/public'
-import { Icon } from '@iconify/react'
+import type { SideMenu } from '#/public'
 
-export const demo: ISideMenu[] = [
+export const demo: SideMenu[] = [
   {
     label: '组件',
     key: 'demo',
-    icon: <Icon icon='fluent:box-20-regular' />,
+    icon: 'fluent:box-20-regular',
     children: [
       {
         label: '剪切板',

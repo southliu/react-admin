@@ -1,5 +1,5 @@
-import type { IFormData } from '#/form'
-import type { IPageServerResult, IPaginationData } from '#/public'
+import type { FormData } from '#/form'
+import type { PageServerResult, PaginationData, ServerResult } from '#/public'
 import { request } from '@/utils/request'
 
 enum API {
@@ -10,11 +10,11 @@ enum API {
  * 获取分页数据
  * @param data - 请求数据
  */
-export function getUserPage(data: Partial<IFormData> & IPaginationData) {
-  return request.get<IPageServerResult<IFormData[]>>(
+export function getUserPage(data: Partial<FormData> & PaginationData) {
+  return request.get(
     `${API.URL}/index`,
     { params: data }
-  )
+  ) as Promise<PageServerResult<FormData[]>>
 }
 
 /**
@@ -29,7 +29,7 @@ export function getUserById(id: string) {
  * 新增数据
  * @param data - 请求数据
  */
-export function createUser(data: IFormData) {
+export function createUser(data: FormData) {
   return request.post(API.URL, data)
 }
 
@@ -38,7 +38,7 @@ export function createUser(data: IFormData) {
  * @param id - 修改id值
  * @param data - 请求数据
  */
-export function updateUser(id: string, data: IFormData) {
+export function updateUser(id: string, data: FormData) {
   return request.put(`${API.URL}/${id}`, data)
 }
 
@@ -47,5 +47,5 @@ export function updateUser(id: string, data: IFormData) {
  * @param id - 删除id值
  */
 export function deleteUser(id: string) {
-  return request.delete(`${API.URL}/${id}`)
+  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>
 }

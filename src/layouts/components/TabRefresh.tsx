@@ -1,12 +1,12 @@
 import { Tooltip } from 'antd'
 import { Icon } from '@iconify/react'
 
-interface IProps {
+interface Props {
   isRefresh: boolean;
   onClick: () => void;
 }
 
-function TabRefresh(props: IProps) {
+function TabRefresh(props: Props) {
   const { isRefresh, onClick } = props
 
   return (
@@ -19,7 +19,7 @@ function TabRefresh(props: IProps) {
           justify-center
           text-lg
           cursor-pointer
-          ${isRefresh ? 'animate-spin' : ''}
+          ${isRefresh ? 'animate-spin pointer-events-none' : ''}
         `}
         onClick={() => onClick()}
         icon="ant-design:reload-outlined"

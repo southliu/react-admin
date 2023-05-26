@@ -3,12 +3,12 @@ import { Button, message } from 'antd'
 import { useClipboard } from '@/hooks/useClipboard'
 import { Icon } from '@iconify/react'
 
-interface IProps extends ButtonProps {
+interface Props extends ButtonProps {
   text: string;
   value: string;
 }
 
-function CopyBtn(props: IProps) {
+function CopyBtn(props: Props) {
   const { text, value } = props
   const [, copyToClipboard] = useClipboard()
 

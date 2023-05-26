@@ -1,19 +1,22 @@
-import type { ILoginData } from './model'
+import type { LoginData } from './model'
 import type { FormProps } from 'antd'
-import type { AppDispatch, RootState } from '@/stores'
-import type { IThemeType } from '@/stores/public'
-import { setThemeValue } from '@/stores/public'
+import type { AppDispatch } from '@/stores'
+import type { ThemeType } from '@/stores/public'
+import { message } from 'antd'
 import { Form, Button, Input } from 'antd'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { PASSWORD_RULE, THEME_KEY } from '@/utils/config'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { login } from '@/servers/login'
 import { useTitle } from '@/hooks/useTitle'
 import { useToken } from '@/hooks/useToken'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { setPermissions, setUserInfo } from '@/stores/user'
+import { setThemeValue } from '@/stores/public'
 import { permissionsToArray } from '@/utils/permissions'
+import { setPermissions, setUserInfo } from '@/stores/user'
+import { useCommonStore } from '@/hooks/useCommonStore'
+import { getPermissions } from '@/servers/permissions'
 import { getFirstMenu } from '@/menus/utils/helper'
 import { defaultMenus } from '@/menus'
 import Logo from '@/assets/images/logo.svg'
@@ -24,8 +27,8 @@ function Login() {
   const dispatch: AppDispatch = useDispatch()
   const [getToken, setToken] = useToken()
   const [isLoading, setLoading] = useState(false)
-  const permissions = useSelector((state: RootState) => state.user.permissions)
-  const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as IThemeType
+  const { permissions } = useCommonStore()
+  const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType
 
   useEffect(() => {
     if (!themeCache) {
@@ -41,20 +44,48 @@ function Login() {
   useEffect(() => {
     // 如果存在token，则直接进入页面
     if (getToken()) {
-      const firstMenu = getFirstMenu(defaultMenus, permissions)
+      // 如果不存在缓存则获取权限
+      if (!permissions.length) {
+        getUserPermissions()
+      } else {
+        // 有权限则直接跳转
+        const firstMenu = getFirstMenu(defaultMenus, permissions)
+        navigate(firstMenu)
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  /** 获取用户权限 */
+  const getUserPermissions = async () => {
+    try {
+      setLoading(true)
+      const { data } = await getPermissions({ refresh_cache: false })
+      const { user, permissions } = data
+      const newPermissions = permissionsToArray(permissions)
+      const firstMenu = getFirstMenu(defaultMenus, newPermissions)
+      dispatch(setUserInfo(user))
+      dispatch(setPermissions(newPermissions))
       navigate(firstMenu)
-    } 
-  }, [getToken, navigate, permissions])
+    } finally {
+      setLoading(false)
+    }
+  }
 
   /**
    * 处理登录
    * @param values - 表单数据
    */
-  const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
+  const handleFinish: FormProps['onFinish'] = async (values: LoginData) => {
     try {
       setLoading(true)
       const { data } = await login(values)
-      const { data: { token, user, permissions } } = data
+      const { token, user, permissions } = data
+
+      if (!permissions?.length || !token) {
+        return message.error({ content: '用户暂无权限登录', key: 'permissions' })
+      }
+
       const newPermissions = permissionsToArray(permissions)
       const firstMenu = getFirstMenu(defaultMenus, newPermissions)
       setToken(token)

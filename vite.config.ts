@@ -1,5 +1,5 @@
 import { defineConfig, loadEnv } from 'vite'
-import { handleEnv } from './build/utils'
+import { handleEnv } from './build/utils/helper'
 import { createProxy } from './build/vite/proxy'
 import { createVitePlugins } from './build/plugins'
 import { buildOptions } from './build/vite/build'
@@ -22,9 +22,15 @@ export default defineConfig(({ mode }) => {
     css: {
       preprocessorOptions: {
         less: {
-          javascriptEnabled: true
+          javascriptEnabled: true,
+          charset: false
         },
       },
+    },
+    test: {
+      environment: 'jsdom',
+      globals: true,
+      setupFiles: './tests/index.ts'
     },
     server: {
       open: true,

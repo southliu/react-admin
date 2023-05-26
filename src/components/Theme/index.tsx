@@ -1,5 +1,5 @@
 import type { AppDispatch } from '@/stores'
-import { IThemeType, setThemeValue } from '@/stores/public'
+import { ThemeType, setThemeValue } from '@/stores/public'
 import { Tooltip } from 'antd'
 import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
@@ -10,8 +10,8 @@ import { useAliveController } from 'react-activation'
 function Theme() {
   const { clear, refresh, getCachingNodes } = useAliveController()
   const dispatch: AppDispatch = useDispatch()
-  const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as IThemeType
-  const [theme, setTheme] = useState<IThemeType>(themeCache)
+  const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType
+  const [theme, setTheme] = useState<ThemeType>(themeCache)
 
   useEffect(() => {
     if (!themeCache) {
@@ -38,7 +38,7 @@ function Theme() {
    * 处理更新
    * @param type - 主题类型
    */
-  const onChange = (type: IThemeType) => {
+  const onChange = (type: ThemeType) => {
     localStorage.setItem(THEME_KEY, type)
     dispatch(setThemeValue(type))
     setTheme(type)

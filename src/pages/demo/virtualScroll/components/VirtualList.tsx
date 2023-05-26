@@ -1,11 +1,10 @@
 import type { CSSProperties } from 'react'
-import type { RootState } from '@/stores'
-import { useSelector } from 'react-redux'
 import { FixedSizeList as List } from 'react-window'
+import { useCommonStore } from '@/hooks/useCommonStore'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
 function VirtualList() {
-  const theme = useSelector((state: RootState) => state.public.theme)
+  const { theme } = useCommonStore()
 
   const Row = (
     { index, style }: { index: number, style: CSSProperties }

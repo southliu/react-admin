@@ -1,4 +1,4 @@
-import type { IFormData } from '#/form'
+import type { FormData } from '#/form'
 import { useCallback, useEffect, useState } from 'react'
 import { getDataTrends } from '@/servers/dashboard'
 import { searchList } from './model'
@@ -22,7 +22,7 @@ function Dashboard() {
    * 搜索提交
    * @param values - 表单返回数据
    */
-  const handleSearch = useCallback(async (values: IFormData) => {
+  const handleSearch = useCallback(async (values: FormData) => {
     // 数据转换
     values.all_pay = values.all_pay ? 1 : undefined
 
@@ -54,7 +54,7 @@ function Dashboard() {
           <Block />
         </div>
 
-        <div className='flex justify-between'>
+        <div className='flex justify-between w-full'>
           <Line />
           <Bar />
         </div>
