@@ -56,7 +56,6 @@ pnpm build
 - [x] 新增跳转单独页逻辑
 - [x] 可视化数据大屏
 - [x] 打包分包
-- [x] 手机端适配
 - [ ] Web Worker
 - [ ] Web Assembly
 - [ ] 测试用例

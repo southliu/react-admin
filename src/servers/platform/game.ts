@@ -2,7 +2,6 @@ import type { ServerResult } from '#/public';
 import { request } from '@/utils/request';
 
 enum API {
-  URL = '/platform/game',
   COMMON_URL = '/authority/common',
 }
 
