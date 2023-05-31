@@ -1,6 +1,5 @@
 import type { PluginOption } from 'vite';
 import { presetUno, presetAttributify, presetIcons } from 'unocss';
-import { configPageImportPlugin } from './pages';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { preloadPlugin } from './preload';
 import { timePlugin } from './time';
@@ -19,9 +18,7 @@ export function createVitePlugins() {
         presetAttributify(), 
         presetIcons()
       ],
-    }),
-    // 自动生成路由
-    configPageImportPlugin()
+    })
   ];
 
   if (process.env.NODE_ENV === 'production') {

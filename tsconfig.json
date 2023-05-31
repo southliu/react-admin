@@ -19,7 +19,6 @@
     "baseUrl": ".",
     "types": [
       "vite/client",
-      "vite-plugin-pages/client-react",
       "node"
     ],
     "paths": {
