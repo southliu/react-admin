@@ -91,9 +91,21 @@ git push
   - `types` 类型定义文件更改
   - `wip` 开发中
 
-```
-  npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
-```
+## 🎈 路由
+
+路由根据文件夹路径自动生成，路径包含以下文件名或文件夹名称则不生成：
+
+* login
+* components
+* utils
+* lib
+* hooks
+* tests
+* __test__
+* model.tsx
+* [...all].tsx
+
+可自行在 src/router/utils/config.ts 修改路由生成规则。
 
 ## 🐵 关于封装
   1. 功能扩展，在原有的api上拓展。

@@ -1,4 +1,4 @@
-// 生成路由排除内容
+// 生成路由排除内容，不带后缀名转换成“/文件名/”格式
 export const ROUTER_EXCLUDE = [
   'login',
   'components',
@@ -10,6 +10,3 @@ export const ROUTER_EXCLUDE = [
   'model.tsx',
   '[...all].tsx'
 ];
-
-// 路由后缀
-export const ROUTER_EXTENSIONS = ['tsx', 'jsx']; // ts or js or tsx or jsx
