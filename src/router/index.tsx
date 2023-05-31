@@ -34,18 +34,18 @@ function Page() {
   }, []);
 
   return (
-      <Router>
-        <ConfigProvider
-          locale={zhCN}
-          theme={{
-            algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
-          }}
-        >
-          <AliveScope>
-            <App />
-          </AliveScope>
-        </ConfigProvider>
-      </Router>
+    <Router>
+      <ConfigProvider
+        locale={zhCN}
+        theme={{
+          algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
+        }}
+      >
+        <AliveScope>
+          <App />
+        </AliveScope>
+      </ConfigProvider>
+    </Router>
   );
 }
 
