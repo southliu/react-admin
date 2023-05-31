@@ -95,7 +95,6 @@ git push
 
 路由根据文件夹路径自动生成，路径包含以下文件名或文件夹名称则不生成：
 
-* login
 * components
 * utils
 * lib
