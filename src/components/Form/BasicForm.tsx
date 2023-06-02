@@ -1,7 +1,6 @@
 import type { ReactNode, Ref } from 'react';
 import type { FormData, FormList } from '#/form';
 import type { ColProps } from 'antd';
-import type { AllTypeData } from '#/public';
 import { useEffect, useImperativeHandle } from 'react';
 import { FormProps } from 'antd';
 import { Form } from 'antd';
@@ -10,7 +9,7 @@ import { handleValuePropName } from './utils/helper';
 import { filterDayjs } from '../Dates/utils/helper';
 
 export interface FormFn {
-  getFieldValue: (key: string) => AllTypeData;
+  getFieldValue: (key: string) => unknown;
   getFieldsValue: () => FormData;
   handleReset: () => void;
   handleSubmit: () => void;

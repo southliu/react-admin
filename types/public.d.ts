@@ -25,9 +25,6 @@ export type EmptyData = null | undefined
 // 唯一值
 export type SymbolData = symbol | symbol[]
 
-// 全部数据类型
-export type AllTypeData = BasicData | ArrayData | EmptyData | ObjectData | SymbolData | DateData
-
 // 接口响应数据
 export interface ServerResult<T = unknown> {
   code: number;
