@@ -1,4 +1,4 @@
-import type { AllTypeData, ArrayData } from '#/public';
+import type { ArrayData } from '#/public';
 import type { Constant } from './constants';
 
 /**
@@ -76,7 +76,7 @@ export function getUrlParam(search: string, key: string) {
  * 过滤空数据
  * @param obj - 传入对象
  */
-type EmptyData = Record<string, AllTypeData>
+type EmptyData = Record<string, unknown>
 export function filterEmptyValue(obj: EmptyData): EmptyData {
   const res: EmptyData = {};
 
