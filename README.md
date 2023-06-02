@@ -91,7 +91,18 @@ git push
 
 ## 🎈 路由
 
-路由根据文件夹路径自动生成，可自行在 src/router/utils/config.ts 修改路由生成规则。
+路由根据文件夹路径自动生成，路径包含以下文件名或文件夹名称则不生成：
+
+* components
+* utils
+* lib
+* hooks
+* tests
+* __test__
+* model.tsx
+* [...all].tsx
+
+可自行在 src/router/utils/config.ts 修改路由生成规则。
 
 ## 🐵 关于封装
   1. 功能扩展，在原有的api上拓展。
