@@ -1,29 +1,15 @@
 import type { SubMenuType } from 'antd/lib/menu/hooks/useItems';
 import type { ColumnsType } from 'antd/lib/table';
-import type { Dayjs } from 'dayjs';
 
 // 区间值
 type EventValue<T> = T | null
 export type RangeValue<T> = [EventValue<T>, EventValue<T>] | null
 
-// 基础类型
-export type BasicData = string | number | boolean
-
 // 数组
 export type ArrayData = string[] | number[] | boolean[]
 
-// 对象
-type ObjectType = Record<string, BasicData | ArrayData | EmptyData | object | object[]>
-export type ObjectData = object | object[] | ObjectType
-
-// 时间
-export type DateData = Dayjs | RangeValue<Dayjs>
-
 // 空值
 export type EmptyData = null | undefined
-
-// 唯一值
-export type SymbolData = symbol | symbol[]
 
 // 接口响应数据
 export interface ServerResult<T = unknown> {
