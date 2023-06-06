@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { message } from 'antd';
 import { useToken } from '@/hooks/useToken';
+import { removeLocalInfo } from './local';
+import { TOKEN } from './config';
 
 // 生成环境所用的接口
 const prefixUrl = import.meta.env.VITE_BASE_URL as string;
@@ -70,7 +72,12 @@ request.interceptors.response.use(
     }
 
     // 权限不足
-    if (res?.code === 601) {
+    if (res?.code === 200) {
+      message.error('权限不足，请重新登录！');
+      removeLocalInfo(TOKEN);
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
       handleError(res?.message);
       return Promise.reject(res);
     }
