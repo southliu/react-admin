@@ -72,7 +72,7 @@ request.interceptors.response.use(
     }
 
     // 权限不足
-    if (res?.code === 200) {
+    if (res?.code === 401) {
       message.error('权限不足，请重新登录！');
       removeLocalInfo(TOKEN);
       setTimeout(() => {
