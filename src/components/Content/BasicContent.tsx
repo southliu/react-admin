@@ -18,6 +18,8 @@ function BasicContent(props: Props) {
             relative
             box-border
             px-5
+            py-3
+            rounded-5
           `}
         >
             { children }
