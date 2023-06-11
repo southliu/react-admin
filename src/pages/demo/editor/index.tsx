@@ -8,7 +8,7 @@ function MyEditor() {
   const [html, setHtml] = useState('<p>hello</p>');
 
   return (
-    <div className='m-30px'>
+    <div className='m-10px p-5 rounded-5 bg-white'>
       <WangEditor
         value={html}
         onChange={content => setHtml(content)}
