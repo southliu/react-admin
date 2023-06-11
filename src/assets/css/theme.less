@@ -4,10 +4,19 @@
  * 修改主题
  * @param color - 字体颜色
  * @param bgColor - 背景颜色
+ * @param layoutContentBg - layout内容背景色
+ * @param contentBgColor - 内容背景颜色
+ * @param svgColor - svg颜色
  */
-.changeTheme(@color: @primaryColor, @bgColor: @primaryBg, @svgColor: @svgColor) {
+.changeTheme(
+  @color: @primaryColor,
+  @bgColor: @primaryBg,
+  @layoutContentBg: @layoutContentBg,
+  @contentBgColor: @contentBg,
+  @svgColor: @svgColor
+) {
   color: @color !important;
-  background: @bgColor !important;
+  background-color: @bgColor !important;
 
   .bg {
     background-color: @bgColor !important;
@@ -27,10 +36,17 @@
     color: @color !important;
   }
 
-  #container,
+  #layoutContent {
+    background-color: @layoutContentBg !important;
+  }
+
+  #content {
+    background-color: @contentBgColor !important;
+  }
+
   #header,
   #layout {
     color: @color !important;
-    background: @bgColor !important;
+    background-color: @bgColor !important;
   }
 }
