@@ -5,7 +5,7 @@ import CopyBtn from '@/components/Copy/CopyBtn';
 function CopyPage() {
   useTitle('剪切板');
   return (
-    <div className="max-w-350px m-30px">
+    <div className="max-w-350px m-10px p-5 rounded-5 bg-white">
       <h1>剪切板：</h1>
       <CopyInput className="w-350px" />
 
