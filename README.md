@@ -6,7 +6,7 @@
 [演示地址](https://southliu.github.io/)<br>
 [国内访问](https://southliu.gitee.io)
 
-![image](https://user-images.githubusercontent.com/26358837/235359226-f6118a26-64d8-4ccd-95c4-f5876b27db68.png)
+![image](https://github.com/southliu/react-admin/assets/26358837/5e7e59a8-d836-46ef-ac41-0d2c5de63e6e)
 
 ## 💻 安装使用
 
