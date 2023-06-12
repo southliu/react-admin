@@ -37,6 +37,8 @@
 
 .con {
   width: calc(100% - @layoutLeft);
+  min-height: calc(100vh - @layoutTop);
+  box-sizing: border-box;
   position: relative;
   left: @layoutLeft;
   top: @layoutTop;
@@ -50,6 +52,7 @@
 }
 
 .conMaximize {
+  width: 100%;
   left: 0 !important;
   top: calc(@layoutTop / 2);
 }
