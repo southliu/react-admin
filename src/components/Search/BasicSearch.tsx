@@ -93,7 +93,6 @@ function BasicSearch(props: Props) {
   return (
     <div id="searches" className="py-3">
       <Form
-        name="basic"
         layout="inline"
         form={form}
         labelCol={labelCol ? labelCol : { span: 8 }}
