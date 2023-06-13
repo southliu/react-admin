@@ -47,6 +47,7 @@ function Page() {
   useTitle('用户管理');
   const searchFormRef = useRef<FormFn>(null);
   const createFormRef = useRef<FormFn>(null);
+  const [messageApi, contextHolder] = message.useMessage();
   const [isLoading, setLoading] = useState(false);
   const [isCreateLoading, setCreateLoading] = useState(false);
   const [isCreateOpen, setCreateOpen] = useState(false);
@@ -139,7 +140,7 @@ function Page() {
         userId: promiseId
       };
       const data = await savePermission(params);
-      message.success(data.message || '授权成功');
+      messageApi.success(data.message || '授权成功');
       setPromiseVisible(false);
     } finally {
       setLoading(false);
@@ -197,7 +198,7 @@ function Page() {
       setCreateLoading(true);
       const functions = () => createId ? updateUser(createId, values) : createUser(values);
       const { data } = await functions();
-      message.success(data?.message || '操作成功');
+      messageApi.success(data?.message || '操作成功');
       setCreateOpen(false);
       getPage();
     } finally {
@@ -214,7 +215,7 @@ function Page() {
       setLoading(true);
       const data = await deleteUser(id as string);
       if (data?.code === 200) {
-        message.success(data?.message || '删除成功');
+        messageApi.success(data?.message || '删除成功');
         getPage();
       }
     } finally {
@@ -273,6 +274,7 @@ function Page() {
   return (
     <BasicContent isPermission={pagePermission.page}>
       <>
+        { contextHolder }
         <BasicSearch
           formRef={searchFormRef}
           list={searchList}

@@ -53,6 +53,7 @@ function Page() {
   const [pageSize, setPageSize] = useState(initSearch.pageSize);
   const [total, setTotal] = useState(0);
   const [tableData, setTableData] = useState<FormData[]>([]);
+  const [messageApi, contextHolder] = message.useMessage();
   const { permissions } = useCommonStore();
 
   // 权限前缀
@@ -147,7 +148,7 @@ function Page() {
       setCreateLoading(true);
       const functions = () => createId ? updateMenu(createId, values) : createMenu(values);
       const { data } = await functions();
-      message.success(data?.message || '操作成功');
+      messageApi.success(data?.message || '操作成功');
       setCreateOpen(false);
       getPage();
     } finally {
@@ -164,7 +165,7 @@ function Page() {
       setLoading(true);
       const data = await deleteMenu(id as string);
       if (data?.code === 200) {
-        message.success(data?.message || '删除成功');
+        messageApi.success(data?.message || '删除成功');
         getPage();
       }
     } finally {
@@ -213,6 +214,7 @@ function Page() {
   return (
     <BasicContent isPermission={pagePermission.page}>
       <>
+        { contextHolder }
         <BasicSearch
           formRef={searchFormRef}
           list={searchList}

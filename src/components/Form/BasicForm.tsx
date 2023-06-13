@@ -92,7 +92,6 @@ function BasicForm(props: Props) {
   return (
     <div>
       <Form
-        name="basic"
         form={form}
         labelCol={labelCol ? labelCol : { span: 6 }}
         wrapperCol={wrapperCol ? wrapperCol : { span: 15 }}

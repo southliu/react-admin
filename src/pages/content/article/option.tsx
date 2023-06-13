@@ -68,6 +68,7 @@ function Page() {
   const [isLoading, setLoading] = useState(false);
   const [createId, setCreateId] = useState('');
   const [createData, setCreateData] = useState<FormData>(initCreate);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const {
     permissions,
@@ -180,7 +181,7 @@ function Page() {
       setLoading(true);
       const functions = () => createId ? updateArticle(createId, values) : createArticle(values);
       const { data } = await functions();
-      message.success(data?.message || '操作成功');
+      messageApi.success(data?.message || '操作成功');
       createFormRef.current?.handleReset();
       goBack(true);
     } finally {
@@ -191,6 +192,7 @@ function Page() {
   return (
     <BasicContent isPermission={id ? pagePermission.update : pagePermission.create}>
       <>
+        { contextHolder }
         <div className='mb-50px'>
           <Spin spinning={isLoading}>
             <BasicForm

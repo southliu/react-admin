@@ -11,25 +11,29 @@ interface Props extends ButtonProps {
 function CopyBtn(props: Props) {
   const { text, value } = props;
   const [, copyToClipboard] = useClipboard();
+  const [messageApi, contextHolder] = message.useMessage();
 
   /** 点击编辑 */
   const onClick = () => {
     try {
       copyToClipboard(value);
-      message.success({ content: '复制成功', key: 'copy' });
+      messageApi.success({ content: '复制成功', key: 'copy' });
     } catch(e) {
-      message.warning({ content: '复制失败', key: 'copy' });
+      messageApi.warning({ content: '复制失败', key: 'copy' });
     }
   };
 
   return (
-    <Button
-      {...props}
-      icon={<Icon icon="ant-design:copy-outlined" />}
-      onClick={onClick}
-    >
-      { text }
-    </Button>
+    <>
+      { contextHolder }
+      <Button
+        {...props}
+        icon={<Icon icon="ant-design:copy-outlined" />}
+        onClick={onClick}
+      >
+        { text }
+      </Button>
+    </>
   );
 }
 

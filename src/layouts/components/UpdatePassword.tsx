@@ -18,6 +18,7 @@ interface Props {
 function UpdatePassword(props: Props) {
   const { passwordRef } = props;
   const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
   const [isOpen, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
@@ -43,7 +44,7 @@ function UpdatePassword(props: Props) {
   const onFinish: FormProps['onFinish'] = async values => {
     // 当密码和确认密码不同时则提示错误
     if (values.password !== values.confirmPassword) {
-      return message.warning({
+      return messageApi.warning({
         content: "密码和确认密码不相同!",
         key: 'confirmPassword'
       });
@@ -53,7 +54,7 @@ function UpdatePassword(props: Props) {
       const data = await updatePassword(values);
       if (data.code === 200) {
         setOpen(false);
-        message.success(data.message);
+        messageApi.success(data.message);
       }
     } finally {
       setLoading(false);
@@ -61,46 +62,49 @@ function UpdatePassword(props: Props) {
   };
 
   return (
-    <BasicModal
-      title="修改密码"
-      open={isOpen}
-      confirmLoading={isLoading}
-      onOk={onOk}
-      onCancel={() => setOpen(false)}
-    >
-      <Form
-        name="UpdatePassword"
-        form={form}
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 16 }}
-        onFinish={onFinish}
-        autoComplete="off"
+    <>
+      { contextHolder }
+      <BasicModal
+        title="修改密码"
+        open={isOpen}
+        confirmLoading={isLoading}
+        onOk={onOk}
+        onCancel={() => setOpen(false)}
       >
-        <Form.Item
-          label="用户名"
-          name="username"
-          rules={[{ required: true, message: '请输入用户名!' }]}
+        <Form
+          name="UpdatePassword"
+          form={form}
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 16 }}
+          onFinish={onFinish}
+          autoComplete="off"
         >
-          <Input placeholder={PLEASE_ENTER} />
-        </Form.Item>
+          <Form.Item
+            label="用户名"
+            name="username"
+            rules={[{ required: true, message: '请输入用户名!' }]}
+          >
+            <Input placeholder={PLEASE_ENTER} />
+          </Form.Item>
 
-        <Form.Item
-          label="密码"
-          name="password"
-          rules={[{ required: true, message: '请输入密码!' }]}
-        >
-          <PasswordStrength />
-        </Form.Item>
+          <Form.Item
+            label="密码"
+            name="password"
+            rules={[{ required: true, message: '请输入密码!' }]}
+          >
+            <PasswordStrength />
+          </Form.Item>
 
-        <Form.Item
-          label="确认密码"
-          name="confirmPassword"
-          rules={[{ required: true, message: '请输入确认密码!' }]}
-        >
-          <PasswordStrength />
-        </Form.Item>
-      </Form>
-    </BasicModal>
+          <Form.Item
+            label="确认密码"
+            name="confirmPassword"
+            rules={[{ required: true, message: '请输入确认密码!' }]}
+          >
+            <PasswordStrength />
+          </Form.Item>
+        </Form>
+      </BasicModal>
+    </>
   );
 }
 

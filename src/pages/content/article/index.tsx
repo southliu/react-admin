@@ -40,6 +40,7 @@ function Page() {
   const [pageSize, setPageSize] = useState(initSearch.pageSize);
   const [total, setTotal] = useState(0);
   const [tableData, setTableData] = useState<FormData[]>([]);
+  const [messageApi, contextHolder] = message.useMessage();
   const isRefreshPage = useSelector((state: RootState) => state.public.isRefreshPage);
 
   // 权限前缀
@@ -125,7 +126,7 @@ function Page() {
       setLoading(true);
       const data = await deleteArticle(id as string);
       if (data?.code === 200) {
-        message.success(data?.message || '删除成功');
+        messageApi.success(data?.message || '删除成功');
         getPage();
       }
     } finally {
@@ -174,6 +175,7 @@ function Page() {
   return (
     <BasicContent isPermission={pagePermission.page}>
       <>
+        { contextHolder }
         <BasicSearch
           formRef={searchFormRef}
           list={searchList}

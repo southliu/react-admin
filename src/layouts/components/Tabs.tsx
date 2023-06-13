@@ -28,6 +28,7 @@ function LayoutTabs() {
   const uri = pathname + search;
   const dispatch: AppDispatch = useDispatch();
   const { refresh } = useAliveController();
+  const [messageApi, contextHolder] = message.useMessage();
   const [time, setTime] = useState<null | NodeJS.Timeout>(null);
   const [refreshTime, seRefreshTime] = useState<null | NodeJS.Timeout>(null);
   const isLock = useSelector((state: RootState) => state.tabs.isLock);
@@ -140,7 +141,7 @@ function LayoutTabs() {
 
       setTime(
         setTimeout(() => {
-          message.success({
+          messageApi.success({
             content: '刷新成功',
             key: 'refresh'
           });
@@ -223,6 +224,7 @@ function LayoutTabs() {
       transition-all
       ${isMaximize ? styles.conMaximize : ''}
     `}>
+      { contextHolder }
       {
         tabs.length > 0 ?
         <Tabs

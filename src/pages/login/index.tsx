@@ -27,6 +27,7 @@ function Login() {
   const dispatch: AppDispatch = useDispatch();
   const [getToken, setToken] = useToken();
   const [isLoading, setLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const { permissions } = useCommonStore();
   const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType;
 
@@ -83,7 +84,7 @@ function Login() {
       const { token, user, permissions } = data;
 
       if (!permissions?.length || !token) {
-        return message.error({ content: '用户暂无权限登录', key: 'permissions' });
+        return messageApi.error({ content: '用户暂无权限登录', key: 'permissions' });
       }
 
       const newPermissions = permissionsToArray(permissions);
@@ -107,6 +108,7 @@ function Login() {
 
   return (
     <>
+      { contextHolder }
       <div className={`
         ${themeCache === 'dark' ? 'bg-black text-white' : 'bg-light-400'}
         w-screen
