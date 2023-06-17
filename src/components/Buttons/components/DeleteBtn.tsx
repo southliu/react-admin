@@ -1,8 +1,6 @@
 import type { ButtonProps } from 'antd';
-import { Button, Modal } from 'antd';
+import { Button, App } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-
-const { confirm } = Modal;
 
 interface Props extends Omit<ButtonProps, 'loading'> {
   isLoading: boolean;
@@ -11,6 +9,7 @@ interface Props extends Omit<ButtonProps, 'loading'> {
 
 function DeleteBtn(props: Props) {
   const { isLoading, handleDelete } = props;
+  const { modal } = App.useApp();
 
   // 清除自定义属性
   const params: Partial<Props> = { ...props };
@@ -18,7 +17,7 @@ function DeleteBtn(props: Props) {
   delete params.handleDelete;
 
   const showConfirm = () => {
-    confirm({
+    modal.confirm({
       title: '提示',
       icon: <ExclamationCircleOutlined />,
       content: '确定要删除吗?',

@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
+import { App } from 'antd';
 import { HashRouter as Router } from 'react-router-dom';
 import nprogress from 'nprogress';
-import App from './App';
+import AppPage from './App';
 
 // antd
 import { theme, ConfigProvider } from 'antd';
@@ -41,9 +42,11 @@ function Page() {
           algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
         }}
       >
-        <AliveScope>
-          <App />
-        </AliveScope>
+        <App>
+          <AliveScope>
+            <AppPage />
+          </AliveScope>
+        </App>
       </ConfigProvider>
     </Router>
   );
