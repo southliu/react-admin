@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToken } from '@/hooks/useToken';
 import { clearInfo } from '@/stores/user';
 import { closeAllTab, setActiveKey } from '@/stores/tabs';
-import { Modal, Dropdown, MenuProps } from 'antd';
+import { App, Dropdown, MenuProps } from 'antd';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import {
   MenuFoldOutlined,
@@ -33,6 +33,7 @@ function Header() {
   const navigate = useNavigate();
   const [, , removeToken] = useToken();
   const { clear } = useAliveController();
+  const { modal } = App.useApp();
   const {
     isCollapsed,
     isMaximize,
@@ -74,7 +75,7 @@ function Header() {
 
   /** 退出登录 */
   const handleLogout = () => {
-    Modal.confirm({
+    modal.confirm({
       title: '温馨提示',
       icon: <ExclamationCircleOutlined />,
       content: '是否确定退出系统?',
