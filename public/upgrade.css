@@ -1,0 +1,13 @@
+.upgrade h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+.upgrade p {
+  font-size: 24px;
+  margin-bottom: 40px;
+}
+.upgrade a {
+  color: #0077cc;
+  text-decoration: none;
+  font-weight: bold;
+}
