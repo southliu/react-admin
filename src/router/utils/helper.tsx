@@ -1,5 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
 import type { DefaultComponent } from "@loadable/component";
+import { Skeleton } from 'antd';
 import { ROUTER_EXCLUDE } from './config';
 import loadable from '@loadable/component';
 
@@ -36,7 +37,13 @@ export function handleRoutes(routes: Record<string, () => Promise<DefaultCompone
     const path = getRouterPage(key);
     if (path === '/login') continue;
 
-    const ComponentNode = loadable(routes[key]);
+    const ComponentNode = loadable(routes[key], {
+      fallback: <Skeleton
+        active
+        className='p-30px'
+        paragraph={{ rows: 10 }}
+       />
+    });
 
     layouts.push({
       path,
