@@ -51,10 +51,10 @@ function UpdatePassword(props: Props) {
     }
     try {
       setLoading(true);
-      const data = await updatePassword(values);
-      if (data.code === 200) {
+      const { code, message } = await updatePassword(values);
+      if (code === 200) {
         setOpen(false);
-        messageApi.success(data.message);
+        messageApi.success(message);
       }
     } finally {
       setLoading(false);

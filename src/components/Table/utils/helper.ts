@@ -8,7 +8,7 @@ export function getTableHeight(element: HTMLDivElement | null): number {
   const clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
 
   // 获取元素顶部高度
-  const top = element?.getBoundingClientRect().top || 0;
+  const top = element?.getBoundingClientRect()?.top || 0;
 
   // 分页高度
   const paginationElm = document.getElementById('pagination');

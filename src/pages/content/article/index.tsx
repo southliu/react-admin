@@ -124,9 +124,9 @@ function Page() {
   const onDelete = async (id: string) => {
     try {
       setLoading(true);
-      const data = await deleteArticle(id as string);
-      if (data?.code === 200) {
-        messageApi.success(data?.message || '删除成功');
+      const { code, message } = await deleteArticle(id as string);
+      if (code === 200) {
+        messageApi.success(message || '删除成功');
         getPage();
       }
     } finally {

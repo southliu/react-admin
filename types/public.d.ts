@@ -11,21 +11,10 @@ export type ArrayData = string[] | number[] | boolean[]
 // 空值
 export type EmptyData = null | undefined
 
-// 接口响应数据
-export interface ServerResult<T = unknown> {
-  code: number;
-  message?: string;
-  data: T
-}
-
 // 分页接口响应数据
 export interface PageServerResult<T = unknown> {
-  code: number;
-  message?: string;
-  data: {
-    items: T,
-    total: number
-  }
+  items: T,
+  total: number
 }
 
 // 分页表格响应数据

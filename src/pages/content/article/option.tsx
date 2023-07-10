@@ -180,8 +180,8 @@ function Page() {
     try {
       setLoading(true);
       const functions = () => createId ? updateArticle(createId, values) : createArticle(values);
-      const { data } = await functions();
-      messageApi.success(data?.message || '操作成功');
+      const { message } = await functions();
+      messageApi.success(message || '操作成功');
       createFormRef.current?.handleReset();
       goBack(true);
     } finally {

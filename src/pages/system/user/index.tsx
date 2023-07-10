@@ -139,8 +139,8 @@ function Page() {
         menuIds: checked,
         userId: promiseId
       };
-      const data = await savePermission(params);
-      messageApi.success(data.message || '授权成功');
+      const { message } = await savePermission(params);
+      messageApi.success(message || '授权成功');
       setPromiseVisible(false);
     } finally {
       setLoading(false);
@@ -197,8 +197,8 @@ function Page() {
     try {
       setCreateLoading(true);
       const functions = () => createId ? updateUser(createId, values) : createUser(values);
-      const { data } = await functions();
-      messageApi.success(data?.message || '操作成功');
+      const { message } = await functions();
+      messageApi.success(message || '操作成功');
       setCreateOpen(false);
       getPage();
     } finally {
@@ -213,9 +213,9 @@ function Page() {
   const onDelete = async (id: string) => {
     try {
       setLoading(true);
-      const data = await deleteUser(id as string);
-      if (data?.code === 200) {
-        messageApi.success(data?.message || '删除成功');
+      const { code, message } = await deleteUser(id as string);
+      if (code === 200) {
+        messageApi.success(message || '删除成功');
         getPage();
       }
     } finally {

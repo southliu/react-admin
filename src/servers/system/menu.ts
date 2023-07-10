@@ -1,6 +1,8 @@
+import type { Key } from 'react';
+import type { DataNode } from 'antd/es/tree';
 import type { FormData } from '#/form';
-import type { PageServerResult, PaginationData, ServerResult } from '#/public';
-import { request } from '@/utils/request';
+import type { PageServerResult, PaginationData } from '#/public';
+import { request } from '@/servers/request';
 
 enum API {
   URL = '/authority/menu'
@@ -11,10 +13,10 @@ enum API {
  * @param data - 请求数据
  */
 export function getMenuPage(data: Partial<FormData> & PaginationData) {
-  return request.get(
+  return request.get<PageServerResult<FormData[]>>(
     `${API.URL}/index`,
     { params: data }
-  ) as Promise<PageServerResult<FormData[]>>;
+  );
 }
 
 /**
@@ -22,7 +24,7 @@ export function getMenuPage(data: Partial<FormData> & PaginationData) {
  * @param id - ID
  */
 export function getMenuById(id: string) {
-  return request.get(`${API.URL}/${id}`);
+  return request.get<FormData>(`${API.URL}/${id}`);
 }
 
 /**
@@ -47,21 +49,25 @@ export function updateMenu(id: string, data: FormData) {
  * @param id - 删除id值
  */
 export function deleteMenu(id: string) {
-  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>;
+  return request.delete(`${API.URL}/${id}`);
 }
 
 /**
  * 获取权限列表
  * @param data - 搜索数据
  */
-export function getPermission(data: unknown) {
-  return request.get(`${API.URL}/tree`, { params: data });
+interface PermissionResult {
+  treeData: DataNode[];
+  defaultCheckedKeys: Key[];
+}
+export function getPermission(data: object) {
+  return request.get<PermissionResult>(`${API.URL}/tree`, { params: data });
 }
 
 /**
  * 保存权限列表
  * @param data - 权限数据
  */
-export function savePermission(data: unknown) {
-  return request.put(`${API.URL}/authorize/save`, data) as Promise<ServerResult>;
+export function savePermission(data: object) {
+  return request.put(`${API.URL}/authorize/save`, data);
 }

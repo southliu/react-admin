@@ -1,6 +1,6 @@
 import type { FormData } from '#/form';
-import type { PageServerResult, PaginationData, ServerResult } from '#/public';
-import { request } from '@/utils/request';
+import type { PageServerResult, PaginationData } from '#/public';
+import { request } from '@/servers/request';
 
 enum API {
   URL = '/authority/user'
@@ -11,10 +11,10 @@ enum API {
  * @param data - 请求数据
  */
 export function getUserPage(data: Partial<FormData> & PaginationData) {
-  return request.get(
+  return request.get<PageServerResult<FormData[]>>(
     `${API.URL}/index`,
     { params: data }
-  ) as Promise<PageServerResult<FormData[]>>;
+  );
 }
 
 /**
@@ -22,7 +22,7 @@ export function getUserPage(data: Partial<FormData> & PaginationData) {
  * @param id - ID
  */
 export function getUserById(id: string) {
-  return request.get(`${API.URL}/${id}`);
+  return request.get<FormData>(`${API.URL}/${id}`);
 }
 
 /**
@@ -47,5 +47,5 @@ export function updateUser(id: string, data: FormData) {
  * @param id - 删除id值
  */
 export function deleteUser(id: string) {
-  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>;
+  return request.delete(`${API.URL}/${id}`);
 }
