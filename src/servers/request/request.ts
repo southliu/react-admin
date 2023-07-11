@@ -30,7 +30,14 @@ class AxiosRequest {
         const controller = new AbortController();
         const url = res.url || '';
         res.signal = controller.signal;
-        this.abortControllerMap.set(url, controller);
+
+        // 如果存在则删除该请求
+        if (this.abortControllerMap.get(url)) {
+          this.cancelRequest(url);
+        } else {
+          this.abortControllerMap.set(url, controller);
+        }
+        
         return res;
       },
       (err: object) => err,
@@ -81,7 +88,7 @@ class AxiosRequest {
    * @param url - 链接
    * @param options - 参数
    */
-  get<T = object>(url: string, options?: object) {
+  get<T = object>(url: string, options = {}) {
     return this.instance.get(url, options) as Promise<ServerResult<T>>;
   }
   /**
@@ -89,7 +96,7 @@ class AxiosRequest {
    * @param url - 链接
    * @param options - 参数
    */
-  post<T = object>(url: string, options?: object, config?: AxiosRequestConfig<object>) {
+  post<T = object>(url: string, options = {}, config?: AxiosRequestConfig<object>) {
     return this.instance.post(url, options, config) as Promise<ServerResult<T>>;
   }
   /**
@@ -97,7 +104,7 @@ class AxiosRequest {
    * @param url - 链接
    * @param options - 参数
    */
-  put<T = object>(url: string, options?: object, config?: AxiosRequestConfig<object>) {
+  put<T = object>(url: string, options = {}, config?: AxiosRequestConfig<object>) {
     return this.instance.put(url, options, config) as Promise<ServerResult<T>>;
   }
   /**
@@ -105,7 +112,7 @@ class AxiosRequest {
    * @param url - 链接
    * @param options - 参数
    */
-  delete<T = object>(url: string, options?: object) {
+  delete<T = object>(url: string, options = {}) {
     return this.instance.delete(url, options) as Promise<ServerResult<T>>;
   }
 }

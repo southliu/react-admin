@@ -1,7 +1,8 @@
-import AxiosRequest from './request';
 import { message } from 'antd';
 import { getLocalInfo, removeLocalInfo } from '@/utils/local';
 import { TOKEN } from '@/utils/config';
+import axios from 'axios';
+import AxiosRequest from './request';
 
 // 生成环境所用的接口
 const prefixUrl = import.meta.env.VITE_BASE_URL as string;
@@ -33,9 +34,9 @@ export const request = new AxiosRequest({
       return res;
     },
     // 请求拦截超时
-    requestInterceptorsCatch(res) {
+    requestInterceptorsCatch(err) {
       message.error('请求超时！');
-      return res;
+      return err;
     },
     // 接口响应拦截
     responseInterceptors(res) {
@@ -59,9 +60,11 @@ export const request = new AxiosRequest({
   
       return res;
     },
-    responseInterceptorsCatch(res) {
-      handleError('服务器错误！');
-      return res;
+    responseInterceptorsCatch(err) {
+      if(!axios.isCancel(err)) {
+        handleError('服务器错误！');
+      }
+      return err;
     }
   }
 });
