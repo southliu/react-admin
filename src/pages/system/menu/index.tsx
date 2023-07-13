@@ -83,7 +83,9 @@ function Page() {
   const handleSearch = useCallback(async (values: FormData) => {
     try {
       setLoading(true);
-      const { data } = await getMenuPage(values);
+      const res = await getMenuPage(values);
+      const { code, data } = res;
+      if (Number(code) !== 200) return;
       const { items, total } = data;
       setTotal(total);
       setTableData(items);
@@ -94,8 +96,6 @@ function Page() {
 
   // 首次进入自动加载接口数据
   useEffect(() => { 
-    if (pagePermission.page) handleSearch({ ...initSearch });
-    // TODO: 重复请求测试，可删
     if (pagePermission.page) handleSearch({ ...initSearch });
   }, [handleSearch, pagePermission.page]);
 
@@ -117,7 +117,8 @@ function Page() {
       setCreateTitle(EDIT_TITLE(id));
       setCreateId(id);
       setCreateLoading(true);
-      const { data } = await getMenuById(id as string);
+      const { code, data } = await getMenuById(id as string);
+      if (Number(code) !== 200) return;
       setCreateData(data);
     } finally {
       setCreateLoading(false);
@@ -149,7 +150,8 @@ function Page() {
     try {
       setCreateLoading(true);
       const functions = () => createId ? updateMenu(createId, values) : createMenu(values);
-      const { message } = await functions();
+      const { code, message } = await functions();
+      if (Number(code) !== 200) return;
       messageApi.success(message || '操作成功');
       setCreateOpen(false);
       getPage();
@@ -166,7 +168,7 @@ function Page() {
     try {
       setLoading(true);
       const { code, message } = await deleteMenu(id as string);
-      if (code === 200) {
+      if (Number(code) === 200) {
         messageApi.success(message || '删除成功');
         getPage();
       }

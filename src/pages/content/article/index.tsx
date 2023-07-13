@@ -125,7 +125,7 @@ function Page() {
     try {
       setLoading(true);
       const { code, message } = await deleteArticle(id as string);
-      if (code === 200) {
+      if (Number(code) === 200) {
         messageApi.success(message || '删除成功');
         getPage();
       }

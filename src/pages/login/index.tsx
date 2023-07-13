@@ -61,7 +61,8 @@ function Login() {
   const getUserPermissions = async () => {
     try {
       setLoading(true);
-      const { data } = await getPermissions({ refresh_cache: false });
+      const { code, data } = await getPermissions({ refresh_cache: false });
+      if (Number(code) !== 200) return;
       const { user, permissions } = data;
       const newPermissions = permissionsToArray(permissions);
       const firstMenu = getFirstMenu(defaultMenus, newPermissions);
@@ -80,7 +81,8 @@ function Login() {
   const handleFinish: FormProps['onFinish'] = async (values: LoginData) => {
     try {
       setLoading(true);
-      const { data } = await login(values);
+      const { code, data } = await login(values);
+      if (Number(code) !== 200) return;
       const { token, user, permissions } = data;
 
       if (!permissions?.length || !token) {

@@ -147,7 +147,8 @@ function Page() {
     try {
       setCreateId(id);
       setLoading(true);
-      const { data } = await getArticleById(id as string);
+      const { code, data } = await getArticleById(id as string);
+      if (Number(code) !== 200) return;
       setCreateData(data);
     } finally {
       setLoading(false);
@@ -180,7 +181,8 @@ function Page() {
     try {
       setLoading(true);
       const functions = () => createId ? updateArticle(createId, values) : createArticle(values);
-      const { message } = await functions();
+      const { code, message } = await functions();
+      if (Number(code) !== 200) return;
       messageApi.success(message || '操作成功');
       createFormRef.current?.handleReset();
       goBack(true);

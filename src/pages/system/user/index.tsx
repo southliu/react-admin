@@ -94,7 +94,8 @@ function Page() {
   const handleSearch = useCallback(async (values: FormData) => {
     try {
       setLoading(true);
-      const { data } = await getUserPage(values);
+      const { code, data } = await getUserPage(values);
+      if (Number(code) !== 200) return;
       const { items, total } = data;
       setTotal(total);
       setTableData(items);
@@ -113,7 +114,8 @@ function Page() {
     try {
       setLoading(true);
       const params = { userId: id };
-      const { data } = await getPermission(params);
+      const { code, data } = await getPermission(params);
+      if (Number(code) !== 200) return;
       const { defaultCheckedKeys, treeData } = data;
       setPromiseId(id);
       setPromiseTreeData(treeData);
@@ -139,7 +141,8 @@ function Page() {
         menuIds: checked,
         userId: promiseId
       };
-      const { message } = await savePermission(params);
+      const { code, message } = await savePermission(params);
+      if (Number(code) !== 200) return;
       messageApi.success(message || '授权成功');
       setPromiseVisible(false);
     } finally {
@@ -165,7 +168,8 @@ function Page() {
       setCreateTitle(EDIT_TITLE(id));
       setCreateId(id);
       setCreateLoading(true);
-      const { data } = await getUserById(id as string);
+      const { code, data } = await getUserById(id as string);
+      if (Number(code) !== 200) return;
       setCreateData(data);
     } finally {
       setCreateLoading(false);
@@ -197,7 +201,8 @@ function Page() {
     try {
       setCreateLoading(true);
       const functions = () => createId ? updateUser(createId, values) : createUser(values);
-      const { message } = await functions();
+      const { code, message } = await functions();
+      if (Number(code) !== 200) return;
       messageApi.success(message || '操作成功');
       setCreateOpen(false);
       getPage();
@@ -214,7 +219,7 @@ function Page() {
     try {
       setLoading(true);
       const { code, message } = await deleteUser(id as string);
-      if (code === 200) {
+      if (Number(code) === 200) {
         messageApi.success(message || '删除成功');
         getPage();
       }

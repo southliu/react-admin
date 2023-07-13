@@ -52,7 +52,7 @@ function UpdatePassword(props: Props) {
     try {
       setLoading(true);
       const { code, message } = await updatePassword(values);
-      if (code === 200) {
+      if (Number(code) === 200) {
         setOpen(false);
         messageApi.success(message);
       }

@@ -42,7 +42,8 @@ function Layout() {
   const getUserInfo = useCallback(async () => {
     try {
       setLoading(true);
-      const { data } = await getPermissions({ refresh_cache: false });
+      const { code, data } = await getPermissions({ refresh_cache: false });
+      if (Number(code) !== 200) return;
       const { user, permissions } = data;
       const newPermissions = permissionsToArray(permissions);
       dispatch(setUserInfo(user));
