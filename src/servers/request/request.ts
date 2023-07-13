@@ -33,6 +33,7 @@ class AxiosRequest {
 
         // 如果存在则删除该请求
         if (this.abortControllerMap.get(url)) {
+          console.warn('取消重复请求：', url);
           this.cancelRequest(url);
         } else {
           this.abortControllerMap.set(url, controller);

@@ -61,9 +61,13 @@ export const request = new AxiosRequest({
       return res;
     },
     responseInterceptorsCatch(err) {
-      if(!axios.isCancel(err)) {
-        handleError('服务器错误！');
+      // 取消重复请求则不报错
+      if(axios.isCancel(err)) {
+        err.data = err.data || {};
+        return err;
       }
+
+      handleError('服务器错误！');
       return err;
     }
   }

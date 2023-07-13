@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
     },
     // 去除console和debugger
     esbuild: {
-      pure: ["console.log", "debugger"]
+      pure: ["console.log", "console.warn", "console.error", "debugger"]
     },
     build: buildOptions()
   };

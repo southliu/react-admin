@@ -2,16 +2,22 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig,
   CreateAxiosDefaults,
+  Cancel,
 } from 'axios';
+
+export interface RequestCancel extends Cancel {
+  data: object;
+}
+
 export interface RequestInterceptors<T> {
   // 请求拦截
   requestInterceptors?: (
     config: InternalAxiosRequestConfig,
   ) => InternalAxiosRequestConfig
-  requestInterceptorsCatch?: (err: object) => void
+  requestInterceptorsCatch?: (err: RequestCancel) => void
   // 响应拦截
   responseInterceptors?: (config: T) => T
-  responseInterceptorsCatch?: (err: object) => void
+  responseInterceptorsCatch?: (err: RequestCancel) => void
 }
 
 // 自定义传入的参数

@@ -97,6 +97,8 @@ function Page() {
   // 首次进入自动加载接口数据
   useEffect(() => { 
     if (pagePermission.page) handleSearch({ ...initSearch });
+    // TODO: 重复请求测试，可删
+    if (pagePermission.page) handleSearch({ ...initSearch });
   }, [handleSearch, pagePermission.page]);
 
   /** 点击新增 */
