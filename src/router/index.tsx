@@ -3,6 +3,7 @@ import { App } from 'antd';
 import { HashRouter as Router } from 'react-router-dom';
 import nprogress from 'nprogress';
 import AppPage from './App';
+import StaticAntd from '@/utils/staticAntd';
 
 // antd
 import { theme, ConfigProvider } from 'antd';
@@ -43,6 +44,7 @@ function Page() {
         }}
       >
         <App>
+          <StaticAntd />
           <AliveScope>
             <AppPage />
           </AliveScope>

@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { message } from '@/utils/staticAntd';
 import { getLocalInfo, removeLocalInfo } from '@/utils/local';
 import { TOKEN } from '@/utils/config';
 import axios from 'axios';
