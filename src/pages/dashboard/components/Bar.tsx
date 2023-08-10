@@ -1,5 +1,4 @@
 import type { EChartsCoreOption } from 'echarts';
-import { useEffect } from 'react';
 import { useEcharts } from '@/hooks/useEcharts';
 import { useCommonStore } from '@/hooks/useCommonStore';
 
@@ -71,13 +70,9 @@ function Bar() {
   const { permissions } = useCommonStore();
   const [echartsRef, init] = useEcharts(option, data);
 
-  useEffect(() => {
-    if (permissions.length) {
-      setTimeout(() => {
-        init();
-      }, 100);
-    }
-  }, [init, permissions.length]);
+  if (permissions.length && echartsRef.current) {
+    init();
+  }
   
   return (
     <div className='w-38% h-550px border border-gray-200 rounded-10px'>

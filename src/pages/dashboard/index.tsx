@@ -8,6 +8,7 @@ import BasicContent from '@/components/Content/BasicContent';
 import Line from './components/Line';
 import Bar from './components/Bar';
 import Block from './components/Block';
+import { useUnactivate } from 'react-activation';
 
 // 初始化搜索
 const initSearch = {
@@ -38,6 +39,10 @@ function Dashboard() {
   useEffect(() => {
     handleSearch(initSearch);
   }, [handleSearch]);
+
+  useUnactivate(() => {
+    console.log('退出时执行');
+  });
 
   return (
     <BasicContent isPermission={true}>
