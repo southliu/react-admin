@@ -27,11 +27,6 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    test: {
-      environment: 'jsdom',
-      globals: true,
-      setupFiles: './tests/index.ts'
-    },
     server: {
       open: true,
       port: VITE_SERVER_PORT,

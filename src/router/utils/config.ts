@@ -5,8 +5,6 @@ export const ROUTER_EXCLUDE = [
   'utils',
   'lib',
   'hooks',
-  'tests',
-  '__test__',
   'model.tsx',
   '[...all].tsx'
 ];

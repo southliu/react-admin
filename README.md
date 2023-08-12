@@ -1,3 +1,9 @@
+<div align="center">
+	<h1>South Admin</h1>
+</div>
+
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE) ![](https://img.shields.io/github/stars/southliu/south-admin)
+
 ## ✨ 简介
 
 使用`React18`,`Typescript`,`Vite`,`Antd5.0`等主流技术开发的开箱即用的中后台前端项目，`Vite`实现自动生成路由，支持`KeepAlive`功能，`react-redux`状态管理，支持虚拟滚动表格，`UnoCss`开发样式。
@@ -46,20 +52,6 @@ pnpm dev
 pnpm build
 ```
 
-## 💡 计划
-
-- [x] 主题换肤功能
-- [x] 密码强度显示
-- [x] KeepAlive功能
-- [x] 表格虚拟滚动优化
-- [x] form添加富文本、自定义渲染
-- [x] 新增跳转单独页逻辑
-- [x] 可视化数据大屏
-- [x] 打包分包
-- [ ] 表头筛选功能
-- [ ] 手机端适配
-- [ ] 测试用例
-
 ## 🧩 图标(iconify)
 
 - 参考 [iconify官方地址](https://icon-sets.iconify.design/)
@@ -100,8 +92,6 @@ git push
 * utils
 * lib
 * hooks
-* tests
-* __test__
 * model.tsx
 * [...all].tsx
 
