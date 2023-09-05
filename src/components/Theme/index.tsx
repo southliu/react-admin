@@ -3,11 +3,13 @@ import { ThemeType, setThemeValue } from '@/stores/public';
 import { Tooltip } from 'antd';
 import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { THEME_KEY } from '@/utils/config';
 import { useDispatch } from 'react-redux';
 import { useAliveController } from 'react-activation';
 
 function Theme() {
+  const { t } = useTranslation();
   const { clear, refresh, getCachingNodes } = useAliveController();
   const dispatch: AppDispatch = useDispatch();
   const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType;
@@ -58,7 +60,7 @@ function Theme() {
   };
 
   return (
-    <Tooltip title='主题模式'>
+    <Tooltip title={t('public.themes')}>
       <div className="flex items-center justify-center text-lg mr-4 cursor-pointer">
         {
           theme === 'light' &&

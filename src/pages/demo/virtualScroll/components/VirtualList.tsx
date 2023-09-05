@@ -23,7 +23,7 @@ function VirtualList() {
 
   return (
     <AutoSizer>
-      {({ height, width }) => (
+      {({ height, width }: { height: number, width: number }) => (
         <List
           height={height}
           itemCount={10000}

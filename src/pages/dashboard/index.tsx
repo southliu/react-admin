@@ -3,12 +3,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { getDataTrends } from '@/servers/dashboard';
 import { searchList } from './model';
 import { useTitle } from '@/hooks/useTitle';
+import { useUnactivate } from 'react-activation';
+import { useTranslation } from 'react-i18next';
 import BasicSearch from '@/components/Search/BasicSearch';
 import BasicContent from '@/components/Content/BasicContent';
-import Line from './components/Line';
 import Bar from './components/Bar';
+import Line from './components/Line';
 import Block from './components/Block';
-import { useUnactivate } from 'react-activation';
 
 // 初始化搜索
 const initSearch = {
@@ -16,7 +17,8 @@ const initSearch = {
 };
 
 function Dashboard() {
-  useTitle('数据展览');
+  const { t } = useTranslation();
+  useTitle(t('dashboard.title'));
   const [isLoading, setLoading] = useState(false);
 
   /**
@@ -48,7 +50,7 @@ function Dashboard() {
     <BasicContent isPermission={true}>
       <>
         <BasicSearch
-          list={searchList}
+          list={searchList(t)}
           data={initSearch}
           isLoading={isLoading}
           isCreate={false}

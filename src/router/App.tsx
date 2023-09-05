@@ -6,7 +6,8 @@ import Layout from '@/layouts';
 import Login from '@/pages/login';
 import NotFound from '@/pages/[...all]';
 
-const pages = import.meta.glob('../pages/**/*.tsx') as Record<string, () => Promise<DefaultComponent<unknown>>>;
+type PageFiles = Record<string, () => Promise<DefaultComponent<unknown>>>;
+const pages = import.meta.glob('../pages/**/*.tsx') as PageFiles;
 const layouts = handleRoutes(pages);
 
 const newRoutes: RouteObject[] = [

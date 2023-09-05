@@ -1,4 +1,5 @@
 import type { EChartsCoreOption } from 'echarts';
+import { useTranslation } from 'react-i18next';
 import { useEcharts } from '@/hooks/useEcharts';
 import { useCommonStore } from '@/hooks/useCommonStore';
 
@@ -17,57 +18,57 @@ const data = [
   1928,
 ];
 
-const option: EChartsCoreOption = {
-  title: {
-    text: '当日充值排行',
-    left: 30,
-    top: 5
-  },
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'shadow'
-    }
-  },
-  grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
-    containLabel: true
-  },
-  xAxis: {
-    type: 'value',
-    boundaryGap: [0, 0.01]
-  },
-  yAxis: {
-    type: 'category',
-    data: [
-      '孤独的霸气',
-      '凌云齐天',
-      '夏至未至',
-      '叶璃溪',
-      '良辰美景奈何天',
-      '凹凸曼',
-      '六月离别',
-      '离歌',
-      '终极战犯',
-      '水洗晴空',
-      '安城如沫',
-      '渣渣灰',
-
-    ]
-  },
-  series: [
-    {
-      name: '充值数',
-      type: 'bar',
-      data
-    }
-  ]
-};
-
 function Bar() {
+  const { t } = useTranslation();
   const { permissions } = useCommonStore();
+  const option: EChartsCoreOption = {
+    title: {
+      text: t('dashboard.rechargeRankingDay'),
+      left: 30,
+      top: 5
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'value',
+      boundaryGap: [0, 0.01]
+    },
+    yAxis: {
+      type: 'category',
+      data: [
+        '孤独的霸气',
+        '凌云齐天',
+        '夏至未至',
+        '叶璃溪',
+        '良辰美景奈何天',
+        '凹凸曼',
+        '六月离别',
+        '离歌',
+        '终极战犯',
+        '水洗晴空',
+        '安城如沫',
+        '渣渣灰',
+      ]
+    },
+    series: [
+      {
+        name: t('dashboard.rechargeAmount'),
+        type: 'bar',
+        data
+      }
+    ]
+  };
+
   const [echartsRef, init] = useEcharts(option, data);
 
   if (permissions.length && echartsRef.current) {

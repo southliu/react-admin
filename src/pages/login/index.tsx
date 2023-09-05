@@ -7,6 +7,7 @@ import { Form, Button, Input } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PASSWORD_RULE, THEME_KEY } from '@/utils/config';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login } from '@/servers/login';
@@ -20,9 +21,11 @@ import { getPermissions } from '@/servers/permissions';
 import { getFirstMenu } from '@/menus/utils/helper';
 import { defaultMenus } from '@/menus';
 import Logo from '@/assets/images/logo.svg';
+import I18n from '@/components/I18n';
 
 function Login() {
-  useTitle('登录');
+  const { t } = useTranslation();
+  useTitle(t('login.login'));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const [getToken, setToken] = useToken();
@@ -86,7 +89,7 @@ function Login() {
       const { token, user, permissions } = data;
 
       if (!permissions?.length || !token) {
-        return messageApi.error({ content: '用户暂无权限登录', key: 'permissions' });
+        return messageApi.error({ content: t('login.notPermissions'), key: 'permissions' });
       }
 
       const newPermissions = permissionsToArray(permissions);
@@ -117,6 +120,9 @@ function Login() {
         h-screen
         relative
       `}>
+        <div className="absolute top-5 right-5">
+          <I18n />
+        </div>
         <div className={`
           w-300px
           h-290px
@@ -138,7 +144,9 @@ function Login() {
               src={Logo}
               alt="LOGO"
             />
-            <span className="text-xl font-bold tracking-2px">系统登录</span>
+            <span className="text-xl font-bold tracking-2px">
+              { t('login.systemLogin') }
+            </span>
           </div>
           <Form
             name="horizontal_login"
@@ -152,11 +160,11 @@ function Login() {
           >
             <Form.Item
               name="username"
-              rules={[{ required: true, message: '请输入用户名' }]}
+              rules={[{ required: true, message: t('public.pleaseEnter', { name: t('login.username') }) }]}
             >
               <Input
                 allow-clear="true"
-                placeholder="用户名"
+                placeholder={t('login.username')}
                 data-test="username"
                 autoComplete="username"
                 addonBefore={<UserOutlined className='change' />}
@@ -166,12 +174,12 @@ function Login() {
             <Form.Item
               name="password"
               rules={[
-                { required: true, message: '请输入密码' },
+                { required: true, message: t('public.pleaseEnter', { name: t('login.password') }) },
                 PASSWORD_RULE
               ]}
             >
               <Input.Password
-                placeholder="密码"
+                placeholder={t('login.password')}
                 autoComplete="current-password"
                 addonBefore={<LockOutlined className='change' />}
               />
@@ -184,7 +192,7 @@ function Login() {
                 className="w-full mt-5px rounded-5px tracking-2px"
                 loading={isLoading}
               >
-                登录
+                { t('login.login') }
               </Button>
             </Form.Item>
           </Form>

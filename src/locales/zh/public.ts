@@ -1,0 +1,18 @@
+export default {
+  total: '总数',
+  date: '日期',
+  search: '搜索',
+  create: '新增',
+  pleaseEnter: '请输入{{name}}',
+  pleaseSelect: '请选择{{name}}',
+  successfulOperation: '操作成功',
+  successfullyDeleted: '删除成功',
+  bigDataScreen: '数据大屏',
+  fullScreen: '全屏',
+  exitFullscreen: '退出全屏',
+  themes: '主题模式',
+  changePassword: '修改密码',
+  signOut: '退出登录',
+  signOutMessage: '是否确定退出系统？',
+  kindTips: '温馨提示',
+};

@@ -14,6 +14,9 @@ import 'nprogress/nprogress.css';
 import '@/assets/css/scrollbar.less';
 import '@/assets/css/theme-color.less';
 
+// 国际化i18n
+import './locales/config';
+
 // antd
 import '@/assets/css/antd.less';
 

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { searchList, createList, tableColumns } from './model';
 import { message } from 'antd';
 import { useTitle } from '@/hooks/useTitle';
+import { useTranslation } from 'react-i18next';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
@@ -54,6 +55,7 @@ function Page() {
   const [total, setTotal] = useState(0);
   const [tableData, setTableData] = useState<FormData[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
+  const { t } = useTranslation();
   const { permissions } = useCommonStore();
 
   // 权限前缀
@@ -154,7 +156,7 @@ function Page() {
       const functions = () => createId ? updateMenu(createId, values) : createMenu(values);
       const { code, message } = await functions();
       if (Number(code) !== 200) return;
-      messageApi.success(message || '操作成功');
+      messageApi.success(message || t('public.successfulOperation'));
       setCreateOpen(false);
       getPage();
     } finally {
@@ -171,7 +173,7 @@ function Page() {
       setLoading(true);
       const { code, message } = await deleteMenu(id as string);
       if (Number(code) === 200) {
-        messageApi.success(message || '删除成功');
+        messageApi.success(message || t('public.successfullyDeleted'));
         getPage();
       }
     } finally {

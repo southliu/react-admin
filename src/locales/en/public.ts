@@ -1,0 +1,18 @@
+export default {
+  total: 'Total',
+  date: 'Date',
+  search: 'Search',
+  create: 'Create',
+  pleaseEnter: 'Please enter {{name}}',
+  pleaseSelect: 'Please select {{name}}',
+  successfulOperation: 'Successful operation',
+  successfullyDeleted: 'Successfully deleted',
+  bigDataScreen: 'Big Data Screen',
+  fullScreen: 'Full screen',
+  exitFullscreen: 'Exit fullscreen',
+  themes: 'Themes',
+  changePassword: 'Change Password',
+  signOut: 'Sign Out',
+  signOutMessage: 'Are you sure to log out of the system?',
+  kindTips: 'Kind Tips',
+};

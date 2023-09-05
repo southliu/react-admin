@@ -1,15 +1,18 @@
 import { Row, Col } from 'antd';
 import { Icon } from '@iconify/react';
+import { useTranslation } from 'react-i18next';
 import Count from '@/components/Count';
 
-const data = [
-  { title: '用户数', num: 14966, all: 16236, icon: 'icon-park:peoples' },
-  { title: '充值数', num: 4286, all: 6142, icon: 'icon-park:paper-money' },
-  { title: '订单数', num: 5649, all: 5232, icon: 'icon-park:transaction-order' },
-  { title: '游戏数', num: 619, all: 2132, icon: 'icon-park:game-handle' },
-];
-
 function Block() {
+  const { t } = useTranslation();
+
+  const data = [
+    { title: t('dashboard.usersNumber'), num: 14966, all: 16236, icon: 'icon-park:peoples' },
+    { title: t('dashboard.rechargeAmount'), num: 4286, all: 6142, icon: 'icon-park:paper-money' },
+    { title: t('dashboard.orderNumber'), num: 5649, all: 5232, icon: 'icon-park:transaction-order' },
+    { title: t('dashboard.gameNumber'), num: 619, all: 2132, icon: 'icon-park:game-handle' },
+  ];
+
   return (
     <Row gutter={16}>
       {
@@ -31,7 +34,7 @@ function Block() {
                 <Icon icon={item.icon} />
               </div>
               <div className="flex align-center justify-between">
-                <span>总数：</span>
+                <span>{ t('public.total') }：</span>
                 <Count start={0} end={item.all} />
               </div>
             </div>

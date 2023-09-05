@@ -1,5 +1,6 @@
 import type { AppDispatch } from '@/stores';
 import type { PasswordModal } from './UpdatePassword';
+import type { MenuProps } from 'antd';
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAliveController } from 'react-activation';
@@ -8,7 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { useToken } from '@/hooks/useToken';
 import { clearInfo } from '@/stores/user';
 import { closeAllTab, setActiveKey } from '@/stores/tabs';
-import { App, Dropdown, MenuProps } from 'antd';
+import { App, Dropdown } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import {
   MenuFoldOutlined,
@@ -23,6 +25,7 @@ import Fullscreen from '@/components/Fullscreen';
 import GlobalSearch from '@/components/GlobalSearch';
 import DataScreen from '@/components/DataScreen';
 import Github from '@/components/Github';
+import I18n from '@/components/I18n';
 import Theme from '@/components/Theme';
 import UpdatePassword from './UpdatePassword';
 import Nav from './Nav';
@@ -30,9 +33,8 @@ import Nav from './Nav';
 type MenuKey = 'password' | 'logout'
 
 function Header() {
-  const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
   const [, , removeToken] = useToken();
+  const { t } = useTranslation();
   const { clear } = useAliveController();
   const { modal } = App.useApp();
   const {
@@ -43,17 +45,19 @@ function Header() {
   } = useCommonStore();
   // 是否窗口最大化
   const passwordRef = useRef<PasswordModal>(null);
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   // 下拉菜单内容
   const items: MenuProps['items'] = [
     {
       key: 'password',
-      label: (<span>修改密码</span>),
+      label: (<span>{ t('public.changePassword') }</span>),
       icon: <FormOutlined className="mr-1" />,
     },
     {
       key: 'logout',
-      label: (<span>退出登录</span>),
+      label: (<span>{ t('public.signOut') }</span>),
       icon: <LogoutOutlined className="mr-1" />,
     },
   ];
@@ -77,9 +81,9 @@ function Header() {
   /** 退出登录 */
   const handleLogout = () => {
     modal.confirm({
-      title: '温馨提示',
+      title: t('public.kindTips'),
       icon: <ExclamationCircleOutlined />,
-      content: '是否确定退出系统?',
+      content: t('public.signOutMessage'),
       onOk() {
         dispatch(clearInfo());
         dispatch(closeAllTab());
@@ -99,6 +103,7 @@ function Header() {
         <DataScreen />
         <GlobalSearch />
         <Fullscreen />
+        <I18n />
         <Theme />
         <Dropdown
           className="min-w-50px"
@@ -112,7 +117,7 @@ function Header() {
               src={Avatar}
               width={27}
               height={27}
-              alt="头像"
+              alt="Avatar"
               className="rounded-1/2 overflow-hidden object-cover bg-light-500"
             />
             <span className="ml-2 text-15px min-w-50px truncate">

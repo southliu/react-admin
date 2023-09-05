@@ -5,6 +5,7 @@ import type { FormFn } from '../Form/BasicForm';
 import { memo } from 'react';
 import { Button, FormProps } from 'antd';
 import { Form } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import { getComponent } from '../Form/utils/componentMap';
 import { handleValuePropName } from '../Form/utils/helper';
@@ -37,6 +38,7 @@ function BasicSearch(props: Props) {
     wrapperCol,
     handleFinish
   } = props;
+  const { t } = useTranslation();
   const [form] = Form.useForm();
 
   // 抛出外部方法
@@ -130,7 +132,7 @@ function BasicSearch(props: Props) {
                 loading={isLoading}
                 icon={<SearchOutlined />}
               >
-                搜索
+                { t('public.search') }
               </Button>
             </Form.Item>
           }
@@ -144,7 +146,7 @@ function BasicSearch(props: Props) {
                 icon={<PlusOutlined />}
                 onClick={onCreate}
             >
-                新增
+                { t('public.create') }
               </Button>
             </Form.Item>
           }
