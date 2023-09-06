@@ -1,5 +1,6 @@
 import type { ButtonProps } from 'antd';
 import { Button, App } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 interface Props extends Omit<ButtonProps, 'loading'> {
@@ -9,6 +10,7 @@ interface Props extends Omit<ButtonProps, 'loading'> {
 
 function DeleteBtn(props: Props) {
   const { isLoading, handleDelete } = props;
+  const { t } = useTranslation();
   const { modal } = App.useApp();
 
   // 清除自定义属性
@@ -18,12 +20,12 @@ function DeleteBtn(props: Props) {
 
   const showConfirm = () => {
     modal.confirm({
-      title: '提示',
+      title: t('public.kindTips'),
       icon: <ExclamationCircleOutlined />,
-      content: '确定要删除吗?',
-      okText: '确认',
+      content: t('public.confirmMessage', { name: t('public.delete') }),
+      okText: t('public.confirm'),
       okType: 'danger',
-      cancelText: '取消',
+      cancelText: t('public.cancel'),
       onOk() {
         handleDelete();
       },
@@ -38,7 +40,7 @@ function DeleteBtn(props: Props) {
       loading={!!isLoading}
       onClick={showConfirm}
     >
-      删除
+      { t('public.delete') }
     </Button>
   );
 }

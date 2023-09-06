@@ -1,5 +1,5 @@
+import type { TFunction } from 'i18next';
 import type { ComponentProps, ComponentType } from '#/form';
-import { PLEASE_ENTER, PLEASE_SELECT } from '@/utils/config';
 import { DATE_FORMAT, TIME_FORMAT } from '@/utils/constants';
 
 /**
@@ -25,19 +25,19 @@ export function handleValuePropName(component: ComponentType): string {
  * 初始化组件自定义属性
  * @param component - 组件名
  */
-export function initCompProps(component: ComponentType): ComponentProps {
+export function initCompProps(t: TFunction, component: ComponentType): ComponentProps {
   switch (component) {
     // 下拉框
     case 'Select':
       return {
         allowClear: true,
-        placeholder: PLEASE_SELECT
+        placeholder: t('public.inputPleaseSelect')
       };
 
     // 数字框
     case 'InputNumber':
       return {
-        placeholder: PLEASE_ENTER
+        placeholder: t('public.inputPleaseEnter')
       };
 
     // 勾选框
@@ -51,35 +51,35 @@ export function initCompProps(component: ComponentType): ComponentProps {
     // 日期
     case 'DatePicker':
       return {
-        placeholder: PLEASE_SELECT,
+        placeholder: t('public.inputPleaseSelect'),
         format: DATE_FORMAT,
       };
 
     // 日期区间
     case 'RangePicker':
       return {
-        placeholder: [PLEASE_SELECT, PLEASE_SELECT],
+        placeholder: [t('public.inputPleaseSelect'), t('public.inputPleaseSelect')],
         format: [DATE_FORMAT, DATE_FORMAT],
       };
 
     // 时间
     case 'TimePicker':
       return {
-        placeholder: PLEASE_SELECT,
+        placeholder: t('public.inputPleaseSelect'),
         format: TIME_FORMAT,
       };
 
     // 时间区间
     case 'TimeRangePicker':
       return {
-        placeholder: [PLEASE_SELECT, PLEASE_SELECT],
+        placeholder: [t('public.inputPleaseSelect'), t('public.inputPleaseSelect')],
         format: [TIME_FORMAT, TIME_FORMAT],
       };
     
     default:
       return {
         allowClear: true,
-        placeholder: PLEASE_ENTER
+        placeholder: t('public.inputPleaseEnter')
       };
   }
 }

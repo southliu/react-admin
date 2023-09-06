@@ -1,17 +1,18 @@
 import type { FormList } from '#/form';
+import type { TFunction } from 'i18next';
 import type { TableColumn, TableOptions } from '#/public';
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config';
 import { OPEN_CLOSE } from '@/utils/constants';
 
 // 搜索数据
-export const searchList: FormList[] = [
+export const searchList = (t: TFunction): FormList[] => [
   {
-    label: '年龄',
+    label: t('system.age'),
     name: 'age',
     component: 'InputNumber'
   },
   {
-    label: '名字',
+    label: t('public.name'),
     name: 'keyword',
     component: 'Input'
   }
@@ -21,7 +22,7 @@ export const searchList: FormList[] = [
  * 表格数据
  * @param optionRender - 渲染操作函数
  */
- export const tableColumns = (optionRender: TableOptions<object>): TableColumn => {
+ export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): TableColumn => {
   return [
     {
       title: 'ID',
@@ -30,36 +31,36 @@ export const searchList: FormList[] = [
       fixed: 'left'
     },
     {
-      title: '用户名',
+      title: t('login.username'),
       dataIndex: 'username',
       width: 400,
       fixed: 'left'
     },
     {
-      title: '姓名',
+      title: t('public.name'),
       dataIndex: 'real_name',
       width: 400
     },
     {
-      title: '角色',
+      title: t('system.role'),
       dataIndex: 'roles_name',
       width: 400
     },
     {
-      title: '手机号',
+      title: t('system.phone'),
       dataIndex: 'phone',
       width: 400
     },
     {
-      title: '状态',
+      title: t('system.state'),
       dataIndex: 'status',
       width: 200,
       render: (value: boolean) => (
-        <span>{ value ? '开启' : '关闭' }</span>
+        <span>{ value ? t('public.open') : t('public.close') }</span>
       )
     },
     {
-      title: '操作',
+      title: t('public.operate'),
       dataIndex: 'operate',
       width: 200,
       fixed: 'right',
@@ -69,29 +70,29 @@ export const searchList: FormList[] = [
 };
 
 // 新增数据
-export const createList: FormList[] = [
+export const createList = (t: TFunction): FormList[] => [
   {
-    label: '用户名',
+    label: t('login.username'),
     name: 'username',
-    rules: INPUT_REQUIRED,
+    rules: INPUT_REQUIRED(t),
     component: 'Input'
   },
   {
-    label: '姓名',
+    label: t('public.name'),
     name: 'real_name',
-    rules: INPUT_REQUIRED,
+    rules: INPUT_REQUIRED(t),
     component: 'Input'
   },
   {
-    label: '角色',
+    label: t('system.role'),
     name: 'roles_name',
-    rules: INPUT_REQUIRED,
+    rules: INPUT_REQUIRED(t),
     component: 'Input'
   },
   {
-    label: '状态',
+    label: t('system.state'),
     name: 'status',
-    rules: SELECT_REQUIRED,
+    rules: SELECT_REQUIRED(t),
     component: 'Select',
     componentProps: {
       options: OPEN_CLOSE

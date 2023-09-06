@@ -1,4 +1,5 @@
 import type { SideMenu } from '#/public';
+import { LANG } from '@/utils/config';
 
 /**
  * 根据路由获取展开菜单数组
@@ -124,8 +125,8 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
       const nav = matchPath(menus[i].key, currentPath);
 
       // 匹配到value值时添加到result中
-      const { label, key } = menus[i];
-      result.push({ label, key, nav });
+      const { label, labelEn, key } = menus[i];
+      result.push({ label, labelEn, key, nav });
     }
   }
 
@@ -156,6 +157,7 @@ interface GetMenuByKeyProps {
 export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | undefined {
   const { menus, permissions, key } = data;
   let { fatherNav, result } = data;
+  const lang = localStorage.getItem(LANG);
   if (!menus?.length) return result;
   if (!fatherNav) fatherNav = [];
   if (!result?.key) result = {
@@ -169,7 +171,7 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
 
     // 过滤子数据中值
     if (hasChildren(menus[i])) {
-      fatherNav.push(menus[i].label);
+      fatherNav.push(lang === 'en' ? menus[i].labelEn : menus[i].label);
 
       // 递归子数组，返回结果
       const childProps = {
@@ -192,8 +194,9 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
       menus[i]?.key === key &&
       hasPermission(menus[i], permissions)
     ) {
-      fatherNav.push(menus[i].label);
-      const { label, key } = menus[i];
+      const label = lang === 'en' ? menus[i].labelEn : menus[i].label;
+      fatherNav.push(label);
+      const { key } = menus[i];
       if (key) result = { label, key, nav: fatherNav };
     }
   }
@@ -212,6 +215,7 @@ export function filterMenus(
 ): SideMenu[] {
   const result: SideMenu[] = [];
   const newMenus = JSON.parse(JSON.stringify(menus));
+  const lang = localStorage.getItem(LANG);
 
   for (let i = 0; i < newMenus.length; i++) {
     // 处理子数组
@@ -229,7 +233,10 @@ export function filterMenus(
     if (
       hasPermission(newMenus[i], permissions) ||
       hasChildren(newMenus[i])
-    ) result.push(newMenus[i]);
+    ) {
+      if (lang === 'en') newMenus[i].label = newMenus[i].labelEn;
+      result.push(newMenus[i]);
+    }
   }
 
   return result;

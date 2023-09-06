@@ -1,6 +1,6 @@
 import type { InputProps } from 'antd';
 import { useEffect, useState } from 'react';
-import { PLEASE_ENTER } from '@/utils/config';
+import { useTranslation } from 'react-i18next';
 import { useDebounceFn } from 'ahooks';
 import { Input } from 'antd';
 import StrengthBar from './components/StrengthBar';
@@ -10,6 +10,7 @@ import StrengthBar from './components/StrengthBar';
  */
 function PasswordStrength(props: InputProps) {
   const { value } = props;
+  const { t } = useTranslation();
   const [strength, setStrength] = useState(0);
 
   /**
@@ -37,7 +38,7 @@ function PasswordStrength(props: InputProps) {
       <Input.Password
         value={value}
         allowClear={true}
-        placeholder={PLEASE_ENTER}
+        placeholder={t('public.inputPleaseEnter')}
         autoComplete="password"
         {...props}
         onChange={e => {

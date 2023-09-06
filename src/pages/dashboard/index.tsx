@@ -18,7 +18,7 @@ const initSearch = {
 
 function Dashboard() {
   const { t } = useTranslation();
-  useTitle(t('dashboard.title'));
+  useTitle(t, t('dashboard.title'));
   const [isLoading, setLoading] = useState(false);
 
   /**

@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createList, searchList, tableColumns } from './model';
 import { Button, message } from 'antd';
 import { useTitle } from '@/hooks/useTitle';
+import { useTranslation } from 'react-i18next';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
@@ -44,14 +45,15 @@ const initCreate = {
 };
 
 function Page() {
-  useTitle('用户管理');
+  const { t } = useTranslation();
+  useTitle(t, t('system.userTitle'));
   const searchFormRef = useRef<FormFn>(null);
   const createFormRef = useRef<FormFn>(null);
   const [messageApi, contextHolder] = message.useMessage();
   const [isLoading, setLoading] = useState(false);
   const [isCreateLoading, setCreateLoading] = useState(false);
   const [isCreateOpen, setCreateOpen] = useState(false);
-  const [createTitle, setCreateTitle] = useState(ADD_TITLE);
+  const [createTitle, setCreateTitle] = useState(ADD_TITLE(t));
   const [createId, setCreateId] = useState('');
   const [createData, setCreateData] = useState<FormData>(initCreate);
   const [page, setPage] = useState(initSearch.page);
@@ -143,7 +145,7 @@ function Page() {
       };
       const { code, message } = await savePermission(params);
       if (Number(code) !== 200) return;
-      messageApi.success(message || '授权成功');
+      messageApi.success(message || t('system.authorizationSuccessful'));
       setPromiseVisible(false);
     } finally {
       setLoading(false);
@@ -153,7 +155,7 @@ function Page() {
   /** 点击新增 */
   const onCreate = () => {
     setCreateOpen(true);
-    setCreateTitle(ADD_TITLE);
+    setCreateTitle(ADD_TITLE(t));
     setCreateId('');
     setCreateData(initCreate);
   };
@@ -165,7 +167,7 @@ function Page() {
   const onUpdate = async (id: string) => {
     try {
       setCreateOpen(true);
-      setCreateTitle(EDIT_TITLE(id));
+      setCreateTitle(EDIT_TITLE(t, id));
       setCreateId(id);
       setCreateLoading(true);
       const { code, data } = await getUserById(id as string);
@@ -203,7 +205,7 @@ function Page() {
       const functions = () => createId ? updateUser(createId, values) : createUser(values);
       const { code, message } = await functions();
       if (Number(code) !== 200) return;
-      messageApi.success(message || '操作成功');
+      messageApi.success(message || t('public.successfulOperation'));
       setCreateOpen(false);
       getPage();
     } finally {
@@ -220,7 +222,7 @@ function Page() {
       setLoading(true);
       const { code, message } = await deleteUser(id as string);
       if (Number(code) === 200) {
-        messageApi.success(message || '删除成功');
+        messageApi.success(message || t('public.successfullyDeleted'));
         getPage();
       }
     } finally {
@@ -254,7 +256,7 @@ function Page() {
           loading={isLoading}
           onClick={() => openPermission((record as RowData).id)}
         >
-          权限
+          { t('system.permissions') }
         </Button>
       }
       {
@@ -282,7 +284,7 @@ function Page() {
         { contextHolder }
         <BasicSearch
           formRef={searchFormRef}
-          list={searchList}
+          list={searchList(t)}
           data={initSearch}
           isLoading={isLoading}
           isCreate={pagePermission.create}
@@ -292,7 +294,7 @@ function Page() {
         
         <BasicTable
           loading={isLoading}
-          columns={tableColumns(optionRender)}
+          columns={tableColumns(t, optionRender)}
           dataSource={tableData}
         />
 
@@ -313,7 +315,7 @@ function Page() {
         >
           <BasicForm
             formRef={createFormRef}
-            list={createList}
+            list={createList(t)}
             data={createData}
             labelCol={{ span: 6 }}
             handleFinish={handleCreate}

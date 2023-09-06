@@ -2,6 +2,7 @@ import type { DataNode, TreeProps } from 'antd/es/tree';
 import type { Key } from 'antd/lib/table/interface';
 import { Drawer, Tree, Button } from 'antd';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   isVisible: boolean;
@@ -21,6 +22,7 @@ function PermissionDrawer(props: Props) {
     onClose,
     onSubmit
   } = props;
+  const { t } = useTranslation();
   const [treeCheckedKeys, setTreeCheckedKeys] = useState(checkedKeys);
 
   useEffect(() => {
@@ -34,7 +36,9 @@ function PermissionDrawer(props: Props) {
 
   /** 右上角渲染 */
   const extraRender = (
-    <Button type="primary" onClick={handleSubmit}>提交</Button>
+    <Button type="primary" onClick={handleSubmit}>
+      { t('public.submit') }
+    </Button>
   );
 
   /**
@@ -48,7 +52,7 @@ function PermissionDrawer(props: Props) {
   return (
     <Drawer
       open={isVisible}
-      title={title || '权限配置'}
+      title={title || t('system.rightsProfile')}
       placement="right"
       extra={extraRender}
       onClose={onClose}

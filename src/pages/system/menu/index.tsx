@@ -41,13 +41,14 @@ const initCreate = {
 };
 
 function Page() {
-  useTitle('菜单管理');
+  const { t } = useTranslation();
+  useTitle(t, t('system.menuTitle'));
   const searchFormRef = useRef<FormFn>(null);
   const createFormRef = useRef<FormFn>(null);
   const [isCreateOpen, setCreateOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [isCreateLoading, setCreateLoading] = useState(false);
-  const [createTitle, setCreateTitle] = useState(ADD_TITLE);
+  const [createTitle, setCreateTitle] = useState(ADD_TITLE(t));
   const [createId, setCreateId] = useState('');
   const [createData, setCreateData] = useState<FormData>(initCreate);
   const [page, setPage] = useState(initSearch.page);
@@ -55,7 +56,6 @@ function Page() {
   const [total, setTotal] = useState(0);
   const [tableData, setTableData] = useState<FormData[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
-  const { t } = useTranslation();
   const { permissions } = useCommonStore();
 
   // 权限前缀
@@ -106,7 +106,7 @@ function Page() {
   /** 点击新增 */
   const onCreate = () => {
     setCreateOpen(true);
-    setCreateTitle(ADD_TITLE);
+    setCreateTitle(ADD_TITLE(t));
     setCreateId('');
     setCreateData(initCreate);
   };
@@ -118,7 +118,7 @@ function Page() {
   const onUpdate = async (id: string) => {
     try {
       setCreateOpen(true);
-      setCreateTitle(EDIT_TITLE(id));
+      setCreateTitle(EDIT_TITLE(t, id));
       setCreateId(id);
       setCreateLoading(true);
       const { code, data } = await getMenuById(id as string);
@@ -225,7 +225,7 @@ function Page() {
         { contextHolder }
         <BasicSearch
           formRef={searchFormRef}
-          list={searchList}
+          list={searchList(t)}
           data={initSearch}
           isLoading={isLoading}
           isCreate={pagePermission.create}
@@ -235,7 +235,7 @@ function Page() {
         
         <BasicTable
           loading={isLoading}
-          columns={tableColumns(optionRender)}
+          columns={tableColumns(t, optionRender)}
           dataSource={tableData}
         />
 
@@ -257,7 +257,7 @@ function Page() {
         >
           <BasicForm
             formRef={createFormRef}
-            list={createList(createId)}
+            list={createList(t, createId)}
             data={createData}
             labelCol={{ span: 4 }}
             wrapperCol={{ span: 19 }}

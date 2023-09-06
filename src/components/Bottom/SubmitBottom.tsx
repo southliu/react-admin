@@ -1,4 +1,5 @@
 import { Button } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   goBack: () => void;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 function SubmitBottom(props: Props) {
+  const { t } = useTranslation();
   const { goBack, handleSubmit, isLoading, children } = props;
 
   return (
@@ -32,14 +34,14 @@ function SubmitBottom(props: Props) {
         danger
         onClick={goBack}
       >
-        返回
+        { t('public.back') }
       </Button>
       <Button
         loading={!!isLoading}
         type="primary"
         onClick={handleSubmit}
       >
-        提交
+        { t('public.submit') }
       </Button>
     </div>
   );

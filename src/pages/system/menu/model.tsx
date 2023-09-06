@@ -1,13 +1,14 @@
 import type { FormList } from "#/form";
+import type { TFunction } from "i18next";
 import type { TableColumn, TableOptions } from '#/public';
 import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config';
 import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from '@/utils/constants';
 import { valueToLabel } from "@/utils/helper";
 
 // 搜索数据
-export const searchList: FormList[] = [
+export const searchList = (t: TFunction): FormList[] => [
   {
-    label: '状态',
+    label: t('system.state'),
     name: 'status',
     component: 'Select',
     componentProps: {
@@ -15,7 +16,7 @@ export const searchList: FormList[] = [
     }
   },
   {
-    label: '模块',
+    label: t('system.module'),
     name: 'module',
     wrapperCol: 170,
     component: 'Select',
@@ -24,7 +25,7 @@ export const searchList: FormList[] = [
     }
   },
   {
-    label: '控制器',
+    label: t('system.controller'),
     name: 'controller',
     component: 'Input'
   }
@@ -34,7 +35,7 @@ export const searchList: FormList[] = [
  * 表格数据
  * @param optionRender - 渲染操作函数
  */
-export const tableColumns = (optionRender: TableOptions<object>): TableColumn => {
+export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): TableColumn => {
   return [
     {
       title: 'ID',
@@ -42,12 +43,12 @@ export const tableColumns = (optionRender: TableOptions<object>): TableColumn =>
       width: 200
     },
     {
-      title: '名称',
+      title: t('public.name'),
       dataIndex: 'name',
       width: 200
     },
     {
-      title: '状态',
+      title: t('system.state'),
       dataIndex: 'status',
       width: 200,
       render: (value: number) => (
@@ -55,27 +56,27 @@ export const tableColumns = (optionRender: TableOptions<object>): TableColumn =>
       )
     },
     {
-      title: '模块',
+      title: t('system.module'),
       dataIndex: 'module',
       width: 200
     },
     {
-      title: '控制器',
+      title: t('system.controller'),
       dataIndex: 'controller',
       width: 200
     },
     {
-      title: '创建时间',
+      title: t('public.creationTime'),
       dataIndex: 'created_at',
       width: 200
     },
     {
-      title: '更新时间',
+      title: t('public.updateTime'),
       dataIndex: 'updated_at',
       width: 200
     },
     {
-      title: '操作',
+      title: t('public.operate'),
       dataIndex: 'operate',
       width: 200,
       fixed: 'right',
@@ -85,39 +86,39 @@ export const tableColumns = (optionRender: TableOptions<object>): TableColumn =>
 };
 
 // 新增数据
-export const createList: (id: string) => FormList[] = id => [
+export const createList = (t: TFunction, id: string): FormList[] => [
   {
-    label: '名称',
+    label: t('public.name'),
     name: 'name',
-    rules: INPUT_REQUIRED,
+    rules: INPUT_REQUIRED(t),
     component: 'Input'
   },
   {
-    label: '状态',
+    label: t('system.state'),
     name: 'status',
-    rules: SELECT_REQUIRED,
+    rules: SELECT_REQUIRED(t),
     component: 'Select',
     componentProps: {
       options: MENU_STATUS
     }
   },
   {
-    label: '模块',
+    label: t('system.module'),
     name: 'module',
-    rules: SELECT_REQUIRED,
+    rules: SELECT_REQUIRED(t),
     component: 'Select',
     componentProps: {
       options: MENU_MODULE
     }
   },
   {
-    label: '控制器',
+    label: t('system.controller'),
     name: 'controller',
-    rules: INPUT_REQUIRED,
+    rules: INPUT_REQUIRED(t),
     component: 'Input'
   },
   {
-    label: '创建菜单',
+    label: t('system.createMenu'),
     name: 'actions',
     hidden: !!id,
     component: 'CheckboxGroup',

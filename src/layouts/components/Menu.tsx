@@ -6,6 +6,7 @@ import { Menu } from 'antd';
 import { Icon } from '@iconify/react';
 import { useDispatch } from 'react-redux';
 import { defaultMenus } from '@/menus';
+import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { addTabs, setNav, setActiveKey } from '@/stores/tabs';
@@ -22,9 +23,12 @@ import Logo from '@/assets/images/logo.svg';
 
 function LayoutMenu() {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const dispatch: AppDispatch = useDispatch();
   const [menus, setMenus] = useState<SideMenu[]>([]);
+  // 获取当前语言
+  const currentLanguage = i18n.language;
 
   const {
     isMaximize,
@@ -70,7 +74,7 @@ function LayoutMenu() {
       filterMenuIcon(newMenus);
       setMenus(newMenus || []);
     }
-  }, [filterMenuIcon, permissions]);
+  }, [filterMenuIcon, permissions, currentLanguage]);
 
   /**
    * 处理跳转
@@ -192,7 +196,7 @@ function LayoutMenu() {
             truncate
             ${isCollapsed ? 'hidden' : ''}
           `}>
-            后台管理系统
+            { t('public.currentName') }
           </span>
         </div>
 

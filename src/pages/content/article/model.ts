@@ -1,17 +1,18 @@
 import type { FormList } from "#/form";
+import type { TFunction } from "i18next";
 import type { TableColumn, TableOptions } from '#/public';
 import { INPUT_REQUIRED } from '@/utils/config';
 import CustomizeInput from './components/CustomizeInput';
 
 // 搜索数据
-export const searchList: FormList[] = [
+export const searchList = (t: TFunction): FormList[] => [
   {
-    label: '用户名',
+    label: t('login.username'),
     name: 'username',
     component: 'Input'
   },
   {
-    label: '标题',
+    label: t('content.title'),
     name: 'title',
     component: 'Input'
   }
@@ -21,7 +22,7 @@ export const searchList: FormList[] = [
  * 表格数据
  * @param optionRender - 渲染操作函数
  */
-export const tableColumns = (optionRender: TableOptions<object>): TableColumn => {
+export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): TableColumn => {
   return [
     {
       title: 'ID',
@@ -30,23 +31,23 @@ export const tableColumns = (optionRender: TableOptions<object>): TableColumn =>
       fixed: 'left'
     },
     {
-      title: '用户名',
+      title: t('login.username'),
       dataIndex: 'username',
       width: 400,
       fixed: 'left'
     },
     {
-      title: '标题',
+      title: t('content.title'),
       dataIndex: 'title',
       width: 400
     },
     {
-      title: '内容',
+      title: t('content.content'),
       dataIndex: 'content',
       width: 400
     },
     {
-      title: '操作',
+      title: t('public.operate'),
       dataIndex: 'operate',
       width: 200,
       fixed: 'right',
@@ -56,28 +57,28 @@ export const tableColumns = (optionRender: TableOptions<object>): TableColumn =>
 };
 
 // 新增数据
-export const createList: FormList[] = [
+export const createList = (t: TFunction): FormList[] => [
   {
-    label: '用户名',
+    label: t('login.username'),
     name: 'username',
-    rules: INPUT_REQUIRED,
+    rules: INPUT_REQUIRED(t),
     component: 'Input'
   },
   {
     label: '嵌套数据',
     name: ['user', 'name', 'test'],
-    rules: INPUT_REQUIRED,
+    rules: INPUT_REQUIRED(t),
     component: 'Input'
   },
   {
-    label: '标题',
+    label: t('content.title'),
     name: 'title',
-    rules: INPUT_REQUIRED,
+    rules: INPUT_REQUIRED(t),
     component: 'customize',
     render: CustomizeInput
   },
   {
-    label: '内容',
+    label: t('content.content'),
     name: 'content',
     component: 'Editor'
   }

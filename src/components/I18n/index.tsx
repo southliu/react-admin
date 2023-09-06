@@ -2,11 +2,27 @@ import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
+import { LANG } from '@/utils/config';
+import { useEffect } from 'react';
 
 type MenuKey = 'zh' | 'en'
 
 function I18n() {
   const { i18n } = useTranslation();
+
+  useEffect(() => {
+    const lang = localStorage.getItem(LANG);
+    // 获取当前语言
+    const currentLanguage = i18n.language;
+
+    if (!lang) {
+      localStorage.setItem(LANG, 'zh');
+      i18n.changeLanguage('zh');
+    } else if (currentLanguage !== lang) {
+      i18n.changeLanguage(lang);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // 下拉菜单内容
   const items: MenuProps['items'] = [
@@ -23,6 +39,7 @@ function I18n() {
   /** 点击菜单更换语言 */
   const onClick: MenuProps['onClick'] = e => {
     i18n.changeLanguage(e.key as MenuKey);
+    localStorage.setItem(LANG, e.key);
   };
 
   return (

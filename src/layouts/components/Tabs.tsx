@@ -10,6 +10,7 @@ import { useDropdownMenu } from '../hooks/useDropdownMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { setRefresh } from '@/stores/public';
+import { useTranslation } from 'react-i18next';
 import {
   setActiveKey,
   addTabs,
@@ -23,6 +24,7 @@ import TabMaximize from './TabMaximize';
 import TabOptions from './TabOptions';
 
 function LayoutTabs() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const uri = pathname + search;
@@ -142,7 +144,7 @@ function LayoutTabs() {
       setTime(
         setTimeout(() => {
           messageApi.success({
-            content: '刷新成功',
+            content: t('public.refreshSuccessfully'),
             key: 'refresh'
           });
           dispatch(setRefresh(false));

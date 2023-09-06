@@ -8,6 +8,7 @@ import { getUrlParam } from '@/utils/helper';
 import { useTitle } from '@/hooks/useTitle';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { checkPermission } from '@/utils/permissions';
 import { getOpenMenuByRouter } from '@/menus/utils/helper';
 import { setOpenKeys, setSelectedKeys } from '@/stores/menu';
@@ -60,6 +61,7 @@ const initCreate = {
 const fatherPath = '/content/article';
 
 function Page() {
+  const { t } = useTranslation();
   const { pathname, search } = useLocation();
   const uri = pathname + search;
   const id = getUrlParam(search, 'id');
@@ -76,10 +78,10 @@ function Page() {
     isPhone
   } = useCommonStore();
   
-  const title = '文章管理';
-  const createTitle = `${ADD_TITLE}${title}`;
-  const updateTitle = `${EDIT_TITLE(id, title)}`;
-  useTitle(id ? updateTitle : createTitle);
+  const title = t('content.articleTitle');
+  const createTitle = `${ADD_TITLE(t, title)}`;
+  const updateTitle = `${EDIT_TITLE(t, id, title)}`;
+  useTitle(t, id ? updateTitle : createTitle);
 
   // 权限前缀
   const permissionPrefix = '/content/article';
@@ -112,7 +114,7 @@ function Page() {
     const newTab = {
       label: title,
       key: uri,
-      nav: ['内容管理', '文章管理', title]
+      nav: [t('content.contentTitle'), t('content.articleTitle'), title]
     };
     dispatch(setActiveKey(newTab.key));
     dispatch(setNav(newTab.nav));
@@ -183,7 +185,7 @@ function Page() {
       const functions = () => createId ? updateArticle(createId, values) : createArticle(values);
       const { code, message } = await functions();
       if (Number(code) !== 200) return;
-      messageApi.success(message || '操作成功');
+      messageApi.success(message || t('public.successfulOperation'));
       createFormRef.current?.handleReset();
       goBack(true);
     } finally {
@@ -199,7 +201,7 @@ function Page() {
           <Spin spinning={isLoading}>
             <BasicForm
               formRef={createFormRef}
-              list={createList}
+              list={createList(t)}
               data={createData}
               labelCol={{ span: 5 }}
               handleFinish={handleFinish}

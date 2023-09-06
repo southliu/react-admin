@@ -13,9 +13,9 @@ import { useKeyStroke } from '@/hooks/useKeyStroke';
 import { getMenuByKey, getOpenMenuByRouter, searchMenuValue } from '@/menus/utils/helper';
 import { addTabs, setActiveKey } from '@/stores/tabs';
 import { setOpenKeys } from '@/stores/menu';
+import { useCommonStore } from '@/hooks/useCommonStore';
 import SearchResult from './SearchResult';
 import SearchFooter from './SearchFooter';
-import { useCommonStore } from '@/hooks/useCommonStore';
 
 export interface SearchModalProps {
   toggle: () => void;

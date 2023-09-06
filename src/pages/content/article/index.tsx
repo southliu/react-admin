@@ -8,6 +8,7 @@ import { message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTitle } from '@/hooks/useTitle';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { setRefreshPage } from '@/stores/public';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
@@ -30,7 +31,8 @@ const initSearch = {
 };
 
 function Page() {
-  useTitle('文章管理');
+  const { t } = useTranslation();
+  useTitle(t, t('content.articleTitle'));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const searchFormRef = useRef<FormFn>(null);
@@ -126,7 +128,7 @@ function Page() {
       setLoading(true);
       const { code, message } = await deleteArticle(id as string);
       if (Number(code) === 200) {
-        messageApi.success(message || '删除成功');
+        messageApi.success(message || t('public.successfullyDeleted'));
         getPage();
       }
     } finally {
@@ -178,7 +180,7 @@ function Page() {
         { contextHolder }
         <BasicSearch
           formRef={searchFormRef}
-          list={searchList}
+          list={searchList(t)}
           data={initSearch}
           isLoading={isLoading}
           isCreate={pagePermission.create}
@@ -188,7 +190,7 @@ function Page() {
         
         <BasicTable
           loading={isLoading}
-          columns={tableColumns(optionRender)}
+          columns={tableColumns(t, optionRender)}
           dataSource={tableData}
         />
 

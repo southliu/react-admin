@@ -25,7 +25,7 @@ import I18n from '@/components/I18n';
 
 function Login() {
   const { t } = useTranslation();
-  useTitle(t('login.login'));
+  useTitle(t, t('login.login'));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const [getToken, setToken] = useToken();
@@ -175,7 +175,7 @@ function Login() {
               name="password"
               rules={[
                 { required: true, message: t('public.pleaseEnter', { name: t('login.password') }) },
-                PASSWORD_RULE
+                PASSWORD_RULE(t)
               ]}
             >
               <Input.Password

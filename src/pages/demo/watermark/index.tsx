@@ -1,9 +1,11 @@
 import { Button } from 'antd';
 import { useTitle } from '@/hooks/useTitle';
+import { useTranslation } from 'react-i18next';
 import { useWatermark } from '@/hooks/useWatermark';
 
 function Watermark() {
-  useTitle('水印');
+  const { t } = useTranslation();
+  useTitle(t, '水印');
   const [Watermark, RemoveWatermark] = useWatermark();
   
   const openWatermark = () => {

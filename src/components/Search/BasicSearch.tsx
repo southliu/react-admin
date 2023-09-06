@@ -116,7 +116,7 @@ function BasicSearch(props: Props) {
               rules={item.rules}
               valuePropName={handleValuePropName(item.component)}
             >
-              { getComponent(item) }
+              { getComponent(t, item) }
             </Form.Item>
           ))
         }

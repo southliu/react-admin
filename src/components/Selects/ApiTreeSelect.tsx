@@ -1,8 +1,9 @@
 import type { ApiFn } from '#/form';
 import type { TreeSelectProps } from 'antd';
 import { TreeSelect } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { useCallback, useEffect, useState } from 'react';
-import { MAX_TAG_COUNT, PLEASE_SELECT } from '@/utils/config';
+import { MAX_TAG_COUNT } from '@/utils/config';
 import Loading from './components/Loading';
 
 interface Props extends TreeSelectProps {
@@ -14,6 +15,7 @@ interface Props extends TreeSelectProps {
  * @description: 根据API获取数据下拉树形组件
  */
 function ApiTreeSelect(props: Props) {
+  const { t } = useTranslation();
   const [isLoading, setLoading] = useState(false);
   const [options, setOptions] = useState<TreeSelectProps['treeData']>([]);
 
@@ -57,7 +59,7 @@ function ApiTreeSelect(props: Props) {
     <TreeSelect
       allowClear={true}
       maxTagCount={MAX_TAG_COUNT}
-      placeholder={PLEASE_SELECT}
+      placeholder={t('public.inputPleaseSelect')}
       {...params}
       loading={isLoading}
       treeData={options}

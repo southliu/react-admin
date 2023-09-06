@@ -2,6 +2,7 @@ import type { MenuProps } from 'antd';
 import type { AppDispatch } from '@/stores';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   closeLeft,
   closeOther,
@@ -34,6 +35,7 @@ interface Props {
 }
 
 export function useDropdownMenu(props: Props) {
+  const { t } = useTranslation();
   const { activeKey, onOpenChange, handleRefresh } = props;
   const { pathname } = useLocation();
   const { tabs, permissions } = useCommonStore();
@@ -46,31 +48,31 @@ export function useDropdownMenu(props: Props) {
     return [
       {
         key: ITabEnums.REFRESH,
-        label: '重新加载',
+        label: t('public.reload'),
         disabled: key !== pathname,
         icon: <RedoOutlined className="mr-5px transform rotate-270" />
       },
       {
         key: ITabEnums.CLOSE_CURRENT,
-        label: '关闭标签',
+        label: t('public.closeTab'),
         disabled: tabs.length <= 1,
         icon: <CloseOutlined className="mr-5px" />
       },
       {
         key: ITabEnums.CLOSE_OTHER,
-        label: '关闭其他',
+        label: t('public.closeOther'),
         disabled: tabs.length <= 1,
         icon: <VerticalAlignMiddleOutlined className="mr-5px transform rotate-90" />
       },
       {
         key: ITabEnums.CLOSE_LEFT,
-        label: '关闭左侧',
+        label: t('public.closeLeft'),
         disabled: index === 0,
         icon: <VerticalAlignTopOutlined className="mr-5px transform rotate-270" />
       },
       {
         key: ITabEnums.CLOSE_RIGHT,
-        label: '关闭右侧',
+        label: t('public.closeRight'),
         disabled: index === tabs.length - 1,
         icon: <VerticalAlignTopOutlined className="mr-5px transform rotate-90" />
       }

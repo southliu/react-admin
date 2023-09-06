@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useTitle } from '@/hooks/useTitle';
+import { useTranslation } from 'react-i18next';
 import WangEditor from '@/components/WangEditor';
 
 function MyEditor() {
-  useTitle('富文本');
+  const { t } = useTranslation();
+  useTitle(t, '富文本');
   // 编辑器内容
   const [html, setHtml] = useState('<p>hello</p>');
 

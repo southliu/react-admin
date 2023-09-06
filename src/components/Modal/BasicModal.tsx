@@ -4,6 +4,7 @@ import type { DraggableData, DraggableEvent } from 'react-draggable';
 import { useRef, useState } from 'react';
 import { Modal, Tooltip } from 'antd';
 import { Icon } from '@iconify/react';
+import { useTranslation } from 'react-i18next';
 import Draggable from 'react-draggable';
 
 interface Props extends Omit<ModalProps, 'onCancel'> {
@@ -12,6 +13,7 @@ interface Props extends Omit<ModalProps, 'onCancel'> {
 
 function BasicModal(props: Props) {
   const { width, children, wrapClassName, onCancel } = props;
+  const { t } = useTranslation();
   const [isDisabled, setDisabled] = useState(true);
   const [isFullscreen, setFullscreen] = useState(false);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
@@ -51,7 +53,7 @@ function BasicModal(props: Props) {
       <Tooltip
         className="hover:text-#404040"
         placement="bottom"
-        title={!isFullscreen ? '最大化' : '退出最大化'}
+        title={!isFullscreen ? t('public.maximize') : t('public.exitMaximized')}
       >
         <div
           className='p-10px mt-3px cursor-pointer'
@@ -65,7 +67,7 @@ function BasicModal(props: Props) {
       </Tooltip>
       <Tooltip
         placement="bottom"
-        title="关闭"
+        title={t('public.close')}
       >
         <div
           className='p-10px mt-3px cursor-pointer'

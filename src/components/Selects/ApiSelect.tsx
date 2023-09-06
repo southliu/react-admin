@@ -2,8 +2,9 @@ import type { ApiFn } from '#/form';
 import type { SelectProps } from 'antd';
 import type { DefaultOptionType } from 'antd/es/select';
 import { Select } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useCallback } from 'react';
-import { MAX_TAG_COUNT, PLEASE_SELECT } from '@/utils/config';
+import { MAX_TAG_COUNT } from '@/utils/config';
 import Loading from './components/Loading';
 
 interface Props extends SelectProps {
@@ -15,6 +16,7 @@ interface Props extends SelectProps {
  * @description: 根据API获取数据下拉组件
  */
 function ApiSelect(props: Props) {
+  const { t } = useTranslation();
   const [isLoading, setLoading] = useState(false);
   const [options, setOptions] = useState<DefaultOptionType[]>([]);
 
@@ -58,7 +60,7 @@ function ApiSelect(props: Props) {
     <Select
       allowClear={true}
       maxTagCount={MAX_TAG_COUNT}
-      placeholder={PLEASE_SELECT}
+      placeholder={t('public.inputPleaseSelect')}
       optionFilterProp='label'
       {...params}
       loading={isLoading}

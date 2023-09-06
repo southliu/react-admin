@@ -2,8 +2,9 @@ import type { FormProps } from 'antd/es/form/Form';
 import { Ref, useImperativeHandle } from 'react';
 import { useState } from 'react';
 import { Form, Input, message } from 'antd';
-import { PLEASE_ENTER } from '@/utils/config';
+import { useTranslation } from 'react-i18next';
 import { updatePassword } from '@/servers/login';
+import { PASSWORD_RULE } from '@/utils/config';
 import BasicModal from '@/components/Modal/BasicModal';
 import PasswordStrength from '@/components/PasswordStrength';
 
@@ -17,6 +18,7 @@ interface Props {
 
 function UpdatePassword(props: Props) {
   const { passwordRef } = props;
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const [isOpen, setOpen] = useState(false);
@@ -45,7 +47,7 @@ function UpdatePassword(props: Props) {
     // 当密码和确认密码不同时则提示错误
     if (values.password !== values.confirmPassword) {
       return messageApi.warning({
-        content: "密码和确认密码不相同!",
+        content: t('login.confirmPasswordMessage'),
         key: 'confirmPassword'
       });
     }
@@ -65,7 +67,7 @@ function UpdatePassword(props: Props) {
     <>
       { contextHolder }
       <BasicModal
-        title="修改密码"
+        title={t('public.changePassword')}
         open={isOpen}
         confirmLoading={isLoading}
         onOk={onOk}
@@ -80,25 +82,31 @@ function UpdatePassword(props: Props) {
           autoComplete="off"
         >
           <Form.Item
-            label="用户名"
+            label={t('login.username')}
             name="username"
-            rules={[{ required: true, message: '请输入用户名!' }]}
+            rules={[{ required: true, message: t('public.pleaseEnter', { name: t('login.username') }) }]}
           >
-            <Input placeholder={PLEASE_ENTER} />
+            <Input placeholder={t('public.inputPleaseEnter')} />
           </Form.Item>
 
           <Form.Item
-            label="密码"
+            label={t('login.password')}
             name="password"
-            rules={[{ required: true, message: '请输入密码!' }]}
+            rules={[
+              { required: true, message: t('public.pleaseEnter', { name: t('login.password') }) },
+              PASSWORD_RULE(t)
+            ]}
           >
             <PasswordStrength />
           </Form.Item>
 
           <Form.Item
-            label="确认密码"
+            label={t('login.confirmPassword')}
             name="confirmPassword"
-            rules={[{ required: true, message: '请输入确认密码!' }]}
+            rules={[
+              { required: true, message: t('public.pleaseEnter', { name: t('login.confirmPassword') })},
+              PASSWORD_RULE(t)
+            ]}
           >
             <PasswordStrength />
           </Form.Item>

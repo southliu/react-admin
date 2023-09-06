@@ -1,3 +1,4 @@
+import type { TFunction } from 'i18next';
 import type { ComponentType, FormList } from '#/form';
 import { initCompProps } from './helper';
 import { CreateBusiness } from '@/components/Business';
@@ -58,7 +59,7 @@ CreateBusiness();
  * 获取组件
  * @param item - 表单项
  */
-export function getComponent(item: FormList) {
+export function getComponent(t: TFunction, item: FormList) {
   const { component, componentProps } = item;
 
   // 当组件类型为自定义时
@@ -75,7 +76,7 @@ export function getComponent(item: FormList) {
 
   return (
     <Comp
-      {...initCompProps(component)}
+      {...initCompProps(t, component)}
       {...componentProps}
     />
   );

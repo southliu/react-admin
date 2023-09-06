@@ -4,6 +4,7 @@ import type { ColProps } from 'antd';
 import { useEffect, useImperativeHandle } from 'react';
 import { FormProps } from 'antd';
 import { Form } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { getComponent } from '../Form/utils/componentMap';
 import { handleValuePropName } from './utils/helper';
 import { filterDayjs } from '../Dates/utils/helper';
@@ -35,6 +36,7 @@ function BasicForm(props: Props) {
     formRef,
     handleFinish
   } = props;
+  const { t } = useTranslation();
   const [form] = Form.useForm();
 
   // 抛出外部方法
@@ -110,7 +112,7 @@ function BasicForm(props: Props) {
               className={item.hidden ? '!hidden' : ''}
               valuePropName={handleValuePropName(item.component)}
             >
-              { getComponent(item) }
+              { getComponent(t, item) }
             </Form.Item>
           ))
         }

@@ -1,5 +1,6 @@
 import { Tooltip } from 'antd';
 import { Icon } from '@iconify/react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   isRefresh: boolean;
@@ -7,10 +8,11 @@ interface Props {
 }
 
 function TabRefresh(props: Props) {
+  const { t } = useTranslation();
   const { isRefresh, onClick } = props;
 
   return (
-    <Tooltip title="重新加载" placement="bottom">
+    <Tooltip title={t('public.reload')} placement="bottom">
       <Icon
         className={`
           change

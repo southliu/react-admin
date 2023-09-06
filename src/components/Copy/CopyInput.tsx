@@ -1,10 +1,12 @@
 import type { InputProps } from 'antd';
 import { Input, message } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { useClipboard } from '@/hooks/useClipboard';
 
 const { Search } = Input;
 
 function CopyInput(props: InputProps) {
+  const { t } = useTranslation();
   const [messageApi, contextHolder] = message.useMessage();
   const [, copyToClipboard] = useClipboard();
 
@@ -13,12 +15,12 @@ function CopyInput(props: InputProps) {
    * @param value - 复制内容
    */
   const handleCopy = (value: string) => {
-    if (!value) return messageApi.warning({ content: '请输入复制内容', key: 'copy' });
+    if (!value) return messageApi.warning({ content: t('public.inputPleaseEnter'), key: 'copy' });
     try {
       copyToClipboard(value);
-      messageApi.success({ content: '复制成功', key: 'copy' });
+      messageApi.success({ content: t('public.copySuccessfully'), key: 'copy' });
     } catch(e) {
-      messageApi.warning({ content: '复制失败', key: 'copy' });
+      messageApi.warning({ content: t('public.copyFailed'), key: 'copy' });
     }
   };
 
@@ -27,8 +29,8 @@ function CopyInput(props: InputProps) {
       { contextHolder }
       <Search
         {...props}
-        placeholder="请输入"
-        enterButton="复制"
+        placeholder={t('public.inputPleaseEnter')}
+        enterButton={t('public.copy')}
         onSearch={handleCopy}
       />
     </>

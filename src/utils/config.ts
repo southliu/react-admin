@@ -1,19 +1,20 @@
+import type { TFunction } from "i18next";
+
 /**
  * @description: 配置项
  */
-export const TITLE_SUFFIX = '后台管理系统'; // 标题后缀
+export const TITLE_SUFFIX = (t: TFunction) => t('public.currentName'); // 标题后缀
 export const TOKEN = 'admin_token'; // token名称
+export const LANG = 'lang'; // 语言
 export const WATERMARK_PREFIX = 'admin'; // 水印前缀
 export const EMPTY_VALUE = '-'; // 空值显示
 export const CRYPTO_SECRET = '__Vite_Admin_Secret__'; // 加密密钥
 export const THEME_KEY = 'theme_key'; // 主题
  
  // 公共组件默认值
- export const PLEASE_ENTER = '请输入'; // 输入框默认文字
- export const PLEASE_SELECT = '请选择';// 选择框默认文字
  export const MAX_TAG_COUNT = 'responsive'; // 最多显示多少个标签，responsive：自适应
- export const INPUT_REQUIRED = [{ required: true, message: PLEASE_ENTER }]; // 输入框必填校验
- export const SELECT_REQUIRED = [{ required: true, message: PLEASE_SELECT }];// 选择框必填校验
+ export const INPUT_REQUIRED = (t: TFunction) => [{ required: true, message: t('public.inputPleaseEnter') }]; // 输入框必填校验
+ export const SELECT_REQUIRED = (t: TFunction) => [{ required: true, message: t('public.inputPleaseSelect') }];// 选择框必填校验
 
 // 环境判断
 const ENV = import.meta.env.VITE_ENV as string;
@@ -23,11 +24,11 @@ const URL = import.meta.env.VITE_BASE_URL as string;
 export const FILE_API = `${ENV === 'development' ? '/api' : URL}/authority/file/upload-file`;
 
 // 新增/编辑标题
-export const ADD_TITLE = '新增';
-export const EDIT_TITLE = (name: string, title?: string) => `编辑${ title ?? '' }${ name ? `(${name})` : '' }`;
+export const ADD_TITLE = (t: TFunction, title?: string) => t('public.createTitle', { title: title ?? '' });
+export const EDIT_TITLE = (t: TFunction, name: string, title?: string) => `${ t('public.editTitle', { title: title ?? '' }) }${ name ? `(${name})` : '' }`;
 
 // 密码规则
-export const PASSWORD_RULE = {
+export const PASSWORD_RULE = (t: TFunction) => ({
   pattern: /^(?=.*\d)(?=.*[a-zA-Z])[\da-zA-Z~!@#$%^&*+\.\_\-*]{6,30}$/,
-  message: '密码为6-30位必须包含字母和数字!'
-};
+  message: t('login.passwordRuleMessage')
+});

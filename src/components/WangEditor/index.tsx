@@ -1,6 +1,7 @@
 import '@wangeditor/editor/dist/css/style.css';
 import type { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import { FILE_API } from '@/utils/config';
 
@@ -13,6 +14,7 @@ export interface EditorProps {
 
 function WangEditor(props: EditorProps) {
   const { value, height, className, onChange } = props;
+  const { t } = useTranslation();
 
   // editor 实例
   const [editor, setEditor] = useState<IDomEditor | null>(null);
@@ -25,7 +27,7 @@ function WangEditor(props: EditorProps) {
 
   // 编辑器配置
   const editorConfig: Partial<IEditorConfig> = {
-    placeholder: '请输入内容...',
+    placeholder: t('public.inputPleaseEnter'),
     MENU_CONF: {
       uploadImage: {
         // 上传图片地址
