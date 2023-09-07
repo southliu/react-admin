@@ -14,6 +14,7 @@ function SubmitBottom(props: Props) {
 
   return (
     <div className={`
+      w-full
       bg
       fixed
       flex

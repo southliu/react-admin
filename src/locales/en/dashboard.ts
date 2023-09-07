@@ -5,7 +5,7 @@ export default {
   usersNumber: 'Number of users',
   orderNumber: 'Number of order',
   gameNumber: 'Number of games',
-  gameID: 'Game ID',
+  gameID: 'game ID',
   effectiveRechargeRatio: 'Effective recharge ratio',
   cooperativeCompany: 'Cooperative company',
   fullServerRecharge: 'Full server recharge',
