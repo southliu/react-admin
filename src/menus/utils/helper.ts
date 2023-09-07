@@ -345,6 +345,24 @@ export function handleFilterMenus(menus: SideMenu[]): SideMenu[] {
 }
 
 /**
+ * 转换为导航所需格式
+ * @param list - 标题队列
+ */
+export function handleFilterNav(list: string[]): NavData[] {
+  const result: NavData[] = [];
+
+  for (let i = 0; i < list?.length; i++) {
+    const item = list[i];
+    result.push({
+      label: item,
+      labelZh: item,
+      labelEn: item,
+    });
+  }
+  return result;
+}
+
+/**
  * 路由是否权限
  * @param route - 路由
  * @param permissions - 权限

@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { checkPermission } from '@/utils/permissions';
-import { getOpenMenuByRouter } from '@/menus/utils/helper';
+import { getOpenMenuByRouter, handleFilterNav } from '@/menus/utils/helper';
 import { setOpenKeys, setSelectedKeys } from '@/stores/menu';
 import { useActivate } from 'react-activation';
 import { setRefreshPage } from '@/stores/public';
@@ -113,8 +113,10 @@ function Page() {
     const title = id ? updateTitle : createTitle;
     const newTab = {
       label: title,
+      labelEn: title,
+      labelZh: title,
       key: uri,
-      nav: [t('content.contentTitle'), t('content.articleTitle'), title]
+      nav: handleFilterNav([t('content.contentTitle'), t('content.articleTitle'), title])
     };
     dispatch(setActiveKey(newTab.key));
     dispatch(setNav(newTab.nav));
