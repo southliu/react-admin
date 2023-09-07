@@ -33,10 +33,6 @@ export default defineConfig(({ mode }) => {
       // 跨域处理
       proxy: createProxy(VITE_PROXY)
     },
-    // 去除console和debugger
-    esbuild: {
-      pure: ["console.log", "console.warn", "console.error", "debugger"]
-    },
     build: buildOptions()
   };
 });

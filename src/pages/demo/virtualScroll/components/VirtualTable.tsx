@@ -1,12 +1,15 @@
 import type { TableColumn } from '#/public';
+import { useTranslation } from 'react-i18next';
 import BasicTable from '@/components/Table/BasicTable';
 
 function VirtualTable() {
+  const { t } = useTranslation();
+
   const columns: TableColumn = [
     { title: 'ID', dataIndex: 'id', width: 200 },
-    { title: '名称', dataIndex: 'name', width: 200 },
-    { title: '电话', dataIndex: 'phone', width: 200 },
-    { title: '数量', dataIndex: 'number', width: 200 },
+    { title: t('public.name'), dataIndex: 'name', width: 200 },
+    { title: t('system.phone'), dataIndex: 'phone', width: 200 },
+    { title: t('system.age'), dataIndex: 'number', width: 200 },
   ];
 
   const data = new Array(0).fill({});

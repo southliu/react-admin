@@ -1,9 +1,12 @@
 import type { TabPaneProps } from 'antd';
+import type { NavData } from '@/menus/utils/helper';
 import { createSlice } from '@reduxjs/toolkit';
 
-interface Tabs extends Omit<TabPaneProps, 'tab'> {
+interface TabsData extends Omit<TabPaneProps, 'tab'> {
   key: string;
   label: React.ReactNode;
+  labelZh: React.ReactNode;
+  labelEn: React.ReactNode;
 }
 
 const tabsSlice = createSlice({
@@ -12,8 +15,8 @@ const tabsSlice = createSlice({
     isLock: false,
     isMaximize: false,
     activeKey: '',
-    nav: [] as string[],
-    tabs: [] as Tabs[]
+    nav: [] as NavData[],
+    tabs: [] as TabsData[]
   },
   reducers: {
     /** 设置锁 */
@@ -31,6 +34,16 @@ const tabsSlice = createSlice({
     /** 设置导航 */
     setNav: (state, action) => {
       state.nav = action.payload;
+    },
+    /** 国际化替换 */
+    switchTabsLang: (state, action) => {
+      const { tabs } = state;
+      const { payload } = action;
+
+      for (let i = 0; i < tabs?.length; i++) {
+        const item = tabs[i];
+        item.label = payload === 'en' ? item.labelEn : item.labelZh;
+      }
     },
     /** 添加标签  */
     addTabs: (state, action) => {
@@ -141,6 +154,7 @@ export const {
   toggleMaximize,
   setActiveKey,
   setNav,
+  switchTabsLang,
   addTabs,
   closeTabs,
   closeTabGoNext,

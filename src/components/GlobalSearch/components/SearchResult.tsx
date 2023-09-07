@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { setOpenKeys } from '@/stores/menu';
 import { useDispatch } from 'react-redux';
 import { defaultMenus } from '@/menus';
+import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { addTabs, setActiveKey } from '@/stores/tabs';
 import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper';
@@ -19,9 +20,12 @@ interface Props {
 
 function SearchResult(props: Props) {
   const { list, active, onCancel, changActive } = props;
+  const { t, i18n } = useTranslation();
   const { permissions } = useCommonStore();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
+  // 获取当前语言
+  const currentLanguage = i18n.language;
 
   /**
    * 点击菜单跳转页面
@@ -60,10 +64,11 @@ function SearchResult(props: Props) {
             className="text-40px"
             icon="mdi:archive-cancel-outline"
           />
-          <span className="mt-1">暂无搜索结构</span>
+          <span className="mt-1">
+            { t('public.notSearchContent') }
+          </span>
         </div>
       }
-
       {
         list?.length > 0 &&
         <div className="mt-5">
@@ -104,7 +109,7 @@ function SearchResult(props: Props) {
                 }
                 {
                   !item.nav &&
-                  <span>{ item.label }</span>
+                  <span>{ currentLanguage === 'en' ? item.labelEn : item.label }</span>
                 }
               </div>
               <Icon className="icon text-20px p-2px mr-5px" icon="ant-design:enter-outlined" />

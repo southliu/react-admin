@@ -9,6 +9,7 @@ import { useDebounceFn } from 'ahooks';
 import { defaultMenus } from '@/menus';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useKeyStroke } from '@/hooks/useKeyStroke';
 import { getMenuByKey, getOpenMenuByRouter, searchMenuValue } from '@/menus/utils/helper';
 import { addTabs, setActiveKey } from '@/stores/tabs';
@@ -29,6 +30,7 @@ function SearchModal(props: Props) {
   const navigate = useNavigate();
   const inputRef = useRef<InputRef>(null);
   const { modalRef } = props;
+  const { t } = useTranslation();
   const { permissions } = useCommonStore();
   const [value, setValue] = useState(''); // 输入框值
   const [active, setActive] = useState(''); // 选中值
@@ -175,7 +177,7 @@ function SearchModal(props: Props) {
       <Input
         ref={inputRef}
         value={value}
-        placeholder="请输入关键词搜索"
+        placeholder={t('public.inputPleaseEnter')}
         allowClear={true}
         prefix={<Icon
           className="text-lg text-warm-gray-400"

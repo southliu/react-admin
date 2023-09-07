@@ -12,7 +12,7 @@ export const searchList = (t: TFunction): FormList[] => [
     component: 'Input'
   },
   {
-    label: t('content.title'),
+    label: t('public.title'),
     name: 'title',
     component: 'Input'
   }
@@ -37,12 +37,12 @@ export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): 
       fixed: 'left'
     },
     {
-      title: t('content.title'),
+      title: t('public.title'),
       dataIndex: 'title',
       width: 400
     },
     {
-      title: t('content.content'),
+      title: t('public.content'),
       dataIndex: 'content',
       width: 400
     },
@@ -65,20 +65,20 @@ export const createList = (t: TFunction): FormList[] => [
     component: 'Input'
   },
   {
-    label: '嵌套数据',
+    label: t('content.nestedData'),
     name: ['user', 'name', 'test'],
     rules: INPUT_REQUIRED(t),
     component: 'Input'
   },
   {
-    label: t('content.title'),
+    label: t('public.title'),
     name: 'title',
     rules: INPUT_REQUIRED(t),
     component: 'customize',
     render: CustomizeInput
   },
   {
-    label: t('content.content'),
+    label: t('public.content'),
     name: 'content',
     component: 'Editor'
   }

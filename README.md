@@ -93,7 +93,7 @@ git push
 * lib
 * hooks
 * model.tsx
-* [...all].tsx
+* 404.tsx
 
 可自行在 src/router/utils/config.ts 修改路由生成规则。
 

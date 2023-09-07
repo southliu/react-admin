@@ -3,9 +3,11 @@ import { useTranslation } from 'react-i18next';
 
 function Page() {
   const { t } = useTranslation();
-  useTitle(t, '三层结构');
+  useTitle(t, t('content.threeTierStructure'));
   return (
-    <div className="m-30px">三层结构</div>
+    <div className="m-30px">
+      { t('content.threeTierStructure') }
+    </div>
   );
 }
 

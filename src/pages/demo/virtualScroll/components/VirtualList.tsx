@@ -24,14 +24,19 @@ function VirtualList() {
   return (
     <AutoSizer>
       {({ height, width }: { height: number, width: number }) => (
-        <List
-          height={height}
-          itemCount={10000}
-          itemSize={35}
-          width={width}
-        >
-          {Row}
-        </List>
+        <>
+          {
+            height &&
+            <List
+              height={height}
+              itemCount={10000}
+              itemSize={35}
+              width={width}
+            >
+              {Row}
+            </List>
+          }
+        </>
       )}
     </AutoSizer>
   );

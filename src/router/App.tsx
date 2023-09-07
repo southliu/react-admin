@@ -4,7 +4,7 @@ import { handleRoutes } from "./utils/helper";
 import { useRoutes } from "react-router-dom";
 import Layout from '@/layouts';
 import Login from '@/pages/login';
-import NotFound from '@/pages/[...all]';
+import NotFound from '@/pages/404';
 
 type PageFiles = Record<string, () => Promise<DefaultComponent<unknown>>>;
 const pages = import.meta.glob('../pages/**/*.tsx') as PageFiles;

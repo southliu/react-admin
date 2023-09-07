@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { LANG } from '@/utils/config';
 import { useEffect } from 'react';
 
-type MenuKey = 'zh' | 'en'
+export type Langs = 'zh' | 'en'
 
 function I18n() {
   const { i18n } = useTranslation();
@@ -38,13 +38,14 @@ function I18n() {
 
   /** 点击菜单更换语言 */
   const onClick: MenuProps['onClick'] = e => {
-    i18n.changeLanguage(e.key as MenuKey);
+    i18n.changeLanguage(e.key as Langs);
     localStorage.setItem(LANG, e.key);
   };
 
   return (
     <Dropdown
       placement="bottom"
+      trigger={['click']}
       menu={{ items, onClick }}
     >
       <div

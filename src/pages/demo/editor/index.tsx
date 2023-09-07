@@ -5,7 +5,7 @@ import WangEditor from '@/components/WangEditor';
 
 function MyEditor() {
   const { t } = useTranslation();
-  useTitle(t, '富文本');
+  useTitle(t, t('content.richText'));
   // 编辑器内容
   const [html, setHtml] = useState('<p>hello</p>');
 

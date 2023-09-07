@@ -1,7 +1,7 @@
 export default {
   menuTitle: 'Menu Management',
   userTitle: 'User Management',
-  permissions: 'permissions',
+  permissions: 'Permissions',
   authorizationSuccessful: 'Authorization successful',
   state: 'State',
   module: 'Module',

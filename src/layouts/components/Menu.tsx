@@ -16,6 +16,7 @@ import {
   getFirstMenu,
   getMenuByKey,
   getOpenMenuByRouter,
+  handleFilterMenus,
   splitPath
 } from '@/menus/utils/helper';
 import styles from '../index.module.less';
@@ -207,7 +208,7 @@ function LayoutMenu() {
           mode="inline"
           theme="dark"
           inlineCollapsed={isCollapsed}
-          items={menus}
+          items={handleFilterMenus(menus)}
           onClick={onClick}
           onOpenChange={onOpenChange}
         />

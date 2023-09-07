@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { App } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { HashRouter as Router } from 'react-router-dom';
 import nprogress from 'nprogress';
 import AppPage from './App';
@@ -8,6 +9,7 @@ import StaticAntd from '@/utils/staticAntd';
 // antd
 import { theme, ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
+import enUS from 'antd/es/locale/en_US';
 
 // antd主题
 const { defaultAlgorithm, darkAlgorithm } = theme;
@@ -18,7 +20,10 @@ import { AliveScope } from 'react-activation';
 import { useCommonStore } from '@/hooks/useCommonStore';
 
 function Page() {
+  const { i18n } = useTranslation();
   const { theme } = useCommonStore();
+  // 获取当前语言
+  const currentLanguage = i18n.language;
 
   // 顶部进度条
   useEffect(() => {
@@ -38,7 +43,7 @@ function Page() {
   return (
     <Router>
       <ConfigProvider
-        locale={zhCN}
+        locale={currentLanguage === 'en' ? enUS : zhCN}
         theme={{
           algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
         }}

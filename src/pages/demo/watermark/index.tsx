@@ -5,12 +5,12 @@ import { useWatermark } from '@/hooks/useWatermark';
 
 function Watermark() {
   const { t } = useTranslation();
-  useTitle(t, '水印');
+  useTitle(t, t('content.watermark'));
   const [Watermark, RemoveWatermark] = useWatermark();
   
   const openWatermark = () => {
     Watermark({
-      content: '这是水印',
+      content: t('content.watermark'),
       height: 300,
       width: 350,
       rotate: -20,
@@ -27,10 +27,10 @@ function Watermark() {
   return (
     <div className="p-30px">
       <Button onClick={openWatermark}>
-        打开水印
+        { t('content.openWatermark') }
       </Button>
       <Button danger onClick={hidWatermark}>
-        隐藏水印
+        { t('content.hideWatermark') }
       </Button>
     </div>
   );

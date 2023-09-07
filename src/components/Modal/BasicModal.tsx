@@ -22,7 +22,7 @@ function BasicModal(props: Props) {
   /** 开始拖拽对话框 */
   const onStartMouse = (_event: DraggableEvent, uiData: DraggableData) => {
     const { clientWidth, clientHeight } = window.document.documentElement;
-    const targetRect = draggleRef.current?.getBoundingClientRect();
+    const targetRect = draggleRef.current?.getBoundingClientRect?.();
     if (!targetRect) return;
     setBounds({
       left: -targetRect.left + uiData.x,
@@ -117,6 +117,8 @@ function BasicModal(props: Props) {
       closable={false}
       maskClosable={false}
       modalRender={modalRender}
+      okText={t('public.ok')}
+      cancelText={t('public.cancel')}
       {...props}
       title={titleRender}
       wrapClassName={isFullscreen ? 'full-modal' : wrapClassName || ''}

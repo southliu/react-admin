@@ -16,7 +16,8 @@ import {
   addTabs,
   closeTabs,
   setNav,
-  toggleLock
+  toggleLock,
+  switchTabsLang
 } from '@/stores/tabs';
 import styles from '../index.module.less';
 import TabRefresh from './TabRefresh';
@@ -24,7 +25,7 @@ import TabMaximize from './TabMaximize';
 import TabOptions from './TabOptions';
 
 function LayoutTabs() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const uri = pathname + search;
@@ -36,6 +37,8 @@ function LayoutTabs() {
   const isLock = useSelector((state: RootState) => state.tabs.isLock);
   // 选中的标签值
   const activeKey = useSelector((state: RootState) => state.tabs.activeKey);
+  // 获取当前语言
+  const currentLanguage = i18n.language;
 
   const {
     tabs,
@@ -71,6 +74,11 @@ function LayoutTabs() {
   useEffect(() => {
     handleAddTab();
   }, [handleAddTab]);
+
+  useEffect(() => {
+    dispatch(switchTabsLang(currentLanguage));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentLanguage, tabs]),
 
   useEffect(() => {
     return () => {
