@@ -1,5 +1,6 @@
 import type { LoginData } from './model';
 import type { FormProps } from 'antd';
+import type { SideMenu } from '#/public';
 import type { AppDispatch } from '@/stores';
 import type { ThemeType } from '@/stores/public';
 import { message } from 'antd';
@@ -14,12 +15,13 @@ import { login } from '@/servers/login';
 import { useTitle } from '@/hooks/useTitle';
 import { useToken } from '@/hooks/useToken';
 import { setThemeValue } from '@/stores/public';
+import { setMenuList } from '@/stores/menu';
+import { getMenuList } from '@/servers/system/menu';
 import { permissionsToArray } from '@/utils/permissions';
 import { setPermissions, setUserInfo } from '@/stores/user';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { getPermissions } from '@/servers/permissions';
 import { getFirstMenu } from '@/menus/utils/helper';
-import { defaultMenus } from '@/menus';
 import Logo from '@/assets/images/logo.svg';
 import I18n from '@/components/I18n';
 
@@ -31,7 +33,7 @@ function Login() {
   const [getToken, setToken] = useToken();
   const [isLoading, setLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  const { permissions } = useCommonStore();
+  const { permissions, menuList } = useCommonStore();
   const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType;
 
   useEffect(() => {
@@ -53,8 +55,7 @@ function Login() {
         getUserPermissions();
       } else {
         // 有权限则直接跳转
-        const firstMenu = getFirstMenu(defaultMenus, permissions);
-        navigate(firstMenu);
+        handleGoMenu(permissions);
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,13 +69,45 @@ function Login() {
       if (Number(code) !== 200) return;
       const { user, permissions } = data;
       const newPermissions = permissionsToArray(permissions);
-      const firstMenu = getFirstMenu(defaultMenus, newPermissions);
       dispatch(setUserInfo(user));
       dispatch(setPermissions(newPermissions));
-      navigate(firstMenu);
+      handleGoMenu(newPermissions);
     } finally {
       setLoading(false);
     }
+  };
+
+  /** 获取菜单数据 */
+  const getMenuData = async () => {
+    if (menuList?.length) return menuList;
+    let result: SideMenu[] = [];
+
+    try {
+      setLoading(true);
+      const { code, data } = await getMenuList();
+      if (Number(code) !== 200) return;
+      dispatch(setMenuList(data || []));
+      result = data;
+    } finally {
+      setLoading(false);
+    }
+
+    return result;
+  };
+
+  /** 菜单跳转 */
+  const handleGoMenu = async (permissions: string[]) => {
+    let menuData: SideMenu[] = menuList;
+    if (!menuData?.length) {
+      menuData = await getMenuData() as SideMenu[];
+    }
+
+    // 有权限则直接跳转
+    const firstMenu = getFirstMenu(menuData, permissions);
+    if (!firstMenu) {
+      return messageApi.error({ content: t('login.notPermissions'), key: 'permissions' });
+    }
+    navigate(firstMenu);
   };
 
   /**
@@ -93,11 +126,10 @@ function Login() {
       }
 
       const newPermissions = permissionsToArray(permissions);
-      const firstMenu = getFirstMenu(defaultMenus, newPermissions);
       setToken(token);
       dispatch(setUserInfo(user));
       dispatch(setPermissions(newPermissions));
-      navigate(firstMenu);
+      handleGoMenu(newPermissions);
     } finally {
       setLoading(false);
     }

@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Modal, Input } from 'antd';
 import { Icon } from '@iconify/react';
 import { useDebounceFn } from 'ahooks';
-import { defaultMenus } from '@/menus';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +30,7 @@ function SearchModal(props: Props) {
   const inputRef = useRef<InputRef>(null);
   const { modalRef } = props;
   const { t } = useTranslation();
-  const { permissions } = useCommonStore();
+  const { permissions, menuList } = useCommonStore();
   const [value, setValue] = useState(''); // 输入框值
   const [active, setActive] = useState(''); // 选中值
   const [list, setList] = useState<SideMenu[]>([]);
@@ -85,7 +84,7 @@ function SearchModal(props: Props) {
     if (active) {
       navigate(active);
       // 添加标签
-      const menuByKeyProps = { menus: defaultMenus, permissions, key: active };
+      const menuByKeyProps = { menus: menuList, permissions, key: active };
       const newTab = getMenuByKey(menuByKeyProps);
       dispatch(addTabs(newTab));
       dispatch(setActiveKey(active));
@@ -102,7 +101,7 @@ function SearchModal(props: Props) {
    * @param value - 搜索值
    */
   const debounceSearch = useDebounceFn((value: string) => {
-    const searchProps = { menus: defaultMenus, permissions, value };
+    const searchProps = { menus: menuList, permissions, value };
     const searchValue = searchMenuValue(searchProps);
     if (searchValue?.length) {
       setActive((searchValue as SideMenu[])?.[0]?.key || '');

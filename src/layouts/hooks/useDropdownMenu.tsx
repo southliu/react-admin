@@ -16,7 +16,6 @@ import {
   VerticalAlignTopOutlined,
   VerticalAlignMiddleOutlined
 } from '@ant-design/icons';
-import { defaultMenus } from '@/menus';
 import { getMenuByKey } from '@/menus/utils/helper';
 import { useCommonStore } from '@/hooks/useCommonStore';
 
@@ -38,7 +37,7 @@ export function useDropdownMenu(props: Props) {
   const { t } = useTranslation();
   const { activeKey, onOpenChange, handleRefresh } = props;
   const { pathname } = useLocation();
-  const { tabs, permissions } = useCommonStore();
+  const { tabs, permissions, menuList } = useCommonStore();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
@@ -105,7 +104,7 @@ export function useDropdownMenu(props: Props) {
         dispatch(closeLeft(key));
         if (pathname !== key) {
           const menuByKeyProps = {
-            menus: defaultMenus,
+            menus: menuList,
             permissions,
             key
           };
@@ -122,7 +121,7 @@ export function useDropdownMenu(props: Props) {
         dispatch(closeRight(key));
         if (pathname !== key) {
           const menuByKeyProps = {
-            menus: defaultMenus,
+            menus: menuList,
             permissions,
             key
           };

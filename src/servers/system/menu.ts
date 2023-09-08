@@ -1,7 +1,7 @@
 import type { Key } from 'react';
 import type { DataNode } from 'antd/es/tree';
 import type { FormData } from '#/form';
-import type { PageServerResult, PaginationData } from '#/public';
+import type { PageServerResult, PaginationData, SideMenu } from '#/public';
 import { request } from '@/servers/request';
 
 enum API {
@@ -14,7 +14,7 @@ enum API {
  */
 export function getMenuPage(data: Partial<FormData> & PaginationData) {
   return request.get<PageServerResult<FormData[]>>(
-    `${API.URL}/index`,
+    `${API.URL}/page`,
     { params: data }
   );
 }
@@ -24,7 +24,7 @@ export function getMenuPage(data: Partial<FormData> & PaginationData) {
  * @param id - ID
  */
 export function getMenuById(id: string) {
-  return request.get<FormData>(`${API.URL}/${id}`);
+  return request.get<FormData>(`${API.URL}/detail?id=${id}`);
 }
 
 /**
@@ -70,4 +70,12 @@ export function getPermission(data: object) {
  */
 export function savePermission(data: object) {
   return request.put(`${API.URL}/authorize/save`, data);
+}
+
+/**
+ * 获取当前菜单数据
+ * @param data - 请求数据
+ */
+export function getMenuList() {
+  return request.get<SideMenu[]>(`/menu/list`);
 }

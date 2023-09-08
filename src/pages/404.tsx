@@ -1,5 +1,4 @@
 import type { AppDispatch } from '@/stores';
-import { defaultMenus } from '@/menus';
 import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
 import { addTabs, setActiveKey } from '@/stores/tabs';
 import { Button } from 'antd';
@@ -13,13 +12,13 @@ function NotFound() {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
-  const { permissions } = useCommonStore();
+  const { permissions, menuList } = useCommonStore();
 
   /** 跳转首页 */
   const goIndex = () => {
-    const firstMenu = getFirstMenu(defaultMenus, permissions);
+    const firstMenu = getFirstMenu(menuList, permissions);
     navigate(firstMenu);
-    const menuByKeyProps = { menus: defaultMenus, permissions, key: firstMenu };
+    const menuByKeyProps = { menus: menuList, permissions, key: firstMenu };
     const newItems = getMenuByKey(menuByKeyProps);
     if (newItems?.key) {
       dispatch(setActiveKey(newItems.key));

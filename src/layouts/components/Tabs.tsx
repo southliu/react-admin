@@ -2,7 +2,6 @@ import type { TabsProps } from 'antd';
 import type { AppDispatch, RootState } from '@/stores';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getMenuByKey } from '@/menus/utils/helper';
-import { defaultMenus } from '@/menus';
 import { message, Tabs, Dropdown } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAliveController } from 'react-activation';
@@ -43,7 +42,8 @@ function LayoutTabs() {
   const {
     tabs,
     permissions,
-    isMaximize
+    isMaximize,
+    menuList
   } = useCommonStore();
 
   /**
@@ -55,7 +55,7 @@ function LayoutTabs() {
     if (permissions.length > 0) {
       if (path === '/') return;
       const menuByKeyProps = {
-        menus: defaultMenus,
+        menus: menuList,
         permissions,
         key: path
       };

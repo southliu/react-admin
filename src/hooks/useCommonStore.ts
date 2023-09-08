@@ -32,6 +32,8 @@ export const useCommonStore = () => {
   const tabs = useSelector((state: RootState) => state.tabs.tabs);
   // 主题
   const theme = useSelector((state: RootState) => state.public.theme);
+  // 菜单数据
+  const menuList = useSelector((state: RootState) => state.menu.menuList);
 
   return {
     isMaximize,
@@ -46,6 +48,7 @@ export const useCommonStore = () => {
     openKeys,
     selectedKeys,
     tabs,
-    theme
+    theme,
+    menuList
   };
 };

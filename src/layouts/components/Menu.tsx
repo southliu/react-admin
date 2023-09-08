@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import { Icon } from '@iconify/react';
 import { useDispatch } from 'react-redux';
-import { defaultMenus } from '@/menus';
 import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -37,7 +36,8 @@ function LayoutMenu() {
     isPhone,
     openKeys,
     selectedKeys,
-    permissions
+    permissions,
+    menuList
   } = useCommonStore();
 
   // 处理默认展开
@@ -71,11 +71,11 @@ function LayoutMenu() {
   // 过滤没权限菜单
   useEffect(() => {
     if (permissions.length > 0) {
-      const newMenus = filterMenus(defaultMenus, permissions);
+      const newMenus = filterMenus(menuList, permissions);
       filterMenuIcon(newMenus);
       setMenus(newMenus || []);
     }
-  }, [filterMenuIcon, permissions, currentLanguage]);
+  }, [filterMenuIcon, permissions, currentLanguage, menuList]);
 
   /**
    * 处理跳转

@@ -5,7 +5,6 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { setOpenKeys } from '@/stores/menu';
 import { useDispatch } from 'react-redux';
-import { defaultMenus } from '@/menus';
 import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { addTabs, setActiveKey } from '@/stores/tabs';
@@ -21,7 +20,7 @@ interface Props {
 function SearchResult(props: Props) {
   const { list, active, onCancel, changActive } = props;
   const { t, i18n } = useTranslation();
-  const { permissions } = useCommonStore();
+  const { permissions, menuList } = useCommonStore();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   // 获取当前语言
@@ -34,7 +33,7 @@ function SearchResult(props: Props) {
   const onClick = (key: string) => {
     navigate(key);
     // 添加标签
-    const menuByKeyProps = { menus: defaultMenus, permissions, key };
+    const menuByKeyProps = { menus: menuList, permissions, key };
     const newTab = getMenuByKey(menuByKeyProps);
     dispatch(addTabs(newTab));
     dispatch(setActiveKey(key));

@@ -2,16 +2,17 @@ import type { AppDispatch } from '@/stores';
 import { useToken } from '@/hooks/useToken';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useOutlet } from 'react-router-dom';
+import { Skeleton } from 'antd';
+import { Icon } from '@iconify/react';
+import { useDebounceFn } from 'ahooks';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { useCommonStore } from '@/hooks/useCommonStore';
 import { getPermissions } from '@/servers/permissions';
 import { permissionsToArray } from '@/utils/permissions';
 import { setPermissions, setUserInfo } from '@/stores/user';
-import { toggleCollapsed, togglePhone } from '@/stores/menu';
-import { useCommonStore } from '@/hooks/useCommonStore';
-import { useLocation } from 'react-router-dom';
-import { useDebounceFn } from 'ahooks';
-import { Icon } from '@iconify/react';
-import { Skeleton } from 'antd';
+import { setMenuList, toggleCollapsed, togglePhone } from '@/stores/menu';
+import { getMenuList } from '@/servers/system/menu';
 import Menu from './components/Menu';
 import Header from './components/Header';
 import Tabs from './components/Tabs';
@@ -57,6 +58,19 @@ function Layout() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /** 获取菜单数据 */
+  const getMenuData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const { code, data } = await getMenuList();
+      if (Number(code) !== 200) return;
+      dispatch(setMenuList(data || []));
+    } finally {
+      setLoading(false);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     // 如果没有token，则返回登录页
     if (!token) {
@@ -66,8 +80,9 @@ function Layout() {
     // 当用户信息缓存不存在时则重新获取
     if (token && !userId) {
       getUserInfo();
+      getMenuData();
     }
-  }, [getUserInfo, navigate, token, userId]);
+  }, [getUserInfo, getMenuData, navigate, token, userId]);
 
   /** 判断是否是手机端 */
   const handleIsPhone = useDebounceFn(() => {

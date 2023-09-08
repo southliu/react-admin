@@ -12,7 +12,7 @@ enum API {
  */
 export function getArticlePage(data: Partial<FormData> & PaginationData) {
   return request.get<PageServerResult<FormData[]>>(
-    `${API.URL}/index`,
+    `${API.URL}/page`,
     { params: data }
   );
 }
@@ -22,7 +22,7 @@ export function getArticlePage(data: Partial<FormData> & PaginationData) {
  * @param id - ID
  */
 export function getArticleById(id: string) {
-  return request.get<FormData>(`${API.URL}/${id}`);
+  return request.get<FormData>(`${API.URL}/detail?id=${id}`);
 }
 
 /**

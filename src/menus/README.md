@@ -17,3 +17,12 @@
         └─ /demo/level1/level2
             └─ /demo/level1/level3
 ```
+
+### 静态菜单方法：
+如果需要使用静态菜单将useCommonStore中的menuList改为defaultMenus。
+```js
+// src/hooks/useCommonStore.ts
+import { defaultMenus } from '@/menus';
+// 菜单数据
+const menuList = defaultMenus;
+```
