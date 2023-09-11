@@ -1,4 +1,5 @@
 import type { EChartsCoreOption } from 'echarts';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEcharts } from '@/hooks/useEcharts';
 import { useCommonStore } from '@/hooks/useCommonStore';
@@ -71,9 +72,12 @@ function Bar() {
 
   const [echartsRef, init] = useEcharts(option, data);
 
-  if (permissions.length && echartsRef.current) {
-    init();
-  }
+  useEffect(() => {
+    if (permissions.length && echartsRef.current) {
+      init();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [echartsRef]);
   
   return (
     <div className='w-38% h-550px border border-gray-200 rounded-10px'>
