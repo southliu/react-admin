@@ -8,7 +8,6 @@ export const TOKEN = 'admin_token'; // token名称
 export const LANG = 'lang'; // 语言
 export const WATERMARK_PREFIX = 'admin'; // 水印前缀
 export const EMPTY_VALUE = '-'; // 空值显示
-export const CRYPTO_SECRET = '__Vite_Admin_Secret__'; // 加密密钥
 export const THEME_KEY = 'theme_key'; // 主题
  
  // 公共组件默认值
