@@ -7,6 +7,13 @@ import type {
 
 export interface RequestCancel extends Cancel {
   data: object;
+  response: {
+    status: number;
+    data: {
+      code?: number;
+      message?: string;
+    }
+  }
 }
 
 export interface RequestInterceptors<T> {

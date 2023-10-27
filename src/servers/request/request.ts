@@ -28,8 +28,25 @@ class AxiosRequest {
     this.instance.interceptors.request.use(
       (res: InternalAxiosRequestConfig) => {
         const controller = new AbortController();
-        const url = res.url || '';
+        let url = res.method || '';
         res.signal = controller.signal;
+
+        if (res.url) url += `^${res.url}`;
+
+        // 如果存在参数
+        if (res.params) {
+          for (const key in res.params) {
+            url += `&${key}=${res.params[key]}`;
+          }
+        }
+
+        // 如果存在post数据
+        if (res.data && res.data?.[0] === '{' && res.data?.[res.data?.length - 1] === '}') {
+          const obj = JSON.parse(res.data);
+          for (const key in obj) {
+            url += `#${key}=${obj[key]}`;
+          }
+        } 
 
         // 如果存在则删除该请求
         if (this.abortControllerMap.get(url)) {
