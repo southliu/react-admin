@@ -1,7 +1,6 @@
 import type { PluginOption } from 'vite';
 import { presetUno, presetAttributify, presetIcons } from 'unocss';
 import { visualizer } from 'rollup-plugin-visualizer';
-import { preloadPlugin } from './preload';
 import { timePlugin } from './time';
 import react from '@vitejs/plugin-react-swc';
 import legacy from '@vitejs/plugin-legacy';
@@ -41,8 +40,6 @@ export function createVitePlugins() {
     }),
     // 打包时间
     timePlugin(),
-    // 预加载处理
-    vitePlugins.push(preloadPlugin());
     // 压缩包
     vitePlugins.push(viteCompression());
   }
