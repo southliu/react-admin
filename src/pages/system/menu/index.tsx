@@ -4,7 +4,6 @@ import type { FormFn } from '@/components/Form/BasicForm';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { searchList, createList, tableColumns } from './model';
 import { message } from 'antd';
-import { useTitle } from '@/hooks/useTitle';
 import { useTranslation } from 'react-i18next';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
@@ -42,7 +41,6 @@ const initCreate = {
 
 function Page() {
   const { t } = useTranslation();
-  useTitle(t, t('system.menuTitle'));
   const searchFormRef = useRef<FormFn>(null);
   const createFormRef = useRef<FormFn>(null);
   const [isCreateOpen, setCreateOpen] = useState(false);

@@ -2,7 +2,6 @@ import type { FormData } from '#/form';
 import { useCallback, useEffect, useState } from 'react';
 import { getDataTrends } from '@/servers/dashboard';
 import { searchList } from './model';
-import { useTitle } from '@/hooks/useTitle';
 import { useUnactivate } from 'react-activation';
 import { useTranslation } from 'react-i18next';
 import BasicSearch from '@/components/Search/BasicSearch';
@@ -18,7 +17,6 @@ const initSearch = {
 
 function Dashboard() {
   const { t } = useTranslation();
-  useTitle(t, t('dashboard.title'));
   const [isLoading, setLoading] = useState(false);
 
   /**

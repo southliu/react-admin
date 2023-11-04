@@ -6,7 +6,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { searchList, tableColumns } from './model';
 import { message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTitle } from '@/hooks/useTitle';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { setRefreshPage } from '@/stores/public';
@@ -32,7 +31,6 @@ const initSearch = {
 
 function Page() {
   const { t } = useTranslation();
-  useTitle(t, t('content.articleTitle'));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const searchFormRef = useRef<FormFn>(null);

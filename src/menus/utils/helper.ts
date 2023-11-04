@@ -244,6 +244,42 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
 }
 
 /**
+ * 获取菜单名
+ * @param list - 菜单列表
+ * @param path - 路径
+ * @param lang - 语言
+ */
+export const getMenuName = (list: SideMenu[], path: string, lang: string) => {
+  let result = '';
+
+  const deepData = (list: SideMenu[], path: string) => {
+    if (result) return result;
+
+    for (let i = 0; i < list?.length; i++) {
+      const item = list[i];
+      
+      if (item.key === path) {
+        result = lang === 'en' ? item.labelEn : item.label;
+        return result;
+      }
+
+      if (item.children?.length) {
+        const childResult = deepData(item.children, path);
+        if (childResult) {
+          result = childResult;
+          return result;
+        }
+      }
+    }
+
+    return result;
+  };
+  deepData(list, path);
+
+  return result;
+};
+
+/**
  * 过滤权限菜单
  * @param menus - 菜单
  * @param permissions - 权限列表

@@ -5,29 +5,18 @@ import type { FormFn } from '@/components/Form/BasicForm';
 import { message, Spin } from 'antd';
 import { createList } from './model';
 import { getUrlParam } from '@/utils/helper';
-import { useTitle } from '@/hooks/useTitle';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { checkPermission } from '@/utils/permissions';
-import { getOpenMenuByRouter, handleFilterNav } from '@/menus/utils/helper';
-import { setOpenKeys, setSelectedKeys } from '@/stores/menu';
-import { useActivate } from 'react-activation';
 import { setRefreshPage } from '@/stores/public';
 import { useCommonStore } from '@/hooks/useCommonStore';
-import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import {
-  useCallback,
   useEffect,
   useRef,
   useState
 } from 'react';
-import {
-  addTabs,
-  setNav,
-  setActiveKey,
-  closeTabGoNext
-} from '@/stores/tabs';
+import { closeTabGoNext } from '@/stores/tabs';
 import {
   getArticleById,
   createArticle,
@@ -36,6 +25,7 @@ import {
 import BasicForm from '@/components/Form/BasicForm';
 import BasicContent from '@/components/Content/BasicContent';
 import SubmitBottom from '@/components/Bottom/SubmitBottom';
+import { useSingleTab } from '@/hooks/useSingleTab';
 
 interface RecordType {
   key: string;
@@ -71,18 +61,9 @@ function Page() {
   const [createId, setCreateId] = useState('');
   const [createData, setCreateData] = useState<FormData>(initCreate);
   const [messageApi, contextHolder] = message.useMessage();
-
-  const {
-    permissions,
-    isCollapsed,
-    isPhone
-  } = useCommonStore();
+  const { permissions } = useCommonStore();
+  useSingleTab(fatherPath);
   
-  const title = t('content.articleTitle');
-  const createTitle = `${ADD_TITLE(t, title)}`;
-  const updateTitle = `${EDIT_TITLE(t, id, title)}`;
-  useTitle(t, id ? updateTitle : createTitle);
-
   // 权限前缀
   const permissionPrefix = '/content/article';
 
@@ -91,46 +72,6 @@ function Page() {
     create: checkPermission(`${permissionPrefix}/create`, permissions),
     update: checkPermission(`${permissionPrefix}/update`, permissions),
   };
-
-  // 处理默认展开
-  useEffect(() => {
-    const newOpenKey = getOpenMenuByRouter(fatherPath);
-    if (!isPhone && !isCollapsed) {
-      dispatch(setOpenKeys(newOpenKey));
-      dispatch(setSelectedKeys(fatherPath));
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  /**
-   * 添加标签
-   * @param path - 路径
-   */
-  const handleAddTab = useCallback((path = pathname) => {
-    // 当值为空时匹配路由
-    if (path === '/') return;
-
-    const title = id ? updateTitle : createTitle;
-    const newTab = {
-      label: title,
-      labelEn: title,
-      labelZh: title,
-      key: uri,
-      nav: handleFilterNav([t('content.contentTitle'), t('content.articleTitle'), title])
-    };
-    dispatch(setActiveKey(newTab.key));
-    dispatch(setNav(newTab.nav));
-    dispatch(addTabs(newTab));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, pathname, search]);
-
-  useEffect(() => {
-    handleAddTab();
-  }, [handleAddTab]);
-
-  useActivate(() => {
-    handleAddTab();
-  });
 
   useEffect(() => {
     id ? handleUpdate(id) : handleCreate();

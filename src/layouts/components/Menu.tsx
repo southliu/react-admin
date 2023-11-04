@@ -4,6 +4,7 @@ import type { AppDispatch } from '@/stores';
 import { useCallback, useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import { Icon } from '@iconify/react';
+import { setTitle } from '@/utils/helper';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
@@ -14,6 +15,7 @@ import {
   filterMenus,
   getFirstMenu,
   getMenuByKey,
+  getMenuName,
   getOpenMenuByRouter,
   handleFilterMenus,
   splitPath
@@ -49,6 +51,21 @@ function LayoutMenu() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  /**
+   * 设置浏览器标签
+   * @param list - 菜单列表
+   * @param path - 路径
+   */
+  const handleSetTitle = useCallback((list: SideMenu[], path: string) => {
+    const title = getMenuName(list, path, i18n.language);
+    if (title) setTitle(t, title);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    handleSetTitle(menuList, pathname);
+  }, [pathname, menuList, handleSetTitle]);
 
   /**
    * 转换菜单icon格式

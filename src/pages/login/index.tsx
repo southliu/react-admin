@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { PASSWORD_RULE, THEME_KEY } from '@/utils/config';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login } from '@/servers/login';
-import { useTitle } from '@/hooks/useTitle';
 import { useToken } from '@/hooks/useToken';
 import { setThemeValue } from '@/stores/public';
 import { setMenuList } from '@/stores/menu';
@@ -27,7 +26,6 @@ import I18n from '@/components/I18n';
 
 function Login() {
   const { t } = useTranslation();
-  useTitle(t, t('login.login'));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const [getToken, setToken] = useToken();

@@ -1,11 +1,9 @@
-import { useTitle } from '@/hooks/useTitle';
 import { useTranslation } from 'react-i18next';
 import VirtualList from './components/VirtualList';
 import VirtualTable from './components/VirtualTable';
 
 function VirtualScroll() {
   const { t } = useTranslation();
-  useTitle(t, t('content.virtualScroll'));
   return (
     <div className='flex px-30px h-full py-5 bg-white'>
       <div className='flex flex-col mr-30px'>
