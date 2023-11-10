@@ -53,4 +53,8 @@ export default {
   returnHome: '返回首页',
   notPermissionMessage: '当前页面无法访问，可能没权限或已删除!',
   notFindMessage: '当前页面无法访问，可能没权限或已删除',
+  requiredForm: '{{label}}为必填项',
+  validateEmail: '{{label}}不是邮箱格式！',
+  validateNumber: '{{label}}不是数字格式！',
+  validateRange: '{{label}}必须大于{{min}}且小于{{max}}',
 };

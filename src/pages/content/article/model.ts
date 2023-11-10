@@ -1,7 +1,7 @@
 import type { FormList } from "#/form";
 import type { TFunction } from "i18next";
 import type { TableColumn, TableOptions } from '#/public';
-import { INPUT_REQUIRED } from '@/utils/config';
+import { FORM_REQUIRED } from '@/utils/config';
 import CustomizeInput from './components/CustomizeInput';
 
 // 搜索数据
@@ -61,19 +61,19 @@ export const createList = (t: TFunction): FormList[] => [
   {
     label: t('login.username'),
     name: 'username',
-    rules: INPUT_REQUIRED(t),
+    rules: FORM_REQUIRED,
     component: 'Input'
   },
   {
     label: t('content.nestedData'),
     name: ['user', 'name', 'test'],
-    rules: INPUT_REQUIRED(t),
+    rules: FORM_REQUIRED,
     component: 'Input'
   },
   {
     label: t('public.title'),
     name: 'title',
-    rules: INPUT_REQUIRED(t),
+    rules: FORM_REQUIRED,
     component: 'customize',
     render: CustomizeInput
   },

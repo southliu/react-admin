@@ -1,7 +1,7 @@
 import type { FormList } from "#/form";
 import type { TFunction } from "i18next";
 import type { TableColumn, TableOptions } from '#/public';
-import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config';
+import { FORM_REQUIRED } from '@/utils/config';
 import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from '@/utils/constants';
 import { valueToLabel } from "@/utils/helper";
 
@@ -90,13 +90,13 @@ export const createList = (t: TFunction, id: string): FormList[] => [
   {
     label: t('public.name'),
     name: 'name',
-    rules: INPUT_REQUIRED(t),
+    rules: FORM_REQUIRED,
     component: 'Input'
   },
   {
     label: t('system.state'),
     name: 'status',
-    rules: SELECT_REQUIRED(t),
+    rules: FORM_REQUIRED,
     component: 'Select',
     componentProps: {
       options: MENU_STATUS
@@ -105,7 +105,7 @@ export const createList = (t: TFunction, id: string): FormList[] => [
   {
     label: t('system.module'),
     name: 'module',
-    rules: SELECT_REQUIRED(t),
+    rules: FORM_REQUIRED,
     component: 'Select',
     componentProps: {
       options: MENU_MODULE
@@ -114,7 +114,7 @@ export const createList = (t: TFunction, id: string): FormList[] => [
   {
     label: t('system.controller'),
     name: 'controller',
-    rules: INPUT_REQUIRED(t),
+    rules: FORM_REQUIRED,
     component: 'Input'
   },
   {

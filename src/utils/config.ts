@@ -12,8 +12,7 @@ export const THEME_KEY = 'theme_key'; // 主题
  
  // 公共组件默认值
  export const MAX_TAG_COUNT = 'responsive'; // 最多显示多少个标签，responsive：自适应
- export const INPUT_REQUIRED = (t: TFunction) => [{ required: true, message: t('public.inputPleaseEnter') }]; // 输入框必填校验
- export const SELECT_REQUIRED = (t: TFunction) => [{ required: true, message: t('public.inputPleaseSelect') }];// 选择框必填校验
+ export const FORM_REQUIRED = [{ required: true }]; // 表单必填校验
 
 // 环境判断
 const ENV = import.meta.env.VITE_ENV as string;

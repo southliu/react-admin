@@ -71,6 +71,17 @@ function BasicForm(props: Props) {
     form.setFieldsValue(props.data);
   }, [form, props.data]);
 
+  const validateMessages = {
+    required: t('public.requiredForm', { label: '${label}' }),
+    types: {
+      email: t('public.validateEmail', { label: '${label}' }),
+      number: t('public.validateNumber', { label: '${label}' }),
+    },
+    number: {
+      range: t('public.validateRange', { label: '${label}', max: '${max}', min: '${min}' }),
+    },
+  };
+
   /**
    * 提交表单
    * @param values - 表单值
@@ -98,6 +109,7 @@ function BasicForm(props: Props) {
         labelCol={labelCol ? labelCol : { span: 6 }}
         wrapperCol={wrapperCol ? wrapperCol : { span: 15 }}
         initialValues={data}
+        validateMessages={validateMessages}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"

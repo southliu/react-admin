@@ -53,4 +53,8 @@ export default {
   returnHome: 'Return home',
   notPermissionMessage: 'The current page cannot be accessed, it may not have permission or has been deleted!',
   notFindMessage: 'The current page cannot be accessed, it may not have permission or has been deleted',
+  requiredForm: '{{label}} is required!',
+  validateEmail: '{{label}} is not a valid email!',
+  validateNumber: '{{label}} is not a valid number!',
+  validateRange: '{{label}} must be between {{min}} and {{max}}',
 };

@@ -1,7 +1,7 @@
 import type { FormList } from '#/form';
 import type { TFunction } from 'i18next';
 import type { TableColumn, TableOptions } from '#/public';
-import { INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config';
+import { FORM_REQUIRED } from '@/utils/config';
 import { OPEN_CLOSE } from '@/utils/constants';
 
 // 搜索数据
@@ -74,25 +74,25 @@ export const createList = (t: TFunction): FormList[] => [
   {
     label: t('login.username'),
     name: 'username',
-    rules: INPUT_REQUIRED(t),
+    rules: FORM_REQUIRED,
     component: 'Input'
   },
   {
     label: t('public.name'),
     name: 'real_name',
-    rules: INPUT_REQUIRED(t),
+    rules: FORM_REQUIRED,
     component: 'Input'
   },
   {
     label: t('system.role'),
     name: 'roles_name',
-    rules: INPUT_REQUIRED(t),
+    rules: FORM_REQUIRED,
     component: 'Input'
   },
   {
     label: t('system.state'),
     name: 'status',
-    rules: SELECT_REQUIRED(t),
+    rules: FORM_REQUIRED,
     component: 'Select',
     componentProps: {
       options: OPEN_CLOSE
