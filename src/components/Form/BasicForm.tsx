@@ -1,6 +1,6 @@
 import type { ReactNode, Ref } from 'react';
 import type { FormData, FormList } from '#/form';
-import type { ColProps } from 'antd';
+import type { ColProps, FormItemProps } from 'antd';
 import { useEffect, useImperativeHandle } from 'react';
 import { FormProps } from 'antd';
 import { Form } from 'antd';
@@ -117,6 +117,7 @@ function BasicForm(props: Props) {
         {
           list?.map(item => (
             <Form.Item
+              {...item as FormItemProps}
               key={`${item.name}`}
               label={item.label}
               name={item.name}

@@ -75,10 +75,18 @@ export function getComponent(t: TFunction, item: FormList) {
   if (!Comp) return <></>;
 
   return (
-    <Comp
-      {...initCompProps(t, component)}
-      {...componentProps}
-    />
+    <>
+      <Comp
+        {...initCompProps(t, component)}
+        {...componentProps}
+      />
+      {
+        item.unit &&
+        <span className='ml-5px whitespace-nowrap'>
+          { item.unit }
+        </span>
+      }
+    </>
   );
 }
 

@@ -62,24 +62,46 @@ export const createList = (t: TFunction): FormList[] => [
     label: t('login.username'),
     name: 'username',
     rules: FORM_REQUIRED,
-    component: 'Input'
+    component: 'Input',
+    componentProps: {
+      style: {
+        width: '80%'
+      }
+    }
   },
   {
     label: t('content.nestedData'),
     name: ['user', 'name', 'test'],
     rules: FORM_REQUIRED,
-    component: 'Input'
+    component: 'Input',
+    unit: '单位',
+    extra: '这是描述，这是描述，这是描述。',
+    componentProps: {
+      style: {
+        width: '80%'
+      }
+    }
   },
   {
     label: t('public.title'),
     name: 'title',
     rules: FORM_REQUIRED,
     component: 'customize',
-    render: CustomizeInput
+    render: CustomizeInput,
+    componentProps: {
+      style: {
+        width: '80%'
+      }
+    }
   },
   {
     label: t('public.content'),
     name: 'content',
-    component: 'Editor'
+    component: 'Editor',
+    componentProps: {
+      style: {
+        width: '80%'
+      }
+    }
   }
 ];

@@ -11,7 +11,8 @@ import type {
   CheckboxProps,
   SliderSingleProps,
   TimeRangePickerProps,
-  TransferProps
+  TransferProps,
+  FormItemProps,
 } from "antd";
 import type { Key, ReactNode } from "react";
 import type { RangePickerProps } from 'antd/lib/date-picker';
@@ -126,11 +127,12 @@ export type FormRule = RuleObject & {
 }
 
 // 表单数据
-export type FormList = {
+export interface FormList extends FormItemProps {
   name: string | string[]; // 表单域字段
   label: string; // 标签
   placeholder?: string; // 占位符
   hidden?: boolean; // 是否隐藏
+  unit?: string; // 单位
   rules?: FormRule[]; // 规则
   labelCol?: number; // label宽度
   wrapperCol?: number; // 内容宽度
