@@ -23,7 +23,6 @@ import Avatar from '@/assets/images/avatar.png';
 import styles from '../index.module.less';
 import Fullscreen from '@/components/Fullscreen';
 import GlobalSearch from '@/components/GlobalSearch';
-import DataScreen from '@/components/DataScreen';
 import Github from '@/components/Github';
 import I18n from '@/components/I18n';
 import Theme from '@/components/Theme';
@@ -100,7 +99,6 @@ function Header() {
     return (
       <div className="flex items-center">
         <Github />
-        <DataScreen />
         <GlobalSearch />
         <Fullscreen />
         <I18n />

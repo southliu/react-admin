@@ -15,7 +15,6 @@ export default {
   confirmMessage: '确定要{{name}}吗',
   successfulOperation: '操作成功',
   successfullyDeleted: '删除成功',
-  bigDataScreen: '数据大屏',
   fullScreen: '全屏',
   exitFullscreen: '退出全屏',
   themes: '主题模式',
