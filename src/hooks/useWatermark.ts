@@ -31,7 +31,7 @@ export function useWatermark() {
     if (document.getElementById('south_watermark') !== null) {
       return;
     }
-    const TpLine = Math.floor(document.body.clientWidth / width) * 2; // 一行显示几列
+    const TpLine = Math.floor(document.body?.clientWidth / width) * 2; // 一行显示几列
     let StrLine = '';
     for (let i = 0; i < TpLine; i++) {
       const style = `

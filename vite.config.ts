@@ -10,9 +10,16 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, root);
   const viteEnv = handleEnv(env);
   const { VITE_SERVER_PORT, VITE_PROXY } = viteEnv;
+    
+  // 打包时获取版本信息
+  const currentTimeVersion = new Date().getTime();
 
   return {
-    plugins: createVitePlugins(),
+    plugins: createVitePlugins(currentTimeVersion),
+    define: {
+      // 定义全局变量
+      'process.env.VITE_APP_VERSION': currentTimeVersion,
+    },
     resolve: {
       alias: {
         '@': '/src',

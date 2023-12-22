@@ -2,11 +2,12 @@ import type { AppDispatch } from '@/stores';
 import { useToken } from '@/hooks/useToken';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useOutlet } from 'react-router-dom';
-import { Skeleton } from 'antd';
+import { Skeleton, message } from 'antd';
 import { Icon } from '@iconify/react';
 import { useDebounceFn } from 'ahooks';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { versionCheck } from './utils/helper';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { getPermissions } from '@/servers/permissions';
 import { permissionsToArray } from '@/utils/permissions';
@@ -29,6 +30,7 @@ function Layout() {
   const token = getToken();
   const outlet = useOutlet();
   const [isLoading, setLoading] = useState(true);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const {
     permissions,
@@ -83,6 +85,12 @@ function Layout() {
       getMenuData();
     }
   }, [getUserInfo, getMenuData, navigate, token, userId]);
+  
+  // 监测是否需要刷新
+  useEffect(() => {
+    versionCheck(messageApi);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   /** 判断是否是手机端 */
   const handleIsPhone = useDebounceFn(() => {
@@ -104,6 +112,7 @@ function Layout() {
 
   return (
     <div id="layout">
+      { contextHolder }
       <Menu />
       <div className={styles.layout_right}>
         <div
