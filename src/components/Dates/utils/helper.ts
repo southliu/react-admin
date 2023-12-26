@@ -2,7 +2,7 @@ import type { FormData, FormList } from '#/form';
 import type { Dayjs } from 'dayjs';
 import type { RangeValue } from '#/public';
 import type { DatePickerProps } from 'antd';
-import { DATE_FORMAT } from '@/utils/constants';
+import { DATE_FORMAT } from '@/utils/config';
 import dayjs from 'dayjs';
 
 /**

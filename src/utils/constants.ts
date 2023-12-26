@@ -22,10 +22,6 @@ export interface Constant extends Omit<DefaultOptionType, 'children'> {
   children?: Constant[];
 }
 
-// 日期格式化
-export const DATE_FORMAT = 'YYYY-MM-DD';
-export const TIME_FORMAT = 'YYYY-MM-DD hh:mm:ss';
-
 /**
  * 开启状态
  */

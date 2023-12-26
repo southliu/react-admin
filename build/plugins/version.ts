@@ -1,11 +1,5 @@
-//简易Ts版
-// versionUpdatePlugin.js
 import fs from 'fs';
 import path from 'path';
-
-interface OptionVersion {
-	version: number | string;
-}
 
 interface configObj {
 	publicDir: string;
@@ -18,23 +12,24 @@ const writeVersion = (versionFileName: string, content: string | NodeJS.ArrayBuf
 	});
 };
 
-export const versionUpdatePlugin = (options: OptionVersion) => {
+// 打包时获取版本信息
+const VERSION_TIME = new Date().getTime();
+
+export const versionUpdatePlugin = () => {
 	let config: configObj = { publicDir: '' };
 
 	return {
 		name: 'version-update',
-
 		configResolved(resolvedConfig: configObj) {
 			// 存储最终解析的配置
 			config = resolvedConfig;
 		},
-
 		buildStart() {
 			// 生成版本信息文件路径
 			const file = config.publicDir + path.sep + 'version.json';
 
 			// 这里使用编译时间作为版本信息
-			const content = JSON.stringify({ version: options.version });
+			const content = JSON.stringify({ version: VERSION_TIME });
 
 			if (fs.existsSync(config.publicDir)) {
 				writeVersion(file, content);

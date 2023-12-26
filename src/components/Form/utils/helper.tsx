@@ -1,6 +1,6 @@
 import type { TFunction } from 'i18next';
 import type { ComponentProps, ComponentType } from '#/form';
-import { DATE_FORMAT, TIME_FORMAT } from '@/utils/constants';
+import { DATE_FORMAT, TIME_FORMAT } from '@/utils/config';
 
 /**
  * 处理子节点的值的属性

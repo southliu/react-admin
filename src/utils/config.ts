@@ -7,12 +7,17 @@ export const TITLE_SUFFIX = (t: TFunction) => t('public.currentName'); // 标题
 export const TOKEN = 'admin_token'; // token名称
 export const LANG = 'lang'; // 语言
 export const WATERMARK_PREFIX = 'admin'; // 水印前缀
+export const VERSION = 'admin_version'; // 版本
 export const EMPTY_VALUE = '-'; // 空值显示
 export const THEME_KEY = 'theme_key'; // 主题
+
+// 公共组件默认值
+export const MAX_TAG_COUNT = 'responsive'; // 最多显示多少个标签，responsive：自适应
+export const FORM_REQUIRED = [{ required: true }]; // 表单必填校验
  
- // 公共组件默认值
- export const MAX_TAG_COUNT = 'responsive'; // 最多显示多少个标签，responsive：自适应
- export const FORM_REQUIRED = [{ required: true }]; // 表单必填校验
+// 日期格式化
+export const DATE_FORMAT = 'YYYY-MM-DD';
+export const TIME_FORMAT = 'YYYY-MM-DD hh:mm:ss';
 
 // 环境判断
 const ENV = import.meta.env.VITE_ENV as string;

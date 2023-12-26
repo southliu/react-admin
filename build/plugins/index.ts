@@ -8,7 +8,7 @@ import legacy from '@vitejs/plugin-legacy';
 import unocss from 'unocss/vite';
 import viteCompression from 'vite-plugin-compression';
 
-export function createVitePlugins(currentTimeVersion: number) {
+export function createVitePlugins() {
   // 插件参数
   const vitePlugins: PluginOption[] = [
     react(),
@@ -20,9 +20,7 @@ export function createVitePlugins(currentTimeVersion: number) {
       ]
     }),
     // 版本控制
-    versionUpdatePlugin({
-      version: currentTimeVersion,
-    })
+    versionUpdatePlugin()
   ];
 
   if (process.env.NODE_ENV === 'production') {
