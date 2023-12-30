@@ -8,7 +8,8 @@ export const publicSlice = createSlice({
     theme: 'light' as ThemeType, // 主题
     isFullscreen: false, // 是否全屏
     isRefresh: false, // 重新加载
-    isRefreshPage: false // 重新加载页面
+    isRefreshPage: false, // 重新加载页面
+    version: '' // 版本号
   },
   reducers: {
     /** 设置主题 */
@@ -26,6 +27,10 @@ export const publicSlice = createSlice({
     /** 设置重新加载页面 */
     setRefreshPage: (state, action) => {
       state.isRefreshPage = action.payload;
+    },
+    /** 设置版本号 */
+    setVersion: (state, action) => {
+      state.version = action.payload;
     }
   }
 });
@@ -34,7 +39,8 @@ export const {
   setThemeValue,
   setFullscreen,
   setRefresh,
-  setRefreshPage
+  setRefreshPage,
+  setVersion
 } = publicSlice.actions;
 
 export default publicSlice.reducer;

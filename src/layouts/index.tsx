@@ -1,11 +1,11 @@
-import type { AppDispatch } from '@/stores';
+import type { AppDispatch, RootState } from '@/stores';
 import { useToken } from '@/hooks/useToken';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useOutlet } from 'react-router-dom';
 import { Skeleton, message } from 'antd';
 import { Icon } from '@iconify/react';
 import { useDebounceFn } from 'ahooks';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { versionCheck } from './utils/helper';
 import { useCommonStore } from '@/hooks/useCommonStore';
@@ -31,6 +31,7 @@ function Layout() {
   const outlet = useOutlet();
   const [isLoading, setLoading] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
+  const version = useSelector((state: RootState) => state.public.version);
 
   const {
     permissions,
@@ -88,7 +89,7 @@ function Layout() {
   
   // 监测是否需要刷新
   useEffect(() => {
-    versionCheck(messageApi);
+    versionCheck(version, dispatch, messageApi);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
