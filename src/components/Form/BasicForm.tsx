@@ -115,19 +115,24 @@ function BasicForm(props: Props) {
         autoComplete="off"
       >
         {
-          list?.map(item => (
-            <Form.Item
-              {...item as FormItemProps}
-              key={`${item.name}`}
-              label={item.label}
-              name={item.name}
-              rules={!item.hidden ? item.rules : []}
-              className={item.hidden ? '!hidden' : ''}
-              valuePropName={handleValuePropName(item.component)}
-            >
-              { getComponent(t, item) }
-            </Form.Item>
-          ))
+          list?.map((item) => {
+            const params = { ...item };
+            delete params.componentProps;
+
+            return (
+              <Form.Item
+                {...params as FormItemProps}
+                key={`${item.name}`}
+                label={item.label}
+                name={item.name}
+                rules={!item.hidden ? item.rules : []}
+                className={item.hidden ? '!hidden' : ''}
+                valuePropName={handleValuePropName(item.component)}
+              >
+                { getComponent(t, item) }
+              </Form.Item>
+            );
+          })
         }
 
         { children }

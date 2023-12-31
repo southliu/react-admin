@@ -4,19 +4,20 @@ import type { AppDispatch } from '@/stores';
 import type { FormFn } from '@/components/Form/BasicForm';
 import { message, Spin } from 'antd';
 import { createList } from './model';
-import { getUrlParam } from '@/utils/helper';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { checkPermission } from '@/utils/permissions';
+import { getUrlParam } from '@/utils/helper';
+import { closeTabGoNext } from '@/stores/tabs';
 import { setRefreshPage } from '@/stores/public';
+import { useSingleTab } from '@/hooks/useSingleTab';
+import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import {
   useEffect,
   useRef,
   useState
 } from 'react';
-import { closeTabGoNext } from '@/stores/tabs';
 import {
   getArticleById,
   createArticle,
@@ -25,7 +26,6 @@ import {
 import BasicForm from '@/components/Form/BasicForm';
 import BasicContent from '@/components/Content/BasicContent';
 import SubmitBottom from '@/components/Bottom/SubmitBottom';
-import { useSingleTab } from '@/hooks/useSingleTab';
 
 interface RecordType {
   key: string;
