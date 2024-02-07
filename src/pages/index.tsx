@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getFirstMenu } from '@/menus/utils/helper';
 import { useToken } from '@/hooks/useToken';
+import { getFirstMenu } from '@/menus/utils/helper';
 import { useCommonStore } from '@/hooks/useCommonStore';
 
 function Page() {
@@ -24,7 +24,7 @@ function Page() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
-  
+
   return (
     <div></div>
   );

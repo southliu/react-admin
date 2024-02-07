@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { App } from 'antd';
+import { VERSION } from "@/utils/config";
 import { useTranslation } from 'react-i18next';
 import { HashRouter as Router } from 'react-router-dom';
 import nprogress from 'nprogress';
@@ -29,6 +30,9 @@ function Page() {
   useEffect(() => {
     nprogress.done();
 
+    // 首次进入清除版本缓存
+    handleClearVersion();
+
     // 关闭loading
     const firstElement = document.getElementById('first');
     if (firstElement && firstElement.style?.display !== 'none') {
@@ -39,6 +43,11 @@ function Page() {
       nprogress.start();
     };
   }, []);
+
+  /** 清空版本 */
+  const handleClearVersion = () => {
+    localStorage.removeItem(VERSION);
+  };
 
   return (
     <Router>
