@@ -1,33 +1,29 @@
-import type { AppDispatch } from "@/stores";
 import type { MessageInstance } from "antd/es/message/interface";
-import { setVersion } from "@/stores/public";
+import { VERSION } from "@/utils/config";
 import axios from "axios";
 
-/**
- * 版本监控
- * @param versionStore - 版本缓存值
- */
-export const versionCheck = async (
-  versionStore: string,
-  dispatch: AppDispatch,
-  messageApi: MessageInstance
-) => {
+/** 版本监控 */
+export const versionCheck = async (messageApi: MessageInstance) => {
   // if (import.meta.env.MODE === 'development') return;
+  const versionLocal = localStorage.getItem(VERSION);
   const { data: { version } } = await axios.get('version.json');
 
   // 首次进入则缓存本地数据
-  if (!versionStore) {
-    return dispatch(setVersion(String(version)));
+  if (!versionLocal) {
+    return localStorage.setItem(VERSION, String(version));
   }
 
-  if (versionStore !== String(version)) {
-    dispatch(setVersion(String(version)));
-
+  if (versionLocal !== String(version)) {
+    localStorage.setItem(VERSION, String(version));
     messageApi.info({
       content: '发现新内容，自动更新中...',
       key: 'reload',
       onClose: () => {
-        window.location.reload();
+        let timer: NodeJS.Timeout | null = setTimeout(() => {
+          clearTimeout(timer as NodeJS.Timeout);
+          timer = null;
+          window.location.reload();
+        }, 60000);
       }
     });
   }

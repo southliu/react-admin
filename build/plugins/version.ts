@@ -24,7 +24,7 @@ export const versionUpdatePlugin = () => {
 			// 存储最终解析的配置
 			config = resolvedConfig;
 		},
-		buildStart() {
+		buildEnd() {
 			// 生成版本信息文件路径
 			const file = config.publicDir + path.sep + 'version.json';
 
