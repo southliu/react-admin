@@ -3,7 +3,7 @@ import type { TransferItem } from 'antd/es/transfer';
 import { useState } from 'react';
 import { Transfer } from 'antd';
 
-interface Props extends TransferProps<TransferItem> {
+interface Props {
   value: string[];
   onChange: (value: string[]) => void;
 }
@@ -16,9 +16,9 @@ function BasicTransfer(props: Props) {
    * 更改数据
    * @param targetKeys - 显示在右侧框数据的key集合
    */
-  const onChange = (targetKeys: string[]) => {
-    setTargetKeys(targetKeys);
-    props?.onChange?.(targetKeys);
+  const onChange: TransferProps<TransferItem>['onChange'] = (targetKeys) => {
+    setTargetKeys(targetKeys as string[]);
+    props?.onChange?.(targetKeys as string[]);
   };
 
   return (

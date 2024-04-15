@@ -2,6 +2,7 @@ import type { FormData, FormList } from '#/form';
 import type { Dayjs } from 'dayjs';
 import type { RangeValue } from '#/public';
 import type { DatePickerProps } from 'antd';
+import type { RangeValueType } from 'rc-picker/lib/PickerInput/RangePicker';
 import { DATE_FORMAT } from '@/utils/config';
 import dayjs from 'dayjs';
 
@@ -62,7 +63,7 @@ export function dayjsRang2StringRang(
  * @param value - 字符串
  */
 export function stringRang2DayjsRang(
-  value: RangeValue<string> | RangeValue<Dayjs>
+  value: RangeValueType<string> | RangeValueType<Dayjs>
 ): RangeValue<Dayjs> | undefined {
   if (!value) return undefined;
 

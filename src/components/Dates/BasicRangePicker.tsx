@@ -1,12 +1,10 @@
-import type { Dayjs } from 'dayjs';
-import type { RangePickerProps } from 'antd/es/date-picker/generatePicker';
 import { DatePicker } from 'antd';
-
+import type { RangePickerProps } from 'antd/es/date-picker';
 import { stringRang2DayjsRang } from './utils/helper';
 
 const { RangePicker } = DatePicker;
 
-function BasicRangePicker(props: RangePickerProps<Dayjs>) {
+function BasicRangePicker(props: RangePickerProps) {
   const { value } = props;
   const params = {...props};
 

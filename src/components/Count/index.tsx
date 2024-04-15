@@ -10,7 +10,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 function Count(props: Props) {
   const { prefix, start, end } = props;
   const [num, setNum] = useState(start);
-  const [timer, setTimer] = useState<NodeJS.Timer | null>(null);
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const count = end - start;
@@ -24,7 +24,7 @@ function Count(props: Props) {
   useEffect(() => {
     if (num >= end) {
       if (timer) {
-        clearInterval(timer);
+        clearInterval(timer as NodeJS.Timeout);
         setTimer(null);
       }
 
@@ -35,7 +35,7 @@ function Count(props: Props) {
   useEffect(() => {
     return () => {
       if (timer) {
-        clearInterval(timer);
+        clearInterval(timer as NodeJS.Timeout);
         setTimer(null);
       }
     };
