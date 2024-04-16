@@ -120,26 +120,27 @@ function BasicTable(props: Props) {
       }
       {
         tableHeight &&
-        <Table
-          ref={tableRef}
-          size='small'
-          rowKey='id'
-          pagination={false}
-          loading={loading}
-          {...props}
-          rowClassName={handleRowClassName}
-          style={{
-            borderRadius: 10,
-            borderRight: '1px solid rgba(0, 0, 0, .05)',
-            borderBottom: '1px solid rgba(0, 0, 0, .05)',
-            overflow: 'auto',
-            ...props.style
-          }}
-          bordered={isBordered !== false}
-          scroll={scroll}
-          components={components}
-          columns={mergeColumns as ColumnsType<object>}
-        />
+        <div ref={tableRef}>
+          <Table
+            size='small'
+            rowKey='id'
+            pagination={false}
+            loading={loading}
+            {...props}
+            rowClassName={handleRowClassName}
+            style={{
+              borderRadius: 10,
+              borderRight: '1px solid rgba(0, 0, 0, .05)',
+              borderBottom: '1px solid rgba(0, 0, 0, .05)',
+              overflow: 'auto',
+              ...props.style
+            }}
+            bordered={isBordered !== false}
+            scroll={scroll}
+            components={components}
+            columns={mergeColumns as ColumnsType<object>}
+          />
+        </div>
       }
     </div>
   );
