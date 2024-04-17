@@ -293,24 +293,25 @@ export function filterMenus(
   const lang = localStorage.getItem(LANG);
 
   for (let i = 0; i < newMenus.length; i++) {
+    const item = newMenus[i];
     // 处理子数组
-    if (hasChildren(newMenus[i])) {
+    if (hasChildren(item)) {
       const result = filterMenus(
-        newMenus[i].children as SideMenu[],
+        item.children as SideMenu[],
         permissions
       );
 
       // 有子权限数据则保留
-      newMenus[i].children = result?.length ? result : undefined;
+      item.children = result?.length ? result : undefined;
     }
 
     // 有权限或有子数据累加
     if (
-      hasPermission(newMenus[i], permissions) ||
-      hasChildren(newMenus[i])
+      hasPermission(item, permissions) ||
+      hasChildren(item)
     ) {
-      if (lang === 'en') newMenus[i].label = newMenus[i].labelEn;
-      result.push(newMenus[i]);
+      if (lang === 'en') item.label = item.labelEn;
+      result.push(item);
     }
   }
 
@@ -357,10 +358,42 @@ export function getFirstMenu(
 }
 
 /**
+ * 获取字数
+ */
+function getChildrenKey(menus: SideMenu[] | undefined, level: number) {
+  if (!menus?.length) return 'none';
+  let result = '';
+
+  const deep = (menus: SideMenu[], level: number) => {
+    if (result) return result;
+    const newLevel = level + 1;
+
+    for (let i = 0; i < menus?.length; i++) {
+      const item = menus[i];
+      if (item.key) {
+        const arr = item.key.split('/');
+        for (let j = 1; j < arr?.length && j < newLevel; j++) {
+          const key = arr[j];
+          result += `/${key}`;
+        }
+        return result;
+      }
+
+      if (item.children) {
+        deep(item.children, newLevel);
+      }
+    }
+  }
+  deep(menus, level);
+
+  return result;
+}
+
+/**
  * 菜单数据处理-去除多余字段
  * @param menus - 菜单数据
  */
-export function handleFilterMenus(menus: SideMenu[]): SideMenu[] {
+export function handleFilterMenus(menus: SideMenu[], level = 0): SideMenu[] {
   const currentItem: SideMenu[] = [];
 
   for (let i = 0; i < menus?.length; i++) {
@@ -368,12 +401,15 @@ export function handleFilterMenus(menus: SideMenu[]): SideMenu[] {
     let children: SideMenu[] = [];
 
     if (item.children?.length) {
-      children = handleFilterMenus(item.children);
+      const newLevel = level + 1;
+      children = handleFilterMenus(item.children, newLevel);
     }
 
     const data: Partial<SideMenu> = { ...item };
     if (children?.length) (data as SideMenu).children = children;
+    if (!data.key) data.key = getChildrenKey(data.children, level)
     delete data.labelEn;
+
     currentItem.push(data as SideMenu);
   }
 
