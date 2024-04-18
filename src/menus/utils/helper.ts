@@ -10,7 +10,7 @@ export function getOpenMenuByRouter(router: string): string[] {
   const arr = splitPath(router), result: string[] = [];
 
   // 取第一个单词大写为新展开菜单key
-  if (arr.length > 0) result.push(arr[0]);
+  if (arr.length > 0) result.push(`/${arr[0]}`);
 
   // 当路由处于多级目录时
   if (arr.length > 2) {
@@ -358,7 +358,9 @@ export function getFirstMenu(
 }
 
 /**
- * 获取字数
+ * 获取子数据的key
+ * @param menus - 菜单数据
+ * @param level - 层级
  */
 function getChildrenKey(menus: SideMenu[] | undefined, level: number) {
   if (!menus?.length) return 'none';
@@ -372,7 +374,7 @@ function getChildrenKey(menus: SideMenu[] | undefined, level: number) {
       const item = menus[i];
       if (item.key) {
         const arr = item.key.split('/');
-        for (let j = 1; j < arr?.length && j < newLevel; j++) {
+        for (let j = 1; j < arr?.length && j <= newLevel; j++) {
           const key = arr[j];
           result += `/${key}`;
         }
@@ -392,6 +394,7 @@ function getChildrenKey(menus: SideMenu[] | undefined, level: number) {
 /**
  * 菜单数据处理-去除多余字段
  * @param menus - 菜单数据
+ * @param level - 层级
  */
 export function handleFilterMenus(menus: SideMenu[], level = 0): SideMenu[] {
   const currentItem: SideMenu[] = [];
