@@ -6,7 +6,7 @@ import { request } from '@/servers/request';
  * @param data - 请求数据
  */
 export function login(data: LoginData) {
-  return request.post<LoginResult>('/login', data);
+  return request.post<LoginResult>('/login/v2', data);
 }
 
 /**

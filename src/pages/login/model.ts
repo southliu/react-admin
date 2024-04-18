@@ -12,12 +12,6 @@ interface User {
   email: string;
 }
 
-// 授权数据
-export interface Permissions {
-  id: string;
-  operation: string[];
-}
-
 // 用户权限数据
 interface Roles {
   id: string;
@@ -27,6 +21,6 @@ interface Roles {
 export interface LoginResult {
   token: string;
   user: User;
-  permissions: Permissions[];
+  permissions: string[];
   roles: Roles[];
 }

@@ -4,7 +4,7 @@ export const demo: SideMenu[] = [
   {
     label: '组件',
     labelEn: 'Components',
-    key: 'demo',
+    key: '/demo',
     icon: 'fluent:box-20-regular',
     children: [
       {

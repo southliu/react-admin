@@ -8,9 +8,8 @@ import { useDebounceFn } from 'ahooks';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { versionCheck } from './utils/helper';
-import { useCommonStore } from '@/hooks/useCommonStore';
 import { getPermissions } from '@/servers/permissions';
-import { permissionsToArray } from '@/utils/permissions';
+import { useCommonStore } from '@/hooks/useCommonStore';
 import { setPermissions, setUserInfo } from '@/stores/user';
 import { setMenuList, toggleCollapsed, togglePhone } from '@/stores/menu';
 import { getMenuList } from '@/servers/system/menu';
@@ -48,9 +47,8 @@ function Layout() {
       const { code, data } = await getPermissions({ refresh_cache: false });
       if (Number(code) !== 200) return;
       const { user, permissions } = data;
-      const newPermissions = permissionsToArray(permissions);
       dispatch(setUserInfo(user));
-      dispatch(setPermissions(newPermissions));
+      dispatch(setPermissions(permissions));
     } catch(err) {
       console.error('获取用户数据失败:', err);
       setPermissions([]);

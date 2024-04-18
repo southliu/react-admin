@@ -11,7 +11,7 @@ export const defaultMenus: SideMenu[] = [
   {
     label: '仪表盘',
     labelEn: 'Dashboard',
-    key: 'dashboard',
+    key: '/dashboard',
     icon: 'la:tachometer-alt',
     children: [
       {
