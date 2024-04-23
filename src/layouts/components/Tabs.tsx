@@ -73,7 +73,7 @@ function LayoutTabs() {
 
   useEffect(() => {
     handleAddTab();
-  }, [handleAddTab]);
+  }, [handleAddTab, permissions]);
 
   useEffect(() => {
     dispatch(switchTabsLang(currentLanguage));
