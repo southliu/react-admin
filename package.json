@@ -7,6 +7,8 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
+    "build:dev": "tsc && vite build --mode dev",
+    "build:test": "tsc && vite build --mode test",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{jsx,tsx,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
     "preview": "vite preview"
