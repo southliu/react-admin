@@ -217,7 +217,7 @@ function LayoutTabs() {
           }}
           trigger={['contextMenu']}
         >
-          <div className='mr-3px'>
+          <div className='mr-1px'>
             { node }
           </div>
         </Dropdown>

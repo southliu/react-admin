@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
+import { useCommonStore } from './useCommonStore';
 /**
  * 使用Echarts
  * @param options -  绘制echarts的参数
  * @param data -  数据
  */
 export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) => {
+  const { isRefresh } = useCommonStore();
   const echartsRef = useRef<echarts.EChartsType>();
   const htmlDivRef = useRef<HTMLDivElement>(null);
 
@@ -30,10 +32,14 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
     }
   }, [options]);
 
-  // 监听操作值
+  // 刷新页面监听操作值
   useEffect(() => {
-    if (options) init();
-  }, [init, options]);
+    if (options && isRefresh) {
+      setTimeout(() => {
+        init();
+      }, 100)
+    }
+  }, [init, options, isRefresh]);
   
   useEffect(() => {
     init();

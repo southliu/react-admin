@@ -10,6 +10,7 @@ export const searchList = (t: TFunction): FormList[] => [
   {
     label: t('system.state'),
     name: 'status',
+    wrapperCol: 100,
     component: 'Select',
     componentProps: {
       options: MENU_STATUS
