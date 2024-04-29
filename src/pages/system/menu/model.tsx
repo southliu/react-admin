@@ -13,7 +13,7 @@ export const searchList = (t: TFunction): FormList[] => [
     wrapperCol: 100,
     component: 'Select',
     componentProps: {
-      options: MENU_STATUS
+      options: MENU_STATUS(t)
     }
   },
   {
@@ -22,7 +22,7 @@ export const searchList = (t: TFunction): FormList[] => [
     wrapperCol: 170,
     component: 'Select',
     componentProps: {
-      options: MENU_MODULE
+      options: MENU_MODULE(t)
     }
   },
   {
@@ -53,7 +53,7 @@ export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): 
       dataIndex: 'status',
       width: 200,
       render: (value: number) => (
-        <span>{ valueToLabel(value, MENU_STATUS) }</span>
+        <span>{ valueToLabel(value, MENU_STATUS(t)) }</span>
       )
     },
     {
@@ -100,7 +100,7 @@ export const createList = (t: TFunction, id: string): FormList[] => [
     rules: FORM_REQUIRED,
     component: 'Select',
     componentProps: {
-      options: MENU_STATUS
+      options: MENU_STATUS(t)
     }
   },
   {
@@ -109,7 +109,7 @@ export const createList = (t: TFunction, id: string): FormList[] => [
     rules: FORM_REQUIRED,
     component: 'Select',
     componentProps: {
-      options: MENU_MODULE
+      options: MENU_MODULE(t)
     }
   },
   {
@@ -124,7 +124,7 @@ export const createList = (t: TFunction, id: string): FormList[] => [
     hidden: !!id,
     component: 'CheckboxGroup',
     componentProps: {
-      options: MENU_ACTIONS
+      options: MENU_ACTIONS(t)
     }
   }
 ];

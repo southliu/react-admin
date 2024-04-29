@@ -32,6 +32,8 @@ export default {
   operate: '操作',
   submit: '提交',
   back: '返回',
+  show: '显示',
+  hide: '隐藏',
   open: '开启',
   close: '关闭',
   ok: '确定',

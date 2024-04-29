@@ -34,6 +34,8 @@ export default {
   open: 'Open',
   close: 'Close',
   back: 'Go back',
+  show: 'Show',
+  hide: 'Hide',
   ok: 'OK',
   copy: 'Copy',
   copySuccessfully: 'Copy successfully',

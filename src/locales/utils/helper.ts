@@ -33,4 +33,3 @@ export const handleFileList = (files: FileParams) => {
 
   return result;
 };
-

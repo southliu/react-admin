@@ -95,7 +95,7 @@ export const createList = (t: TFunction): FormList[] => [
     rules: FORM_REQUIRED,
     component: 'Select',
     componentProps: {
-      options: OPEN_CLOSE
+      options: OPEN_CLOSE(t)
     }
   }
 ];
