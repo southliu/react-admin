@@ -1,12 +1,12 @@
 import type { ReactNode, Ref } from 'react';
 import type { FormData, FormList } from '#/form';
-import type { ColProps, FormItemProps } from 'antd';
+import type { ColProps } from 'antd';
 import { useEffect, useImperativeHandle } from 'react';
 import { FormProps } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { getComponent } from '../Form/utils/componentMap';
-import { handleValuePropName } from './utils/helper';
+import { filterFormItem, handleValuePropName } from './utils/helper';
 import { filterDayjs } from '../Dates/utils/helper';
 
 export interface FormFn {
@@ -117,7 +117,7 @@ function BasicForm(props: Props) {
         {
           list?.map(item => (
             <Form.Item
-              {...item as FormItemProps}
+              {...filterFormItem(item)}
               key={`${item.name}`}
               label={item.label}
               name={item.name}

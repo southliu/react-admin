@@ -50,5 +50,5 @@ export const useCommonStore = () => {
     tabs,
     theme,
     menuList
-  };
+  } as const;
 };

@@ -1,5 +1,6 @@
 import type { TFunction } from 'i18next';
-import type { ComponentProps, ComponentType } from '#/form';
+import type { FormItemProps } from 'antd';
+import type { ComponentProps, ComponentType, FormList } from '#/form';
 import { DATE_FORMAT, TIME_FORMAT } from '@/utils/config';
 
 /**
@@ -83,3 +84,13 @@ export function initCompProps(t: TFunction, component: ComponentType): Component
       };
   }
 }
+
+/**
+ * 过滤表单数据
+ * @param data - 表单数据
+ */
+export const filterFormItem = (data: FormList): FormItemProps => {
+  delete data.componentProps;
+
+  return data as FormItemProps;
+};
