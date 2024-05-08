@@ -1,5 +1,4 @@
-import type { ApiFn } from '#/form';
-import type { SelectProps } from 'antd';
+import type { ApiSelectProps } from '#/form';
 import type { DefaultOptionType } from 'antd/es/select';
 import { Select } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -7,31 +6,34 @@ import { useState, useEffect, useCallback } from 'react';
 import { MAX_TAG_COUNT } from '@/utils/config';
 import Loading from './components/Loading';
 
-interface Props extends SelectProps {
-  api: ApiFn;
-  params?: object;
-}
-
 /**
  * @description: 根据API获取数据下拉组件
  */
-function ApiSelect(props: Props) {
+function ApiSelect(props: ApiSelectProps) {
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState(false);
   const [options, setOptions] = useState<DefaultOptionType[]>([]);
 
   // 清除自定义属性
-  const params: Partial<Props> = { ...props };
+  const params: Partial<ApiSelectProps> = { ...props };
   delete params.api;
   delete params.params;
+  delete params.params2;
+  delete params.params3;
+  delete params.apiResultKey;
 
   /** 获取接口数据 */
   const getApiData = useCallback(async () => {
+    if (!props.api) return;
     try {
+      const { api, params, params2, params3, apiResultKey } = props
+
       setLoading(true);
-      if (props.api) {
-        const { code, data } = await props.api(props?.params);
-        Number(code) === 200 && setOptions((data || []) as DefaultOptionType[]);
+      if (api) {
+        const { code, data } = await api(params, params2, params3);
+        if (Number(code) !== 200) return;
+        const result = apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data;
+        setOptions(result as DefaultOptionType[]);
       }
     } finally {
       setLoading(false);

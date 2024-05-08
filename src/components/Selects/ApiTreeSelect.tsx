@@ -1,4 +1,4 @@
-import type { ApiFn } from '#/form';
+import type { ApiTreeSelectProps } from '#/form';
 import type { TreeSelectProps } from 'antd';
 import { TreeSelect } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -6,31 +6,34 @@ import { useCallback, useEffect, useState } from 'react';
 import { MAX_TAG_COUNT } from '@/utils/config';
 import Loading from './components/Loading';
 
-interface Props extends TreeSelectProps {
-  api: ApiFn;
-  params?: object;
-}
-
 /**
  * @description: 根据API获取数据下拉树形组件
  */
-function ApiTreeSelect(props: Props) {
+function ApiTreeSelect(props: ApiTreeSelectProps) {
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState(false);
   const [options, setOptions] = useState<TreeSelectProps['treeData']>([]);
 
   // 清除自定义属性
-  const params: Partial<Props> = { ...props };
+  const params: Partial<ApiTreeSelectProps> = { ...props };
   delete params.api;
   delete params.params;
+  delete params.params2;
+  delete params.params3;
+  delete params.apiResultKey;
 
   /** 获取接口数据 */
   const getApiData = useCallback(async () => {
+    if (!props.api) return;
     try {
+      const { api, params, params2, params3, apiResultKey } = props
+
       setLoading(true);
-      if (props.api) {
-        const { code, data } = await props.api(props?.params);
-        Number(code) === 200 && setOptions((data || []) as TreeSelectProps['treeData']);
+      if (api) {
+        const { code, data } = await api(params, params2, params3);
+        if (Number(code) !== 200) return;
+        const result = apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data;
+        setOptions(result as TreeSelectProps['treeData']);
       }
     } finally {
         setLoading(false);
