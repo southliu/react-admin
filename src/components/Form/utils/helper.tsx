@@ -90,7 +90,8 @@ export function initCompProps(t: TFunction, component: ComponentType): Component
  * @param data - 表单数据
  */
 export const filterFormItem = (data: FormList): FormItemProps => {
-  delete data.componentProps;
+  const result = JSON.parse(JSON.stringify(data));
+  delete result.componentProps;
 
-  return data as FormItemProps;
+  return result as FormItemProps;
 };
