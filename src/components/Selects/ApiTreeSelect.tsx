@@ -26,7 +26,7 @@ function ApiTreeSelect(props: ApiTreeSelectProps) {
   const getApiData = useCallback(async () => {
     if (!props.api) return;
     try {
-      const { api, params, params2, params3, apiResultKey } = props
+      const { api, params, params2, params3, apiResultKey } = props;
 
       setLoading(true);
       if (api) {

@@ -41,6 +41,7 @@ let scrollY: number | string = 0;
  * 表格渲染
  * @param props - 传递值
  */
+// eslint-disable-next-line react-refresh/only-export-components
 function VirtualTable(props: VirtualTableProps) {
   const { style, children, ...rest } = props;
   const { width, ...restStyle } = style as CSSProperties;

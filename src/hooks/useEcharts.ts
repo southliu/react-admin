@@ -37,7 +37,7 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
     if (options && isRefresh) {
       setTimeout(() => {
         init();
-      }, 100)
+      }, 100);
     }
   }, [init, options, isRefresh]);
   

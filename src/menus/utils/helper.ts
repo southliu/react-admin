@@ -385,7 +385,7 @@ function getChildrenKey(menus: SideMenu[] | undefined, level: number) {
         deep(item.children, newLevel);
       }
     }
-  }
+  };
   deep(menus, level);
 
   return result;
@@ -410,7 +410,7 @@ export function handleFilterMenus(menus: SideMenu[], level = 0): SideMenu[] {
 
     const data: Partial<SideMenu> = { ...item };
     if (children?.length) (data as SideMenu).children = children;
-    if (!data.key) data.key = getChildrenKey(data.children, level)
+    if (!data.key) data.key = getChildrenKey(data.children, level);
     delete data.labelEn;
 
     currentItem.push(data as SideMenu);
