@@ -1,7 +1,7 @@
 import type { ResizeCallbackData } from 'react-resizable';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { TableProps } from 'antd';
-import { useMemo, useState, useEffect, useRef, memo } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import { Table, Skeleton } from 'antd';
 import { getTableHeight, handleRowHeight, filterTableColumns } from './utils/helper';
 import ResizableTitle from './components/ResizableTitle';
@@ -146,4 +146,4 @@ function BasicTable(props: Props) {
   );
 }
 
-export default memo(BasicTable);
+export default BasicTable;

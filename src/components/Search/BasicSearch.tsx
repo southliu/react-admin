@@ -2,7 +2,6 @@ import { ReactNode, Ref, useImperativeHandle } from 'react';
 import type { FormData, FormList } from '#/form';
 import type { ColProps } from 'antd';
 import type { FormFn } from '../Form/BasicForm';
-import { memo } from 'react';
 import { Button, FormProps } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -158,4 +157,4 @@ function BasicSearch(props: Props) {
   );
 }
 
-export default memo(BasicSearch);
+export default BasicSearch;

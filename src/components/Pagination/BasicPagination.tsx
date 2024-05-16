@@ -1,6 +1,5 @@
 import type { PaginationProps } from 'antd';
 import { Pagination } from 'antd';
-import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 function BasicPagination(props: PaginationProps) {
@@ -38,4 +37,4 @@ function BasicPagination(props: PaginationProps) {
   );
 }
 
-export default memo(BasicPagination);
+export default BasicPagination;
