@@ -10,7 +10,7 @@ import { getComponent } from '../Form/utils/componentMap';
 import { handleValuePropName } from '../Form/utils/helper';
 import { filterDayjs } from '../Dates/utils/helper';
 
-interface Props {
+interface Props extends FormProps {
   list: FormList[];
   data: FormData;
   isLoading?: boolean;
@@ -95,6 +95,7 @@ function BasicSearch(props: Props) {
     <div id="searches" className="py-3">
       <Form
         layout="inline"
+        {...props}
         form={form}
         labelCol={labelCol ? labelCol : { span: 8 }}
         wrapperCol={wrapperCol ? wrapperCol : { span: 16 }}
