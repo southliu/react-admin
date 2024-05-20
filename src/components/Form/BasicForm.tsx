@@ -16,7 +16,7 @@ export interface FormFn {
   handleSubmit: () => void;
 }
 
-interface Props {
+interface Props extends FormProps {
   list: FormList[];
   data: FormData;
   children?: ReactNode;
@@ -105,6 +105,7 @@ function BasicForm(props: Props) {
   return (
     <div>
       <Form
+        {...props}
         form={form}
         labelCol={labelCol ? labelCol : { span: 6 }}
         wrapperCol={wrapperCol ? wrapperCol : { span: 15 }}
