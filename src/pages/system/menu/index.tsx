@@ -1,5 +1,5 @@
 import type { FormData } from '#/form';
-import type { PagePermission, TableOptions } from '#/public';
+import type { PagePermission } from '#/public';
 import type { FormFn } from '@/components/Form/BasicForm';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { searchList, createList, tableColumns } from './model';
@@ -9,6 +9,7 @@ import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
+import { useFiler } from '@/components/TableFilter/hooks/useFiler';
 import {
   getMenuPage,
   getMenuById,
@@ -16,6 +17,7 @@ import {
   updateMenu,
   deleteMenu
 } from '@/servers/system/menu';
+import FilterButton from '@/components/TableFilter';
 import BasicContent from '@/components/Content/BasicContent';
 import BasicSearch from '@/components/Search/BasicSearch';
 import BasicModal from '@/components/Modal/BasicModal';
@@ -43,6 +45,7 @@ function Page() {
   const { t } = useTranslation();
   const searchFormRef = useRef<FormFn>(null);
   const createFormRef = useRef<FormFn>(null);
+  const columns = tableColumns(t, optionRender);
   const [isCreateOpen, setCreateOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [isCreateLoading, setCreateLoading] = useState(false);
@@ -53,7 +56,9 @@ function Page() {
   const [pageSize, setPageSize] = useState(initSearch.pageSize);
   const [total, setTotal] = useState(0);
   const [tableData, setTableData] = useState<FormData[]>([]);
+  const [tableFilters, setTableFilters] = useState<string[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
+  const [handleFilterTable] = useFiler();
   const { permissions } = useCommonStore();
 
   // 权限前缀
@@ -65,6 +70,14 @@ function Page() {
     create: checkPermission(`${permissionPrefix}/create`, permissions),
     update: checkPermission(`${permissionPrefix}/update`, permissions),
     delete: checkPermission(`${permissionPrefix}/delete`, permissions)
+  };
+
+  /**
+   * 获取勾选表格数据
+   * @param checks - 勾选
+   */
+  const getTableChecks = (checks: string[]) => {
+    setTableFilters(checks);
   };
 
   /**
@@ -196,8 +209,8 @@ function Page() {
    * @param _ - 当前值
    * @param record - 当前行参数
    */
-  const optionRender: TableOptions<object> = (_, record) => (
-    <>
+  function optionRender(_: unknown, record: object) {
+    return <>
       {
         pagePermission.update === true &&
         <UpdateBtn
@@ -214,8 +227,8 @@ function Page() {
           handleDelete={() => onDelete((record as RowData).id)}
         />
       }
-    </>
-  );
+    </>;
+  }
 
   return (
     <BasicContent isPermission={pagePermission.page}>
@@ -229,11 +242,17 @@ function Page() {
           isCreate={pagePermission.create}
           onCreate={onCreate}
           handleFinish={onSearch}
-        />
+          >
+            <FilterButton
+              columns={columns}
+              className='!mb-5px'
+              getTableChecks={getTableChecks}
+            />
+          </BasicSearch>
         
         <BasicTable
           loading={isLoading}
-          columns={tableColumns(t, optionRender)}
+          columns={handleFilterTable(columns, tableFilters)}
           dataSource={tableData}
         />
 

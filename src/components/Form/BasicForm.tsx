@@ -48,27 +48,27 @@ function BasicForm(props: Props) {
        * @param key - 表单唯一值
        */
       getFieldValue: (key: string) => {
-        return form.getFieldValue(key) || {};
+        return form?.getFieldValue(key) || {};
       },
       /** 获取表单全部值 */
       getFieldsValue: () => {
-        return form.getFieldsValue() || {};
+        return form?.getFieldsValue() || {};
       },
       /** 重置表单 */
       handleReset: () => {
-        form.resetFields();
+        form?.resetFields();
       },
       /** 提交表单  */
       handleSubmit: () => {
-        form.submit();
+        form?.submit();
       }
     } as FormFn)
   );
 
   // 监听传入表单数据，如果变化则替换表单
   useEffect(() => {
-    form.resetFields();
-    form.setFieldsValue(props.data);
+    form?.resetFields();
+    form?.setFieldsValue(props.data);
   }, [form, props.data]);
 
   const validateMessages = {

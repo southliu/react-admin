@@ -36,7 +36,7 @@ function UpdatePassword(props: Props) {
 
   /** 点击模态框确定 */
   const onOk = () => {
-    form.submit();
+    form?.submit();
   };
 
   /**
