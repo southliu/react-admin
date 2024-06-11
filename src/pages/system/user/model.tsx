@@ -27,13 +27,13 @@ export const searchList = (t: TFunction): FormList[] => [
     {
       title: 'ID',
       dataIndex: 'id',
-      width: 400,
+      width: 200,
       fixed: 'left'
     },
     {
       title: t('login.username'),
       dataIndex: 'username',
-      width: 400,
+      width: 200,
       fixed: 'left'
     },
     {
