@@ -130,7 +130,7 @@ export type FormRule = RuleObject & {
 }
 
 // 表单数据
-export interface FormList extends FormItemProps {
+export interface FormList extends Omit<FormItemProps, 'labelCol' | 'wrapperCol'> {
   name: string | string[]; // 表单域字段
   label: string; // 标签
   placeholder?: string; // 占位符
