@@ -3,7 +3,7 @@ import type { DataNode } from 'antd/es/tree';
 import type { Key } from 'antd/es/table/interface';
 import type { PagePermission } from '#/public';
 import type { FormFn } from '@/components/Form/BasicForm';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createList, searchList, tableColumns } from './model';
 import { Button, message } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -51,6 +51,7 @@ function Page() {
   const createFormRef = useRef<FormFn>(null);
   const columns = tableColumns(t, optionRender);
   const [messageApi, contextHolder] = message.useMessage();
+  const [isFetch, setFetch] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [isCreateLoading, setCreateLoading] = useState(false);
   const [isCreateOpen, setCreateOpen] = useState(false);
@@ -73,7 +74,7 @@ function Page() {
 
   // 权限前缀
   const permissionPrefix = '/authority/user';
-  
+
   // 权限
   const pagePermission: PagePermission = {
     page: checkPermission(`${permissionPrefix}/index`, permissions),
@@ -82,6 +83,10 @@ function Page() {
     delete: checkPermission(`${permissionPrefix}/delete`, permissions),
     permission: checkPermission(`${permissionPrefix}/authority`, permissions)
   };
+
+  useEffect(() => {
+    if (isFetch) getPage();
+  }, [isFetch])
 
   /**
    * 获取勾选表格数据
@@ -97,30 +102,13 @@ function Page() {
    */
   const onSearch = (values: FormData) => {
     setPage(1);
-    handleSearch({ page: 1, pageSize, ...values });
+    setFetch(true);
   };
-
-  /**
-   * 搜索提交
-   * @param values - 表单返回数据
-   */
-  const handleSearch = useCallback(async (values: FormData) => {
-    try {
-      setLoading(true);
-      const { code, data } = await getUserPage(values);
-      if (Number(code) !== 200) return;
-      const { items, total } = data;
-      setTotal(total);
-      setTableData(items);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
 
   // 首次进入自动加载接口数据
   useEffect(() => {
-    if (pagePermission.page) handleSearch({ ...initSearch });
-  }, [handleSearch, pagePermission.page]);
+    if (pagePermission.page) getPage();
+  }, [pagePermission.page]);
 
   /** 开启权限 */
   const openPermission = async (id: string) => {
@@ -138,12 +126,12 @@ function Page() {
       setLoading(false);
     }
   };
-  
+
   /** 关闭权限 */
   const closePermission = () => {
     setPromiseVisible(false);
   };
-  
+
   /**
    * 权限提交
    */
@@ -200,10 +188,21 @@ function Page() {
   };
 
   /** 获取表格数据 */
-  const getPage = () => {
+  const getPage = async () => {
     const formData = searchFormRef.current?.getFieldsValue() || {};
     const params = { ...formData, page, pageSize };
-    handleSearch(params);
+
+    try {
+      setLoading(true);
+      const { code, data } = await getUserPage(params);
+      if (Number(code) !== 200) return;
+      const { items, total } = data;
+      setTotal(total);
+      setTableData(items);
+    } finally {
+      setFetch(false);
+      setLoading(false);
+    }
   };
 
   /**
@@ -249,8 +248,7 @@ function Page() {
   const onChangePagination = (page: number, pageSize: number) => {
     setPage(page);
     setPageSize(pageSize);
-    const formData = searchFormRef.current?.getFieldsValue();
-    handleSearch({ ...formData, page, pageSize });
+    setFetch(true);
   };
 
   /**
@@ -301,14 +299,14 @@ function Page() {
           isCreate={pagePermission.create}
           onCreate={onCreate}
           handleFinish={onSearch}
-          >
-            <FilterButton
-              columns={columns}
-              className='!mb-5px'
-              getTableChecks={getTableChecks}
-            />
-          </BasicSearch>
-        
+        >
+          <FilterButton
+            columns={columns}
+            className='!mb-5px'
+            getTableChecks={getTableChecks}
+          />
+        </BasicSearch>
+
         <BasicTable
           loading={isLoading}
           columns={handleFilterTable(columns, tableFilters)}
