@@ -46,6 +46,7 @@ function Page() {
   const searchFormRef = useRef<FormFn>(null);
   const createFormRef = useRef<FormFn>(null);
   const columns = tableColumns(t, optionRender);
+  const [isFetch, setFetch] = useState(false);
   const [isCreateOpen, setCreateOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [isCreateLoading, setCreateLoading] = useState(false);
@@ -72,6 +73,10 @@ function Page() {
     delete: checkPermission(`${permissionPrefix}/delete`, permissions)
   };
 
+  useEffect(() => {
+    if (isFetch) getPage();
+  }, [isFetch])
+
   /**
    * 获取勾选表格数据
    * @param checks - 勾选
@@ -86,33 +91,15 @@ function Page() {
    */
   const onSearch = (values: FormData) => {
     setPage(1);
-    handleSearch({ page: 1, pageSize, ...values });
+    setFetch(true);
   };
 
-  /**
-   * 处理搜索
-   * @param values - 表单返回数据
-   */
-  const handleSearch = useCallback(async (values: FormData) => {
-    try {
-      setLoading(true);
-      const res = await getMenuPage(values);
-      const { code, data } = res;
-      if (Number(code) !== 200) return;
-      const { items, total } = data;
-      setTotal(total);
-      setTableData(items);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   // 首次进入自动加载接口数据
-  useEffect(() => { 
-    if (pagePermission.page) handleSearch({ ...initSearch });
+  useEffect(() => {
+    if (pagePermission.page) getPage();
     // TODO: 重复请求测试，可删
-    if (pagePermission.page) handleSearch({ ...initSearch });
-  }, [handleSearch, pagePermission.page]);
+    if (pagePermission.page) getPage();
+  }, [pagePermission.page]);
 
   /** 点击新增 */
   const onCreate = () => {
@@ -151,10 +138,22 @@ function Page() {
   };
 
   /** 获取表格数据 */
-  const getPage = () => {
+  const getPage = async () => {
     const formData = searchFormRef.current?.getFieldsValue() || {};
     const params = { ...formData, page, pageSize };
-    handleSearch(params);
+
+    try {
+      setLoading(true);
+      const res = await getMenuPage(params);
+      const { code, data } = res;
+      if (Number(code) !== 200) return;
+      const { items, total } = data;
+      setTotal(total);
+      setTableData(items);
+    } finally {
+      setFetch(false);
+      setLoading(false);
+    }
   };
 
   /**
@@ -200,9 +199,8 @@ function Page() {
   const onChangePagination = useCallback((page: number, pageSize: number) => {
     setPage(page);
     setPageSize(pageSize);
-    const formData = searchFormRef.current?.getFieldsValue();
-    handleSearch({ ...formData, page, pageSize });
-  }, [handleSearch]);
+    setFetch(true);
+  }, []);
 
   /**
    * 渲染操作
@@ -242,14 +240,14 @@ function Page() {
           isCreate={pagePermission.create}
           onCreate={onCreate}
           handleFinish={onSearch}
-          >
-            <FilterButton
-              columns={columns}
-              className='!mb-5px'
-              getTableChecks={getTableChecks}
-            />
-          </BasicSearch>
-        
+        >
+          <FilterButton
+            columns={columns}
+            className='!mb-5px'
+            getTableChecks={getTableChecks}
+          />
+        </BasicSearch>
+
         <BasicTable
           loading={isLoading}
           columns={handleFilterTable(columns, tableFilters)}

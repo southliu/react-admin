@@ -2,7 +2,7 @@ import type { FormData } from '#/form';
 import type { AppDispatch, RootState } from '@/stores';
 import type { PagePermission, TableOptions } from '#/public';
 import type { FormFn } from '@/components/Form/BasicForm';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { searchList, tableColumns } from './model';
 import { message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,6 +35,7 @@ function Page() {
   const dispatch: AppDispatch = useDispatch();
   const searchFormRef = useRef<FormFn>(null);
   const { permissions } = useCommonStore();
+  const [isFetch, setFetch] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [page, setPage] = useState(initSearch.page);
   const [pageSize, setPageSize] = useState(initSearch.pageSize);
@@ -54,42 +55,27 @@ function Page() {
     delete: checkPermission(`${permissionPrefix}/delete`, permissions)
   };
 
+  useEffect(() => {
+    if (isFetch) getPage();
+  }, [isFetch])
+
   /**
    * 点击搜索
    * @param values - 表单返回数据
    */
   const onSearch = (values: FormData) => {
     setPage(1);
-    handleSearch({ page: 1, pageSize, ...values });
+    setFetch(true);
   };
 
-  /**
-   * 搜索提交
-   * @param values - 表单返回数据
-   */
-  const handleSearch = useCallback(async (values: FormData) => {
-    try {
-      setLoading(true);
-      const { code, data } = await getArticlePage(values);
-
-      if (Number(code) === 200) {
-        const { items, total } = data;
-        setTotal(total);
-        setTableData(items);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   // 首次进入自动加载接口数据
-  useEffect(() => { 
-    if (pagePermission.page && !isRefreshPage) handleSearch({ ...initSearch });
+  useEffect(() => {
+    if (pagePermission.page && !isRefreshPage) getPage();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagePermission.page]);
 
   // 如果是新增或编辑成功重新加载页面
-  useEffect(() => { 
+  useEffect(() => {
     if (isRefreshPage) {
       dispatch(setRefreshPage(false));
       getPage();
@@ -111,10 +97,23 @@ function Page() {
   };
 
   /** 获取表格数据 */
-  const getPage = () => {
+  const getPage = async () => {
     const formData = searchFormRef.current?.getFieldsValue() || {};
     const params = { ...formData, page, pageSize };
-    handleSearch(params);
+
+    try {
+      setLoading(true);
+      const { code, data } = await getArticlePage(params);
+
+      if (Number(code) === 200) {
+        const { items, total } = data;
+        setTotal(total);
+        setTableData(items);
+      }
+    } finally {
+      setFetch(false);
+      setLoading(false);
+    }
   };
 
   /**
@@ -142,8 +141,7 @@ function Page() {
   const onChangePagination = (page: number, pageSize: number) => {
     setPage(page);
     setPageSize(pageSize);
-    const formData = searchFormRef.current?.getFieldsValue();
-    handleSearch({ ...formData, page, pageSize });
+    setFetch(true);
   };
 
   /**
@@ -185,7 +183,7 @@ function Page() {
           onCreate={onCreate}
           handleFinish={onSearch}
         />
-        
+
         <BasicTable
           loading={isLoading}
           columns={tableColumns(t, optionRender)}
