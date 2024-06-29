@@ -2,10 +2,9 @@ import type { FormData } from '#/form';
 import type { DataNode } from 'antd/es/tree';
 import type { Key } from 'antd/es/table/interface';
 import type { PagePermission } from '#/public';
-import type { FormFn } from '@/components/Form/BasicForm';
 import { useEffect, useRef, useState } from 'react';
 import { createList, searchList, tableColumns } from './model';
-import { Button, message } from 'antd';
+import { type FormInstance, Button, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
@@ -47,8 +46,8 @@ const initCreate = {
 
 function Page() {
   const { t } = useTranslation();
-  const searchFormRef = useRef<FormFn>(null);
-  const createFormRef = useRef<FormFn>(null);
+  const searchFormRef = useRef<FormInstance>(null);
+  const createFormRef = useRef<FormInstance>(null);
   const columns = tableColumns(t, optionRender);
   const [messageApi, contextHolder] = message.useMessage();
   const [isFetch, setFetch] = useState(false);
@@ -179,7 +178,7 @@ function Page() {
 
   /** 表格提交 */
   const createSubmit = () => {
-    createFormRef.current?.handleSubmit();
+    createFormRef.current?.submit();
   };
 
   /** 关闭新增/修改弹窗 */
@@ -292,7 +291,7 @@ function Page() {
       <>
         { contextHolder }
         <BasicSearch
-          formRef={searchFormRef}
+          ref={searchFormRef}
           list={searchList(t)}
           data={initSearch}
           isLoading={isLoading}
@@ -329,7 +328,7 @@ function Page() {
           onCancel={closeCreate}
         >
           <BasicForm
-            formRef={createFormRef}
+            ref={createFormRef}
             list={createList(t)}
             data={createData}
             labelCol={{ span: 6 }}

@@ -1,7 +1,6 @@
-import { ReactNode, Ref, useImperativeHandle } from 'react';
 import type { FormData, FormList } from '#/form';
-import type { ColProps } from 'antd';
-import type { FormFn } from '../Form/BasicForm';
+import type { ColProps, FormInstance } from 'antd';
+import { type LegacyRef, ReactNode, forwardRef } from 'react';
 import { Button, FormProps } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -19,16 +18,14 @@ interface Props extends FormProps {
   children?: ReactNode;
   labelCol?: Partial<ColProps>;
   wrapperCol?: Partial<ColProps>;
-  formRef?: Ref<FormFn>;
   onCreate?: () => void;
   handleFinish: FormProps['onFinish'];
 }
 
-function BasicSearch(props: Props) {
+const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const {
     list,
     data,
-    formRef,
     isLoading,
     isSearch,
     isCreate,
@@ -39,32 +36,6 @@ function BasicSearch(props: Props) {
   } = props;
   const { t } = useTranslation();
   const [form] = Form.useForm();
-
-  // 抛出外部方法
-  useImperativeHandle(
-    formRef,
-    () => ({
-      /**
-       * 获取表单值
-       * @param key - 表单唯一值
-       */
-      getFieldValue: (key: string) => {
-        return form?.getFieldValue(key);
-      },
-      /** 获取表单全部值 */
-      getFieldsValue: () => {
-        return form?.getFieldsValue();
-      },
-      /** 重置表单 */
-      handleReset: () => {
-        form?.resetFields();
-      },
-      /** 提交表单  */
-      handleSubmit: () => {
-        form?.submit();
-      }
-    } as FormFn)
-  );
 
   /** 点击新增 */
   const onCreate = () => {
@@ -96,6 +67,7 @@ function BasicSearch(props: Props) {
       <Form
         layout="inline"
         {...props}
+        ref={ref}
         form={form}
         labelCol={labelCol ? labelCol : { span: 8 }}
         wrapperCol={wrapperCol ? wrapperCol : { span: 16 }}
@@ -156,6 +128,6 @@ function BasicSearch(props: Props) {
       </Form>
     </div>
   );
-}
+});
 
 export default BasicSearch;
