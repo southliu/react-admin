@@ -1,9 +1,8 @@
 import type { FormData } from '#/form';
 import type { PagePermission } from '#/public';
-import type { FormFn } from '@/components/Form/BasicForm';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { searchList, createList, tableColumns } from './model';
-import { message } from 'antd';
+import { type FormInstance, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
@@ -43,8 +42,8 @@ const initCreate = {
 
 function Page() {
   const { t } = useTranslation();
-  const searchFormRef = useRef<FormFn>(null);
-  const createFormRef = useRef<FormFn>(null);
+  const searchFormRef = useRef<FormInstance>(null);
+  const createFormRef = useRef<FormInstance>(null);
   const columns = tableColumns(t, optionRender);
   const [isFetch, setFetch] = useState(false);
   const [isCreateOpen, setCreateOpen] = useState(false);
@@ -129,7 +128,7 @@ function Page() {
 
   /** 表单提交 */
   const createSubmit = () => {
-    createFormRef.current?.handleSubmit();
+    createFormRef?.current?.submit();
   };
 
   /** 关闭新增/修改弹窗 */
@@ -233,7 +232,7 @@ function Page() {
       <>
         { contextHolder }
         <BasicSearch
-          formRef={searchFormRef}
+          ref={searchFormRef}
           list={searchList(t)}
           data={initSearch}
           isLoading={isLoading}
@@ -271,7 +270,7 @@ function Page() {
           onCancel={closeCreate}
         >
           <BasicForm
-            formRef={createFormRef}
+            ref={createFormRef}
             list={createList(t, createId)}
             data={createData}
             labelCol={{ span: 4 }}

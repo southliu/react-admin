@@ -1,7 +1,7 @@
-import type { ReactNode, Ref } from 'react';
+import type { LegacyRef, ReactNode } from 'react';
 import type { FormData, FormList } from '#/form';
-import type { ColProps } from 'antd';
-import { useEffect, useImperativeHandle } from 'react';
+import type { ColProps, FormInstance } from 'antd';
+import { forwardRef, useEffect } from 'react';
 import { FormProps } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -9,61 +9,26 @@ import { getComponent } from '../Form/utils/componentMap';
 import { filterFormItem, handleValuePropName } from './utils/helper';
 import { filterDayjs } from '../Dates/utils/helper';
 
-export interface FormFn {
-  getFieldValue: (key: string) => unknown;
-  getFieldsValue: () => FormData;
-  handleReset: () => void;
-  handleSubmit: () => void;
-}
-
 interface Props extends FormProps {
   list: FormList[];
   data: FormData;
   children?: ReactNode;
   labelCol?: Partial<ColProps>;
   wrapperCol?: Partial<ColProps>;
-  formRef?: Ref<FormFn>;
   handleFinish: FormProps['onFinish'];
 }
 
-function BasicForm(props: Props) {
+const BasicForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const {
     list,
     data,
     children,
     labelCol,
     wrapperCol,
-    formRef,
     handleFinish
   } = props;
   const { t } = useTranslation();
   const [form] = Form.useForm();
-
-  // 抛出外部方法
-  useImperativeHandle(
-    formRef,
-    () => ({
-      /**
-       * 获取表单值
-       * @param key - 表单唯一值
-       */
-      getFieldValue: (key: string) => {
-        return form?.getFieldValue(key) || {};
-      },
-      /** 获取表单全部值 */
-      getFieldsValue: () => {
-        return form?.getFieldsValue() || {};
-      },
-      /** 重置表单 */
-      handleReset: () => {
-        form?.resetFields();
-      },
-      /** 提交表单  */
-      handleSubmit: () => {
-        form?.submit();
-      }
-    } as FormFn)
-  );
 
   // 监听传入表单数据，如果变化则替换表单
   useEffect(() => {
@@ -106,6 +71,7 @@ function BasicForm(props: Props) {
     <div>
       <Form
         {...props}
+        ref={ref}
         form={form}
         labelCol={labelCol ? labelCol : { span: 6 }}
         wrapperCol={wrapperCol ? wrapperCol : { span: 15 }}
@@ -135,6 +101,6 @@ function BasicForm(props: Props) {
       </Form>
     </div>
   );
-}
+});
 
 export default BasicForm;

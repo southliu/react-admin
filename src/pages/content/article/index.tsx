@@ -1,10 +1,9 @@
 import type { FormData } from '#/form';
 import type { AppDispatch, RootState } from '@/stores';
 import type { PagePermission, TableOptions } from '#/public';
-import type { FormFn } from '@/components/Form/BasicForm';
 import { useEffect, useRef, useState } from 'react';
 import { searchList, tableColumns } from './model';
-import { message } from 'antd';
+import { type FormInstance, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -33,7 +32,7 @@ function Page() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const searchFormRef = useRef<FormFn>(null);
+  const searchFormRef = useRef<FormInstance>(null);
   const { permissions } = useCommonStore();
   const [isFetch, setFetch] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -175,7 +174,7 @@ function Page() {
       <>
         { contextHolder }
         <BasicSearch
-          formRef={searchFormRef}
+          ref={searchFormRef}
           list={searchList(t)}
           data={initSearch}
           isLoading={isLoading}
