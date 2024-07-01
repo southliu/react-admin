@@ -1,9 +1,9 @@
 import type { FormData } from '#/form';
 import type { AppDispatch, RootState } from '@/stores';
 import type { PagePermission, TableOptions } from '#/public';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { searchList, tableColumns } from './model';
-import { type FormInstance, message } from 'antd';
+import { message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -16,28 +16,23 @@ import BasicContent from '@/components/Content/BasicContent';
 import BasicSearch from '@/components/Search/BasicSearch';
 import BasicTable from '@/components/Table/BasicTable';
 import BasicPagination from '@/components/Pagination/BasicPagination';
+import { INIT_PAGINATION } from '@/utils/config';
 
 // 当前行数据
 interface RowData {
   id: string;
 }
 
-// 初始化搜索
-const initSearch = {
-  page: 1,
-  pageSize: 20
-};
-
 function Page() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const searchFormRef = useRef<FormInstance>(null);
   const { permissions } = useCommonStore();
   const [isFetch, setFetch] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [page, setPage] = useState(initSearch.page);
-  const [pageSize, setPageSize] = useState(initSearch.pageSize);
+  const [searchData, setSearchData] = useState<FormData>({});
+  const [page, setPage] = useState(INIT_PAGINATION.page);
+  const [pageSize, setPageSize] = useState(INIT_PAGINATION.pageSize);
   const [total, setTotal] = useState(0);
   const [tableData, setTableData] = useState<FormData[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
@@ -64,6 +59,7 @@ function Page() {
    */
   const onSearch = (values: FormData) => {
     setPage(1);
+    setSearchData(values);
     setFetch(true);
   };
 
@@ -97,8 +93,7 @@ function Page() {
 
   /** 获取表格数据 */
   const getPage = async () => {
-    const formData = searchFormRef.current?.getFieldsValue() || {};
-    const params = { ...formData, page, pageSize };
+    const params = { ...searchData, page, pageSize };
 
     try {
       setLoading(true);
@@ -174,9 +169,8 @@ function Page() {
       <>
         { contextHolder }
         <BasicSearch
-          ref={searchFormRef}
           list={searchList(t)}
-          data={initSearch}
+          data={searchData}
           isLoading={isLoading}
           isCreate={pagePermission.create}
           onCreate={onCreate}
