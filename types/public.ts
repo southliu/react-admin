@@ -40,7 +40,7 @@ export interface PagePermission {
   create?: boolean;
   update?: boolean;
   delete?: boolean;
-  [key: string]: boolean;
+  [key: string]: boolean | undefined;
 }
 
 // 表格列数据
