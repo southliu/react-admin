@@ -59,7 +59,7 @@ CreateBusiness();
  * 获取组件
  * @param item - 表单项
  */
-export function getComponent(t: TFunction, item: FormList) {
+export function getComponent(t: TFunction, item: FormList, onPressEnter: () => void) {
   const { component, componentProps } = item;
 
   // 当组件类型为自定义时
@@ -77,7 +77,7 @@ export function getComponent(t: TFunction, item: FormList) {
   return (
     <>
       <Comp
-        {...initCompProps(t, component)}
+        {...initCompProps(t, component, onPressEnter)}
         {...componentProps}
       />
       {

@@ -185,7 +185,7 @@ function SearchModal(props: Props) {
         onChange={onChange}
         onPressEnter={onPressEnter}
       />
-  
+
       <SearchResult
         list={list}
         active={active}

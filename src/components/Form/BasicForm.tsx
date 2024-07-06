@@ -30,6 +30,12 @@ const BasicForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
 
+  // 清除多余参数
+  const formProps: Partial<Props> = { ...props };
+  delete formProps.list;
+  delete formProps.data;
+  delete formProps.handleFinish;
+
   // 监听传入表单数据，如果变化则替换表单
   useEffect(() => {
     form?.resetFields();
@@ -45,6 +51,11 @@ const BasicForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     number: {
       range: t('public.validateRange', { label: '${label}', max: '${max}', min: '${min}' }),
     },
+  };
+
+  /** 回车处理 */
+  const onPressEnter = () => {
+    form?.submit();
   };
 
   /**
@@ -70,7 +81,7 @@ const BasicForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   return (
     <div>
       <Form
-        {...props}
+        {...formProps}
         ref={ref}
         form={form}
         labelCol={labelCol ? labelCol : { span: 6 }}
@@ -92,7 +103,7 @@ const BasicForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
               className={item.hidden ? '!hidden' : ''}
               valuePropName={handleValuePropName(item.component)}
             >
-              { getComponent(t, item) }
+              { getComponent(t, item, onPressEnter) }
             </Form.Item>
           ))
         }
