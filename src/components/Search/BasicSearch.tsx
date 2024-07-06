@@ -37,6 +37,19 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
 
+  // 清除多余参数
+  const formProps = { ...props };
+  delete formProps.isSearch;
+  delete formProps.isCreate;
+  delete formProps.isLoading;
+  delete formProps.onCreate;
+  delete formProps.handleFinish;
+
+  /** 回车处理 */
+  const onPressEnter = () => {
+    form?.submit();
+  };
+
   /** 点击新增 */
   const onCreate = () => {
     props.onCreate?.();
@@ -66,7 +79,7 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     <div id="searches" className="py-3">
       <Form
         layout="inline"
-        {...props}
+        {...formProps}
         ref={ref}
         form={form}
         labelCol={labelCol ? labelCol : { span: 8 }}
@@ -88,7 +101,7 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
               rules={item.rules}
               valuePropName={handleValuePropName(item.component)}
             >
-              { getComponent(t, item) }
+              { getComponent(t, item, onPressEnter) }
             </Form.Item>
           ))
         }
@@ -117,7 +130,7 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
                 className='!mb-5px'
                 icon={<PlusOutlined />}
                 onClick={onCreate}
-            >
+              >
                 { t('public.create') }
               </Button>
             </Form.Item>
