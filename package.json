@@ -20,7 +20,7 @@
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-react": "^1.0.6",
     "ahooks": "^3.7.11",
-    "antd": "^5.16.1",
+    "antd": "^5.19.1",
     "axios": "^1.6.8",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
