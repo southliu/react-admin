@@ -1,5 +1,5 @@
 <div align="center">
-	<h1>South Admin</h1>
+	<h1>React Admin</h1>
 </div>
 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE) ![](https://img.shields.io/github/stars/southliu/south-admin)
