@@ -1,4 +1,4 @@
-import type { SubMenuType } from 'antd/lib/menu/hooks/useItems';
+import { ItemType } from 'antd/es/menu/interface';
 import type { ColumnsType } from 'antd/lib/table';
 
 // 区间值
@@ -24,7 +24,7 @@ export interface PaginationData {
 }
 
 // 侧边菜单
-export interface SideMenu extends Omit<SubMenuType, 'children' | 'label' | 'icon'> {
+export interface SideMenu extends Omit<ItemType, 'children' | 'label' | 'icon'> {
   label: string;
   labelEn: string;
   key: string;
