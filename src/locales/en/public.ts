@@ -3,6 +3,7 @@ export default {
   total: 'total',
   date: 'date',
   search: 'Search',
+  clear: 'Clear',
   create: 'Create',
   edit: 'Edit',
   delete: 'Delete',
