@@ -42,6 +42,7 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   // 清除多余参数
   const formProps = { ...props };
   delete formProps.isSearch;
+  delete formProps.isClear;
   delete formProps.isCreate;
   delete formProps.isLoading;
   delete formProps.onCreate;

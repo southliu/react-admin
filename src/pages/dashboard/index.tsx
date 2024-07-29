@@ -46,24 +46,21 @@ function Dashboard() {
 
   return (
     <BasicContent isPermission={true}>
-      <>
-        <BasicSearch
-          list={searchList(t)}
-          data={initSearch}
-          isLoading={isLoading}
-          isCreate={false}
-          handleFinish={handleSearch}
-        />
+      <BasicSearch
+        list={searchList(t)}
+        data={initSearch}
+        isLoading={isLoading}
+        handleFinish={handleSearch}
+      />
 
-        <div className='py-10px'>
-          <Block />
-        </div>
+      <div className='py-10px'>
+        <Block />
+      </div>
 
-        <div className='flex justify-between w-full'>
-          <Line />
-          <Bar />
-        </div>
-      </>
+      <div className='flex justify-between w-full'>
+        <Line />
+        <Bar />
+      </div>
     </BasicContent>
   );
 }

@@ -137,26 +137,24 @@ function Page() {
 
   return (
     <BasicContent isPermission={id ? pagePermission.update : pagePermission.create}>
-      <>
-        { contextHolder }
-        <div className='mb-50px'>
-          <Spin spinning={isLoading}>
-            <BasicForm
-              ref={createFormRef}
-              list={createList(t)}
-              data={createData}
-              labelCol={{ span: 5 }}
-              handleFinish={handleFinish}
-            />
-          </Spin>
-        </div>
+      { contextHolder }
+      <div className='mb-50px'>
+        <Spin spinning={isLoading}>
+          <BasicForm
+            ref={createFormRef}
+            list={createList(t)}
+            data={createData}
+            labelCol={{ span: 5 }}
+            handleFinish={handleFinish}
+          />
+        </Spin>
+      </div>
 
-        <SubmitBottom
-          isLoading={isLoading}
-          goBack={() => goBack()}
-          handleSubmit={handleSubmit}
-        />
-      </>
+      <SubmitBottom
+        isLoading={isLoading}
+        goBack={() => goBack()}
+        handleSubmit={handleSubmit}
+      />
     </BasicContent>
   );
 }
