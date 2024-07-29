@@ -4,7 +4,7 @@ import { type LegacyRef, ReactNode, forwardRef } from 'react';
 import { Button, FormProps } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined, ClearOutlined } from '@ant-design/icons';
 import { getComponent } from '../Form/utils/componentMap';
 import { handleValuePropName } from '../Form/utils/helper';
 import { filterDayjs } from '../Dates/utils/helper';
@@ -14,6 +14,7 @@ interface Props extends FormProps {
   data: FormData;
   isLoading?: boolean;
   isSearch?: boolean;
+  isClear?: boolean;
   isCreate?: boolean;
   children?: ReactNode;
   labelCol?: Partial<ColProps>;
@@ -27,8 +28,9 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     list,
     data,
     isLoading,
-    isSearch,
-    isCreate,
+    isSearch = true,
+    isClear = true,
+    isCreate = true,
     children,
     labelCol,
     wrapperCol,
@@ -53,6 +55,13 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   /** 点击新增 */
   const onCreate = () => {
     props.onCreate?.();
+  };
+
+  /** 点击清除 */
+  const onClear = () => {
+    form?.resetFields();
+    form?.setFieldsValue(data ? { ...data } : {});
+    form?.submit();
   };
 
   /**
@@ -108,7 +117,7 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
 
         <div className='flex items-center flex-wrap'>
           {
-            isSearch !== false &&
+            !!isSearch &&
             <Form.Item>
               <Button
                 type="primary"
@@ -123,7 +132,20 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
           }
 
           {
-            isCreate !== false &&
+            !!isClear &&
+            <Form.Item>
+              <Button
+                className='!mb-5px'
+                icon={<ClearOutlined />}
+                onClick={onClear}
+              >
+                { t('public.clear') }
+              </Button>
+            </Form.Item>
+          }
+
+          {
+            !!isCreate &&
             <Form.Item>
               <Button
                 type="primary"
