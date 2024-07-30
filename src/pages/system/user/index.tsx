@@ -282,61 +282,59 @@ function Page() {
 
   return (
     <BasicContent isPermission={pagePermission.page}>
-      <>
-        { contextHolder }
-        <BasicSearch
-          list={searchList(t)}
-          data={searchData}
-          isLoading={isLoading}
-          isCreate={pagePermission.create}
-          onCreate={onCreate}
-          handleFinish={onSearch}
-        >
-          <FilterButton
-            columns={columns}
-            className='!mb-5px'
-            getTableChecks={getTableChecks}
-          />
-        </BasicSearch>
-
-        <BasicTable
-          loading={isLoading}
-          columns={handleFilterTable(columns, tableFilters)}
-          dataSource={tableData}
+      { contextHolder }
+      <BasicSearch
+        list={searchList(t)}
+        data={searchData}
+        isLoading={isLoading}
+        isCreate={pagePermission.create}
+        onCreate={onCreate}
+        handleFinish={onSearch}
+      >
+        <FilterButton
+          columns={columns}
+          className='!mb-5px'
+          getTableChecks={getTableChecks}
         />
+      </BasicSearch>
 
-        <BasicPagination
-          disabled={isLoading}
-          current={page}
-          pageSize={pageSize}
-          total={total}
-          onChange={onChangePagination}
+      <BasicTable
+        loading={isLoading}
+        columns={handleFilterTable(columns, tableFilters)}
+        dataSource={tableData}
+      />
+
+      <BasicPagination
+        disabled={isLoading}
+        current={page}
+        pageSize={pageSize}
+        total={total}
+        onChange={onChangePagination}
+      />
+
+      <BasicModal
+        title={createTitle}
+        open={isCreateOpen}
+        confirmLoading={isCreateLoading}
+        onOk={createSubmit}
+        onCancel={closeCreate}
+      >
+        <BasicForm
+          ref={createFormRef}
+          list={createList(t)}
+          data={createData}
+          labelCol={{ span: 6 }}
+          handleFinish={handleCreate}
         />
+      </BasicModal>
 
-        <BasicModal
-          title={createTitle}
-          open={isCreateOpen}
-          confirmLoading={isCreateLoading}
-          onOk={createSubmit}
-          onCancel={closeCreate}
-        >
-          <BasicForm
-            ref={createFormRef}
-            list={createList(t)}
-            data={createData}
-            labelCol={{ span: 6 }}
-            handleFinish={handleCreate}
-          />
-        </BasicModal>
-
-        <PermissionDrawer
-          isVisible={isPromiseVisible}
-          treeData={promiseTreeData}
-          checkedKeys={promiseCheckedKeys}
-          onClose={closePermission}
-          onSubmit={permissionSubmit}
-        />
-      </>
+      <PermissionDrawer
+        isVisible={isPromiseVisible}
+        treeData={promiseTreeData}
+        checkedKeys={promiseCheckedKeys}
+        onClose={closePermission}
+        onSubmit={permissionSubmit}
+      />
     </BasicContent>
   );
 }
