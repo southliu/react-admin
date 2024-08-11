@@ -109,7 +109,7 @@ function LayoutMenu() {
     }
   };
 
-  /** 
+  /**
    * 点击菜单
    * @param e - 菜单事件
    */
@@ -175,7 +175,7 @@ function LayoutMenu() {
 
   return (
     <>
-      <div 
+      <div
         className={`
           transition-all
           overflow-auto
@@ -205,7 +205,7 @@ function LayoutMenu() {
             className="object-contain"
             alt="logo"
           />
-          
+
           <span className={`
             text-white
             ml-3
@@ -219,6 +219,7 @@ function LayoutMenu() {
         </div>
 
         <Menu
+          id="layoutMenu"
           className="z-1000"
           selectedKeys={[selectedKeys]}
           openKeys={openKeys}

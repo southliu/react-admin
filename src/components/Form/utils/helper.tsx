@@ -45,7 +45,7 @@ export function initCompProps(
         allowClear: true,
         placeholder: t('public.inputPleaseEnter'),
         onPressEnter
-      }
+      };
 
     // 数字框
     case 'InputNumber':

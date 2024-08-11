@@ -66,9 +66,27 @@ function Page() {
     delete: checkPermission(`${permissionPrefix}/delete`, permissions)
   };
 
+  /** 获取表格数据 */
+  const getPage = useCallback(async () => {
+    const params = { ...searchData, page, pageSize };
+
+    try {
+      setLoading(true);
+      const res = await getMenuPage(params);
+      const { code, data } = res;
+      if (Number(code) !== 200) return;
+      const { items, total } = data;
+      setTotal(total);
+      setTableData(items);
+    } finally {
+      setFetch(false);
+      setLoading(false);
+    }
+  }, [page, pageSize, searchData]);
+
   useEffect(() => {
     if (isFetch) getPage();
-  }, [isFetch])
+  }, [getPage, isFetch]);
 
   /**
    * 获取勾选表格数据
@@ -93,7 +111,7 @@ function Page() {
     if (pagePermission.page) getPage();
     // TODO: 重复请求测试，可删
     if (pagePermission.page) getPage();
-  }, [pagePermission.page]);
+  }, [getPage, pagePermission.page]);
 
   /** 点击新增 */
   const onCreate = () => {
@@ -129,24 +147,6 @@ function Page() {
   /** 关闭新增/修改弹窗 */
   const closeCreate = () => {
     setCreateOpen(false);
-  };
-
-  /** 获取表格数据 */
-  const getPage = async () => {
-    const params = { ...searchData, page, pageSize };
-
-    try {
-      setLoading(true);
-      const res = await getMenuPage(params);
-      const { code, data } = res;
-      if (Number(code) !== 200) return;
-      const { items, total } = data;
-      setTotal(total);
-      setTableData(items);
-    } finally {
-      setFetch(false);
-      setLoading(false);
-    }
   };
 
   /**
