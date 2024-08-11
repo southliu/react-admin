@@ -25,6 +25,7 @@ import BasicForm from '@/components/Form/BasicForm';
 import BasicContent from '@/components/Content/BasicContent';
 import SubmitBottom from '@/components/Bottom/SubmitBottom';
 import { useSingleTab } from '@/hooks/useSingleTab';
+import BasicCard from '@/components/Card/BasicCard';
 
 interface RecordType {
   key: string;
@@ -138,17 +139,19 @@ function Page() {
   return (
     <BasicContent isPermission={id ? pagePermission.update : pagePermission.create}>
       { contextHolder }
-      <div className='mb-50px'>
-        <Spin spinning={isLoading}>
-          <BasicForm
-            ref={createFormRef}
-            list={createList(t)}
-            data={createData}
-            labelCol={{ span: 5 }}
-            handleFinish={handleFinish}
-          />
-        </Spin>
-      </div>
+      <BasicCard>
+        <div className='mb-50px'>
+          <Spin spinning={isLoading}>
+            <BasicForm
+              ref={createFormRef}
+              list={createList(t)}
+              data={createData}
+              labelCol={{ span: 5 }}
+              handleFinish={handleFinish}
+            />
+          </Spin>
+        </div>
+      </BasicCard>
 
       <SubmitBottom
         isLoading={isLoading}

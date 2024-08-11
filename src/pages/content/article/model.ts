@@ -1,11 +1,11 @@
-import type { FormList } from "#/form";
+import type { FormList, SearchList } from "#/form";
 import type { TFunction } from "i18next";
 import type { TableColumn, TableOptions } from '#/public';
 import { FORM_REQUIRED } from '@/utils/config';
 import CustomizeInput from './components/CustomizeInput';
 
 // 搜索数据
-export const searchList = (t: TFunction): FormList[] => [
+export const searchList = (t: TFunction): SearchList[] => [
   {
     label: t('login.username'),
     name: 'username',

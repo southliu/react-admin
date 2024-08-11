@@ -143,3 +143,8 @@ export interface FormList extends Omit<FormItemProps, 'labelCol' | 'wrapperCol'>
   componentProps?: ComponentProps; // 组件参数
   render?: FC; // 自定义渲染
 }
+
+// 搜索数据
+export interface SearchList extends FormList {
+  // TODO...
+}

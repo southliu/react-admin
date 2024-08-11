@@ -12,11 +12,12 @@ import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { getArticlePage, deleteArticle } from '@/servers/content/article';
+import { INIT_PAGINATION } from '@/utils/config';
 import BasicContent from '@/components/Content/BasicContent';
 import BasicSearch from '@/components/Search/BasicSearch';
 import BasicTable from '@/components/Table/BasicTable';
 import BasicPagination from '@/components/Pagination/BasicPagination';
-import { INIT_PAGINATION } from '@/utils/config';
+import BasicCard from '@/components/Card/BasicCard';
 
 // 当前行数据
 interface RowData {
@@ -167,28 +168,33 @@ function Page() {
   return (
     <BasicContent isPermission={pagePermission.page}>
       { contextHolder }
-      <BasicSearch
-        list={searchList(t)}
-        data={searchData}
-        isLoading={isLoading}
-        isCreate={pagePermission.create}
-        onCreate={onCreate}
-        handleFinish={onSearch}
-      />
+      <BasicCard>
+        <BasicSearch
+          list={searchList(t)}
+          data={searchData}
+          isLoading={isLoading}
+          handleFinish={onSearch}
+        />
+      </BasicCard>
 
-      <BasicTable
-        loading={isLoading}
-        columns={tableColumns(t, optionRender)}
-        dataSource={tableData}
-      />
+      <BasicCard className='mt-10px'>
+        <BasicTable
+          isLoading={isLoading}
+          isCreate={pagePermission.create}
+          columns={tableColumns(t, optionRender)}
+          dataSource={tableData}
+          getPage={getPage}
+          onCreate={onCreate}
+        />
 
-      <BasicPagination
-        disabled={isLoading}
-        current={page}
-        pageSize={pageSize}
-        total={total}
-        onChange={onChangePagination}
-      />
+        <BasicPagination
+          disabled={isLoading}
+          current={page}
+          pageSize={pageSize}
+          total={total}
+          onChange={onChangePagination}
+        />
+      </BasicCard>
     </BasicContent>
   );
 }

@@ -1,4 +1,4 @@
-import type { FormList } from "#/form";
+import type { FormList, SearchList } from "#/form";
 import type { TFunction } from "i18next";
 import type { TableColumn, TableOptions } from '#/public';
 import { FORM_REQUIRED } from '@/utils/config';
@@ -6,7 +6,7 @@ import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from '@/utils/constants';
 import { valueToLabel } from "@/utils/helper";
 
 // 搜索数据
-export const searchList = (t: TFunction): FormList[] => [
+export const searchList = (t: TFunction): SearchList[] => [
   {
     label: t('system.state'),
     name: 'status',

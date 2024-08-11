@@ -1,11 +1,24 @@
-import type { FormList } from '#/form';
+import type { FormList, SearchList } from '#/form';
 import type { TFunction } from 'i18next';
 import type { TableColumn, TableOptions } from '#/public';
 import { FORM_REQUIRED } from '@/utils/config';
 import { OPEN_CLOSE } from '@/utils/constants';
 
+const otherSearch: SearchList[] = [];
+
+for (let i = 0; i < 32; i++) {
+  otherSearch.push({
+    label: `名称${i + 1}`,
+    name: `label${i + 1}`,
+    component: 'Input',
+    componentProps: {
+      maxLength: 200
+    }
+  });
+}
+
 // 搜索数据
-export const searchList = (t: TFunction): FormList[] => [
+export const searchList = (t: TFunction): SearchList[] => [
   {
     label: t('system.age'),
     name: 'age',
@@ -15,7 +28,8 @@ export const searchList = (t: TFunction): FormList[] => [
     label: t('public.name'),
     name: 'keyword',
     component: 'Input'
-  }
+  },
+  ...otherSearch,
 ];
 
 /**
