@@ -1,7 +1,7 @@
 import type { FormData } from '#/form';
 import type { AppDispatch, RootState } from '@/stores';
 import type { PagePermission, TableOptions } from '#/public';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { searchList, tableColumns } from './model';
 import { message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,9 +49,28 @@ function Page() {
     delete: checkPermission(`${permissionPrefix}/delete`, permissions)
   };
 
+  /** 获取表格数据 */
+  const getPage = useCallback(async () => {
+    const params = { ...searchData, page, pageSize };
+
+    try {
+      setLoading(true);
+      const { code, data } = await getArticlePage(params);
+
+      if (Number(code) === 200) {
+        const { items, total } = data;
+        setTotal(total);
+        setTableData(items);
+      }
+    } finally {
+      setFetch(false);
+      setLoading(false);
+    }
+  }, [page, pageSize, searchData]);
+
   useEffect(() => {
     if (isFetch) getPage();
-  }, [isFetch])
+  }, [getPage, isFetch]);
 
   /**
    * 点击搜索
@@ -89,25 +108,6 @@ function Page() {
    */
   const onUpdate = (id: string) => {
     navigate(`/content/article/option?type=update&id=${id}`);
-  };
-
-  /** 获取表格数据 */
-  const getPage = async () => {
-    const params = { ...searchData, page, pageSize };
-
-    try {
-      setLoading(true);
-      const { code, data } = await getArticlePage(params);
-
-      if (Number(code) === 200) {
-        const { items, total } = data;
-        setTotal(total);
-        setTableData(items);
-      }
-    } finally {
-      setFetch(false);
-      setLoading(false);
-    }
   };
 
   /**
