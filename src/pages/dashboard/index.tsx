@@ -9,6 +9,7 @@ import BasicContent from '@/components/Content/BasicContent';
 import Bar from './components/Bar';
 import Line from './components/Line';
 import Block from './components/Block';
+import BasicCard from '@/components/Card/BasicCard';
 
 // 初始化搜索
 const initSearch = {
@@ -46,21 +47,25 @@ function Dashboard() {
 
   return (
     <BasicContent isPermission={true}>
-      <BasicSearch
-        list={searchList(t)}
-        data={initSearch}
-        isLoading={isLoading}
-        handleFinish={handleSearch}
-      />
+      <BasicCard>
+        <BasicSearch
+          list={searchList(t)}
+          data={initSearch}
+          isLoading={isLoading}
+          handleFinish={handleSearch}
+        />
+      </BasicCard>
 
-      <div className='py-10px'>
-        <Block />
-      </div>
+      <BasicCard className='mt-10px'>
+        <div className='py-10px'>
+          <Block />
+        </div>
 
-      <div className='flex justify-between w-full'>
-        <Line />
-        <Bar />
-      </div>
+        <div className='flex justify-between w-full'>
+          <Line />
+          <Bar />
+        </div>
+      </BasicCard>
     </BasicContent>
   );
 }

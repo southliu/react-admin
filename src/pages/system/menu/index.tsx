@@ -8,7 +8,6 @@ import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { ADD_TITLE, EDIT_TITLE, INIT_PAGINATION } from '@/utils/config';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
-import { useFiler } from '@/components/TableFilter/hooks/useFiler';
 import {
   getMenuPage,
   getMenuById,
@@ -16,13 +15,13 @@ import {
   updateMenu,
   deleteMenu
 } from '@/servers/system/menu';
-import FilterButton from '@/components/TableFilter';
 import BasicContent from '@/components/Content/BasicContent';
 import BasicSearch from '@/components/Search/BasicSearch';
 import BasicModal from '@/components/Modal/BasicModal';
 import BasicForm from '@/components/Form/BasicForm';
 import BasicTable from '@/components/Table/BasicTable';
 import BasicPagination from '@/components/Pagination/BasicPagination';
+import BasicCard from '@/components/Card/BasicCard';
 
 // 当前行数据
 interface RowData {
@@ -50,9 +49,7 @@ function Page() {
   const [pageSize, setPageSize] = useState(INIT_PAGINATION.pageSize);
   const [total, setTotal] = useState(0);
   const [tableData, setTableData] = useState<FormData[]>([]);
-  const [tableFilters, setTableFilters] = useState<string[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
-  const [handleFilterTable] = useFiler();
   const { permissions } = useCommonStore();
 
   // 权限前缀
@@ -87,14 +84,6 @@ function Page() {
   useEffect(() => {
     if (isFetch) getPage();
   }, [getPage, isFetch]);
-
-  /**
-   * 获取勾选表格数据
-   * @param checks - 勾选
-   */
-  const getTableChecks = (checks: string[]) => {
-    setTableFilters(checks);
-  };
 
   /**
    * 点击搜索
@@ -224,34 +213,33 @@ function Page() {
   return (
     <BasicContent isPermission={pagePermission.page}>
       { contextHolder }
-      <BasicSearch
-        list={searchList(t)}
-        data={searchData}
-        isLoading={isLoading}
-        isCreate={pagePermission.create}
-        onCreate={onCreate}
-        handleFinish={onSearch}
-      >
-        <FilterButton
-          columns={columns}
-          className='!mb-5px'
-          getTableChecks={getTableChecks}
+      <BasicCard>
+        <BasicSearch
+          list={searchList(t)}
+          data={searchData}
+          isLoading={isLoading}
+          handleFinish={onSearch}
         />
-      </BasicSearch>
+      </BasicCard>
 
-      <BasicTable
-        loading={isLoading}
-        columns={handleFilterTable(columns, tableFilters)}
-        dataSource={tableData}
-      />
+      <BasicCard className='mt-10px'>
+        <BasicTable
+          isLoading={isLoading}
+          isCreate={pagePermission.create}
+          columns={columns}
+          dataSource={tableData}
+          getPage={getPage}
+          onCreate={onCreate}
+        />
 
-      <BasicPagination
-        disabled={isLoading}
-        current={page}
-        pageSize={pageSize}
-        total={total}
-        onChange={onChangePagination}
-      />
+        <BasicPagination
+          disabled={isLoading}
+          current={page}
+          pageSize={pageSize}
+          total={total}
+          onChange={onChangePagination}
+        />
+      </BasicCard>
 
       <BasicModal
         width={600}

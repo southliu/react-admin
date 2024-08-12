@@ -40,10 +40,4 @@ export const searchList = (t: TFunction): FormList[] => [
       }
     }
   },
-  {
-    label: t('dashboard.fullServerRecharge'),
-    name: 'all_pay',
-    wrapperCol: 15,
-    component: 'Checkbox'
-  }
 ];

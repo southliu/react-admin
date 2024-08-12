@@ -1,5 +1,4 @@
 import {
-  type ButtonProps,
   type TableProps,
   Button,
   Popover,
@@ -18,13 +17,14 @@ interface CheckboxList {
   value: string;
 }
 
-interface Props extends ButtonProps {
+interface Props {
   columns: TableProps['columns'];
+  className?: string;
   getTableChecks: (checks: string[]) => void;
 }
 
 function FilterButton(props: Props) {
-  const { columns, getTableChecks } = props;
+  const { columns, className, getTableChecks } = props;
   const [isOpen, setOpen] = useState(false);
   const [list, setList] = useState<CheckboxList[]>([]);
   const [checkList, setCheckList] = useState<string[]>([]);
@@ -34,7 +34,7 @@ function FilterButton(props: Props) {
   useEffect(() => {
     filterColumns(columns);
   }, [columns]);
-  
+
   /** 处理点击事件 */
   const handleClick = () => {
     setOpen(!isOpen);
@@ -136,12 +136,12 @@ function FilterButton(props: Props) {
       open={isOpen}
       onOpenChange={handleClick}
     >
-      <Button
-        icon={<UnorderedListOutlined />}
+      <div
         {...params}
+        className={`${className} inline-block cursor-pointer`}
       >
-        { props?.children || '字段筛选' }
-      </Button>
+        <UnorderedListOutlined />
+      </div>
     </Popover>
   );
 }
