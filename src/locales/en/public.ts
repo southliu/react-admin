@@ -60,4 +60,5 @@ export default {
   validateNumber: '{{label}} is not a valid number!',
   validateRange: '{{label}} must be between {{min}} and {{max}}',
   createMethodWarning: 'The new component lacks a corresponding method',
+  getPageWarning: 'Missing page acquisition method',
 };

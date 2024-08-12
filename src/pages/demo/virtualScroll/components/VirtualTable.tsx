@@ -29,6 +29,7 @@ function VirtualTable() {
       columns={columns}
       dataSource={data}
       scrollY={500}
+      isOperate={false}
     />
   );
 }
