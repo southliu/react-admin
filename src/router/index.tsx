@@ -12,6 +12,9 @@ import { theme, ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import enUS from 'antd/es/locale/en_US';
 
+// 禁止进度条添加loading
+nprogress.configure({ showSpinner: false });
+
 // antd主题
 const { defaultAlgorithm, darkAlgorithm } = theme;
 
@@ -26,10 +29,7 @@ function Page() {
   // 获取当前语言
   const currentLanguage = i18n.language;
 
-  // 顶部进度条
   useEffect(() => {
-    nprogress.done();
-
     // 首次进入清除版本缓存
     handleClearVersion();
 
@@ -38,10 +38,6 @@ function Page() {
     if (firstElement && firstElement.style?.display !== 'none') {
       firstElement.style.display = 'none';
     }
-
-    return () => {
-      nprogress.start();
-    };
   }, []);
 
   /** 清空版本 */
