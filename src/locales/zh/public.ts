@@ -60,4 +60,5 @@ export default {
   validateNumber: '{{label}}不是数字格式！',
   validateRange: '{{label}}必须大于{{min}}且小于{{max}}',
   createMethodWarning: '新增组件缺少对应方法',
+  getPageWarning: '缺少获取页面方法',
 };
