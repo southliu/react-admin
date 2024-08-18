@@ -1,6 +1,6 @@
 import type { FormData } from '#/form';
 import type { DataNode } from 'antd/es/tree';
-import type { Key } from 'antd/es/table/interface';
+import type { Key, TableRowSelection } from 'antd/es/table/interface';
 import type { PagePermission } from '#/public';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createList, searchList, tableColumns } from './model';
@@ -12,6 +12,7 @@ import { ADD_TITLE, EDIT_TITLE, INIT_PAGINATION } from '@/utils/config';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { getPermission, savePermission } from '@/servers/system/menu';
 import {
+  batchDeleteUser,
   createUser,
   deleteUser,
   getUserById,
@@ -59,6 +60,7 @@ function Page() {
   const [isPromiseVisible, setPromiseVisible] = useState(false);
   const [promiseCheckedKeys, setPromiseCheckedKeys] = useState<Key[]>([]);
   const [promiseTreeData, setPromiseTreeData] = useState<DataNode[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
 
   const { permissions } = useCommonStore();
 
@@ -222,6 +224,27 @@ function Page() {
     }
   };
 
+  /** 处理批量删除 */
+  const handleBatchDelete = async () => {
+    try {
+      if (!selectedRowKeys.length) {
+        return messageApi.warning({
+          content: t('public.tableSelectWarning'),
+          key: 'pleaseSelect',
+        });
+      }
+      setLoading(true);
+      const params = { ids: selectedRowKeys };
+      const { code, message } = await batchDeleteUser(params);
+      if (Number(code) === 200) {
+        messageApi.success(message || t('public.successfullyDeleted'));
+        getPage();
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   /**
    * 处理分页
    * @param page - 当前页数
@@ -231,6 +254,20 @@ function Page() {
     setPage(page);
     setPageSize(pageSize);
     setFetch(true);
+  };
+
+  /**
+   * 监听表格多选变化
+   * @param newSelectedRowKeys - 勾选值
+   */
+  const onSelectChange = (newSelectedRowKeys: Key[]) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  /** 表格多选  */
+  const rowSelection: TableRowSelection<object> = {
+    selectedRowKeys,
+    onChange: onSelectChange,
   };
 
   /**
@@ -269,6 +306,19 @@ function Page() {
     </>;
   }
 
+  /** 左侧渲染 */
+  const leftContentRender = (
+    <>
+      <DeleteBtn
+        isIcon
+        isLoading={isLoading}
+        name={t('public.batchDelete')}
+        handleDelete={handleBatchDelete}
+      />
+      <div className='ml-10px'>左侧demo</div>
+    </>
+  );
+
   return (
     <BasicContent isPermission={pagePermission.page}>
       { contextHolder }
@@ -287,7 +337,8 @@ function Page() {
           isCreate={pagePermission.create}
           columns={columns}
           dataSource={tableData}
-          leftContent={<div>左侧demo</div>}
+          rowSelection={rowSelection}
+          leftContent={leftContentRender}
           rightContent={<div>右侧demo</div>}
           getPage={getPage}
           onCreate={onCreate}

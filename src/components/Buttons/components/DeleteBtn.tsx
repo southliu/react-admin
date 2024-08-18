@@ -1,15 +1,17 @@
 import type { ButtonProps } from 'antd';
 import { Button, App } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 
 interface Props extends Omit<ButtonProps, 'loading'> {
   isLoading: boolean;
+  name?: string;
+  isIcon?: boolean;
   handleDelete: () => void;
 }
 
 function DeleteBtn(props: Props) {
-  const { isLoading, handleDelete } = props;
+  const { isLoading, isIcon, name, handleDelete } = props;
   const { t } = useTranslation();
   const { modal } = App.useApp();
 
@@ -22,7 +24,7 @@ function DeleteBtn(props: Props) {
     modal.confirm({
       title: t('public.kindTips'),
       icon: <ExclamationCircleOutlined />,
-      content: t('public.confirmMessage', { name: t('public.delete') }),
+      content: t('public.confirmMessage', { name: name || t('public.delete') }),
       okText: t('public.confirm'),
       okType: 'danger',
       cancelText: t('public.cancel'),
@@ -37,10 +39,11 @@ function DeleteBtn(props: Props) {
       danger
       type='primary'
       {...params}
+      icon={params?.icon || (isIcon && <DeleteOutlined />)}
       loading={!!isLoading}
       onClick={showConfirm}
     >
-      { t('public.delete') }
+      { name || t('public.delete') }
     </Button>
   );
 }
