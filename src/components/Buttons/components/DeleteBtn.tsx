@@ -17,6 +17,7 @@ function DeleteBtn(props: Props) {
 
   // 清除自定义属性
   const params: Partial<Props> = { ...props };
+  delete params.isIcon;
   delete params.isLoading;
   delete params.handleDelete;
 

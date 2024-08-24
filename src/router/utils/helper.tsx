@@ -74,6 +74,17 @@ function handleRouterExclude(path: string): boolean {
 }
 
 /**
+ * 处理动态参数路由
+ * @param path - 路由
+ */
+const handleRouterDynamic = (path: string): string => {
+  path = path.replace(/\[/g, ':');
+  path = path.replace(/\]/g, '');
+
+  return path;
+};
+
+/**
  * 获取路由路径
  * @param path - 路径
  */
@@ -94,6 +105,11 @@ function getRouterPage(path: string): string {
     if (indexIdx === result.length) {
       result = result.substring(0, result.length - 6);
     }
+  }
+
+  // 如果是动态参数路由
+  if (result.includes('[') && result.includes(']')) {
+    result = handleRouterDynamic(result);
   }
 
   return result;
