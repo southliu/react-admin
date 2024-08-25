@@ -7,6 +7,7 @@ export default {
   create: 'Create',
   edit: 'Edit',
   delete: 'Delete',
+  batchDelete: 'Batch delete',
   inputPleaseEnter: 'Please enter',
   inputPleaseSelect: 'Please select',
   createTitle: 'Add {{title}}',
@@ -61,4 +62,5 @@ export default {
   validateRange: '{{label}} must be between {{min}} and {{max}}',
   createMethodWarning: 'The new component lacks a corresponding method',
   getPageWarning: 'Missing page acquisition method',
+  tableSelectWarning: 'Please select table data',
 };
