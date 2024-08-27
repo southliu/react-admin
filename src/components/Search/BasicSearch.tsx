@@ -106,6 +106,24 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     return list;
   };
 
+  /** 获取表单label宽度 */
+  const getLabelCol = (item?: SearchList) => {
+    if (item?.labelCol) {
+      return { style: { width: item.labelCol } };
+    }
+
+    return labelCol ? labelCol : { span: 6 };
+  };
+
+  /** 获取输入间隙 */
+  const getWrapperCol = (item?: SearchList) => {
+    if (item?.wrapperCol) {
+      return { style: { width: item.wrapperCol } };
+    }
+
+    return wrapperCol ? wrapperCol : { span: 18 };
+  };
+
   /**
    * 提交表单
    * @param values - 表单值
@@ -133,8 +151,6 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
         {...formProps}
         ref={ref}
         form={form}
-        labelCol={labelCol ? labelCol : { span: 8 }}
-        wrapperCol={wrapperCol ? wrapperCol : { span: 16 }}
         initialValues={data}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -152,8 +168,8 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
                   name={item.name}
                   className='!mb-5px'
                   hidden={item.hidden}
-                  labelCol={{ style: { width: item.labelCol } }}
-                  wrapperCol={{ style: { width: item.wrapperCol } }}
+                  labelCol={getLabelCol(item)}
+                  wrapperCol={getWrapperCol(item)}
                   rules={item.rules}
                   valuePropName={handleValuePropName(item.component)}
                 >
