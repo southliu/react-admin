@@ -4,11 +4,9 @@ import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { THEME_KEY } from '@/utils/config';
-import { useAliveController } from 'react-activation';
 
 function Theme() {
   const { t } = useTranslation();
-  const { clear, refresh, getCachingNodes } = useAliveController();
   const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType;
   const [theme, setTheme] = useState<ThemeType>(themeCache);
   const setThemeValue = usePublicStore(state => state.setThemeValue);
@@ -24,16 +22,6 @@ function Theme() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [themeCache]);
 
-  /** 刷新全部keepalive */
-  const refreshAllKeepalive = () => {
-    const cacheNodes = getCachingNodes();
-
-    for (let i = 0; i < cacheNodes?.length; i++) {
-      const { name } = cacheNodes[i];
-      if (name) refresh(name);
-    }
-  };
-
   /**
    * 处理更新
    * @param type - 主题类型
@@ -42,9 +30,6 @@ function Theme() {
     localStorage.setItem(THEME_KEY, type);
     setThemeValue(type);
     setTheme(type);
-
-    clear();
-    refreshAllKeepalive();
 
     switch (type) {
       case 'dark':
@@ -55,6 +40,8 @@ function Theme() {
         document.body.className = 'theme-primary';
         break;
     }
+
+    window.location.reload();
   };
 
   return (

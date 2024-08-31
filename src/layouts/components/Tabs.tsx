@@ -25,6 +25,7 @@ function LayoutTabs() {
   const [refreshTime, seRefreshTime] = useState<null | NodeJS.Timeout>(null);
   const setRefresh = usePublicStore(state => state.setRefresh);
   const {
+    tabs,
     isLock,
     activeKey, // 选中的标签值
     setActiveKey,
@@ -39,7 +40,6 @@ function LayoutTabs() {
   const currentLanguage = i18n.language;
 
   const {
-    tabs,
     permissions,
     isMaximize,
     menuList
@@ -77,7 +77,7 @@ function LayoutTabs() {
   useEffect(() => {
     switchTabsLang(currentLanguage);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentLanguage, tabs]),
+  }, [currentLanguage, tabs]);
 
   useEffect(() => {
     return () => {
@@ -243,9 +243,19 @@ function LayoutTabs() {
           activeKey={activeKey}
           type="editable-card"
           onEdit={onEdit}
-          items={tabs}
           renderTabBar={renderTabBar}
-        />
+        >
+          {
+            tabs?.map((item) => (
+              <Tabs.TabPane
+                key={item.key}
+                tab={item.label}
+              >
+                { item.label }
+              </Tabs.TabPane>
+            ))
+          }
+        </Tabs>
         : <span></span>
       }
 
