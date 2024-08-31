@@ -1,15 +1,6 @@
 import type { MenuProps } from 'antd';
-import type { AppDispatch } from '@/stores';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import {
-  closeLeft,
-  closeOther,
-  closeRight,
-  closeTabs,
-  setNav
-} from '@/stores/tabs';
 import {
   RedoOutlined,
   CloseOutlined,
@@ -18,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { getMenuByKey } from '@/menus/utils/helper';
 import { useCommonStore } from '@/hooks/useCommonStore';
+import { useTabsStore } from '@/stores';
 
 enum ITabEnums {
   REFRESH = 'refresh', // 重新加载
@@ -38,8 +30,14 @@ export function useDropdownMenu(props: Props) {
   const { activeKey, onOpenChange, handleRefresh } = props;
   const { pathname } = useLocation();
   const { tabs, permissions, menuList } = useCommonStore();
+  const {
+    closeLeft,
+    closeOther,
+    closeRight,
+    closeTabs,
+    setNav
+  } = useTabsStore(state => state);
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
 
   // 菜单项
   const items: (key?: string) => MenuProps['items'] = (key = activeKey) => {
@@ -91,17 +89,17 @@ export function useDropdownMenu(props: Props) {
 
       // 关闭当前
       case ITabEnums.CLOSE_CURRENT:
-        dispatch(closeTabs(key));
+        closeTabs(key);
         break;
 
       // 关闭其他
       case ITabEnums.CLOSE_OTHER:
-        dispatch(closeOther(key));
+        closeOther(key);
         break;
 
       // 关闭左侧
       case ITabEnums.CLOSE_LEFT:
-        dispatch(closeLeft(key));
+        closeLeft(key);
         if (pathname !== key) {
           const menuByKeyProps = {
             menus: menuList,
@@ -111,14 +109,14 @@ export function useDropdownMenu(props: Props) {
           const newItems = getMenuByKey(menuByKeyProps);
           if (newItems?.key) {
             navigate(key);
-            dispatch(setNav(newItems.nav));
+            setNav(newItems.nav);
           }
         }
         break;
 
       // 关闭右侧
       case ITabEnums.CLOSE_RIGHT:
-        dispatch(closeRight(key));
+        closeRight(key);
         if (pathname !== key) {
           const menuByKeyProps = {
             menus: menuList,
@@ -128,7 +126,7 @@ export function useDropdownMenu(props: Props) {
           const newItems = getMenuByKey(menuByKeyProps);
           if (newItems?.key) {
             navigate(key);
-            dispatch(setNav(newItems.nav));
+            setNav(newItems.nav);
           }
         }
         break;

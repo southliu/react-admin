@@ -1,36 +1,34 @@
 import type { LoginData } from './model';
 import type { FormProps } from 'antd';
 import type { SideMenu } from '#/public';
-import type { AppDispatch } from '@/stores';
-import type { ThemeType } from '@/stores/public';
+import { usePublicStore, type ThemeType } from '@/stores/public';
 import { message } from 'antd';
 import { Form, Button, Input } from 'antd';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PASSWORD_RULE, THEME_KEY } from '@/utils/config';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login } from '@/servers/login';
 import { useToken } from '@/hooks/useToken';
-import { setThemeValue } from '@/stores/public';
-import { setMenuList } from '@/stores/menu';
 import { getMenuList } from '@/servers/system/menu';
-import { setPermissions, setUserInfo } from '@/stores/user';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { getPermissions } from '@/servers/permissions';
 import { getFirstMenu } from '@/menus/utils/helper';
+import { useMenuStore, useUserStore } from '@/stores';
 import Logo from '@/assets/images/logo.svg';
 import I18n from '@/components/I18n';
 
 function Login() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
   const [getToken, setToken] = useToken();
   const [isLoading, setLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const { permissions, menuList } = useCommonStore();
+  const setMenuList = useMenuStore(state => state.setMenuList);
+  const setThemeValue = usePublicStore(state => state.setThemeValue);
+  const { setPermissions, setUserInfo } = useUserStore(state => state);
   const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType;
 
   useEffect(() => {
@@ -40,7 +38,7 @@ function Login() {
     if (themeCache === 'dark') {
       document.body.className = 'theme-dark';
     }
-    dispatch(setThemeValue(themeCache === 'dark' ? 'dark' : 'light'));
+    setThemeValue(themeCache === 'dark' ? 'dark' : 'light');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [themeCache]);
 
@@ -65,8 +63,8 @@ function Login() {
       const { code, data } = await getPermissions({ refresh_cache: false });
       if (Number(code) !== 200) return;
       const { user, permissions } = data;
-      dispatch(setUserInfo(user));
-      dispatch(setPermissions(permissions));
+      setUserInfo(user);
+      setPermissions(permissions);
       handleGoMenu(permissions);
     } finally {
       setLoading(false);
@@ -82,7 +80,7 @@ function Login() {
       setLoading(true);
       const { code, data } = await getMenuList();
       if (Number(code) !== 200) return;
-      dispatch(setMenuList(data || []));
+      setMenuList(data || []);
       result = data;
     } finally {
       setLoading(false);
@@ -122,8 +120,8 @@ function Login() {
       }
 
       setToken(token);
-      dispatch(setUserInfo(user));
-      dispatch(setPermissions(permissions));
+      setUserInfo(user);
+      setPermissions(permissions);
       handleGoMenu(permissions);
     } finally {
       setLoading(false);

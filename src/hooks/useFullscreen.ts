@@ -1,24 +1,22 @@
-import type { AppDispatch } from "@/stores";
-import { setFullscreen } from "@/stores/public";
-import { useDispatch } from "react-redux";
+import { usePublicStore } from "@/stores/public";
 import { useCommonStore } from "./useCommonStore";
 
 export function useFullscreen() {
-  const dispatch: AppDispatch = useDispatch();
   const { isFullscreen } = useCommonStore();
+  const setFullscreen = usePublicStore(state => state.setFullscreen);
 
   /** 切换全屏 */
   const toggleFullscreen = () => {
     // 全屏
     if(!isFullscreen && document.documentElement?.requestFullscreen) {
       document.documentElement.requestFullscreen();
-      dispatch(setFullscreen(true));
+      setFullscreen(true);
       return true;
     }
     // 退出全屏
     if (isFullscreen && document?.exitFullscreen) {
       document.exitFullscreen();
-      dispatch(setFullscreen(false));
+      setFullscreen(false);
       return true;
     }
   };

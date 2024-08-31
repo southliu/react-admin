@@ -1,14 +1,11 @@
 import type { SideMenu } from '#/public';
-import type { AppDispatch } from '@/stores';
 import { Fragment } from 'react';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import { setOpenKeys } from '@/stores/menu';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
-import { addTabs, setActiveKey } from '@/stores/tabs';
 import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper';
+import { useMenuStore, useTabsStore } from '@/stores';
 
 interface Props {
   list: SideMenu[]; // 列表
@@ -21,8 +18,9 @@ function SearchResult(props: Props) {
   const { list, active, onCancel, changActive } = props;
   const { t, i18n } = useTranslation();
   const { permissions, menuList } = useCommonStore();
+  const { addTabs, setActiveKey } = useTabsStore(state => state);
+  const setOpenKeys = useMenuStore(state => state.setOpenKeys);
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
   // 获取当前语言
   const currentLanguage = i18n.language;
 
@@ -35,11 +33,11 @@ function SearchResult(props: Props) {
     // 添加标签
     const menuByKeyProps = { menus: menuList, permissions, key };
     const newTab = getMenuByKey(menuByKeyProps);
-    dispatch(addTabs(newTab));
-    dispatch(setActiveKey(key));
+    newTab && addTabs(newTab);
+    setActiveKey(key);
     // 处理菜单展开
     const openKeys = getOpenMenuByRouter(key);
-    dispatch(setOpenKeys(openKeys));
+    setOpenKeys(openKeys);
     // 关闭
     onCancel();
   };

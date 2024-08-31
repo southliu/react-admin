@@ -1,18 +1,16 @@
-import type { AppDispatch } from '@/stores';
 import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
-import { addTabs, setActiveKey } from '@/stores/tabs';
 import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useCommonStore } from '@/hooks/useCommonStore';
+import { useTabsStore } from '@/stores';
 import styles from './all.module.less';
 
 function Forbidden() {
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
   const { permissions, menuList } = useCommonStore();
+  const { addTabs, setActiveKey } = useTabsStore();
 
   /** 跳转首页 */
   const goIndex = () => {
@@ -21,8 +19,8 @@ function Forbidden() {
     const menuByKeyProps = { menus: menuList, permissions, key: firstMenu };
     const newItems = getMenuByKey(menuByKeyProps);
     if (newItems?.key) {
-      dispatch(setActiveKey(newItems.key));
-      dispatch(addTabs(newItems));
+      setActiveKey(newItems.key);
+      addTabs(newItems);
     }
   };
 
