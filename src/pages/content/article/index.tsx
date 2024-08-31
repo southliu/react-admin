@@ -1,13 +1,11 @@
 import type { FormData } from '#/form';
-import type { AppDispatch, RootState } from '@/stores';
 import type { PagePermission, TableOptions } from '#/public';
 import { useCallback, useEffect, useState } from 'react';
 import { searchList, tableColumns } from './model';
 import { message } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { usePublicStore } from '@/stores';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { setRefreshPage } from '@/stores/public';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
@@ -27,7 +25,6 @@ interface RowData {
 function Page() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
   const { permissions } = useCommonStore();
   const [isFetch, setFetch] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -37,7 +34,8 @@ function Page() {
   const [total, setTotal] = useState(0);
   const [tableData, setTableData] = useState<FormData[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
-  const isRefreshPage = useSelector((state: RootState) => state.public.isRefreshPage);
+  const setRefreshPage = usePublicStore(state => state.setRefreshPage);
+  const isRefreshPage = usePublicStore(state => state.isRefreshPage);
 
   // 权限前缀
   const permissionPrefix = '/content/article';
@@ -92,7 +90,7 @@ function Page() {
   // 如果是新增或编辑成功重新加载页面
   useEffect(() => {
     if (isRefreshPage) {
-      dispatch(setRefreshPage(false));
+     setRefreshPage(false);
       getPage();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

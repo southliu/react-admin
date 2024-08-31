@@ -1,20 +1,13 @@
 import type { SideMenu } from '#/public';
-import type { AppDispatch } from '@/stores';
 import { useTranslation } from 'react-i18next';
 import { getMenuName, getOpenMenuByRouter, handleFilterNav } from '@/menus/utils/helper';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import { setTitle } from '@/utils/helper';
-import { useDispatch } from 'react-redux';
 import { useCommonStore } from './useCommonStore';
 import { useLocation } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
 import { useActivate } from 'react-activation';
-import { setOpenKeys, setSelectedKeys } from '@/stores/menu';
-import {
-  addTabs,
-  setNav,
-  setActiveKey,
-} from '@/stores/tabs';
+import { useMenuStore, useTabsStore } from '@/stores';
 
 /**
  * 单标签设置
@@ -26,9 +19,14 @@ export function useSingleTab(
   title?: string,
   name = 'id'
   ) {
-  const dispatch: AppDispatch = useDispatch();
   const { t, i18n } = useTranslation();
   const { pathname, search } = useLocation();
+  const { setOpenKeys, setSelectedKeys } = useMenuStore(state => state);
+  const {
+    addTabs,
+    setNav,
+    setActiveKey,
+  } = useTabsStore(state => state);
   const {
     menuList,
     isPhone,
@@ -40,12 +38,12 @@ export function useSingleTab(
   useEffect(() => {
     const newOpenKey = getOpenMenuByRouter(fatherPath);
     if (!isPhone && !isCollapsed) {
-      dispatch(setOpenKeys(newOpenKey));
-      dispatch(setSelectedKeys(fatherPath));
+      setOpenKeys(newOpenKey);
+      setSelectedKeys(fatherPath);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   /**
    * 添加标签
    * @param path - 路径
@@ -63,9 +61,9 @@ export function useSingleTab(
       nav: handleFilterNav(nav)
     };
     setTitle(t, title);
-    dispatch(setActiveKey(newTab.key));
-    dispatch(setNav(newTab.nav));
-    dispatch(addTabs(newTab));
+    setActiveKey(newTab.key);
+    setNav(newTab.nav);
+    addTabs(newTab);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, search]);
 
@@ -119,16 +117,16 @@ export function useSingleTab(
 
     const deepData = (list: SideMenu[], path: string, fatherName: string[] = []) => {
       if (result?.length || !list?.length || !path) return result;
-  
+
       for (let i = 0; i < list?.length; i++) {
         const item = list[i];
         const newNav = fatherName.concat([item.label]);
-        
+
         if (item.key === path) {
           result = newNav;
           return result;
         }
-  
+
         if (item.children?.length) {
           const childResult = deepData(item.children, path, newNav);
           if (childResult?.length) {
@@ -137,7 +135,7 @@ export function useSingleTab(
           }
         }
       }
-  
+
       return result;
     };
     deepData(menuList, fatherPath);

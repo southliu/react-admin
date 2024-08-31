@@ -1,17 +1,17 @@
-import type { AppDispatch } from '@/stores';
 import type { PasswordModal } from './UpdatePassword';
 import type { MenuProps } from 'antd';
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { useAliveController } from 'react-activation';
-import { toggleCollapsed } from '@/stores/menu';
 import { useNavigate } from 'react-router-dom';
 import { useToken } from '@/hooks/useToken';
-import { clearInfo } from '@/stores/user';
-import { closeAllTab, setActiveKey } from '@/stores/tabs';
 import { App, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
+import {
+  useMenuStore,
+  useTabsStore,
+  useUserStore
+} from '@/stores';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -44,8 +44,10 @@ function Header() {
   } = useCommonStore();
   // 是否窗口最大化
   const passwordRef = useRef<PasswordModal>(null);
-  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const toggleCollapsed = useMenuStore(state => state.toggleCollapsed);
+  const clearInfo = useUserStore(state => state.clearInfo);
+  const { closeAllTab, setActiveKey } = useTabsStore(state => state);
 
   // 下拉菜单内容
   const items: MenuProps['items'] = [
@@ -84,9 +86,9 @@ function Header() {
       icon: <ExclamationCircleOutlined />,
       content: t('public.signOutMessage'),
       onOk() {
-        dispatch(clearInfo());
-        dispatch(closeAllTab());
-        dispatch(setActiveKey(''));
+        clearInfo();
+        closeAllTab();
+        setActiveKey('');
         removeToken();
         clear(); // 清除keepalive缓存
         navigate('/login');
@@ -132,7 +134,7 @@ function Header() {
     return (
       <div
         className="text-lg cursor-pointer"
-        onClick={() => dispatch(toggleCollapsed(!isCollapsed))}
+        onClick={() => toggleCollapsed(!isCollapsed)}
       >
         { isCollapsed && <MenuUnfoldOutlined /> }
         { !isCollapsed && <MenuFoldOutlined /> }
@@ -164,7 +166,7 @@ function Header() {
             list={nav}
           />
         </div>
-        
+
         <RightRender />
       </header>
 

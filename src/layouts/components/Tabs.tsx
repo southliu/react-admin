@@ -1,23 +1,14 @@
 import type { TabsProps } from 'antd';
-import type { AppDispatch, RootState } from '@/stores';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getMenuByKey } from '@/menus/utils/helper';
 import { message, Tabs, Dropdown } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAliveController } from 'react-activation';
 import { useDropdownMenu } from '../hooks/useDropdownMenu';
-import { useDispatch, useSelector } from 'react-redux';
 import { useCommonStore } from '@/hooks/useCommonStore';
-import { setRefresh } from '@/stores/public';
 import { useTranslation } from 'react-i18next';
-import {
-  setActiveKey,
-  addTabs,
-  closeTabs,
-  setNav,
-  toggleLock,
-  switchTabsLang
-} from '@/stores/tabs';
+import { useTabsStore } from '@/stores/tabs';
+import { usePublicStore } from '@/stores';
 import styles from '../index.module.less';
 import TabRefresh from './TabRefresh';
 import TabMaximize from './TabMaximize';
@@ -28,14 +19,22 @@ function LayoutTabs() {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const uri = pathname + search;
-  const dispatch: AppDispatch = useDispatch();
   const { refresh } = useAliveController();
   const [messageApi, contextHolder] = message.useMessage();
   const [time, setTime] = useState<null | NodeJS.Timeout>(null);
   const [refreshTime, seRefreshTime] = useState<null | NodeJS.Timeout>(null);
-  const isLock = useSelector((state: RootState) => state.tabs.isLock);
-  // 选中的标签值
-  const activeKey = useSelector((state: RootState) => state.tabs.activeKey);
+  const setRefresh = usePublicStore(state => state.setRefresh);
+  const {
+    isLock,
+    activeKey, // 选中的标签值
+    setActiveKey,
+    addTabs,
+    closeTabs,
+    setNav,
+    toggleLock,
+    switchTabsLang,
+  } = useTabsStore(state => state);
+
   // 获取当前语言
   const currentLanguage = i18n.language;
 
@@ -61,11 +60,11 @@ function LayoutTabs() {
       };
       const newItems = getMenuByKey(menuByKeyProps);
       if (newItems?.key) {
-        dispatch(setActiveKey(newItems.key));
-        dispatch(setNav(newItems.nav));
-        dispatch(addTabs(newItems));
+        setActiveKey(newItems.key);
+        setNav(newItems.nav);
+        addTabs(newItems);
       } else {
-        dispatch(setActiveKey(path));
+        setActiveKey(path);
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,7 +75,7 @@ function LayoutTabs() {
   }, [handleAddTab, permissions, menuList]);
 
   useEffect(() => {
-    dispatch(switchTabsLang(currentLanguage));
+    switchTabsLang(currentLanguage);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLanguage, tabs]),
 
@@ -103,7 +102,7 @@ function LayoutTabs() {
 
       if (isLock) {
         navigate(key);
-        dispatch(toggleLock(false));
+        toggleLock(false);
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,7 +121,7 @@ function LayoutTabs() {
    * @param targetKey - 目标key值
    */
   const remove = (targetKey: string) => {
-    dispatch(closeTabs(targetKey));
+    closeTabs(targetKey);
   };
 
   /**
@@ -146,7 +145,7 @@ function LayoutTabs() {
 
     // 定时器没有执行时运行
     if (!time) {
-      dispatch(setRefresh(true));
+      setRefresh(true);
       refresh(key);
 
       setTime(
@@ -155,7 +154,7 @@ function LayoutTabs() {
             content: t('public.refreshSuccessfully'),
             key: 'refresh'
           });
-          dispatch(setRefresh(false));
+          setRefresh(false);
           setTime(null);
         }, 100)
       );

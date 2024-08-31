@@ -1,40 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { create } from 'zustand';
 
 export type ThemeType = 'dark' | 'light'
 
-export const publicSlice = createSlice({
-  name: 'public',
-  initialState: {
-    theme: 'light' as ThemeType, // 主题
-    isFullscreen: false, // 是否全屏
-    isRefresh: false, // 重新加载
-    isRefreshPage: false // 重新加载页面
-  },
-  reducers: {
-    /** 设置主题 */
-    setThemeValue: (state, action) => {
-      state.theme = action.payload;
-    },
-    /** 设置全屏 */
-    setFullscreen: (state, action) => {
-      state.isFullscreen = action.payload;
-    },
-    /** 设置重新加载 */
-    setRefresh: (state, action) => {
-      state.isRefresh = action.payload;
-    },
-    /** 设置重新加载页面 */
-    setRefreshPage: (state, action) => {
-      state.isRefreshPage = action.payload;
-    }
-  }
-});
+interface PublicState {
+  theme: ThemeType; // 主题
+  isFullscreen: boolean; // 是否全屏
+  isRefresh: boolean; // 重新加载
+  isRefreshPage: boolean; // 重新加载页面
+  /** 设置主题 */
+  setThemeValue: (theme: ThemeType) => void;
+  /** 设置全屏 */
+  setFullscreen: (isFullscreen: boolean) => void;
+  /** 设置重新加载 */
+  setRefresh: (isRefresh: boolean) => void;
+  /** 设置重新加载页面 */
+  setRefreshPage: (isRefreshPage: boolean) => void;
+}
 
-export const {
-  setThemeValue,
-  setFullscreen,
-  setRefresh,
-  setRefreshPage
-} = publicSlice.actions;
-
-export default publicSlice.reducer;
+export const usePublicStore = create<PublicState>((set) => ({
+  theme: 'light',
+  isFullscreen: false,
+  isRefresh: false,
+  isRefreshPage: false,
+  setThemeValue: (theme: ThemeType) => set({ theme }),
+  setFullscreen: (isFullscreen: boolean) => set({ isFullscreen }),
+  setRefresh: (isRefresh: boolean) => set({ isRefresh }),
+  setRefreshPage: (isRefreshPage: boolean) => set({ isRefreshPage })
+}));

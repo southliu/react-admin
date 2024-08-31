@@ -28,3 +28,4 @@ __unconfig_vite.config.ts
 /coverage/
 
 stats.html
+.vite

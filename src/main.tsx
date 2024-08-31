@@ -3,10 +3,6 @@ import Router from './router';
 import '@/assets/css/public.less';
 import '@/assets/fonts/font.less';
 
-// 状态管理
-import { Provider } from 'react-redux';
-import { store } from './stores';
-
 // 样式
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs'; // 兼容低版本浏览器
 import 'uno.css';
@@ -30,9 +26,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     hashPriority='high'
     transformers={[legacyLogicalPropertiesTransformer]}
   >
-    <Provider store={store}>
-      <Router />
-    </Provider>
+    <Router />
   </StyleProvider>
 );
 
