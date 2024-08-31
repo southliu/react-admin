@@ -23,6 +23,8 @@
 ```js
 // src/hooks/useCommonStore.ts
 import { defaultMenus } from '@/menus';
+
+// const menuList = useMenuStore(state => state.menuList);
 // 菜单数据
 const menuList = defaultMenus;
 ```
