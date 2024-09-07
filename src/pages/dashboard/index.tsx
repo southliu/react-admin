@@ -2,8 +2,10 @@ import type { FormData } from '#/form';
 import { useCallback, useEffect, useState } from 'react';
 import { getDataTrends } from '@/servers/dashboard';
 import { searchList } from './model';
-import { useUnactivate } from 'react-activation';
 import { useTranslation } from 'react-i18next';
+import { useUnactivate } from 'react-activation';
+import { checkPermission } from '@/utils/permissions';
+import { useCommonStore } from '@/hooks/useCommonStore';
 import BasicSearch from '@/components/Search/BasicSearch';
 import BasicContent from '@/components/Content/BasicContent';
 import Bar from './components/Bar';
@@ -19,6 +21,8 @@ const initSearch = {
 function Dashboard() {
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState(false);
+  const { permissions } = useCommonStore();
+  const isPermission = checkPermission('/dashboard', permissions);
 
   /**
    * 搜索提交
@@ -46,7 +50,7 @@ function Dashboard() {
   });
 
   return (
-    <BasicContent isPermission={true}>
+    <BasicContent isPermission={isPermission}>
       <BasicCard>
         <BasicSearch
           list={searchList(t)}
