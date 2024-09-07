@@ -2,7 +2,7 @@ import Forbidden from '@/pages/403';
 
 interface Props {
   isPermission?: boolean;
-  children: JSX.Element | JSX.Element[];
+  children: JSX.Element | JSX.Element[] | string | string[];
 }
 
 function BasicContent(props: Props) {
