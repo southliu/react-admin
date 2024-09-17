@@ -19,13 +19,13 @@ import {
   getUserPage,
   updateUser
 } from '@/servers/system/user';
-import BasicContent from '@/components/Content/BasicContent';
-import BasicSearch from '@/components/Search/BasicSearch';
-import BasicModal from '@/components/Modal/BasicModal';
-import BasicForm from '@/components/Form/BasicForm';
-import BasicTable from '@/components/Table/BasicTable';
-import BasicPagination from '@/components/Pagination/BasicPagination';
-import BasicCard from '@/components/Card/BasicCard';
+import BaseContent from '@/components/Content/BaseContent';
+import BaseSearch from '@/components/Search/BaseSearch';
+import BaseModal from '@/components/Modal/BaseModal';
+import BaseForm from '@/components/Form/BaseForm';
+import BaseTable from '@/components/Table/BaseTable';
+import BasePagination from '@/components/Pagination/BasePagination';
+import BaseCard from '@/components/Card/BaseCard';
 import PermissionDrawer from './components/PermissionDrawer';
 
 // 当前行数据
@@ -320,19 +320,19 @@ function Page() {
   );
 
   return (
-    <BasicContent isPermission={pagePermission.page}>
+    <BaseContent isPermission={pagePermission.page}>
       { contextHolder }
-      <BasicCard>
-        <BasicSearch
+      <BaseCard>
+        <BaseSearch
           list={searchList(t)}
           data={searchData}
           isLoading={isLoading}
           handleFinish={onSearch}
         />
-      </BasicCard>
+      </BaseCard>
 
-      <BasicCard className='mt-10px'>
-        <BasicTable
+      <BaseCard className='mt-10px'>
+        <BaseTable
           isLoading={isLoading}
           isCreate={pagePermission.create}
           columns={columns}
@@ -344,30 +344,30 @@ function Page() {
           onCreate={onCreate}
         />
 
-        <BasicPagination
+        <BasePagination
           disabled={isLoading}
           current={page}
           pageSize={pageSize}
           total={total}
           onChange={onChangePagination}
         />
-      </BasicCard>
+      </BaseCard>
 
-      <BasicModal
+      <BaseModal
         title={createTitle}
         open={isCreateOpen}
         confirmLoading={isCreateLoading}
         onOk={createSubmit}
         onCancel={closeCreate}
       >
-        <BasicForm
+        <BaseForm
           ref={createFormRef}
           list={createList(t)}
           data={createData}
           labelCol={{ span: 6 }}
           handleFinish={handleCreate}
         />
-      </BasicModal>
+      </BaseModal>
 
       <PermissionDrawer
         isVisible={isPromiseVisible}
@@ -376,7 +376,7 @@ function Page() {
         onClose={closePermission}
         onSubmit={permissionSubmit}
       />
-    </BasicContent>
+    </BaseContent>
   );
 }
 

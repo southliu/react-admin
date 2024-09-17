@@ -3,7 +3,7 @@ import { useCommonStore } from '@/hooks/useCommonStore';
 import { checkPermission } from '@/utils/permissions';
 import CopyInput from '@/components/Copy/CopyInput';
 import CopyBtn from '@/components/Copy/CopyBtn';
-import BasicContent from '@/components/Content/BasicContent';
+import BaseContent from '@/components/Content/BaseContent';
 
 function CopyPage() {
   const { t } = useTranslation();
@@ -11,7 +11,7 @@ function CopyPage() {
   const isPermission = checkPermission('/demo/copy', permissions);
 
   return (
-    <BasicContent isPermission={isPermission}>
+    <BaseContent isPermission={isPermission}>
       <div className="max-w-350px m-10px p-5 rounded-5 bg-white">
         <h1>{ t('content.clipboard') }：</h1>
         <CopyInput className="w-350px" />
@@ -21,7 +21,7 @@ function CopyPage() {
           <CopyBtn text={t('public.copy')} value="admin" />
         </div>
       </div>
-    </BasicContent>
+    </BaseContent>
   );
 }
 

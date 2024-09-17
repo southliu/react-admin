@@ -2,7 +2,7 @@ import type { PaginationProps } from 'antd';
 import { Pagination } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-function BasicPagination(props: PaginationProps) {
+function BasePagination(props: PaginationProps) {
   const { t } = useTranslation();
 
   /**
@@ -37,4 +37,4 @@ function BasicPagination(props: PaginationProps) {
   );
 }
 
-export default BasicPagination;
+export default BasePagination;

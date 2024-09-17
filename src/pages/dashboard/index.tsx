@@ -6,12 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { useUnactivate } from 'react-activation';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
-import BasicSearch from '@/components/Search/BasicSearch';
-import BasicContent from '@/components/Content/BasicContent';
+import BaseSearch from '@/components/Search/BaseSearch';
+import BaseContent from '@/components/Content/BaseContent';
 import Bar from './components/Bar';
 import Line from './components/Line';
 import Block from './components/Block';
-import BasicCard from '@/components/Card/BasicCard';
+import BaseCard from '@/components/Card/BaseCard';
 
 // 初始化搜索
 const initSearch = {
@@ -50,17 +50,17 @@ function Dashboard() {
   });
 
   return (
-    <BasicContent isPermission={isPermission}>
-      <BasicCard>
-        <BasicSearch
+    <BaseContent isPermission={isPermission}>
+      <BaseCard>
+        <BaseSearch
           list={searchList(t)}
           data={initSearch}
           isLoading={isLoading}
           handleFinish={handleSearch}
         />
-      </BasicCard>
+      </BaseCard>
 
-      <BasicCard className='mt-10px'>
+      <BaseCard className='mt-10px'>
         <div className='py-10px'>
           <Block />
         </div>
@@ -69,8 +69,8 @@ function Dashboard() {
           <Line />
           <Bar />
         </div>
-      </BasicCard>
-    </BasicContent>
+      </BaseCard>
+    </BaseContent>
   );
 }
 

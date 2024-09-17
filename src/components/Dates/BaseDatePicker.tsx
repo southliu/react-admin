@@ -1,8 +1,8 @@
-import type { TimePickerProps } from 'antd';
-import { TimePicker } from 'antd';
+import type { DatePickerProps } from 'antd';
+import { DatePicker } from 'antd';
 import { string2Dayjs } from './utils/helper';
 
-function BasicTimePicker(props: TimePickerProps) {
+function BaseDatePicker(props: DatePickerProps) {
   const { value } = props;
   const params = {...props};
 
@@ -10,10 +10,10 @@ function BasicTimePicker(props: TimePickerProps) {
   if (value) params.value = string2Dayjs(value);
 
   return (
-    <TimePicker
+    <DatePicker
       {...params}
     />
   );
 }
 
-export default BasicTimePicker;
+export default BaseDatePicker;

@@ -24,7 +24,7 @@ interface Props extends FormProps {
   handleFinish: FormProps['onFinish'];
 }
 
-const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
+const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const {
     list,
     data,
@@ -233,4 +233,4 @@ const BasicSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   );
 });
 
-export default BasicSearch;
+export default BaseSearch;

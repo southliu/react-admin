@@ -1,10 +1,10 @@
-import { DatePicker } from 'antd';
-import type { RangePickerProps } from 'antd/es/date-picker';
+import type { TimeRangePickerProps } from 'antd';
+import { TimePicker } from 'antd';
 import { stringRang2DayjsRang } from './utils/helper';
 
-const { RangePicker } = DatePicker;
+const { RangePicker } = TimePicker;
 
-function BasicRangePicker(props: RangePickerProps) {
+function BaseTimePicker(props: TimeRangePickerProps) {
   const { value } = props;
   const params = {...props};
 
@@ -18,4 +18,4 @@ function BasicRangePicker(props: RangePickerProps) {
   );
 }
 
-export default BasicRangePicker;
+export default BaseTimePicker;

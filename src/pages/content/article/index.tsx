@@ -11,11 +11,11 @@ import { useCommonStore } from '@/hooks/useCommonStore';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { getArticlePage, deleteArticle } from '@/servers/content/article';
 import { INIT_PAGINATION } from '@/utils/config';
-import BasicContent from '@/components/Content/BasicContent';
-import BasicSearch from '@/components/Search/BasicSearch';
-import BasicTable from '@/components/Table/BasicTable';
-import BasicPagination from '@/components/Pagination/BasicPagination';
-import BasicCard from '@/components/Card/BasicCard';
+import BaseContent from '@/components/Content/BaseContent';
+import BaseSearch from '@/components/Search/BaseSearch';
+import BaseTable from '@/components/Table/BaseTable';
+import BasePagination from '@/components/Pagination/BasePagination';
+import BaseCard from '@/components/Card/BaseCard';
 
 // 当前行数据
 interface RowData {
@@ -164,19 +164,19 @@ function Page() {
   );
 
   return (
-    <BasicContent isPermission={pagePermission.page}>
+    <BaseContent isPermission={pagePermission.page}>
       { contextHolder }
-      <BasicCard>
-        <BasicSearch
+      <BaseCard>
+        <BaseSearch
           list={searchList(t)}
           data={searchData}
           isLoading={isLoading}
           handleFinish={onSearch}
         />
-      </BasicCard>
+      </BaseCard>
 
-      <BasicCard className='mt-10px'>
-        <BasicTable
+      <BaseCard className='mt-10px'>
+        <BaseTable
           isLoading={isLoading}
           isCreate={pagePermission.create}
           columns={tableColumns(t, optionRender)}
@@ -185,15 +185,15 @@ function Page() {
           onCreate={onCreate}
         />
 
-        <BasicPagination
+        <BasePagination
           disabled={isLoading}
           current={page}
           pageSize={pageSize}
           total={total}
           onChange={onChangePagination}
         />
-      </BasicCard>
-    </BasicContent>
+      </BaseCard>
+    </BaseContent>
   );
 }
 

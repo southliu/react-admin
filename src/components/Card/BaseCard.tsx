@@ -3,7 +3,7 @@ import { HTMLAttributes } from "react";
 interface Props extends HTMLAttributes<unknown> {
 }
 
-function BasicCard(props: Props) {
+function BaseCard(props: Props) {
   const { children, className } = props;
 
   return (
@@ -28,4 +28,4 @@ function BasicCard(props: Props) {
   );
 }
 
-export default BasicCard;
+export default BaseCard;

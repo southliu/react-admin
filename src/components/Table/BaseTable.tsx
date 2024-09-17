@@ -27,7 +27,7 @@ interface Props extends Omit<TableProps<object>, 'bordered'> {
   onCreate?: () => void;
 }
 
-function BasicTable(props: Props) {
+function BaseTable(props: Props) {
   const {
     isLoading,
     isVirtual,
@@ -242,4 +242,4 @@ function BasicTable(props: Props) {
   );
 }
 
-export default BasicTable;
+export default BaseTable;

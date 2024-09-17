@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useWatermark } from '@/hooks/useWatermark';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
-import BasicContent from '@/components/Content/BasicContent';
+import BaseContent from '@/components/Content/BaseContent';
 
 function Watermark() {
   const { t } = useTranslation();
@@ -28,7 +28,7 @@ function Watermark() {
   };
 
   return (
-    <BasicContent isPermission={isPermission}>
+    <BaseContent isPermission={isPermission}>
       <div className="p-30px">
         <Button onClick={openWatermark}>
           { t('content.openWatermark') }
@@ -37,7 +37,7 @@ function Watermark() {
           { t('content.hideWatermark') }
         </Button>
       </div>
-    </BasicContent>
+    </BaseContent>
   );
 }
 
