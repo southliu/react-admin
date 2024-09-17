@@ -5,7 +5,7 @@ import { forwardRef, useEffect } from 'react';
 import { FormProps } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { getComponent } from '../Form/utils/componentMap';
+import { getComponent } from './utils/componentMap';
 import { filterFormItem, handleValuePropName } from './utils/helper';
 import { filterDayjs } from '../Dates/utils/helper';
 
@@ -18,7 +18,7 @@ interface Props extends FormProps {
   handleFinish: FormProps['onFinish'];
 }
 
-const BasicForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
+const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const {
     list,
     data,
@@ -114,4 +114,4 @@ const BasicForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   );
 });
 
-export default BasicForm;
+export default BaseForm;

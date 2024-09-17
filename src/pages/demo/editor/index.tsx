@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { checkPermission } from '@/utils/permissions';
 import WangEditor from '@/components/WangEditor';
-import BasicContent from '@/components/Content/BasicContent';
+import BaseContent from '@/components/Content/BaseContent';
 
 function MyEditor() {
   const { permissions } = useCommonStore();
@@ -11,14 +11,14 @@ function MyEditor() {
   const isPermission = checkPermission('/demo/editor', permissions);
 
   return (
-    <BasicContent isPermission={isPermission}>
+    <BaseContent isPermission={isPermission}>
       <div className='m-10px p-5 rounded-5 bg-white'>
         <WangEditor
           value={html}
           onChange={content => setHtml(content)}
         />
       </div>
-    </BasicContent>
+    </BaseContent>
   );
 }
 

@@ -6,7 +6,7 @@ interface Props extends Omit<ButtonProps, 'loading'> {
   children?: JSX.Element | string;
 }
 
-function BasicBtn(props: Props) {
+function BaseBtn(props: Props) {
   const { isLoading, children } = props;
 
   // 清除自定义属性
@@ -24,4 +24,4 @@ function BasicBtn(props: Props) {
   );
 }
 
-export default BasicBtn;
+export default BaseBtn;

@@ -8,7 +8,7 @@ interface Props {
   onChange: (value: string[]) => void;
 }
 
-function BasicTransfer(props: Props) {
+function BaseTransfer(props: Props) {
   const { value } = props;
   const [targetKeys, setTargetKeys] = useState(value || []);
 
@@ -30,4 +30,4 @@ function BasicTransfer(props: Props) {
   );
 }
 
-export default BasicTransfer;
+export default BaseTransfer;

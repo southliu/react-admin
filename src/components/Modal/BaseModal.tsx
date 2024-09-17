@@ -11,7 +11,7 @@ interface Props extends Omit<ModalProps, 'onCancel'> {
   onCancel: () => void;
 }
 
-function BasicModal(props: Props) {
+function BaseModal(props: Props) {
   const { width, children, wrapClassName, onCancel } = props;
   const { t } = useTranslation();
   const [isDisabled, setDisabled] = useState(true);
@@ -129,4 +129,4 @@ function BasicModal(props: Props) {
   );
 }
 
-export default BasicModal;
+export default BaseModal;
