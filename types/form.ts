@@ -61,7 +61,7 @@ type SliderComponents = 'Slider'
 type CustomizeComponents = 'Customize'
 
 // 富文本编辑器
-type EditorComponents = 'Editor'
+type EditorComponents = 'RichEditor'
 
 // 密码强度组件
 type PasswordStrength = 'PasswordStrength'

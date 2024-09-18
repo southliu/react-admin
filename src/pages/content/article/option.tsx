@@ -9,6 +9,7 @@ import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useSingleTab } from '@/hooks/useSingleTab';
 import { usePublicStore, useTabsStore } from '@/stores';
+import { addComponent } from '@/components/Form/utils/componentMap';
 import {
   useEffect,
   useRef,
@@ -23,6 +24,7 @@ import BaseForm from '@/components/Form/BaseForm';
 import BaseContent from '@/components/Content/BaseContent';
 import SubmitBottom from '@/components/Bottom/SubmitBottom';
 import BaseCard from '@/components/Card/BaseCard';
+import WangEditor from '@/components/WangEditor';
 
 interface RecordType {
   key: string;
@@ -74,6 +76,11 @@ function Page() {
   useEffect(() => {
     id ? handleUpdate(id) : handleCreate();
   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 异步添加富文本组件
+  useEffect(() => {
+    addComponent('RichEditor', WangEditor);
   }, []);
 
   /** 处理新增 */

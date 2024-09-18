@@ -97,7 +97,7 @@ export const createList = (t: TFunction): FormList[] => [
   {
     label: t('public.content'),
     name: 'content',
-    component: 'Editor',
+    component: 'RichEditor',
     componentProps: {
       style: {
         width: '80%'
