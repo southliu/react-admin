@@ -5,7 +5,7 @@ import md5 from 'crypto-js/md5';
 /**
  * @description: 加密/解密封装，secret值建议从后台接口获取
  */
-const secretKey = import.meta.env.VITE_SECRET_KEY as string;
+const secretKey = '__Vite_Admin_Secret__';
 
 /**
  * 加密

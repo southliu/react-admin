@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { message } from '@south/message';
 import { encryption, decryption } from './crypto';
 
 /**
@@ -34,7 +34,7 @@ export function setLocalInfo(key: string, value: unknown, expire: number | null 
  */
 export function getLocalInfo<T>(key: string) {
   const json = localStorage.getItem(key);
-  
+
   if (json) {
     let data: StorageData | null = null;
     try {
