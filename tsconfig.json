@@ -26,7 +26,7 @@
       "#/*": ["types/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "packages/*"],
   "exclude": ["dist", "node_modules", "cypress"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

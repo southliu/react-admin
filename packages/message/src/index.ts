@@ -23,7 +23,7 @@ function StaticAntd() {
   message = staticFunctions.message;
   notification = staticFunctions.notification;
   modal = staticFunctions.modal;
-  
+
   return null;
 }
 
