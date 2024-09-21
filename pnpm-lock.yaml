@@ -20,6 +20,9 @@ importers:
       '@south/request':
         specifier: workspace:^
         version: link:packages/request
+      '@south/table':
+        specifier: workspace:^
+        version: link:packages/table
       '@south/utils':
         specifier: workspace:^
         version: link:packages/utils
@@ -74,9 +77,6 @@ importers:
       react-i18next:
         specifier: ^14.1.0
         version: 14.1.1(i18next@23.11.4)(react-dom@18.3.1)(react@18.3.1)
-      react-resizable:
-        specifier: ^3.0.5
-        version: 3.0.5(react-dom@18.3.1)(react@18.3.1)
       react-router-dom:
         specifier: 6.22.3
         version: 6.22.3(react-dom@18.3.1)(react@18.3.1)
@@ -234,17 +234,13 @@ importers:
 
   packages/message: {}
 
-  packages/request:
+  packages/request: {}
+
+  packages/table:
     dependencies:
-      '@south/message':
-        specifier: workspace:^
-        version: link:../message
-      '@south/utils':
-        specifier: workspace:^
-        version: link:../utils
-      axios:
-        specifier: 1.7.7
-        version: 1.7.7
+      react-resizable:
+        specifier: ^3.0.5
+        version: 3.0.5(react-dom@18.3.1)(react@18.3.1)
 
   packages/utils:
     dependencies:
@@ -3648,16 +3644,6 @@ packages:
 
   /axios@1.6.8:
     resolution: {integrity: sha512-v/ZHtJDU39mDpyBoFVkETcd/uNdxrWRrg3bKpOKzXFA6Bvqopts6ALSMU3y6ijYxbw2B+wPrIv46egTzJXCLGQ==}
-    dependencies:
-      follow-redirects: 1.15.6(debug@4.3.4)
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /axios@1.7.7:
-    resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
     dependencies:
       follow-redirects: 1.15.6(debug@4.3.4)
       form-data: 4.0.0

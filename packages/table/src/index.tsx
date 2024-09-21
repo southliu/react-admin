@@ -9,6 +9,7 @@ import { getTableHeight, handleRowHeight, filterTableColumns } from './utils/hel
 import ResizableTitle from './components/ResizableTitle';
 import useVirtualTable from './hooks/useVirtual';
 import TableFilter from './components/TableFilter';
+import './index.less';
 
 type Components = TableProps<object>['components']
 

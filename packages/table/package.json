@@ -1,12 +1,15 @@
 {
-  "name": "@south/request",
+  "name": "@south/table",
   "version": "0.0.1",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.tsx"
   },
   "typesVersions": {
     "*": {
       "*": ["./src/*"]
     }
+  },
+  "dependencies": {
+    "react-resizable": "^3.0.5"
   }
 }
