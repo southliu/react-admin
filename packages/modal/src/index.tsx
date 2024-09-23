@@ -6,6 +6,7 @@ import { Modal, Tooltip } from 'antd';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import Draggable from 'react-draggable';
+import './index.less';
 
 interface Props extends Omit<ModalProps, 'onCancel'> {
   onCancel: () => void;

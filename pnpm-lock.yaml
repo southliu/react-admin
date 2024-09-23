@@ -17,6 +17,9 @@ importers:
       '@south/message':
         specifier: workspace:^
         version: link:packages/message
+      '@south/modal':
+        specifier: workspace:^
+        version: link:packages/modal
       '@south/request':
         specifier: workspace:^
         version: link:packages/request
@@ -71,9 +74,6 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
-      react-draggable:
-        specifier: ^4.4.6
-        version: 4.4.6(react-dom@18.3.1)(react@18.3.1)
       react-i18next:
         specifier: ^14.1.0
         version: 14.1.1(i18next@23.11.4)(react-dom@18.3.1)(react@18.3.1)
@@ -233,6 +233,12 @@ importers:
         version: 1.9.3(vite@5.4.2)
 
   packages/message: {}
+
+  packages/modal:
+    dependencies:
+      react-draggable:
+        specifier: ^4.4.6
+        version: 4.4.6(react-dom@18.3.1)(react@18.3.1)
 
   packages/request: {}
 
