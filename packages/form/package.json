@@ -1,0 +1,14 @@
+{
+  "name": "@south/form",
+  "version": "0.0.1",
+  "exports": {
+    ".": "./src/index.tsx"
+  },
+  "typesVersions": {
+    "*": {
+      "*": ["./src/*"]
+    }
+  },
+  "dependencies": {
+  }
+}

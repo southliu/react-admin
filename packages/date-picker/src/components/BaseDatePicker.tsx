@@ -1,6 +1,6 @@
 import type { DatePickerProps } from 'antd';
 import { DatePicker } from 'antd';
-import { string2Dayjs } from './utils/helper';
+import { string2Dayjs } from '../utils/helper';
 
 function BaseDatePicker(props: DatePickerProps) {
   const { value } = props;
