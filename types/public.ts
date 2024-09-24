@@ -1,10 +1,6 @@
 import { ItemType } from 'antd/es/menu/interface';
 import type { ColumnsType } from 'antd/lib/table';
 
-// 区间值
-type EventValue<T> = T | null
-export type RangeValue<T> = [EventValue<T>, EventValue<T>] | null
-
 // 数组
 export type ArrayData = string[] | number[] | boolean[]
 

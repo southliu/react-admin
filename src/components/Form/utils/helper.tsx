@@ -1,6 +1,6 @@
 import type { TFunction } from 'i18next';
 import type { FormItemProps } from 'antd';
-import type { ComponentProps, ComponentType, FormList } from '#/form';
+import type { FormList, ComponentProps, ComponentType } from '#/form';
 import { DATE_FORMAT, TIME_FORMAT } from '@/utils/config';
 
 /**

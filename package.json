@@ -16,6 +16,8 @@
   "dependencies": {
     "@ant-design/cssinjs": "^1.19.1",
     "@ant-design/icons": "^5.3.6",
+    "@south/date-picker": "workspace:^",
+    "@south/form": "workspace:^",
     "@south/message": "workspace:^",
     "@south/modal": "workspace:^",
     "@south/request": "workspace:^",
