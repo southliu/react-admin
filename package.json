@@ -21,6 +21,7 @@
     "@south/message": "workspace:^",
     "@south/modal": "workspace:^",
     "@south/request": "workspace:^",
+    "@south/selects": "workspace:^",
     "@south/table": "workspace:^",
     "@south/utils": "workspace:^",
     "@wangeditor/editor": "^5.1.23",

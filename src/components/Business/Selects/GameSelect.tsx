@@ -1,6 +1,6 @@
 import type { TreeSelectProps } from 'antd';
 import { getGames } from '@/servers/platform/game';
-import ApiTreeSelect from "@/components/Selects/ApiTreeSelect";
+import { ApiTreeSelect } from "@south/selects";
 
 /**
  * @description: 游戏下拉组件
