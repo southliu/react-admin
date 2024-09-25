@@ -1,9 +1,8 @@
 import type { Key, ReactNode } from "react";
-import type { ServerResult } from "@south/request";
 import type { DefaultOptionType } from 'antd/lib/select';
 import type { EditorProps } from '@/components/WangEditor';
-import type { SelectProps, TreeSelectProps } from "antd";
 import type { BusinessComponents } from '@/components/Business';
+import type { ApiSelectProps, ApiTreeSelectProps } from '@south/selects';
 import type { BaseFormList, BaseFormData, BaseComponentType, BaseComponentProps } from '@south/form';
 
 export interface ApiResult extends Omit<DefaultOptionType, 'value'> {
@@ -13,22 +12,6 @@ export interface ApiResult extends Omit<DefaultOptionType, 'value'> {
   value?: string | number;
 }
 
-export type ApiFn = (params?: object, params2?: object, params3?: object) => Promise<ServerResult<unknown>>
-
-// api参数
-interface ApiParam {
-  api?: ApiFn;
-  params?: object;
-  params2?: object;
-  params3?: object;
-  apiResultKey?: string;
-}
-
-// ApiSelect
-export type ApiSelectProps = ApiParam & SelectProps
-
-// ApiTreeSelect
-export type ApiTreeSelectProps = ApiParam & TreeSelectProps
 
 // 表单数据类型
 export type FormData = BaseFormData

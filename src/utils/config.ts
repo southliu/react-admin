@@ -12,7 +12,6 @@ export const EMPTY_VALUE = '-'; // 空值显示
 export const THEME_KEY = 'theme_key'; // 主题
 
 // 公共组件默认值
-export const MAX_TAG_COUNT = 'responsive'; // 最多显示多少个标签，responsive：自适应
 export const FORM_REQUIRED = [{ required: true }]; // 表单必填校验
 
 // 日期格式化

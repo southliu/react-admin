@@ -1,9 +1,9 @@
-import type { ApiSelectProps } from '#/form';
+import type { ApiSelectProps } from './types';
 import type { DefaultOptionType } from 'antd/es/select';
 import { Select } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useCallback } from 'react';
-import { MAX_TAG_COUNT } from '@/utils/config';
+import { MAX_TAG_COUNT } from './index';
 import Loading from './components/Loading';
 
 /**

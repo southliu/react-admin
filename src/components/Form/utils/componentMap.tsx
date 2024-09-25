@@ -19,8 +19,7 @@ import { BaseDatePicker } from '@south/date-picker';
 import { BaseRangePicker } from '@south/date-picker';
 import { BaseTimePicker } from '@south/date-picker';
 import { BaseTimeRangePicker } from '@south/date-picker';
-import ApiSelect from '@/components/Selects/ApiSelect';
-import ApiTreeSelect from '@/components/Selects/ApiTreeSelect';
+import { ApiSelect, ApiTreeSelect } from '@south/selects';
 import BaseTransfer from '@/components/Transfer/BaseTransfer';
 import PasswordStrength from '@/components/PasswordStrength';
 
