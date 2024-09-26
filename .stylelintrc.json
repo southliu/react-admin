@@ -1,55 +1,82 @@
 {
-  "root": true,
-  "plugins": ["stylelint-order"],
-  "extends": ["stylelint-config-standard", "stylelint-config-prettier"],
-  "customSyntax": "postcss-html",
+  "extends": ["stylelint-config-standard", "stylelint-config-recess-order"],
+  "ignoreFiles": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.tsx",
+    "**/*.ts",
+    "**/*.json",
+    "**/*.md"
+  ],
+  "overrides": [
+    {
+      "customSyntax": "postcss-html",
+      "files": ["*.(html|vue)", "**/*.(html|vue)"],
+      "rules": {
+        "selector-pseudo-class-no-unknown": [
+          true,
+          {
+            "ignorePseudoClasses": ["global", "deep"]
+          }
+        ],
+        "selector-pseudo-element-no-unknown": [
+          true,
+          {
+            "ignorePseudoElements": ["v-deep", "v-global", "v-slotted"]
+          }
+        ]
+      }
+    },
+    {
+      "customSyntax": "postcss-less",
+      "extends": [
+        "stylelint-config-recommended-less"
+      ],
+      "files": ["*.less", "**/*.less"]
+    }
+  ],
+  "plugins": [
+    "stylelint-order",
+    "@stylistic/stylelint-plugin",
+    "stylelint-prettier",
+    "stylelint-less"
+  ],
   "rules": {
-    "function-no-unknown": null,
-    "selector-class-pattern": null,
-    "selector-pseudo-class-no-unknown": [
-      true,
-      {
-        "ignorePseudoClasses": ["global"]
-      }
-    ],
-    "selector-pseudo-element-no-unknown": [
-      true,
-      {
-        "ignorePseudoElements": ["v-deep"]
-      }
-    ],
     "at-rule-no-unknown": [
       true,
       {
         "ignoreAtRules": [
+          "extends",
+          "ignores",
+          "include",
+          "mixin",
+          "if",
+          "else",
+          "media",
+          "for",
+          "at-root",
           "tailwind",
           "apply",
           "variants",
           "responsive",
           "screen",
           "function",
-          "if",
           "each",
-          "include",
-          "mixin"
+          "use",
+          "forward",
+          "return"
         ]
       }
     ],
-    "no-empty-source": null,
-    "string-quotes": null,
-    "named-grid-areas-no-invalid": null,
-    "unicode-bom": "never",
-    "no-descending-specificity": null,
     "font-family-no-missing-generic-family-keyword": null,
-    "declaration-colon-space-after": "always-single-line",
-    "declaration-colon-space-before": "never",
-    "rule-empty-line-before": [
-      "always",
-      {
-        "ignore": ["after-comment", "first-nested"]
-      }
-    ],
-    "unit-no-unknown": [true, { "ignoreUnits": ["rpx"] }],
+    "selector-id-pattern": null,
+    "selector-class-pattern": null,
+    "function-no-unknown": null,
+    "import-notation": null,
+    "media-feature-range-notation": null,
+    "named-grid-areas-no-invalid": null,
+    "no-descending-specificity": null,
+    "no-empty-source": null,
     "order/order": [
       [
         "dollar-variables",
@@ -57,37 +84,28 @@
         "at-rules",
         "declarations",
         {
-          "type": "at-rule",
-          "name": "supports"
+          "name": "supports",
+          "type": "at-rule"
         },
         {
-          "type": "at-rule",
-          "name": "media"
+          "name": "media",
+          "type": "at-rule"
+        },
+        {
+          "name": "include",
+          "type": "at-rule"
         },
         "rules"
       ],
-      { "severity": "warning" }
-    ]
-  },
-  "ignoreFiles": ["**/*.js", "**/*.ts"],
-  "overrides": [
-    {
-      "files": ["*.tsx", "**/*.tsx", "*.html", "**/*.html"],
-      "extends": ["stylelint-config-recommended"],
-      "rules": {
-        "keyframes-name-pattern": null,
-        "selector-pseudo-class-no-unknown": [
-          true,
-          {
-            "ignorePseudoClasses": ["deep", "global"]
-          }
-        ]
+      { "severity": "error" }
+    ],
+    "prettier/prettier": true,
+    "rule-empty-line-before": [
+      "always",
+      {
+        "ignore": ["after-comment", "first-nested"]
       }
-    },
-    {
-      "files": ["*.less", "**/*.less"],
-      "customSyntax": "postcss-less",
-      "extends": ["stylelint-config-standard", "stylelint-config-recommended-less"]
-    }
-  ]
+    ],
+    "selector-not-notation": null
+  }
 }
