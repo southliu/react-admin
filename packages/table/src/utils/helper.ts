@@ -1,8 +1,6 @@
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import type { ColumnsType } from 'antd/es/table';
-
-// 空值显示为‘-’
-const EMPTY_VALUE = '-';
+import { EMPTY_VALUE } from '@south/utils';
 
 /** 计算表格高度 */
 export function getTableHeight(element: HTMLDivElement | null): number {

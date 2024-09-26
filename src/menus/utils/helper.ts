@@ -1,6 +1,6 @@
 import type { SideMenu } from '#/public';
 import type { Langs } from '@/components/I18n';
-import { LANG } from '@/utils/config';
+import { LANG } from '@south/utils';
 
 /**
  * 根据路由获取展开菜单数组
@@ -257,7 +257,7 @@ export const getMenuName = (list: SideMenu[], path: string, lang: string) => {
 
     for (let i = 0; i < list?.length; i++) {
       const item = list[i];
-      
+
       if (item.key === path) {
         result = lang === 'en' ? item.labelEn : item.label;
         return result;

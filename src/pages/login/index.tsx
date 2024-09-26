@@ -7,7 +7,7 @@ import { Form, Button, Input } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PASSWORD_RULE, THEME_KEY } from '@/utils/config';
+import { PASSWORD_RULE, THEME_KEY } from '@south/utils';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login } from '@/servers/login';
 import { useToken } from '@/hooks/useToken';

@@ -2,13 +2,12 @@ import type { BaseFormData as FormData, BaseFormList as FormList } from '@south/
 import type { Dayjs } from 'dayjs';
 import type { DatePickerProps } from 'antd';
 import type { RangeValueType } from 'rc-picker/lib/PickerInput/RangePicker';
+import { DATE_FORMAT } from '@south/utils';
 import dayjs from 'dayjs';
 
 /**
  * @description isDayjs必须使用dayjs.isDayjs形式，否则打包会失败
  */
-
-export const DATE_FORMAT = 'YYYY-MM-DD';
 
 // 区间值
 type EventValue<T> = T | null

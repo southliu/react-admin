@@ -1,15 +1,14 @@
 import { creteRequest } from '@south/request';
-import { TOKEN } from '@/utils/config';
 
 // 生成环境所用的接口
 const prefixUrl = import.meta.env.VITE_BASE_URL as string;
 const baseURL = process.env.NODE_ENV !== 'development' ? prefixUrl : '/api';
 
 // 请求配置
-export const request = creteRequest(baseURL, TOKEN);
+export const request = creteRequest(baseURL);
 
-// TODO：创建多个请求
-// export const newRequest = creteRequest('/test', TOKEN);
+// 创建多个请求
+// export const newRequest = creteRequest('/test');
 
 /**
  * 取消请求
