@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Form, Input, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { updatePassword } from '@/servers/login';
-import { PASSWORD_RULE } from '@/utils/config';
+import { PASSWORD_RULE } from '@south/utils';
 import BaseModal from '@south/modal';
 import PasswordStrength from '@/components/PasswordStrength';
 

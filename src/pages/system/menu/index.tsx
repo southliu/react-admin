@@ -6,7 +6,7 @@ import { type FormInstance, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
-import { ADD_TITLE, EDIT_TITLE, INIT_PAGINATION } from '@/utils/config';
+import { ADD_TITLE, EDIT_TITLE, INIT_PAGINATION } from '@south/utils';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import {
   getMenuPage,

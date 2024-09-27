@@ -1,7 +1,7 @@
 import type { FormList, SearchList } from "#/form";
 import type { TFunction } from "i18next";
 import type { TableColumn, TableOptions } from '#/public';
-import { FORM_REQUIRED } from '@/utils/config';
+import { FORM_REQUIRED } from '@south/utils';
 import CustomizeInput from './components/CustomizeInput';
 
 // 搜索数据

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { App } from 'antd';
-import { VERSION } from "@/utils/config";
+import { VERSION } from "@south/utils";
 import { useTranslation } from 'react-i18next';
 import { HashRouter as Router } from 'react-router-dom';
 import nprogress from 'nprogress';

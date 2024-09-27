@@ -1,7 +1,7 @@
 import type { TFunction } from 'i18next';
 import type { FormItemProps } from 'antd';
 import type { FormList, ComponentProps, ComponentType } from '#/form';
-import { DATE_FORMAT, TIME_FORMAT } from '@/utils/config';
+import { DATE_FORMAT, TIME_FORMAT } from '@south/utils';
 
 /**
  * 处理子节点的值的属性
