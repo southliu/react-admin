@@ -1,7 +1,7 @@
 import type { FormList, SearchList } from "#/form";
 import type { TFunction } from "i18next";
 import type { TableColumn, TableOptions } from '#/public';
-import { FORM_REQUIRED } from '@south/utils';
+import { FORM_REQUIRED } from '@/utils/config';
 import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from '@/utils/constants';
 import { valueToLabel } from "@/utils/helper";
 

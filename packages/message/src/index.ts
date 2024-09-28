@@ -17,7 +17,7 @@ let modal: Omit<ModalStaticFunctions, "warn"> = resetFns;
 /**
  * 该组件提供静态方法
  */
-function StaticAntd() {
+function StaticMessage() {
   const staticFunctions = App.useApp();
 
   message = staticFunctions.message;
@@ -33,4 +33,4 @@ export {
   modal,
 };
 
-export default StaticAntd;
+export default StaticMessage;

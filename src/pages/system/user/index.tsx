@@ -8,7 +8,7 @@ import { type FormInstance, Button, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
-import { ADD_TITLE, EDIT_TITLE, INIT_PAGINATION } from '@south/utils';
+import { ADD_TITLE, EDIT_TITLE, INIT_PAGINATION } from '@/utils/config';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { getPermission, savePermission } from '@/servers/system/menu';
 import {
@@ -21,9 +21,9 @@ import {
 } from '@/servers/system/user';
 import BaseContent from '@/components/Content/BaseContent';
 import BaseSearch from '@/components/Search/BaseSearch';
-import BaseModal from '@south/modal';
+import BaseModal from '@/components/Modal/BasicModal';
 import BaseForm from '@/components/Form/BaseForm';
-import BaseTable from '@south/table';
+import BaseTable from '@/components/Table/BaseTable';
 import BasePagination from '@/components/Pagination/BasePagination';
 import BaseCard from '@/components/Card/BaseCard';
 import PermissionDrawer from './components/PermissionDrawer';

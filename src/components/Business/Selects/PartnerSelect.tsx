@@ -1,6 +1,6 @@
 import type { SelectProps } from 'antd';
 import { getPartner } from '@/servers/platform/partner';
-import { ApiSelect } from '@south/selects';
+import { ApiSelect } from '@/components/Selects';
 
 /**
  * @description: 合作公司下拉组件

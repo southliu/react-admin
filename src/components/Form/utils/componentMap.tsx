@@ -1,5 +1,5 @@
 import type { TFunction } from 'i18next';
-import type { FormList, ComponentType } from '#/form';
+import type { ComponentType, FormList } from '#/form';
 import { initCompProps } from './helper';
 import { CreateBusiness } from '@/components/Business';
 import {
@@ -15,13 +15,17 @@ import {
   Slider,
   Upload
 } from 'antd';
-import { BaseDatePicker } from '@south/date-picker';
-import { BaseRangePicker } from '@south/date-picker';
-import { BaseTimePicker } from '@south/date-picker';
-import { BaseTimeRangePicker } from '@south/date-picker';
-import { ApiSelect, ApiTreeSelect } from '@south/selects';
+import {
+  BaseDatePicker,
+  BaseRangePicker,
+  BaseTimePicker,
+  BaseTimeRangePicker
+} from '@/components/Dates';
+import ApiSelect from '@/components/Selects/ApiSelect';
+import ApiTreeSelect from '@/components/Selects/ApiTreeSelect';
 import BaseTransfer from '@/components/Transfer/BaseTransfer';
 import PasswordStrength from '@/components/PasswordStrength';
+import WangEditor from '@/components/WangEditor';
 
 const componentMap = new Map();
 
@@ -48,6 +52,7 @@ componentMap.set('TimeRangePicker', BaseTimeRangePicker);
 componentMap.set('ApiSelect', ApiSelect);
 componentMap.set('ApiTreeSelect', ApiTreeSelect);
 componentMap.set('PasswordStrength', PasswordStrength);
+componentMap.set('Editor', WangEditor);
 
 // 业务组件注入
 CreateBusiness();

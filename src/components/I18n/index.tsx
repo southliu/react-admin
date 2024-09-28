@@ -2,7 +2,7 @@ import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
-import { LANG } from '@south/utils';
+import { LANG } from '@/utils/config';
 import { useEffect } from 'react';
 
 export type Langs = 'zh' | 'en'

@@ -10,10 +10,10 @@ import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { getArticlePage, deleteArticle } from '@/servers/content/article';
-import { INIT_PAGINATION } from '@south/utils';
+import { INIT_PAGINATION } from '@/utils/config';
 import BaseContent from '@/components/Content/BaseContent';
 import BaseSearch from '@/components/Search/BaseSearch';
-import BaseTable from '@south/table';
+import BaseTable from '@/components/Table/BaseTable';
 import BasePagination from '@/components/Pagination/BasePagination';
 import BaseCard from '@/components/Card/BaseCard';
 

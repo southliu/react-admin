@@ -1,5 +1,5 @@
 import type { MessageInstance } from "antd/es/message/interface";
-import { VERSION } from "@south/utils";
+import { VERSION } from "@/utils/config";
 import axios from "axios";
 
 /** 版本监控 */
