@@ -1,7 +1,7 @@
 import type { SideMenu } from '#/public';
 import { useTranslation } from 'react-i18next';
 import { getMenuName, getOpenMenuByRouter, handleFilterNav } from '@/menus/utils/helper';
-import { ADD_TITLE, EDIT_TITLE } from '@south/utils';
+import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import { setTitle } from '@/utils/helper';
 import { useCommonStore } from './useCommonStore';
 import { useLocation } from 'react-router-dom';

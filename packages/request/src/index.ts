@@ -1,21 +1,21 @@
 import { message } from '@south/message';
 import { getLocalInfo, removeLocalInfo } from '@south/utils';
-import { TOKEN } from '@south/utils';
 import axios from 'axios';
 import AxiosRequest from './request';
 
 /**
  * 创建请求
  * @param url - 链接地址
+ * @param tokenKey - 存token的key值
  */
-function creteRequest(url: string) {
+function creteRequest(url: string, tokenKey: string) {
   return new AxiosRequest({
     baseURL: url,
     timeout: 180 * 1000,
     interceptors: {
       // 接口请求拦截
       requestInterceptors(res) {
-        const tokenLocal = getLocalInfo(TOKEN) || '';
+        const tokenLocal = getLocalInfo(tokenKey) || '';
         if (res?.headers && tokenLocal) {
           res.headers.Authorization = `Bearer ${tokenLocal}`;
         }
@@ -32,7 +32,7 @@ function creteRequest(url: string) {
         // 权限不足
         if (data?.code === 401) {
           message.error('权限不足，请重新登录！');
-          removeLocalInfo(TOKEN);
+          removeLocalInfo(tokenKey);
           setTimeout(() => {
             window.location.href = "/";
           }, 1000);

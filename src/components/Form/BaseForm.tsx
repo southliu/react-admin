@@ -1,4 +1,3 @@
-import type { BaseFormList } from '@south/form';
 import type { LegacyRef, ReactNode } from 'react';
 import type { FormData, FormList } from '#/form';
 import type { ColProps, FormInstance } from 'antd';
@@ -8,7 +7,7 @@ import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { getComponent } from './utils/componentMap';
 import { filterFormItem, handleValuePropName } from './utils/helper';
-import { filterDayjs } from '@south/date-picker';
+import { filterDayjs } from '../Dates/utils/helper';
 
 interface Props extends FormProps {
   list: FormList[];
@@ -19,7 +18,7 @@ interface Props extends FormProps {
   handleFinish: FormProps['onFinish'];
 }
 
-const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
+const BasicForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const {
     list,
     data,
@@ -66,7 +65,7 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const onFinish: FormProps['onFinish'] = values => {
     if (handleFinish) {
       // 将dayjs类型转为字符串
-      const params = filterDayjs(values, list as BaseFormList[]);
+      const params = filterDayjs(values, list);
       handleFinish?.(params);
     }
   };
@@ -115,4 +114,4 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   );
 });
 
-export default BaseForm;
+export default BasicForm;

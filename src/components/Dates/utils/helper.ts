@@ -1,8 +1,8 @@
-import type { BaseFormData as FormData, BaseFormList as FormList } from '@south/form';
 import type { Dayjs } from 'dayjs';
 import type { DatePickerProps } from 'antd';
+import type { FormData, FormList } from '#/form';
 import type { RangeValueType } from 'rc-picker/lib/PickerInput/RangePicker';
-import { DATE_FORMAT } from '@south/utils';
+import { DATE_FORMAT } from '@/utils/config';
 import dayjs from 'dayjs';
 
 /**

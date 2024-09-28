@@ -1,6 +1,6 @@
 import type { TableColumn } from '#/public';
 import { useTranslation } from 'react-i18next';
-import BaseTable from '@south/table';
+import BaseTable from '@/components/Table/BaseTable';
 
 function VirtualTable() {
   const { t } = useTranslation();

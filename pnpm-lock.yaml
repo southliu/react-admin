@@ -14,27 +14,12 @@ importers:
       '@ant-design/icons':
         specifier: ^5.3.6
         version: 5.3.7(react-dom@18.3.1)(react@18.3.1)
-      '@south/date-picker':
-        specifier: workspace:^
-        version: link:packages/date-picker
-      '@south/form':
-        specifier: workspace:^
-        version: link:packages/form
       '@south/message':
         specifier: workspace:^
         version: link:packages/message
-      '@south/modal':
-        specifier: workspace:^
-        version: link:packages/modal
       '@south/request':
         specifier: workspace:^
         version: link:packages/request
-      '@south/selects':
-        specifier: workspace:^
-        version: link:packages/selects
-      '@south/table':
-        specifier: workspace:^
-        version: link:packages/table
       '@south/utils':
         specifier: workspace:^
         version: link:packages/utils
@@ -83,9 +68,15 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
+      react-draggable:
+        specifier: ^4.4.6
+        version: 4.4.6(react-dom@18.3.1)(react@18.3.1)
       react-i18next:
         specifier: ^14.1.0
         version: 14.1.1(i18next@23.11.4)(react-dom@18.3.1)(react@18.3.1)
+      react-resizable:
+        specifier: ^3.0.5
+        version: 3.0.5(react-dom@18.3.1)(react@18.3.1)
       react-router-dom:
         specifier: 6.22.3
         version: 6.22.3(react-dom@18.3.1)(react@18.3.1)

@@ -3,7 +3,7 @@ import { Tooltip } from 'antd';
 import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { THEME_KEY } from '@south/utils';
+import { THEME_KEY } from '@/utils/config';
 
 function Theme() {
   const { t } = useTranslation();

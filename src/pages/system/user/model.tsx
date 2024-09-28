@@ -1,7 +1,7 @@
 import type { FormList, SearchList } from '#/form';
 import type { TFunction } from 'i18next';
 import type { TableColumn, TableOptions } from '#/public';
-import { FORM_REQUIRED } from '@south/utils';
+import { FORM_REQUIRED } from '@/utils/config';
 import { OPEN_CLOSE } from '@/utils/constants';
 
 const otherSearch: SearchList[] = [];

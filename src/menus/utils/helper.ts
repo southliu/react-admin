@@ -1,6 +1,6 @@
 import type { SideMenu } from '#/public';
 import type { Langs } from '@/components/I18n';
-import { LANG } from '@south/utils';
+import { LANG } from '@/utils/config';
 
 /**
  * 根据路由获取展开菜单数组
