@@ -1,4 +1,4 @@
-import { request } from '@/servers/request';
+import { request } from '@/utils/request';
 
 enum API {
   URL = '/platform/partner',

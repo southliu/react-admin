@@ -1,4 +1,4 @@
-import { request } from '@/servers/request';
+import { request } from '@/utils/request';
 
 /**
  * 获取数据总览数据

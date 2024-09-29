@@ -1,6 +1,6 @@
 import type { FormData } from '#/form';
 import type { PageServerResult, PaginationData } from '#/public';
-import { request } from '@/servers/request';
+import { request } from '@/utils/request';
 
 enum API {
   URL = '/authority/user'
