@@ -1,0 +1,22 @@
+{
+  "name": "@south/stylelint",
+  "version": "0.0.1",
+  "exports": {
+    "import": "./index.mjs",
+    "default": "./index.mjs"
+  },
+  "devDependencies": {
+    "@stylistic/stylelint-plugin": "^3.1.0",
+    "postcss": "^8.4.38",
+    "postcss-html": "^1.6.0",
+    "postcss-less": "^6.0.0",
+    "stylelint": "^16.3.1",
+    "stylelint-config-recess-order": "^5.1.1",
+    "stylelint-config-recommended": "^14.0.0",
+    "stylelint-config-recommended-less": "^3.0.1",
+    "stylelint-config-standard": "^36.0.0",
+    "stylelint-less": "^3.0.1",
+    "stylelint-order": "^6.0.4",
+    "stylelint-prettier": "^5.0.2"
+  }
+}
