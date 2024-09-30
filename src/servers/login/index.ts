@@ -1,5 +1,5 @@
 import type { LoginData, LoginResult } from '@/pages/login/model';
-import { request } from '@/servers/request';
+import { request } from '@/utils/request';
 
 /**
  * 登录

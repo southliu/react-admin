@@ -37,7 +37,10 @@ npm i -g pnpm
 ```bash
 pnpm install
 ```
-##### 如果使用pnpm安装依赖出现安装失败问题，请使用梯子或yarn安装。
+##### 如果使用pnpm安装依赖出现安装失败问题，请使用梯子、yarn安装或切换淘宝源。
+```bash
+pnpm config set registry https://registry.npm.taobao.org/
+```
 
 - 运行
 
@@ -122,3 +125,6 @@ import { defaultMenus } from '@/menus';
 // 菜单数据
 const menuList = defaultMenus;
 ```
+
+#### @south/xxx依赖在哪查看？
+通过根目录`packages`文件中查看对于xxx文件的源码进行修改。

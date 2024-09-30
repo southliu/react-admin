@@ -2,7 +2,7 @@ import type { Key } from 'react';
 import type { DataNode } from 'antd/es/tree';
 import type { FormData } from '#/form';
 import type { PageServerResult, PaginationData, SideMenu } from '#/public';
-import { request } from '@/servers/request';
+import { request } from '@/utils/request';
 
 enum API {
   URL = '/authority/menu'

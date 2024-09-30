@@ -1,4 +1,4 @@
- export default{
+ export default {
   "extends": ["stylelint-config-standard", "stylelint-config-recess-order"],
   "ignoreFiles": [
     "**/*.js",
@@ -108,4 +108,4 @@
     ],
     "selector-not-notation": null
   }
-}
+};
