@@ -2,19 +2,19 @@
   padding: 0 !important;
 
   .modal-custom-title {
-    width: 100%;
-    cursor: move;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-sizing: border-box;
+    width: 100%;
     padding: 16px 24px;
-    border-bottom: 1px solid rgba(0,0,0,.06);
+    cursor: move;
+    border-bottom: 1px solid rgb(0 0 0 / 6%);
   }
 
   .ant-modal-footer {
     padding: 10px 16px;
-    border-top: 1px solid rgba(0,0,0,.06);
+    border-top: 1px solid rgb(0 0 0 / 6%);
   }
 }
 
@@ -41,10 +41,11 @@
 .theme-dark {
   .ant-modal-content {
     .modal-custom-title {
-      border-bottom: 1px solid #383838;
+      border-bottom: 1px solid #383838 !important;
     }
+
     .ant-modal-footer {
-      border-top: 1px solid #383838;
+      border-top: 1px solid #383838 !important;
     }
   }
 }
