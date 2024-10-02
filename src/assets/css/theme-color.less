@@ -3,16 +3,22 @@
 
 // 默认
 .theme-primary {
-  .changeTheme();
+  .changeTheme(
+    @primary-color,
+    @primary-bg,
+    @layout-content-bg,
+    @content-bg,
+    @svg-color
+  );
 }
 
 // 暗黑主题
 .theme-dark {
   .changeTheme(
-    @darkColor,
-    @darkBg,
-    @darkLayoutContentBg,
-    @darkContentBg,
-    @darkSvgColor
+    @dark-color,
+    @dark-bg,
+    @dark-layout-content-bg,
+    @dark-content-bg,
+    @dark-svg-color
   );
 }

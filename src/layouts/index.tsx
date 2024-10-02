@@ -117,8 +117,8 @@ function Layout() {
             border-bottom
             transition-all
             ${styles.header}
-            ${isCollapsed ? styles.headerCloseMenu : ''}
-            ${isMaximize ? styles.headerNone : ''}
+            ${isCollapsed ? styles['header-close-menu'] : ''}
+            ${isMaximize ? styles['header-none'] : ''}
             ${isPhone ? `!left-0 z-999` : ''}
           `}
         >
@@ -126,13 +126,13 @@ function Layout() {
           <Tabs />
         </div>
         <div
-          id="layoutContent"
+          id="layout-content"
           className={`
             overflow-auto
             transition-all
             ${styles.con}
-            ${isMaximize ? styles.conMaximize : ''}
-            ${isCollapsed ? styles.conCloseMenu : ''}
+            ${isMaximize ? styles['con-maximize'] : ''}
+            ${isCollapsed ? styles['con-close-menu'] : ''}
             ${isPhone ? `!left-0 !w-full` : ''}
           `}
         >

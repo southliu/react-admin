@@ -1,29 +1,27 @@
-@import url("./default.less");
-
 /**
  * 修改主题
  * @param color - 字体颜色
- * @param bgColor - 背景颜色
- * @param layoutContentBg - layout内容背景色
- * @param contentBgColor - 内容背景颜色
- * @param svgColor - svg颜色
+ * @param bg-color - 背景颜色
+ * @param layout-content-bg - layout内容背景色
+ * @param content-bg-color - 内容背景颜色
+ * @param svg-color - svg颜色
  */
 .changeTheme(
-  @color: @primaryColor,
-  @bgColor: @primaryBg,
-  @layoutContentBg: @layoutContentBg,
-  @contentBgColor: @contentBg,
-  @svgColor: @svgColor
+  @color,
+  @bg-color,
+  @layout-content-bg,
+  @content-bg-color,
+  @svg-color
 ) {
   color: @color !important;
-  background-color: @bgColor !important;
+  background-color: @bg-color !important;
 
   .bg {
-    background-color: @bgColor !important;
+    background-color: @bg-color !important;
   }
 
   .change svg {
-    color: @svgColor !important;
+    color: @svg-color !important;
   }
 
   a,
@@ -36,12 +34,12 @@
     color: @color !important;
   }
 
-  #layoutContent {
-    background-color: @layoutContentBg !important;
+  #layout-content {
+    background-color: @layout-content-bg !important;
   }
 
   #card {
-    background-color: @contentBgColor !important;
+    background-color: @content-bg-color !important;
   }
 
   // 富文本
@@ -49,13 +47,13 @@
   .w-e-bar-item button,
   .w-e-text-container {
     color: @color !important;
-    background-color: @bgColor !important;
+    background-color: @bg-color !important;
     fill: @color !important;
   }
 
   #header,
   #layout {
     color: @color !important;
-    background-color: @bgColor !important;
+    background-color: @bg-color !important;
   }
 }
