@@ -265,7 +265,7 @@ function LayoutTabs() {
             <div
               key={index}
               className={`
-                ${styles.leftDivide}
+                leftDivide
                 change
                 divide-solid
                 w-36px

@@ -86,14 +86,17 @@ function BaseModal(props: Props) {
   /** 自定义标题 */
   const titleRender = (
     <div
-      className="w-full cursor-move flex items-center justify-between"
+      className="modal-custom-title"
       onMouseOver={onMouseOver}
       onMouseOut={() => setDisabled(true)}
     >
-      <span>
+      <span className='cursor-text'>
         { props.title || '' }
       </span>
 
+      <div>
+
+      </div>
       { CloseRender() }
     </div>
   );

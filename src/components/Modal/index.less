@@ -1,3 +1,23 @@
+.ant-modal-content {
+  padding: 0 !important;
+
+  .modal-custom-title {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 24px;
+    cursor: move;
+    border-bottom: 1px solid rgb(0 0 0 / 6%);
+  }
+
+  .ant-modal-footer {
+    padding: 10px 16px;
+    border-top: 1px solid rgb(0 0 0 / 6%);
+  }
+}
+
 .full-modal {
   .ant-modal {
     position: absolute;
@@ -15,5 +35,17 @@
 
   .ant-modal-body {
     flex: 1;
+  }
+}
+
+.theme-dark {
+  .ant-modal-content {
+    .modal-custom-title {
+      border-bottom: 1px solid #383838 !important;
+    }
+
+    .ant-modal-footer {
+      border-top: 1px solid #383838 !important;
+    }
   }
 }
