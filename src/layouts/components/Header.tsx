@@ -154,7 +154,7 @@ function Header() {
           py-6px
           box-border
           transition-all
-          ${styles.headerDriver}
+          ${styles['header-driver']}
           ${isMaximize ? styles.none : ''}
         `}
       >

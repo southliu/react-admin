@@ -187,8 +187,8 @@ function LayoutMenu() {
           overflow-auto
           z-2
           ${styles.menu}
-          ${isCollapsed ? styles.menuClose : ''}
-          ${isMaximize || (isPhone && isCollapsed) ? styles.menuNone : ''}
+          ${isCollapsed ? styles['menu-close'] : ''}
+          ${isMaximize || (isPhone && isCollapsed) ? styles['menu-none'] : ''}
           ${isPhone ? '!z-1002' : ''}
         `}
       >
@@ -225,7 +225,7 @@ function LayoutMenu() {
         </div>
 
         <Menu
-          id="layoutMenu"
+          id="layout-menu"
           className="z-1000"
           selectedKeys={[selectedKeys]}
           openKeys={openKeys}

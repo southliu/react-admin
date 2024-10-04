@@ -231,7 +231,7 @@ function LayoutTabs() {
       justify-between
       mx-2
       transition-all
-      ${isMaximize ? styles.conMaximize : ''}
+      ${isMaximize ? styles['con-maximize'] : ''}
     `}>
       { contextHolder }
       {
@@ -265,7 +265,7 @@ function LayoutTabs() {
             <div
               key={index}
               className={`
-                leftDivide
+                left-divide-tab
                 change
                 divide-solid
                 w-36px
