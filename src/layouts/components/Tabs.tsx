@@ -241,23 +241,13 @@ function LayoutTabs() {
         <Tabs
           hideAdd
           className="w-full h-30px py-0"
+          items={[...tabs]}
           onChange={onChange}
           activeKey={activeKey}
           type="editable-card"
           onEdit={onEdit}
           renderTabBar={renderTabBar}
-        >
-          {
-            tabs?.map((item) => (
-              <Tabs.TabPane
-                key={item.key}
-                tab={item.label}
-              >
-                { item.label }
-              </Tabs.TabPane>
-            ))
-          }
-        </Tabs>
+        />
         : <span></span>
       }
 
