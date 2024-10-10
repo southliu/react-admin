@@ -63,6 +63,8 @@ function LayoutTabs() {
         setActiveKey(newItems.key);
         setNav(newItems.nav);
         addTabs(newItems);
+        // 初始化Tabs时，更新文案语言类型
+        switchTabsLang(currentLanguage);
       } else {
         setActiveKey(path);
       }
@@ -77,7 +79,7 @@ function LayoutTabs() {
   useEffect(() => {
     switchTabsLang(currentLanguage);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentLanguage, tabs]);
+  }, [currentLanguage]);
 
   useEffect(() => {
     return () => {
