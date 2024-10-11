@@ -124,6 +124,7 @@ function BaseModal(props: Props) {
       okText={t('public.ok')}
       cancelText={t('public.cancel')}
       {...props}
+      className={`basic-modal ${props.className}`}
       title={titleRender}
       wrapClassName={isFullscreen ? 'full-modal' : wrapClassName || ''}
       width={isFullscreen ? '100%' : width || 520}
