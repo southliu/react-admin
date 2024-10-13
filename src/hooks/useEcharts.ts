@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as echarts from 'echarts';
 import { useCommonStore } from './useCommonStore';
 /**
@@ -8,6 +8,7 @@ import { useCommonStore } from './useCommonStore';
  */
 export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) => {
   const { isRefresh } = useCommonStore();
+  const [isInit, setInit] = useState(false);
   const echartsRef = useRef<echarts.EChartsType>();
   const htmlDivRef = useRef<HTMLDivElement>(null);
 
@@ -20,6 +21,7 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
 
   /** 初始化 */
   const init = useCallback(() => {
+    setInit(false);
     if (options) {
       // 摧毁echarts后在初始化
       dispose();
@@ -32,15 +34,17 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
     }
   }, [options]);
 
+  useEffect(() => {
+    if (isInit) init();
+  }, [init, isInit]);
+
   // 刷新页面监听操作值
   useEffect(() => {
     if (options && isRefresh) {
-      setTimeout(() => {
-        init();
-      }, 100);
+      setInit(true);
     }
-  }, [init, options, isRefresh]);
-  
+  }, [options, isRefresh]);
+
   useEffect(() => {
     init();
     window.addEventListener("resize", init, false);

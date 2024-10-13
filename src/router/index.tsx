@@ -4,7 +4,7 @@ import { VERSION } from "@/utils/config";
 import { useTranslation } from 'react-i18next';
 import { HashRouter as Router } from 'react-router-dom';
 import nprogress from 'nprogress';
-import AppPage from './App';
+import RouterPage from './components/Router';
 import StaticMessage from '@south/message';
 
 // antd
@@ -17,9 +17,6 @@ nprogress.configure({ showSpinner: false });
 
 // antd主题
 const { defaultAlgorithm, darkAlgorithm } = theme;
-
-// keepalive
-import { AliveScope } from 'react-activation';
 
 import { useCommonStore } from '@/hooks/useCommonStore';
 
@@ -55,9 +52,7 @@ function Page() {
       >
         <App>
           <StaticMessage />
-          <AliveScope>
-            <AppPage />
-          </AliveScope>
+          <RouterPage />
         </App>
       </ConfigProvider>
     </Router>
