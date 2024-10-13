@@ -6,7 +6,7 @@ import { setTitle } from '@/utils/helper';
 import { useCommonStore } from './useCommonStore';
 import { useLocation } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
-import { useActivate } from 'react-activation';
+import { useEffectOnActive } from 'keepalive-for-react';
 import { useMenuStore, useTabsStore } from '@/stores';
 
 /**
@@ -71,9 +71,9 @@ export function useSingleTab(
     handleAddTab();
   }, [handleAddTab]);
 
-  useActivate(() => {
+  useEffectOnActive(() => {
     handleAddTab();
-  });
+  }, false, []);
 
   /** 获取路由对应名称 */
   const getNameByRoute = (): string => {

@@ -1,5 +1,5 @@
 import { useToken } from '@/hooks/useToken';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useOutlet } from 'react-router-dom';
 import { Skeleton, message } from 'antd';
 import { Icon } from '@iconify/react';
@@ -7,21 +7,20 @@ import { useDebounceFn } from 'ahooks';
 import { useLocation } from 'react-router-dom';
 import { versionCheck } from './utils/helper';
 import { getPermissions } from '@/servers/permissions';
+import { useMenuStore, useUserStore } from '@/stores';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { getMenuList } from '@/servers/system/menu';
 import Menu from './components/Menu';
 import Header from './components/Header';
 import Tabs from './components/Tabs';
 import Forbidden from '@/pages/403';
-import KeepAlive from 'react-activation';
+import KeepAlive from 'keepalive-for-react';
 import styles from './index.module.less';
-import { useMenuStore, useUserStore } from '@/stores';
 
 function Layout() {
   const navigate = useNavigate();
   const [getToken] = useToken();
   const { pathname, search } = useLocation();
-  const uri = pathname + search;
   const token = getToken();
   const outlet = useOutlet();
   const [isLoading, setLoading] = useState(true);
@@ -106,6 +105,13 @@ function Layout() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /**
+   * 用于区分不同页面以进行缓存
+   */
+  const cacheKey = useMemo(() => {
+    return pathname + search;
+  }, [pathname, search]);
+
   return (
     <div id="layout">
       { contextHolder }
@@ -168,7 +174,11 @@ function Layout() {
           {
             permissions.length > 0 &&
             !isRefresh &&
-            <KeepAlive id={uri} name={uri}>
+            <KeepAlive
+              max={20}
+              strategy={'PRE'}
+              activeName={cacheKey}
+            >
               { outlet }
             </KeepAlive>
           }
