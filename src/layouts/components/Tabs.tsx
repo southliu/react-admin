@@ -22,6 +22,7 @@ function LayoutTabs() {
   const { refresh } = useKeepAliveContext();
   const [messageApi, contextHolder] = message.useMessage();
   const [time, setTime] = useState<null | NodeJS.Timeout>(null);
+  const [isChangeLang, setChangeLang] = useState(false); // 是否切换语言
   const [refreshTime, seRefreshTime] = useState<null | NodeJS.Timeout>(null);
   const setRefresh = usePublicStore(state => state.setRefresh);
   const {
@@ -64,7 +65,7 @@ function LayoutTabs() {
         setNav(newItems.nav);
         addTabs(newItems);
         // 初始化Tabs时，更新文案语言类型
-        switchTabsLang(currentLanguage);
+        setChangeLang(true);
       } else {
         setActiveKey(path);
       }
@@ -80,6 +81,11 @@ function LayoutTabs() {
     switchTabsLang(currentLanguage);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLanguage]);
+
+  useEffect(() => {
+    if (isChangeLang) switchTabsLang(currentLanguage);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isChangeLang]);
 
   useEffect(() => {
     return () => {

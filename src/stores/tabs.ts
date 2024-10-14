@@ -51,7 +51,8 @@ export const useTabsStore = create<TabsState>((set) => ({
 
     for (let i = 0; i < tabs?.length; i++) {
       const item = tabs[i];
-      item.label = label === 'en' ? item.labelEn : item.labelZh;
+      const text = label === 'en' ? item.labelEn : item.labelZh;
+      item.label = text;
     }
 
     return { tabs };

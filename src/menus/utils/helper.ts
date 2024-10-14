@@ -99,18 +99,25 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
   const lang = localStorage.getItem(LANG);
 
   for (let i = 0; i < menus.length; i++) {
+    const {
+      key,
+      label,
+      labelZh,
+      labelEn,
+      children
+    } = menus[i];
     // 如果存在子数组则递归
     if (hasChildren(menus[i])) {
       currentPath.push({
-        label: menus[i].label,
-        labelZh: menus[i].label,
-        labelEn: menus[i].labelEn,
-        path: splitPath(menus[i].key)
+        label,
+        labelZh: labelZh || label,
+        labelEn,
+        path: splitPath(key)
       });
 
       // 递归子数组，返回结果
       const childrenData = {
-        menus: menus[i].children,
+        menus: children,
         permissions,
         value,
         currentPath,
@@ -127,20 +134,19 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
     } else if (
       (
         lang === 'en' && menus[i]?.labelEn?.toLocaleUpperCase()?.includes(value?.toLocaleUpperCase()) ||
-        lang !== 'en' && menus[i]?.label?.includes(value)
+        lang !== 'en' && (menus[i]?.labelZh?.includes(value) || menus[i]?.label?.includes(value))
       ) && hasPermission(menus[i], permissions)
     ) {
-      currentPath.push({
-        label: menus[i].label,
-        labelZh: menus[i].label,
-        labelEn: menus[i].labelEn,
-        path: splitPath(menus[i].key)
-      });
-      const nav = matchPath(lang as Langs, menus[i].key, currentPath);
-
       // 匹配到value值时添加到result中
-      const { label, labelEn, key } = menus[i];
-      result.push({ label, labelEn, key, nav });
+      const { label, labelZh, labelEn, key } = menus[i];
+      currentPath.push({
+        label: label,
+        labelZh: labelZh || label,
+        labelEn: labelEn,
+        path: splitPath(key)
+      });
+      const nav = matchPath(lang as Langs, key, currentPath);
+      result.push({ label, labelZh, labelEn, key, nav });
     }
   }
 
@@ -192,14 +198,14 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
   for (let i = 0; i < menus.length; i++) {
     if (!key || (result as GetMenuByKeyResult).key) return result;
 
-    const { label, labelEn, children } = menus[i];
-    const currentLabel = lang === 'en' ? labelEn : label;
+    const { label, labelZh, labelEn, children } = menus[i];
+    const currentLabel = lang === 'en' ? labelEn : labelZh || label;
 
     // 过滤子数据中值
     if (hasChildren(menus[i])) {
       fatherNav.push({
         label: currentLabel,
-        labelZh: label,
+        labelZh: labelZh || label,
         labelEn,
       });
 
@@ -227,12 +233,12 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
       const { key } = menus[i];
       fatherNav.push({
         label: currentLabel,
-        labelZh: label,
+        labelZh: labelZh || label,
         labelEn,
       });
       if (key) result = {
         label,
-        labelZh: label,
+        labelZh: labelZh || label,
         labelEn,
         key,
         nav: fatherNav
@@ -259,7 +265,7 @@ export const getMenuName = (list: SideMenu[], path: string, lang: string) => {
       const item = list[i];
 
       if (item.key === path) {
-        result = lang === 'en' ? item.labelEn : item.label;
+        result = lang === 'en' ? item.labelEn : item.labelZh || item.label;
         return result;
       }
 
@@ -310,7 +316,10 @@ export function filterMenus(
       hasPermission(item, permissions) ||
       hasChildren(item)
     ) {
-      if (lang === 'en') item.label = item.labelEn;
+      if (lang === 'en') {
+        item.labelZh = item.labelZh || item.label;
+        item.label = item.labelEn;
+      }
       result.push(item);
     }
   }
@@ -411,6 +420,7 @@ export function handleFilterMenus(menus: SideMenu[], level = 0): SideMenu[] {
     const data: Partial<SideMenu> = { ...item };
     if (children?.length) (data as SideMenu).children = children;
     if (!data.key) data.key = getChildrenKey(data.children, level);
+    delete data.labelZh;
     delete data.labelEn;
 
     currentItem.push(data as SideMenu);
