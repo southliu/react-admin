@@ -22,6 +22,7 @@ export interface PaginationData {
 // 侧边菜单
 export interface SideMenu extends Omit<ItemType, 'children' | 'label' | 'icon'> {
   label: string;
+  labelZh?: string;
   labelEn: string;
   key: string;
   icon?: React.ReactNode | string;
