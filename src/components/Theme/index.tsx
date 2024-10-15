@@ -40,8 +40,6 @@ function Theme() {
         document.body.className = 'theme-primary';
         break;
     }
-
-    window.location.reload();
   };
 
   return (

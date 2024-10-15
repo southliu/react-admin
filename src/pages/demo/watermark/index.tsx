@@ -29,7 +29,7 @@ function Watermark() {
 
   return (
     <BaseContent isPermission={isPermission}>
-      <div className="p-30px">
+      <div className="p-30px bg">
         <Button onClick={openWatermark}>
           { t('content.openWatermark') }
         </Button>

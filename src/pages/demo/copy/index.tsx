@@ -12,7 +12,7 @@ function CopyPage() {
 
   return (
     <BaseContent isPermission={isPermission}>
-      <div className="max-w-350px m-10px p-5 rounded-5 bg-white">
+      <div className="max-w-350px m-10px p-5 rounded-5 bg">
         <h1>{ t('content.clipboard') }：</h1>
         <CopyInput className="w-350px" />
 
