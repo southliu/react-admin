@@ -5,7 +5,7 @@ import { usePublicStore, type ThemeType } from '@/stores/public';
 import { message } from 'antd';
 import { Form, Button, Input } from 'antd';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PASSWORD_RULE, THEME_KEY } from '@/utils/config';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -25,6 +25,7 @@ function Login() {
   const [getToken, setToken] = useToken();
   const [isLoading, setLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const { search } = useLocation();
   const { permissions, menuList } = useCommonStore();
   const setMenuList = useMenuStore(state => state.setMenuList);
   const setThemeValue = usePublicStore(state => state.setThemeValue);
@@ -89,11 +90,29 @@ function Login() {
     return result;
   };
 
+  /** 获取重定向路由 */
+  const getRedirectUrl = () => {
+    const key = '?redirect=';
+    const start = search.includes(key) ? search.indexOf(key) + 10 : 0;
+    const end = search.includes('&') ? search.indexOf('&') : search.length;
+
+    return search.substring(start, end);
+  };
+
   /** 菜单跳转 */
   const handleGoMenu = async (permissions: string[]) => {
     let menuData: SideMenu[] = menuList;
     if (!menuData?.length) {
       menuData = await getMenuData() as SideMenu[];
+    }
+
+    // 如果存在重定向
+    if (search?.includes('?redirect=')) {
+      const url = getRedirectUrl();
+      if (url) {
+        navigate(url);
+        return;
+      }
     }
 
     // 有权限则直接跳转
