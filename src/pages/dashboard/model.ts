@@ -15,19 +15,19 @@ export const searchList = (t: TFunction): FormList[] => [
   {
     label: t('dashboard.gameID'),
     name: 'game_ids',
-    wrapperCol: 200,
+    wrapperWidth: 200,
     component: 'GameSelect',
   },
   {
     label: t('dashboard.cooperativeCompany'),
     name: 'partners',
-    wrapperCol: 200,
+    wrapperWidth: 200,
     component: 'PartnerSelect'
   },
   {
     label: t('dashboard.gameID') + '2',
     name: 'keyword2',
-    wrapperCol: 200,
+    wrapperWidth: 200,
     component: 'ApiSelect',
     componentProps: {
       api: getGames,

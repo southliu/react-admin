@@ -130,15 +130,15 @@ export type FormRule = RuleObject & {
 }
 
 // 表单数据
-export interface FormList extends Omit<FormItemProps, 'labelCol' | 'wrapperCol'> {
+export interface FormList extends FormItemProps {
   name: string | string[]; // 表单域字段
   label: string; // 标签
   placeholder?: string; // 占位符
   hidden?: boolean; // 是否隐藏
   unit?: string; // 单位
   rules?: FormRule[]; // 规则
-  labelCol?: number; // label宽度
-  wrapperCol?: number; // 内容宽度
+  labelWidth?: number; // label宽度
+  wrapperWidth?: number; // 内容宽度
   component: ComponentType; // 组件
   componentProps?: ComponentProps; // 组件参数
   render?: FC; // 自定义渲染

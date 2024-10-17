@@ -108,18 +108,22 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
 
   /** 获取表单label宽度 */
   const getLabelCol = (item?: SearchList) => {
-    if (item?.labelCol) {
-      return { style: { width: item.labelCol } };
+    if (item?.labelWidth) {
+      return { style: { width: item.labelWidth } };
     }
+
+    if (item?.labelCol) return item.labelCol;
 
     return labelCol ? labelCol : { span: 6 };
   };
 
   /** 获取输入间隙 */
   const getWrapperCol = (item?: SearchList) => {
-    if (item?.wrapperCol) {
-      return { style: { width: item.wrapperCol } };
+    if (item?.wrapperWidth) {
+      return { style: { width: item.wrapperWidth } };
     }
+
+    if (item?.wrapperCol) return item.wrapperCol;
 
     return wrapperCol ? wrapperCol : { span: 18 };
   };

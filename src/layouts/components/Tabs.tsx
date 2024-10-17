@@ -83,7 +83,10 @@ function LayoutTabs() {
   }, [currentLanguage]);
 
   useEffect(() => {
-    if (isChangeLang) switchTabsLang(currentLanguage);
+    if (isChangeLang) {
+      switchTabsLang(currentLanguage);
+      setChangeLang(false);
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isChangeLang]);
 

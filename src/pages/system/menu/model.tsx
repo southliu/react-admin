@@ -10,7 +10,7 @@ export const searchList = (t: TFunction): SearchList[] => [
   {
     label: t('system.state'),
     name: 'status',
-    wrapperCol: 100,
+    wrapperWidth: 100,
     component: 'Select',
     componentProps: {
       options: MENU_STATUS(t)
@@ -19,7 +19,7 @@ export const searchList = (t: TFunction): SearchList[] => [
   {
     label: t('system.module'),
     name: 'module',
-    wrapperCol: 170,
+    wrapperWidth: 170,
     component: 'Select',
     componentProps: {
       options: MENU_MODULE(t)
