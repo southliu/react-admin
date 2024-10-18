@@ -39,7 +39,7 @@ pnpm install
 ```
 ##### 如果使用pnpm安装依赖出现安装失败问题，请使用梯子、yarn安装或切换淘宝源。
 ```bash
-pnpm config set registry https://registry.npm.taobao.org/
+pnpm config set registry https://registry.npmmirror.com
 ```
 
 - 运行
