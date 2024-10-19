@@ -11,7 +11,10 @@
 ## 🚀 项目演示
 [演示地址](https://southliu.github.io/)
 
-![image](https://github.com/southliu/react-admin/assets/26358837/5e7e59a8-d836-46ef-ac41-0d2c5de63e6e)
+| ![01.png](https://github.com/southliu/github-static/blob/main/react-admin/01.png) |![02.png](https://github.com/southliu/github-static/blob/main/react-admin/02.png) |
+| --- | --- |
+| ![03.png](https://github.com/southliu/github-static/blob/main/react-admin/03.png) |![04.png](https://github.com/southliu/github-static/blob/main/react-admin/04.png) |
+</div>
 
 ## 💻 安装使用
 
@@ -96,12 +99,12 @@ git push
   4. 公共组件二次封装或常用组件使用**Base**开头，便于区分。
 
 ## 📕 Q&A常见问题
-#### 页面权限如何配置？
+#### 1. 页面权限如何配置？
 1. 通过登录接(/login/v2)或重新授权接口(/authority/user/refresh-permissions/v2)获取permissions权限数据。
 2. 通过菜单接口(/menu/list/v3)获取data中的rule权限数据，这个rule数据影响菜单显示，如果没返回rule则一直都显示。
 3. 页面内权限参考src/pages/system/menu.index.tsx文件内的pagePermission数据，pagePermission.page是显示页面的权限，根据第一点返回的permissions进行匹配。
 
-#### 路由如何配置？
+#### 2. 路由如何配置？
 路由根据文件夹路径自动生成，路径包含以下文件名或文件夹名称则不生成：
 
 * components
@@ -113,7 +116,7 @@ git push
 
 可自行在 src/router/utils/config.ts 修改路由生成规则。
 
-#### 菜单如何配置？
+#### 3. 菜单如何配置？
 提供了两种方式配置菜单：
 1. 动态菜单，通过菜单接口(/menu/list/v3)获取菜单数据。
 2. 静态菜单，需要静态菜单将useCommonStore中的menuList改为defaultMenus
@@ -126,5 +129,12 @@ import { defaultMenus } from '@/menus';
 const menuList = defaultMenus;
 ```
 
-#### @south/xxx依赖在哪查看？
+#### 4. @south/xxx依赖在哪查看？
 通过根目录`packages`文件中查看对于xxx文件的源码进行修改。
+
+## 🧡 捐赠
+如果您觉得这个项目对您有帮助，您可以帮作者买一杯咖啡表示支持!
+
+| 微信 | 支付宝 |
+| --- | --- |
+| <img src="https://github.com/southliu/github-static/blob/main/pay/wechat.jpg" width="250" alt="wechat"> | <img src="https://github.com/southliu/github-static/blob/main/pay/alipay.jpg" width="250" alt="alipay">  |
