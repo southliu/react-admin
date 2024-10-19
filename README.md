@@ -11,10 +11,9 @@
 ## 🚀 项目演示
 [演示地址](https://southliu.github.io/)
 
-| ![01.png](https://github.com/southliu/github-static/blob/main/react-admin/01.png) |![02.png](https://github.com/southliu/github-static/blob/main/react-admin/02.png) |
-| --- | --- |
-| ![03.png](https://github.com/southliu/github-static/blob/main/react-admin/03.png) |![04.png](https://github.com/southliu/github-static/blob/main/react-admin/04.png) |
-</div>
+![01.png](https://github.com/southliu/github-static/blob/main/react-admin/01.png)
+
+![03.png](https://github.com/southliu/github-static/blob/main/react-admin/03.png)
 
 ## 💻 安装使用
 
