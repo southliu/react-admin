@@ -10,8 +10,6 @@ import { DATE_FORMAT, TIME_FORMAT } from '@/utils/config';
 export function handleValuePropName(component: ComponentType): string {
   switch (component) {
     case 'Switch':
-    case 'Checkbox':
-    case 'CheckboxGroup':
       return 'checked';
 
     case 'Upload':
