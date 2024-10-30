@@ -60,5 +60,6 @@
     "languagedetector",
     "locize",
     "zustand",
+    "wechat",
   ]
 }

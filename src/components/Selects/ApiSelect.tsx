@@ -60,10 +60,11 @@ function ApiSelect(props: ApiSelectProps) {
 
   return (
     <Select
-      allowClear={true}
+      allowClear
+      showSearch
       maxTagCount={MAX_TAG_COUNT}
       placeholder={t('public.inputPleaseSelect')}
-      optionFilterProp='label'
+      optionFilterProp={params?.fieldNames?.label || 'label'}
       {...params}
       loading={isLoading}
       options={options}

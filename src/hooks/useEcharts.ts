@@ -29,7 +29,7 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
       // 初始化chart
       if (htmlDivRef.current) {
         echartsRef.current = echarts.init(htmlDivRef.current);
-        echartsRef.current.setOption(options);
+        echartsRef.current.setOption(options, true);
       }
     }
   }, [options]);
@@ -58,7 +58,7 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
 
   useEffect(() => {
     if (data) {
-      echartsRef?.current?.setOption(options);
+      echartsRef?.current?.setOption(options, true);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);

@@ -60,8 +60,10 @@ function ApiTreeSelect(props: ApiTreeSelectProps) {
 
   return (
     <TreeSelect
-      allowClear={true}
+      allowClear
+      showSearch
       maxTagCount={MAX_TAG_COUNT}
+      treeNodeFilterProp={params?.fieldNames?.label || 'label'}
       placeholder={t('public.inputPleaseSelect')}
       {...params}
       loading={isLoading}

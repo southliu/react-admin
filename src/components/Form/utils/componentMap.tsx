@@ -6,8 +6,6 @@ import {
   Input,
   InputNumber,
   AutoComplete,
-  Select,
-  TreeSelect,
   Checkbox,
   Radio,
   Switch,
@@ -21,8 +19,12 @@ import {
   BaseTimePicker,
   BaseTimeRangePicker
 } from '@/components/Dates';
-import ApiSelect from '@/components/Selects/ApiSelect';
-import ApiTreeSelect from '@/components/Selects/ApiTreeSelect';
+import {
+  BaseSelect,
+  BaseTreeSelect,
+  ApiSelect,
+  ApiTreeSelect
+} from '@/components/Selects';
 import BaseTransfer from '@/components/Transfer/BaseTransfer';
 import PasswordStrength from '@/components/PasswordStrength';
 import WangEditor from '@/components/WangEditor';
@@ -35,8 +37,8 @@ componentMap.set('TextArea', Input.TextArea);
 componentMap.set('InputNumber', InputNumber);
 componentMap.set('InputPassword', Input.Password);
 componentMap.set('AutoComplete', AutoComplete);
-componentMap.set('Select', Select);
-componentMap.set('TreeSelect', TreeSelect);
+componentMap.set('Select', BaseSelect);
+componentMap.set('TreeSelect', BaseTreeSelect);
 componentMap.set('Checkbox', Checkbox);
 componentMap.set('CheckboxGroup', Checkbox.Group);
 componentMap.set('RadioGroup', Radio.Group);

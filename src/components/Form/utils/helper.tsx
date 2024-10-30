@@ -32,17 +32,20 @@ export function initCompProps(
   switch (component) {
     // 下拉框
     case 'Select':
-      return {
-        allowClear: true,
-        placeholder: t('public.inputPleaseSelect')
-      };
+    return {
+      allowClear: true,
+      showSearch: true,
+      optionFilterProp: 'label',
+      placeholder: t('public.inputPleaseSelect')
+    };
 
-    // 输入框
-    case 'Input':
+    // 树形下拉框
+    case 'TreeSelect':
       return {
         allowClear: true,
-        placeholder: t('public.inputPleaseEnter'),
-        onPressEnter
+        showSearch: true,
+        treeNodeFilterProp: 'label',
+        placeholder: t('public.inputPleaseSelect')
       };
 
     // 数字框
