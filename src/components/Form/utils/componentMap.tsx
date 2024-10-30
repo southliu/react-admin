@@ -27,7 +27,6 @@ import {
 } from '@/components/Selects';
 import BaseTransfer from '@/components/Transfer/BaseTransfer';
 import PasswordStrength from '@/components/PasswordStrength';
-import WangEditor from '@/components/WangEditor';
 
 const componentMap = new Map();
 
@@ -54,7 +53,6 @@ componentMap.set('TimeRangePicker', BaseTimeRangePicker);
 componentMap.set('ApiSelect', ApiSelect);
 componentMap.set('ApiTreeSelect', ApiTreeSelect);
 componentMap.set('PasswordStrength', PasswordStrength);
-componentMap.set('Editor', WangEditor);
 
 // 业务组件注入
 CreateBusiness();
