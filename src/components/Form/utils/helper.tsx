@@ -1,6 +1,7 @@
 import type { TFunction } from 'i18next';
 import type { FormItemProps } from 'antd';
 import type { ComponentProps, ComponentType, FormList } from '#/form';
+import { cloneDeep } from 'lodash';
 import { DATE_FORMAT, TIME_FORMAT } from '@/utils/config';
 
 /**
@@ -104,7 +105,7 @@ export function initCompProps(
  * @param data - 表单数据
  */
 export const filterFormItem = (data: FormList): FormItemProps => {
-  const result = JSON.parse(JSON.stringify(data));
+  const result = cloneDeep(data);
   delete result.componentProps;
 
   return result as FormItemProps;

@@ -1,5 +1,6 @@
 import type { SideMenu } from '#/public';
 import type { Langs } from '@/components/I18n';
+import { cloneDeep } from 'lodash';
 import { LANG } from '@/utils/config';
 
 /**
@@ -295,7 +296,7 @@ export function filterMenus(
   permissions: string[]
 ): SideMenu[] {
   const result: SideMenu[] = [];
-  const newMenus = JSON.parse(JSON.stringify(menus));
+  const newMenus = cloneDeep(menus);
   const lang = localStorage.getItem(LANG);
 
   for (let i = 0; i < newMenus.length; i++) {
