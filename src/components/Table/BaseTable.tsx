@@ -1,6 +1,6 @@
 import type { ResizeCallbackData } from 'react-resizable';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
-import { type TableProps, Table, Skeleton, Button, message } from 'antd';
+import { type TableProps, Table, Button, message } from 'antd';
 import { useMemo, useState, useEffect, useRef } from 'react';
 import { useFiler } from './hooks/useFiler';
 import { PlusOutlined, RedoOutlined } from '@ant-design/icons';
@@ -19,6 +19,7 @@ interface Props extends Omit<TableProps<object>, 'bordered'> {
   isZebra?: boolean; // 是否开启斑马线
   isVirtual?: boolean; // 是否开启虚拟滚动
   isOperate?: boolean; // 是否开启顶部操作栏
+  isAuthHeight?: boolean; // 是否自动计算高度
   isCreate?: boolean;
   scrollX?: number;
   scrollY?: number;
@@ -36,6 +37,7 @@ function BaseTable(props: Props) {
     isZebra = true,
     isBordered = true,
     isOperate = true,
+    isAuthHeight,
     scrollX,
     scrollY,
     rowClassName,
@@ -149,7 +151,7 @@ function BaseTable(props: Props) {
   const scroll = {
     ...props.scroll,
     x: scrollX ?? 'max-content',
-    y: scrollY || tableHeight || undefined
+    y: scrollY ?? (isAuthHeight ? tableHeight : undefined),
   };
 
   /**
@@ -211,34 +213,27 @@ function BaseTable(props: Props) {
           </div>
         </div>
       }
-      {
-        !tableHeight &&
-        <Skeleton />
-      }
-      {
-        tableHeight &&
-        <div ref={tableRef}>
-          <Table
-            size='small'
-            rowKey='id'
-            pagination={false}
-            loading={isLoading}
-            {...props}
-            rowClassName={handleRowClassName}
-            style={{
-              borderRadius: 10,
-              borderRight: '1px solid rgba(0, 0, 0, .05)',
-              borderBottom: '1px solid rgba(0, 0, 0, .05)',
-              overflow: 'auto',
-              ...props.style
-            }}
-            bordered={isBordered !== false}
-            scroll={scroll}
-            components={components}
-            columns={mergeColumns() as ColumnsType<object>}
-          />
-        </div>
-      }
+      <div ref={tableRef}>
+        <Table
+          size='small'
+          rowKey='id'
+          pagination={false}
+          loading={isLoading}
+          {...props}
+          rowClassName={handleRowClassName}
+          style={{
+            borderRadius: 10,
+            borderRight: '1px solid rgba(0, 0, 0, .05)',
+            borderBottom: '1px solid rgba(0, 0, 0, .05)',
+            overflow: 'auto',
+            ...props.style
+          }}
+          bordered={isBordered !== false}
+          scroll={scroll}
+          components={components}
+          columns={mergeColumns() as ColumnsType<object>}
+        />
+      </div>
     </div>
   );
 }
