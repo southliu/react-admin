@@ -5,6 +5,7 @@ import {
   Popover,
   Divider,
   Checkbox,
+  message,
 } from 'antd';
 import { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
@@ -81,6 +82,12 @@ function FilterButton(props: Props) {
 
   /** 处理筛选 */
   const handleFilter = () => {
+    if (!checkedList?.length) {
+      return message.warning({
+        content: t('public.checkAllWarning'),
+        key: 'filter',
+      });
+    }
     handleClick();
     getTableChecks(checkedList);
   };

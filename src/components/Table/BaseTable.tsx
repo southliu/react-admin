@@ -111,6 +111,13 @@ function BaseTable(props: Props) {
   const mergeColumns = () => {
     const newColumns = handleFilterTable(columns, tableFilters);
     const result = newColumns.map((col, index) => ({
+      onCell: () => {
+        return {
+          style: {
+            width: col.width,
+          }
+        };
+      },
       ...col,
       onHeaderCell: (column: ColumnType<object>) => ({
         width: column.width,

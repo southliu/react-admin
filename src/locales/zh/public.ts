@@ -18,6 +18,7 @@ export default {
   successfulOperation: '操作成功',
   successfullyDeleted: '删除成功',
   checkAll: '全选',
+  checkAllWarning: '表格筛选必须勾选一个',
   fullScreen: '全屏',
   exitFullscreen: '退出全屏',
   themes: '主题模式',
