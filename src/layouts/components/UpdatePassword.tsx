@@ -5,7 +5,7 @@ import { Form, Input, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { updatePassword } from '@/servers/login';
 import { PASSWORD_RULE } from '@/utils/config';
-import BaseModal from '@/components/Modal/BasicModal';
+import BaseModal from '@/components/Modal/BaseModal';
 import PasswordStrength from '@/components/PasswordStrength';
 
 export interface PasswordModal {

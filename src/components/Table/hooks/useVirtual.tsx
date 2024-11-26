@@ -12,7 +12,7 @@ import { reducer } from '../utils/reducer';
 import { isNumber } from '@/utils/is';
 import { ScrollContext } from '../utils/state';
 import { handleRowHeight } from '../utils/helper';
-import { useThrottleFn } from 'ahooks';
+import { throttle } from 'lodash';
 import VirtualWrapper from '../components/VirtualWrapper';
 
 const initialState: InitTableState = {
@@ -125,7 +125,7 @@ function VirtualTable(props: VirtualTableProps) {
   }, [totalLen]);
 
   /** 滑动节流 */
-  const throttleScroll = useThrottleFn((e: Event) => {
+  const throttleScroll = throttle((e: Event) => {
     const scrollTop: number = (e?.target as HTMLElement)?.scrollTop ?? 0;
 
     if (scrollTop !== state.curScrollTop) {
@@ -137,17 +137,17 @@ function VirtualTable(props: VirtualTableProps) {
         tableScrollY
       });
     }
-  }, { wait: 60 });
+  }, 60);
 
   useEffect(() => {
     const ref = wrapTableRef?.current?.parentNode as HTMLElement;
 
     if (ref) {
-      ref.addEventListener('scroll', e => throttleScroll.run(e));
+      ref.addEventListener('scroll', e => throttleScroll(e));
     }
 
     return () => {
-      ref.removeEventListener('scroll', e => throttleScroll.run(e));
+      ref.removeEventListener('scroll', e => throttleScroll(e));
     };
   }, [
     wrapTableRef,

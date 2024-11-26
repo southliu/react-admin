@@ -22,7 +22,6 @@
     "@south/utils": "workspace:^",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-react": "^1.0.6",
-    "ahooks": "^3.7.11",
     "antd": "^5.20.2",
     "axios": "^1.6.8",
     "dayjs": "^1.11.10",

@@ -65,4 +65,5 @@ export default {
   createMethodWarning: '新增组件缺少对应方法',
   getPageWarning: '缺少获取页面方法',
   tableSelectWarning: '请勾选表格数据',
+  menuSearchPlaceholder: '请输入菜单名称',
 };

@@ -17,7 +17,7 @@ import {
 } from '@/servers/system/menu';
 import BaseContent from '@/components/Content/BaseContent';
 import BaseSearch from '@/components/Search/BaseSearch';
-import BaseModal from '@/components/Modal/BasicModal';
+import BaseModal from '@/components/Modal/BaseModal';
 import BaseForm from '@/components/Form/BaseForm';
 import BaseTable from '@/components/Table/BaseTable';
 import BasePagination from '@/components/Pagination/BasePagination';

@@ -11,9 +11,9 @@
 ## 🚀 项目演示
 [演示地址](https://southliu.github.io/)
 
-![01.png](https://github.com/southliu/github-static/blob/main/react-admin/01.png)
+![01.gif](https://github.com/southliu/github-static/blob/main/react-admin/01.gif)
 
-![03.png](https://github.com/southliu/github-static/blob/main/react-admin/03.png)
+![02.gif](https://github.com/southliu/github-static/blob/main/react-admin/02.gif)
 
 ## 💻 安装使用
 

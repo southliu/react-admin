@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useOutlet } from 'react-router-dom';
 import { Skeleton, message } from 'antd';
 import { Icon } from '@iconify/react';
-import { useDebounceFn } from 'ahooks';
+import { debounce } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import { versionCheck } from './utils/helper';
 import { getPermissions } from '@/servers/permissions';
@@ -88,19 +88,19 @@ function Layout() {
   }, [pathname]);
 
   /** 判断是否是手机端 */
-  const handleIsPhone = useDebounceFn(() => {
+  const handleIsPhone = debounce(() => {
     const isPhone = window.innerWidth <= 768;
     // 手机首次进来收缩菜单
     if (isPhone) toggleCollapsed(true);
     togglePhone(isPhone);
-  }, { wait: 500 });
+  }, 500);
 
   // 监听是否是手机端
   useEffect(() => {
-    window.addEventListener('resize', handleIsPhone.run());
+    window.addEventListener('resize', handleIsPhone);
 
     return () => {
-      window.removeEventListener('resize', handleIsPhone.run());
+      window.removeEventListener('resize', handleIsPhone);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

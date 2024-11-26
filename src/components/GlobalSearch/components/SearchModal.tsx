@@ -2,9 +2,9 @@ import type { SideMenu } from '#/public';
 import type { InputProps, InputRef } from 'antd';
 import { Ref, useImperativeHandle, useLayoutEffect } from 'react';
 import { useEffect, useRef, useState } from 'react';
+import { debounce } from 'lodash';
 import { Modal, Input } from 'antd';
 import { Icon } from '@iconify/react';
-import { useDebounceFn } from 'ahooks';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useKeyStroke } from '@/hooks/useKeyStroke';
@@ -101,7 +101,7 @@ function SearchModal(props: Props) {
    * 防抖处理搜索结果
    * @param value - 搜索值
    */
-  const debounceSearch = useDebounceFn((value: string) => {
+  const debounceSearch = debounce((value: string) => {
     const searchProps = { menus: menuList, permissions, value };
     const searchValue = searchMenuValue(searchProps);
     if (searchValue?.length) {
@@ -111,7 +111,7 @@ function SearchModal(props: Props) {
       setActive('');
       setList([]);
     }
-  }, { wait: 200 });
+  }, 200);
 
   /**
    * 防抖处理值变化值变化
@@ -120,7 +120,7 @@ function SearchModal(props: Props) {
   const onChange: InputProps['onChange'] = event => {
     const { value } = event.target;
     setValue(value);
-    debounceSearch.run(value);
+    debounceSearch(value);
   };
 
   /** 键盘上事件 */
@@ -177,7 +177,7 @@ function SearchModal(props: Props) {
       <Input
         ref={inputRef}
         value={value}
-        placeholder={t('public.inputPleaseEnter')}
+        placeholder={t('public.menuSearchPlaceholder')}
         allowClear={true}
         prefix={<Icon
           className="text-lg text-warm-gray-400"

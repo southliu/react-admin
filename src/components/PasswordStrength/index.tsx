@@ -1,7 +1,7 @@
 import type { InputProps } from 'antd';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDebounceFn } from 'ahooks';
+import { debounce } from 'lodash';
 import { Input } from 'antd';
 import StrengthBar from './components/StrengthBar';
 
@@ -17,7 +17,7 @@ function PasswordStrength(props: InputProps) {
    * 密码强度判断
    * @param value - 值
    */
-  const handleStrength = useDebounceFn((value: string) => {
+  const handleStrength = debounce((value: string) => {
     if (!value) return;
     let level = 0;
     if (/\d/.test(value)) level++; // 有数字强度加1
@@ -26,11 +26,11 @@ function PasswordStrength(props: InputProps) {
     if (value.length > 10) level++; // 长度大于10强度加1
     if (/[\.\~\@\#\$\^\&\*]/.test(value)) level++; // 有以下特殊字符强度加1
     setStrength(level);
-  }, { wait: 500 });
+  }, 500);
 
   // 监听传入值变化
   useEffect(() => {
-    handleStrength.run(value as string);
+    handleStrength(value as string);
   }, [handleStrength, value]);
 
   return (
@@ -43,7 +43,7 @@ function PasswordStrength(props: InputProps) {
         {...props}
         onChange={e => {
           props.onChange?.(e);
-          handleStrength.run(e.target.value);
+          handleStrength(e.target.value);
         }}
       />
 

@@ -65,4 +65,5 @@ export default {
   createMethodWarning: 'The new component lacks a corresponding method',
   getPageWarning: 'Missing page acquisition method',
   tableSelectWarning: 'Please select table data',
+  menuSearchPlaceholder: 'Please enter the menu name',
 };
