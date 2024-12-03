@@ -20,7 +20,7 @@ interface Props extends FormProps {
   handleFinish: FormProps['onFinish'];
 }
 
-const BasicForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
+const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const {
     list,
     data,
@@ -118,4 +118,4 @@ const BasicForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   );
 });
 
-export default BasicForm;
+export default BaseForm;
