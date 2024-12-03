@@ -53,6 +53,11 @@ export const searchList = (t: TFunction): SearchList[] => [
     {
       title: t('public.name'),
       dataIndex: 'real_name',
+      width: 200
+    },
+    {
+      title: 'URL',
+      dataIndex: 'url',
       width: 400
     },
     {
@@ -68,7 +73,7 @@ export const searchList = (t: TFunction): SearchList[] => [
     {
       title: t('system.state'),
       dataIndex: 'status',
-      width: 200,
+      width: 400,
       render: (value: boolean) => (
         <span>{ value ? t('public.open') : t('public.close') }</span>
       )

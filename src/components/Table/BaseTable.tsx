@@ -1,10 +1,11 @@
 import type { ResizeCallbackData } from 'react-resizable';
-import type { ColumnsType, ColumnType } from 'antd/es/table';
+import type { ColumnsType } from 'antd/es/table';
 import { type TableProps, Table, Button, message } from 'antd';
 import { useMemo, useState, useEffect, useRef } from 'react';
 import { useFiler } from './hooks/useFiler';
-import { PlusOutlined, RedoOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
+import { EMPTY_VALUE } from '@/utils/config';
+import { PlusOutlined, RedoOutlined } from '@ant-design/icons';
 import { getTableHeight, handleRowHeight, filterTableColumns } from './utils/helper';
 import ResizableTitle from './components/ResizableTitle';
 import useVirtualTable from './hooks/useVirtual';
@@ -110,19 +111,31 @@ function BaseTable(props: Props) {
   // 合并列表
   const mergeColumns = () => {
     const newColumns = handleFilterTable(columns, tableFilters);
+    if (!newColumns) return [];
     const result = newColumns.map((col, index) => ({
-      onCell: () => {
-        return {
-          style: {
-            width: col.width,
-          }
-        };
-      },
       ...col,
-      onHeaderCell: (column: ColumnType<object>) => ({
-        width: column.width,
+      onHeaderCell: (column: object, i: number) => ({
+        ...col?.onHeaderCell?.(column, i),
+        width: col.width,
         onResize: handleResize(index),
       }),
+      render: (value: unknown, record: object, index: number) => {
+        const renderContent = col?.render?.(value, record, index) as JSX.Element;
+
+        if (typeof renderContent === 'string' && col.ellipsis !== false) {
+          return (
+            <span
+              style={{ maxWidth: col.width }}
+              className="ellipsis break-all"
+              title={String(value)}
+            >
+              { String(value) || EMPTY_VALUE }
+            </span>
+          );
+        }
+
+        return renderContent;
+      },
     }));
 
     return result;

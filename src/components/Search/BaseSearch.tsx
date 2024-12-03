@@ -1,6 +1,6 @@
 import type { ColProps, FormInstance } from 'antd';
 import type { FormData, FormList, SearchList } from '#/form';
-import { type LegacyRef, ReactNode, forwardRef, useEffect, useState } from 'react';
+import { type CSSProperties, type LegacyRef, ReactNode, forwardRef, useEffect, useState } from 'react';
 import { type FormProps, Button, Col, Flex } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +15,8 @@ interface Props extends FormProps {
   isLoading?: boolean;
   isSearch?: boolean;
   isClear?: boolean;
+  style?: CSSProperties;
+  className?: string;
   children?: ReactNode;
   labelCol?: Partial<ColProps>;
   wrapperCol?: Partial<ColProps>;
@@ -32,6 +34,8 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     isSearch = true,
     isClear = true,
     isRowExpand = true,
+    style,
+    className,
     children,
     labelCol,
     wrapperCol,
@@ -149,7 +153,11 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   };
 
   return (
-    <div id="searches">
+    <div
+      id="searches"
+      style={style}
+      className={className}
+    >
       <Form
         layout="inline"
         {...formProps}

@@ -1,4 +1,4 @@
-import type { LegacyRef, ReactNode } from 'react';
+import type { CSSProperties, LegacyRef, ReactNode } from 'react';
 import type { FormData, FormList } from '#/form';
 import type { ColProps, FormInstance } from 'antd';
 import { forwardRef, useEffect } from 'react';
@@ -12,16 +12,20 @@ import { filterDayjs } from '../Dates/utils/helper';
 interface Props extends FormProps {
   list: FormList[];
   data: FormData;
+  style?: CSSProperties;
+  className?: string;
   children?: ReactNode;
   labelCol?: Partial<ColProps>;
   wrapperCol?: Partial<ColProps>;
   handleFinish: FormProps['onFinish'];
 }
 
-const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
+const BasicForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const {
     list,
     data,
+    style,
+    className,
     children,
     labelCol,
     wrapperCol,
@@ -79,7 +83,7 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   };
 
   return (
-    <div>
+    <div className={className} style={style}>
       <Form
         {...formProps}
         ref={ref}
@@ -114,4 +118,4 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   );
 });
 
-export default BaseForm;
+export default BasicForm;
