@@ -8,7 +8,7 @@ interface ViteEnv {
 
 /**
  * 处理转化env
- * @param envConfigs 
+ * @param envConfigs
  */
 export function handleEnv(envConfigs: EnvConfigs): ViteEnv {
   const {

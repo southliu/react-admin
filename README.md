@@ -131,6 +131,9 @@ const menuList = defaultMenus;
 #### 4. @south/xxx依赖在哪查看？
 通过根目录`packages`文件中查看对于xxx文件的源码进行修改。
 
+#### 5. 安装新依赖时报错？
+使用了monorepo项目安装新依赖时需要在后面添加`-w`或`--workspace`，否则会报错，比如：`pnpm i mobx -w`。
+
 ## 🧡 捐赠
 如果您觉得这个项目对您有帮助，您可以帮作者买一杯咖啡表示支持!
 
