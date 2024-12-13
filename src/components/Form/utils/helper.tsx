@@ -33,12 +33,12 @@ export function initCompProps(
   switch (component) {
     // 下拉框
     case 'Select':
-    return {
-      allowClear: true,
-      showSearch: true,
-      optionFilterProp: 'label',
-      placeholder: t('public.inputPleaseSelect')
-    };
+      return {
+        allowClear: true,
+        showSearch: true,
+        optionFilterProp: 'label',
+        placeholder: t('public.inputPleaseSelect')
+      };
 
     // 树形下拉框
     case 'TreeSelect':

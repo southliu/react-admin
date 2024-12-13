@@ -326,6 +326,7 @@ function Page() {
         <BaseSearch
           list={searchList(t)}
           data={searchData}
+          type='grid'
           isLoading={isLoading}
           handleFinish={onSearch}
         />

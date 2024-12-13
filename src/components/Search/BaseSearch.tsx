@@ -12,11 +12,13 @@ import { SearchOutlined, ClearOutlined, DownOutlined } from '@ant-design/icons';
 interface Props extends FormProps {
   list: SearchList[];
   data: FormData;
+  initSearch?: FormData;
   isLoading?: boolean;
   isSearch?: boolean;
   isClear?: boolean;
   style?: CSSProperties;
   className?: string;
+  type?: 'default' | 'grid';
   children?: ReactNode;
   labelCol?: Partial<ColProps>;
   wrapperCol?: Partial<ColProps>;
@@ -30,10 +32,12 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const {
     list,
     data,
+    initSearch,
     isLoading,
     isSearch = true,
     isClear = true,
     isRowExpand = true,
+    type = 'default',
     style,
     className,
     children,
@@ -46,6 +50,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
   const [isExpand, setExpand] = useState(false);
+  const [isFirst, setFirst] = useState(true);
   const [isShowExpand, setShowExpand] = useState(isRowExpand);
 
   useEffect(() => {
@@ -57,11 +62,25 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     }
   }, [defaultColCount, defaultRowExpand, isRowExpand, list.length]);
 
+  // 初始化内容
+  useEffect(() => {
+    try {
+      if (Object.keys(data).length) {
+        setFirst(false);
+        form.setFieldsValue({ ...data });
+      }
+    } catch (e) {
+      console.warn('传入的搜索数据不是一个对象');
+    }
+  }, [data, form, isFirst]);
+
   // 清除多余参数
   const formProps = { ...props };
+  delete formProps.type;
   delete formProps.isSearch;
   delete formProps.isClear;
   delete formProps.isLoading;
+  delete formProps.initSearch;
   delete formProps.handleFinish;
 
   /** 回车处理 */
@@ -72,8 +91,13 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   /** 点击清除 */
   const onClear = () => {
     form?.resetFields();
-    form?.setFieldsValue(data ? { ...data } : {});
+    form?.setFieldsValue(initSearch ? { ...initSearch } : {});
     form?.submit();
+
+    // if (handleFinish) {
+    //   // 将dayjs类型转为字符串
+    //   handleFinish?.(initSearch || {});
+    // }
   };
 
   /** 获取搜索按钮flex状态 */
@@ -117,8 +141,9 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     }
 
     if (item?.labelCol) return item.labelCol;
+    if (labelCol) return labelCol;
 
-    return labelCol ? labelCol : { span: 6 };
+    return type === 'grid' ? { span: 6 } : undefined;
   };
 
   /** 获取输入间隙 */
@@ -128,8 +153,9 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     }
 
     if (item?.wrapperCol) return item.wrapperCol;
+    if (wrapperCol) return wrapperCol;
 
-    return wrapperCol ? wrapperCol : { span: 18 };
+    return type === 'grid' ? { span: 18 } : undefined;
   };
 
   /**
@@ -152,6 +178,55 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     console.warn('搜索错误:', errorInfo);
   };
 
+  /** 渲染按钮列表 */
+  const renderBtnList = (
+    <div className='flex items-center flex-wrap'>
+      {
+        !!isSearch &&
+        <Form.Item>
+          <Button
+            type='primary'
+            htmlType='submit'
+            className='!mb-5px'
+            loading={isLoading}
+            icon={<SearchOutlined />}
+          >
+            { t('public.search') }
+          </Button>
+        </Form.Item>
+      }
+
+      {
+        !!isClear &&
+        <Form.Item>
+          <Button
+            className='!mb-5px'
+            icon={<ClearOutlined />}
+            onClick={onClear}
+          >
+            { t('public.clear') }
+          </Button>
+        </Form.Item>
+      }
+
+      { children }
+
+      {
+        type === 'grid' &&
+        !!isShowExpand &&
+        <div
+          className='text-12px cursor-pointer color-#1677ff hover:color-#69b1ff'
+          onClick={() => {
+            setExpand(!isExpand);
+          }}
+        >
+          <DownOutlined rotate={ isExpand ? 180 : 0 } />
+          { isExpand ? '收缩' : '展开' }
+        </div>
+      }
+    </div>
+  );
+
   return (
     <div
       id="searches"
@@ -163,19 +238,17 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
         {...formProps}
         ref={ref}
         form={form}
-        initialValues={data}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <Flex wrap className='w-full'>
-          {
-            filterList(list)?.map(item => (
-              <div
-                key={`${item.name}`}
-                style={{ width: item.hidden ? 0 : `${100 / defaultColCount}%` }}
-              >
+        {
+          type === 'default' &&
+          <>
+            {
+              list?.map(item => (
                 <Form.Item
+                  key={`${item.name}`}
                   label={item.label}
                   name={item.name}
                   className='!mb-5px'
@@ -187,59 +260,44 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
                 >
                   { getComponent(t, item, onPressEnter) }
                 </Form.Item>
-              </div>
-            ))
-          }
+              ))
+            }
+            { renderBtnList }
+          </>
+        }
 
-          <Col flex={getFlexCol()}>
-            <Flex justify='flex-end'>
-              <div className='flex items-center flex-wrap'>
-                {
-                  !!isSearch &&
-                  <Form.Item>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      className='!mb-5px'
-                      loading={isLoading}
-                      icon={<SearchOutlined />}
-                    >
-                      { t('public.search') }
-                    </Button>
-                  </Form.Item>
-                }
-
-                {
-                  !!isClear &&
-                  <Form.Item>
-                    <Button
-                      className='!mb-5px'
-                      icon={<ClearOutlined />}
-                      onClick={onClear}
-                    >
-                      { t('public.clear') }
-                    </Button>
-                  </Form.Item>
-                }
-
-                { children }
-
-                {
-                  !!isShowExpand &&
-                  <div
-                    className='text-12px cursor-pointer color-#1677ff hover:color-#69b1ff'
-                    onClick={() => {
-                      setExpand(!isExpand);
-                    }}
+        {
+          type === 'grid' &&
+          <Flex wrap className='w-full'>
+            {
+              filterList(list)?.map(item => (
+                <div
+                  key={`${item.name}`}
+                  style={{ width: item.hidden ? 0 : `${100 / defaultColCount}%` }}
+                >
+                  <Form.Item
+                    label={item.label}
+                    name={item.name}
+                    className='!mb-5px'
+                    hidden={item.hidden}
+                    labelCol={getLabelCol(item)}
+                    wrapperCol={getWrapperCol(item)}
+                    rules={item.rules}
+                    valuePropName={handleValuePropName(item.component)}
                   >
-                    <DownOutlined rotate={ isExpand ? 180 : 0 } />
-                    { isExpand ? '收缩' : '展开' }
-                  </div>
-                }
-              </div>
-            </Flex>
-          </Col>
-        </Flex>
+                    { getComponent(t, item, onPressEnter) }
+                  </Form.Item>
+                </div>
+              ))
+            }
+
+            <Col flex={getFlexCol()}>
+              <Flex justify='flex-end'>
+                { renderBtnList }
+              </Flex>
+            </Col>
+          </Flex>
+        }
       </Form>
     </div>
   );
