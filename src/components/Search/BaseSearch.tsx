@@ -209,7 +209,14 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
         </Form.Item>
       }
 
-      { children }
+      {
+        children &&
+        <Form.Item>
+          <div className='!mb-5px'>
+            { children }
+          </div>
+        </Form.Item>
+      }
 
       {
         type === 'grid' &&
