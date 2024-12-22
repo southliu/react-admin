@@ -50,7 +50,7 @@ export interface ColumnsEnum {
 
 // 表格列数据
 export interface TableColumn<T = object> extends ColumnType<T> {
-  enum?: ColumnsEnum[];
+  enum?: ColumnsEnum[] | Record<string, unknown>;
   children?: TableColumn<T>[];
 }
 

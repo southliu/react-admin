@@ -124,15 +124,24 @@ function BaseTable(props: Props) {
       render: (value: unknown, record: object, index: number) => {
         const renderContent = col?.render?.(value, record, index) as JSX.Element;
         let showValue = value, color: string | undefined = undefined;
-        const enumList = (col as TableColumn)?.enum || [];
+        const enumList = (col as TableColumn)?.enum;
 
-        if (enumList && Array.isArray(enumList)) {
-          for (let i = 0; i < enumList?.length; i++) {
-            const item = enumList[i];
-            if (item.value === value) {
-              showValue = item.label;
-              color = item.color;
-              break;
+        if (enumList && typeof enumList === 'object') {
+          if (Array.isArray(enumList)) {
+            for (let i = 0; i < enumList?.length; i++) {
+              const item = enumList[i];
+              if (item.value === value) {
+                showValue = item.label;
+                color = item.color;
+                break;
+              }
+            }
+          } else {
+            for (const key in enumList) {
+              if (key === value) {
+                showValue = enumList[key];
+                break;
+              }
             }
           }
         }
@@ -144,7 +153,7 @@ function BaseTable(props: Props) {
               className="ellipsis break-all"
               title={showValue as string}
             >
-              { String(showValue) || EMPTY_VALUE }
+              { String(showValue ?? EMPTY_VALUE) }
             </span>
           );
         }
