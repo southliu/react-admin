@@ -36,7 +36,7 @@ export const searchList = (t: TFunction): SearchList[] => [
  * 表格数据
  * @param optionRender - 渲染操作函数
  */
- export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): TableColumn => {
+ export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): TableColumn[] => {
   return [
     {
       title: 'ID',
@@ -74,9 +74,10 @@ export const searchList = (t: TFunction): SearchList[] => [
       title: t('system.state'),
       dataIndex: 'status',
       width: 400,
-      render: (value: boolean) => (
-        <span>{ value ? t('public.open') : t('public.close') }</span>
-      )
+      enum: [
+        { label: '启用', value: 1, color: 'green' },
+        { label: '禁用', value: 0, color: 'red' }
+      ]
     },
     {
       title: t('public.operate'),

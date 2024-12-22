@@ -1,5 +1,5 @@
+import type { TableColumn } from '#/public';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
-import type { ColumnsType } from 'antd/es/table';
 import { EMPTY_VALUE } from '@/utils/config';
 
 /** 计算表格高度 */
@@ -41,8 +41,8 @@ export function handleRowHeight(size: SizeType): number {
  * 表格处理，表头超出隐藏，空值转为‘-’
  * @param columns - 表格数据
  */
-export function filterTableColumns(columns: ColumnsType<object>) {
-  for (let i = 0; i < columns.length; i++) {
+export function filterTableColumns(columns: TableColumn[]) {
+  for (let i = 0; i < columns?.length; i++) {
     const element = columns[i];
     if (element.ellipsis === undefined) {
       element.ellipsis = true;

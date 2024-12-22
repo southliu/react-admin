@@ -22,7 +22,7 @@ export const searchList = (t: TFunction): SearchList[] => [
  * 表格数据
  * @param optionRender - 渲染操作函数
  */
-export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): TableColumn => {
+export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): TableColumn[] => {
   return [
     {
       title: 'ID',

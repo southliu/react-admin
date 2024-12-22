@@ -1,5 +1,6 @@
 import type { ResizeCallbackData } from 'react-resizable';
 import type { ColumnsType } from 'antd/es/table';
+import type { TableColumn } from '#/public';
 import { type TableProps, Table, Button, message } from 'antd';
 import { useMemo, useState, useEffect, useRef } from 'react';
 import { useFiler } from './hooks/useFiler';
@@ -50,7 +51,7 @@ function BaseTable(props: Props) {
   } = props;
   const { t } = useTranslation();
   const [handleFilterTable] = useFiler();
-  const [columns, setColumns] = useState(filterTableColumns(props.columns as ColumnsType<object>));
+  const [columns, setColumns] = useState(filterTableColumns(props.columns as TableColumn[]));
   const tableRef = useRef<HTMLDivElement>(null);
   const [tableFilters, setTableFilters] = useState<string[]>([]);
 
@@ -61,9 +62,10 @@ function BaseTable(props: Props) {
   delete params.isCreate;
   delete params.isBordered;
   delete params.isOperate;
+  delete (params as TableColumn).enum;
 
   useEffect(() => {
-    setColumns(filterTableColumns(props.columns as ColumnsType<object>));
+    setColumns(filterTableColumns(props.columns as TableColumn[]));
   }, [props.columns]);
 
   // 添加新增缺少方法警告
@@ -121,15 +123,28 @@ function BaseTable(props: Props) {
       }),
       render: (value: unknown, record: object, index: number) => {
         const renderContent = col?.render?.(value, record, index) as JSX.Element;
+        let showValue = value, color: string | undefined = undefined;
+        const enumList = (col as TableColumn)?.enum || [];
 
-        if (typeof renderContent === 'string' && col.ellipsis !== false) {
+        if (enumList && Array.isArray(enumList)) {
+          for (let i = 0; i < enumList?.length; i++) {
+            const item = enumList[i];
+            if (item.value === value) {
+              showValue = item.label;
+              color = item.color;
+              break;
+            }
+          }
+        }
+
+        if (!['object', 'function'].includes(typeof renderContent)) {
           return (
             <span
-              style={{ maxWidth: col.width }}
+              style={{ maxWidth: col.width, color }}
               className="ellipsis break-all"
-              title={String(value)}
+              title={showValue as string}
             >
-              { String(value) || EMPTY_VALUE }
+              { String(showValue) || EMPTY_VALUE }
             </span>
           );
         }
