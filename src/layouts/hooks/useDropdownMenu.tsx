@@ -94,7 +94,7 @@ export function useDropdownMenu(props: Props) {
 
       // 关闭其他
       case ITabEnums.CLOSE_OTHER:
-        closeOther(key);
+        closeOther(key, navigate);
         break;
 
       // 关闭左侧
