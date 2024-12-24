@@ -7,20 +7,20 @@ import BaseContent from '@/components/Content/BaseContent';
 
 function VirtualScroll() {
   const { t } = useTranslation();
-  const { permissions } = useCommonStore();
+  const { permissions, isPhone } = useCommonStore();
   const isPermission = checkPermission('/demo/virtualScroll', permissions);
 
   return (
     <BaseContent isPermission={isPermission}>
-      <div className='flex px-30px h-full py-5 bg'>
-        <div className='flex flex-col mr-30px'>
+      <div className={`flex overflow-auto ${isPhone ? 'flex-wrap' : ''} px-30px h-full py-5 bg`}>
+        <div className='flex flex-col mr-30px mb-20px'>
           <h2>{ t('content.virtualScroll1') }：</h2>
           <div className='h-500px w-300px'>
             <VirtualList />
           </div>
         </div>
 
-        <div>
+        <div className='overflow-auto'>
           <h2>{ t('content.virtualScroll2') }：</h2>
           <VirtualTable />
         </div>

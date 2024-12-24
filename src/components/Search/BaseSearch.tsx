@@ -5,6 +5,7 @@ import { type FormProps, Button, Col, Flex } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { filterDayjs } from '@/components/Dates';
+import { useCommonStore } from '@/hooks/useCommonStore';
 import { getComponent } from '@/components/Form/utils/componentMap';
 import { handleValuePropName } from '@/components/Form/utils/helper';
 import { SearchOutlined, ClearOutlined, DownOutlined } from '@ant-design/icons';
@@ -48,6 +49,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     handleFinish
   } = props;
   const { t } = useTranslation();
+  const { isPhone } = useCommonStore();
   const [form] = Form.useForm();
   const [isExpand, setExpand] = useState(false);
   const [isFirst, setFirst] = useState(true);
@@ -143,7 +145,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     if (item?.labelCol) return item.labelCol;
     if (labelCol) return labelCol;
 
-    return type === 'grid' ? { span: 6 } : undefined;
+    return type === 'grid' && !isPhone ? { span: 6 } : undefined;
   };
 
   /** 获取输入间隙 */
@@ -155,7 +157,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     if (item?.wrapperCol) return item.wrapperCol;
     if (wrapperCol) return wrapperCol;
 
-    return type === 'grid' ? { span: 18 } : undefined;
+    return type === 'grid' && !isPhone ? { span: 18 } : undefined;
   };
 
   /**
@@ -187,7 +189,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
           <Button
             type='primary'
             htmlType='submit'
-            className='!mb-5px'
+            className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}
             loading={isLoading}
             icon={<SearchOutlined />}
           >
@@ -200,7 +202,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
         !!isClear &&
         <Form.Item>
           <Button
-            className='!mb-5px'
+            className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}
             icon={<ClearOutlined />}
             onClick={onClear}
           >
@@ -212,7 +214,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
       {
         children &&
         <Form.Item>
-          <div className='!mb-5px'>
+          <div className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}>
             { children }
           </div>
         </Form.Item>
@@ -220,6 +222,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
 
       {
         type === 'grid' &&
+        !isPhone &&
         !!isShowExpand &&
         <div
           className='text-12px cursor-pointer color-#1677ff hover:color-#69b1ff'
@@ -241,7 +244,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
       className={className}
     >
       <Form
-        layout="inline"
+        layout={isPhone ? 'horizontal' : 'inline'}
         {...formProps}
         ref={ref}
         form={form}
@@ -250,7 +253,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
         autoComplete="off"
       >
         {
-          type === 'default' &&
+          (type === 'default' || isPhone) &&
           <>
             {
               list?.map(item => (
@@ -275,6 +278,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
 
         {
           type === 'grid' &&
+          !isPhone &&
           <Flex wrap className='w-full'>
             {
               filterList(list)?.map(item => (

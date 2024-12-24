@@ -11,7 +11,6 @@ function BaseCard(props: Props) {
       { ...props }
       id="card"
       className={`
-        min-w-980px
         h-full
         box-border
         overflow-auto

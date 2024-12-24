@@ -52,6 +52,7 @@ export interface ColumnsEnum {
 export interface TableColumn<T = object> extends ColumnType<T> {
   enum?: ColumnsEnum[] | Record<string, unknown>;
   children?: TableColumn<T>[];
+  isKeepFixed?: boolean; // 手机端默认关闭fixed，该属性开启fixed
 }
 
 // 表格参数

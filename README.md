@@ -37,7 +37,7 @@ npm i -g pnpm
 
 - 安装依赖
 ```bash
-pnpm install
+pnpm install -w
 ```
 ##### 如果使用pnpm安装依赖出现安装失败问题，请使用梯子、yarn安装或切换淘宝源。
 ```bash

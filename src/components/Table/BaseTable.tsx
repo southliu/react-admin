@@ -6,6 +6,7 @@ import { useMemo, useState, useEffect, useRef } from 'react';
 import { useFiler } from './hooks/useFiler';
 import { useTranslation } from 'react-i18next';
 import { EMPTY_VALUE } from '@/utils/config';
+import { useCommonStore } from '@/hooks/useCommonStore';
 import { PlusOutlined, RedoOutlined } from '@ant-design/icons';
 import { getTableHeight, handleRowHeight, filterTableColumns } from './utils/helper';
 import ResizableTitle from './components/ResizableTitle';
@@ -50,6 +51,7 @@ function BaseTable(props: Props) {
     onCreate
   } = props;
   const { t } = useTranslation();
+  const { isPhone } = useCommonStore();
   const [handleFilterTable] = useFiler();
   const [columns, setColumns] = useState(filterTableColumns(props.columns as TableColumn[]));
   const tableRef = useRef<HTMLDivElement>(null);
@@ -116,6 +118,8 @@ function BaseTable(props: Props) {
     if (!newColumns) return [];
     const result = newColumns.map((col, index) => ({
       ...col,
+      // 手机端去除列固定，除非设置了isKeepFixed
+      fixed: col?.fixed && !(isPhone && !(col as TableColumn)?.isKeepFixed) ? col.fixed : false,
       onHeaderCell: (column: object, i: number) => ({
         ...col?.onHeaderCell?.(column, i),
         width: col.width,

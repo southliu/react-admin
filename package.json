@@ -24,6 +24,7 @@
     "@wangeditor/editor-for-react": "^1.0.6",
     "antd": "^5.20.2",
     "axios": "^1.6.8",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
     "echarts": "^5.5.0",
     "i18next": "^23.11.1",

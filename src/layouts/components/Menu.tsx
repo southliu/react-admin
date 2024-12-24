@@ -53,9 +53,9 @@ function LayoutMenu() {
     const newOpenKey = getOpenMenuByRouter(pathname);
     if (!isPhone && !isCollapsed) {
       setOpenKeys(newOpenKey);
-      setSelectedKeys(pathname);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setSelectedKeys(pathname);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   /**

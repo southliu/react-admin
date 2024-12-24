@@ -237,6 +237,7 @@ function LayoutTabs() {
 
   return (
     <div className={`
+      w-[calc(100%-5px)]
       flex
       items-center
       justify-between
@@ -249,7 +250,7 @@ function LayoutTabs() {
         tabs.length > 0 ?
         <Tabs
           hideAdd
-          className="w-full h-30px py-0"
+          className="w-[calc(100%-110px)] h-30px py-0"
           items={[...tabs]}
           onChange={onChange}
           activeKey={activeKey}

@@ -97,6 +97,7 @@ function Layout() {
 
   // 监听是否是手机端
   useEffect(() => {
+    handleIsPhone();
     window.addEventListener('resize', handleIsPhone);
 
     return () => {

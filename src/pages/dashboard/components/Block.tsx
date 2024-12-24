@@ -1,10 +1,12 @@
 import { Row, Col } from 'antd';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
+import { useCommonStore } from '@/hooks/useCommonStore';
 import Count from '@/components/Count';
 
 function Block() {
   const { t } = useTranslation();
+  const { isPhone } = useCommonStore();
 
   const data = [
     { title: t('dashboard.usersNumber'), num: 14966, all: 16236, icon: 'icon-park:peoples' },
@@ -17,7 +19,13 @@ function Block() {
     <Row gutter={16}>
       {
         data.map(item => (
-          <Col key={item.title} span={6}>
+          <Col
+            key={item.title}
+            sm={24}
+            md={12}
+            lg={6}
+            className={`pb-10px ${isPhone ? 'w-full' : ''}`}
+          >
             <div
               className={`
                 border

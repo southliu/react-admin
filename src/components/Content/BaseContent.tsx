@@ -21,7 +21,7 @@ function BaseContent(props: Props) {
       }
       {
         isPermission === false &&
-        <div className="min-w-980px h-full p-10px box-border overflow-auto">
+        <div className="h-full p-10px box-border overflow-auto">
           <Forbidden />
         </div>
       }

@@ -42,7 +42,7 @@ function Nav(props: Props) {
     <>
       {
         !isPhone &&
-        <div className={`${className} flex items-center text-truncate`}>
+        <div className={`${className} flex items-center text-truncate ellipsis break-all`}>
           {
             nav?.map((item, index) => (
               <span key={index}>

@@ -1,6 +1,7 @@
 import type { FormData } from '#/form';
 import { useCallback, useEffect, useState } from 'react';
 import { getDataTrends } from '@/servers/dashboard';
+import { Row, Col } from 'antd';
 import { searchList } from './model';
 import { useTranslation } from 'react-i18next';
 import { useEffectOnActive } from 'keepalive-for-react';
@@ -74,14 +75,31 @@ function Dashboard() {
       </BaseCard>
 
       <BaseCard className='mt-10px'>
-        <div className='py-10px'>
+        <div className='pt-10px'>
           <Block />
         </div>
 
-        <div className='flex justify-between w-full'>
-          <Line />
-          <Bar />
-        </div>
+        <Row
+          gutter={{ lg: 12, md: 24, xs: 24 }}
+          className='flex justify-between w-full'
+        >
+          <Col
+            lg={12}
+            md={24}
+            xs={24}
+            className='mb-10px'
+          >
+            <Line />
+          </Col>
+          <Col
+            lg={12}
+            md={24}
+            xs={24}
+            className='mb-10px'
+          >
+            <Bar />
+          </Col>
+        </Row>
       </BaseCard>
     </BaseContent>
   );
