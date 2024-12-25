@@ -14,7 +14,7 @@ import type {
   TransferProps,
   FormItemProps,
 } from "antd";
-import type { FC, Key, ReactNode } from "react";
+import type { Key, ReactNode } from "react";
 import type { RangePickerProps } from 'antd/lib/date-picker';
 import type { DefaultOptionType } from 'antd/lib/select';
 import type { RuleObject } from 'antd/lib/form';
@@ -124,6 +124,25 @@ export type ComponentProps = InputProps |
                               ApiTreeSelectProps |
                               EditorProps
 
+// 组件参数
+export type RenderComponentProps = InputProps &
+                              InputNumberProps &
+                              SelectProps &
+                              TreeSelectProps &
+                              CheckboxProps &
+                              RadioProps &
+                              DatePickerProps &
+                              TimePickerProps &
+                              UploadProps &
+                              RateProps &
+                              SliderSingleProps &
+                              TimeRangePickerProps &
+                              TransferProps &
+                              RangePickerProps &
+                              ApiSelectProps &
+                              ApiTreeSelectProps &
+                              EditorProps
+
 // 表单规则
 export type FormRule = RuleObject & {
   trigger?: 'blur' | 'change' | ['change', 'blur'];
@@ -141,7 +160,7 @@ export interface FormList extends FormItemProps {
   wrapperWidth?: number; // 内容宽度
   component: ComponentType; // 组件
   componentProps?: ComponentProps; // 组件参数
-  render?: FC; // 自定义渲染
+  render?: (props: RenderComponentProps) => JSX.Element | JSX.Element[]; // 自定义渲染
 }
 
 // 搜索数据
