@@ -77,7 +77,6 @@ function UpdatePassword(props: Props) {
           name="UpdatePassword"
           form={form}
           labelWrap
-          className='px-20px'
           labelCol={{ span: 5 }}
           wrapperCol={{ span: 19 }}
           onFinish={onFinish}

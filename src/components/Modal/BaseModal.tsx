@@ -1,10 +1,11 @@
-import type { ReactNode } from 'react';
+import type { MouseEventHandler, ReactNode } from 'react';
 import type { ModalProps } from 'antd';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import { useRef, useState } from 'react';
 import { Modal, Tooltip } from 'antd';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
+import { useCommonStore } from '@/hooks/useCommonStore';
 import Draggable from 'react-draggable';
 import './index.less';
 
@@ -15,6 +16,7 @@ interface Props extends Omit<ModalProps, 'onCancel'> {
 function BaseModal(props: Props) {
   const { width, children, wrapClassName, onCancel } = props;
   const { t } = useTranslation();
+  const { isPhone } = useCommonStore();
   const [isDisabled, setDisabled] = useState(true);
   const [isFullscreen, setFullscreen] = useState(false);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
@@ -48,6 +50,12 @@ function BaseModal(props: Props) {
     });
   };
 
+  /** 点击关闭 */
+  const handleCancel: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation();
+    onCancel?.();
+  };
+
   /** 自定义关闭和放大图标 */
   const CloseRender = () => (
     <div className="flex items-center justify-end absolute right-15px">
@@ -72,7 +80,7 @@ function BaseModal(props: Props) {
       >
         <div
           className='p-10px mt-3px cursor-pointer'
-          onClick={() => onCancel?.()}
+          onClick={handleCancel}
         >
           <Icon
             className="text-lg"
@@ -94,9 +102,6 @@ function BaseModal(props: Props) {
         { props.title || '' }
       </span>
 
-      <div>
-
-      </div>
       { CloseRender() }
     </div>
   );
@@ -120,7 +125,7 @@ function BaseModal(props: Props) {
       destroyOnClose
       closable={false}
       maskClosable={false}
-      modalRender={modalRender}
+      modalRender={!isPhone ? modalRender : undefined}
       okText={t('public.ok')}
       cancelText={t('public.cancel')}
       {...props}
@@ -129,7 +134,9 @@ function BaseModal(props: Props) {
       wrapClassName={isFullscreen ? 'full-modal' : wrapClassName || ''}
       width={isFullscreen ? '100%' : width || 520}
     >
-      { children }
+      <div className='base-modal-content'>
+        { children }
+      </div>
     </Modal>
   );
 }

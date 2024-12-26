@@ -51,9 +51,7 @@ function LayoutMenu() {
   // 处理默认展开
   useEffect(() => {
     const newOpenKey = getOpenMenuByRouter(pathname);
-    if (!isPhone && !isCollapsed) {
-      setOpenKeys(newOpenKey);
-    }
+    setOpenKeys(newOpenKey);
     setSelectedKeys(pathname);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
@@ -231,7 +229,7 @@ function LayoutMenu() {
           openKeys={openKeys}
           mode="inline"
           theme="dark"
-          inlineCollapsed={isCollapsed}
+          inlineCollapsed={isPhone ? false : isCollapsed}
           items={handleFilterMenus(menus)}
           onClick={onClick}
           onOpenChange={onOpenChange}
