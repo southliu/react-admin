@@ -1,7 +1,6 @@
 import type { FormData } from '#/form';
 import { useCallback, useEffect, useState } from 'react';
 import { getDataTrends } from '@/servers/dashboard';
-import { Row, Col } from 'antd';
 import { searchList } from './model';
 import { useTranslation } from 'react-i18next';
 import { useEffectOnActive } from 'keepalive-for-react';
@@ -22,7 +21,7 @@ const initSearch = {
 function Dashboard() {
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState(false);
-  const { permissions } = useCommonStore();
+  const { permissions, isPhone } = useCommonStore();
   const isPermission = checkPermission('/dashboard', permissions);
 
   /**
@@ -79,27 +78,14 @@ function Dashboard() {
           <Block />
         </div>
 
-        <Row
-          gutter={{ lg: 12, md: 24, xs: 24 }}
-          className='flex justify-between w-full'
-        >
-          <Col
-            lg={12}
-            md={24}
-            xs={24}
-            className='mb-10px'
-          >
+        <div className='flex flex-wrap justify-between w-full'>
+          <div className={`mb-10px ${ isPhone ? 'w-full' : 'w-49.5%' }`}>
             <Line />
-          </Col>
-          <Col
-            lg={12}
-            md={24}
-            xs={24}
-            className='mb-10px'
-          >
+          </div>
+          <div className={`mb-10px ${ isPhone ? 'w-full' : 'w-49.5%' }`}>
             <Bar />
-          </Col>
-        </Row>
+          </div>
+        </div>
       </BaseCard>
     </BaseContent>
   );

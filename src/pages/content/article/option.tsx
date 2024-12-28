@@ -3,7 +3,7 @@ import type { PagePermission } from '#/public';
 import { type FormInstance, message, Spin } from 'antd';
 import { createList } from './model';
 import { getUrlParam } from '@/utils/helper';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
@@ -52,6 +52,7 @@ const fatherPath = '/content/article';
 function Page() {
   const { t } = useTranslation();
   const { pathname, search } = useLocation();
+  const navigate = useNavigate();
   const uri = pathname + search;
   const id = getUrlParam(search, 'id');
   const createFormRef = useRef<FormInstance>(null);
@@ -119,7 +120,8 @@ function Page() {
     if (isRefresh) setRefreshPage(true);
     closeTabGoNext({
       key: uri,
-      nextPath: fatherPath
+      nextPath: fatherPath,
+      navigate
     });
   };
 
