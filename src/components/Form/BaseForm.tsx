@@ -89,7 +89,6 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const renderFormItem = (item: FormList) => (
     <Form.Item
       {...filterFormItem(item)}
-      key={`${item.name}`}
       label={item.label}
       name={item.name}
       rules={!item.hidden ? item.rules : []}
@@ -98,7 +97,7 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     >
       { getComponent(t, item, onPressEnter) }
     </Form.Item>
-  )
+  );
 
   return (
     <div className={className} style={style}>
@@ -116,7 +115,7 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
       >
         {
           list?.map(item => (
-            <>
+            <div key={`${item.name}`}>
               {
                 !item?.unit &&
                 <>{ renderFormItem(item) }</>
@@ -131,7 +130,7 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
                   </span>
                 </Form.Item>
               }
-            </>
+            </div>
           ))
         }
 

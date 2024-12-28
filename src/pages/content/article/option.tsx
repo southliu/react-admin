@@ -12,6 +12,7 @@ import { usePublicStore, useTabsStore } from '@/stores';
 import { addComponent } from '@/components/Form/utils/componentMap';
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState
 } from 'react';
@@ -80,7 +81,7 @@ function Page() {
   }, []);
 
   // 异步添加富文本组件
-  useEffect(() => {
+  useLayoutEffect(() => {
     addComponent('RichEditor', WangEditor);
   }, []);
 

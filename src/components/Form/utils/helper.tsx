@@ -95,7 +95,7 @@ export function initCompProps(
     default:
       return {
         allowClear: true,
-        placeholder: t('public.inputPleaseEnter')
+        placeholder: t('public.inputPleaseEnter'),
       };
   }
 }
@@ -107,6 +107,7 @@ export function initCompProps(
 export const filterFormItem = (data: FormList): FormItemProps => {
   const result = cloneDeep(data);
   delete result.componentProps;
+  delete result.render;
 
   return result as FormItemProps;
 };
