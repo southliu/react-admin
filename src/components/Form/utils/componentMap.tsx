@@ -82,12 +82,6 @@ export function getComponent(t: TFunction, item: FormList, onPressEnter: () => v
         {...initCompProps(t, component, onPressEnter)}
         {...componentProps}
       />
-      {
-        item.unit &&
-        <span className='ml-5px whitespace-nowrap'>
-          { item.unit }
-        </span>
-      }
     </>
   );
 }

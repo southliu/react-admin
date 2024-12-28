@@ -62,6 +62,7 @@ export const createList = (t: TFunction): FormList[] => [
     label: t('login.username'),
     name: 'username',
     rules: FORM_REQUIRED,
+    extra: '这是描述，这是描述，这是描述。',
     component: 'Input',
     componentProps: {
       style: {
@@ -75,7 +76,6 @@ export const createList = (t: TFunction): FormList[] => [
     rules: FORM_REQUIRED,
     component: 'Input',
     unit: '单位',
-    extra: '这是描述，这是描述，这是描述。',
     componentProps: {
       style: {
         width: '80%'

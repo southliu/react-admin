@@ -154,7 +154,7 @@ export interface FormList extends FormItemProps {
   label: string; // 标签
   placeholder?: string; // 占位符
   hidden?: boolean; // 是否隐藏
-  unit?: string; // 单位
+  unit?: string; // 单位，无法和extra一起显示
   rules?: FormRule[]; // 规则
   labelWidth?: number; // label宽度
   wrapperWidth?: number; // 内容宽度

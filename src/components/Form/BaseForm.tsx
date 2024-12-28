@@ -82,6 +82,24 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     console.warn('表单错误:', errorInfo);
   };
 
+  /**
+   * 渲染表单项
+   * @param item - 表单项
+   */
+  const renderFormItem = (item: FormList) => (
+    <Form.Item
+      {...filterFormItem(item)}
+      key={`${item.name}`}
+      label={item.label}
+      name={item.name}
+      rules={!item.hidden ? item.rules : []}
+      className={item.hidden ? '!hidden' : ''}
+      valuePropName={handleValuePropName(item.component)}
+    >
+      { getComponent(t, item, onPressEnter) }
+    </Form.Item>
+  )
+
   return (
     <div className={className} style={style}>
       <Form
@@ -98,17 +116,22 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
       >
         {
           list?.map(item => (
-            <Form.Item
-              {...filterFormItem(item)}
-              key={`${item.name}`}
-              label={item.label}
-              name={item.name}
-              rules={!item.hidden ? item.rules : []}
-              className={item.hidden ? '!hidden' : ''}
-              valuePropName={handleValuePropName(item.component)}
-            >
-              { getComponent(t, item, onPressEnter) }
-            </Form.Item>
+            <>
+              {
+                !item?.unit &&
+                <>{ renderFormItem(item) }</>
+              }
+
+              {
+                item.unit &&
+                <Form.Item label={item.label}>
+                  { renderFormItem({ ...item, noStyle: true }) }
+                  <span className='ml-5px whitespace-nowrap'>
+                    { item.unit }
+                  </span>
+                </Form.Item>
+              }
+            </>
           ))
         }
 
