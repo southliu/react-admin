@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 export type ThemeType = 'dark' | 'light'
 
@@ -17,13 +18,21 @@ interface PublicState {
   setRefreshPage: (isRefreshPage: boolean) => void;
 }
 
-export const usePublicStore = create<PublicState>((set) => ({
-  theme: 'light',
-  isFullscreen: false,
-  isRefresh: false,
-  isRefreshPage: false,
-  setThemeValue: (theme: ThemeType) => set({ theme }),
-  setFullscreen: (isFullscreen: boolean) => set({ isFullscreen }),
-  setRefresh: (isRefresh: boolean) => set({ isRefresh }),
-  setRefreshPage: (isRefreshPage: boolean) => set({ isRefreshPage })
-}));
+export const usePublicStore = create<PublicState>()(
+  devtools(
+    (set) => ({
+      theme: 'light',
+      isFullscreen: false,
+      isRefresh: false,
+      isRefreshPage: false,
+      setThemeValue: (theme: ThemeType) => set({ theme }),
+      setFullscreen: (isFullscreen: boolean) => set({ isFullscreen }),
+      setRefresh: (isRefresh: boolean) => set({ isRefresh }),
+      setRefreshPage: (isRefreshPage: boolean) => set({ isRefreshPage })
+    }),
+    {
+      enabled: process.env.NODE_ENV === 'development',
+      name: 'publicStore'
+    }
+  )
+);

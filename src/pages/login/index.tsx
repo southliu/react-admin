@@ -209,7 +209,6 @@ function Login() {
               <Input
                 allow-clear="true"
                 placeholder={t('login.username')}
-                data-test="username"
                 autoComplete="username"
                 addonBefore={<UserOutlined className='change' />}
               />
