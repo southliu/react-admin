@@ -66,7 +66,7 @@ function Line() {
       init();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [echartsRef, init]);
+  }, [echartsRef]);
 
   return (
     <div className='h-550px border border-gray-200 rounded-10px'>
