@@ -154,14 +154,6 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
   return result;
 }
 
-/**
- * 根据key获取菜单当前值
- * @param menus - 菜单
- * @param permissions - 权限列表
- * @param key - 路由值
- * @param fatherNav - 父级面包屑
- * @param result - 返回值
- */
 export interface NavData {
   label: string;
   labelZh: string;
@@ -182,6 +174,14 @@ interface GetMenuByKeyProps {
   result?: GetMenuByKeyResult
 }
 
+/**
+ * 根据key获取菜单当前值
+ * @param menus - 菜单
+ * @param permissions - 权限列表
+ * @param key - 路由值
+ * @param fatherNav - 父级面包屑
+ * @param result - 返回值
+ */
 export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | undefined {
   const { menus, permissions, key } = data;
   const lang = localStorage.getItem(LANG);
