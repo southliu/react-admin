@@ -15,6 +15,8 @@
 
 ![02.gif](https://github.com/southliu/github-static/blob/main/react-admin/02.gif)
 
+![03.gif](https://github.com/southliu/github-static/blob/main/react-admin/03.gif) ![04.gif](https://github.com/southliu/github-static/blob/main/react-admin/04.gif)
+
 ## 💻 安装使用
 
 - 获取项目代码
@@ -55,9 +57,6 @@ pnpm dev
 ```bash
 pnpm build
 ```
-
-##### 如何使用react-redux
-- 切换redux分支即可
 
 ## 🧩 图标(iconify)
 
@@ -118,7 +117,7 @@ git push
 #### 3. 菜单如何配置？
 提供了两种方式配置菜单：
 1. 动态菜单，通过菜单接口(/menu/list/v3)获取菜单数据。
-2. 静态菜单，需要静态菜单将useCommonStore中的menuList改为defaultMenus
+2. 静态菜单，需要静态菜单将/src/hooks/useCommonStore.ts中的useCommonStore中的menuList改为defaultMenus
 ```js
 // src/hooks/useCommonStore.ts
 import { defaultMenus } from '@/menus';
