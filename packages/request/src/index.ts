@@ -17,7 +17,7 @@ function creteRequest(url: string, tokenKey: string) {
       requestInterceptors(res) {
         const tokenLocal = getLocalInfo(tokenKey) || '';
         if (res?.headers && tokenLocal) {
-          res.headers.Authorization = `Bearer ${tokenLocal}`;
+          res.headers.Authorization = tokenLocal as string;
         }
         return res;
       },
@@ -31,12 +31,20 @@ function creteRequest(url: string, tokenKey: string) {
         const { data } = res;
         // 权限不足
         if (data?.code === 401) {
-          message.error('权限不足，请重新登录！');
+          const lang = localStorage.getItem('lang');
+          const enMsg = 'Insufficient permissions, please log in again!';
+          const zhMsg = '权限不足，请重新登录！';
+          const msg = lang === 'en' ? enMsg : zhMsg;
+          message.error(msg);
           removeLocalInfo(tokenKey);
-          setTimeout(() => {
-            window.location.href = "/";
-          }, 1000);
-          handleError(data?.message);
+          console.error('错误信息:', data?.message || msg);
+
+          // 如果不是登录页则刷新页面进登录页
+          if (!window.location.href?.includes('/login')) {
+            setTimeout(() => {
+              window.location.href = "/";
+            }, 1000);
+          }
           return res;
         }
 

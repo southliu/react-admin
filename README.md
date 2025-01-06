@@ -118,7 +118,7 @@ git push
 #### 3. 菜单如何配置？
 提供了两种方式配置菜单：
 1. 动态菜单，通过菜单接口(/menu/list/v3)获取菜单数据。
-2. 静态菜单，需要静态菜单将/src/hooks/useCommonStore.ts中的useCommonStore中的menuList改为defaultMenus
+2. 静态菜单，需要静态菜单将/src/hooks/useCommonStore.ts中的useCommonStore中的menuList改为defaultMenus。
 ```js
 // src/hooks/useCommonStore.ts
 import { defaultMenus } from '@/menus';
