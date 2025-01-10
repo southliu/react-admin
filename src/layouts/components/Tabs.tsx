@@ -250,7 +250,7 @@ function LayoutTabs() {
         tabs.length > 0 ?
         <Tabs
           hideAdd
-          className="w-[calc(100%-110px)] h-30px py-0"
+          className={`w-[calc(100%-110px)] h-30px py-0 ${styles['layout-tabs']}`}
           items={[...tabs]}
           onChange={onChange}
           activeKey={activeKey}
