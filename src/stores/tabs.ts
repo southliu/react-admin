@@ -90,12 +90,13 @@ export const useTabsStore = create<TabsState>()(
         }),
         closeTabGoNext: (payload) => set((state) => {
           const { tabs } = state;
-          const { key, nextPath } = payload;
+          const { key, nextPath, navigate } = payload;
           const index = tabs.findIndex(item => item.key === key);
           if (index >= 0) tabs.splice(index, 1);
 
           if (key === state.activeKey) {
             set({ activeKey: nextPath });
+            navigate(nextPath);
           }
 
           if (tabs.length) tabs[0].closable = tabs.length > 1;
