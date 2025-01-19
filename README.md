@@ -99,8 +99,8 @@ git push
 
 ## 📕 Q&A常见问题
 #### 1. 页面权限如何配置？
-1. 通过登录接(/login/v2)或重新授权接口(/authority/user/refresh-permissions/v2)获取permissions权限数据。
-2. 通过菜单接口(/menu/list/v3)获取data中的rule权限数据，这个rule数据影响菜单显示，如果没返回rule则一直都显示。
+1. 通过登录接(/user/login)或重新授权接口(/user/refresh-permissions)获取permissions权限数据。
+2. 通过菜单接口(/menu/list)获取data中的rule权限数据，这个rule数据影响菜单显示，如果没返回rule则一直都显示。
 3. 页面内权限参考src/pages/system/menu.index.tsx文件内的pagePermission数据，pagePermission.page是显示页面的权限，根据第一点返回的permissions进行匹配。
 
 #### 2. 路由如何配置？
@@ -117,7 +117,7 @@ git push
 
 #### 3. 菜单如何配置？
 提供了两种方式配置菜单：
-1. 动态菜单，通过菜单接口(/menu/list/v3)获取菜单数据。
+1. 动态菜单，通过菜单接口(/menu/list)获取菜单数据。
 2. 静态菜单，需要静态菜单将/src/hooks/useCommonStore.ts中的useCommonStore中的menuList改为defaultMenus。
 ```js
 // src/hooks/useCommonStore.ts

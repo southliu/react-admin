@@ -77,5 +77,5 @@ export function savePermission(data: object) {
  * @param data - 请求数据
  */
 export function getMenuList() {
-  return request.get<SideMenu[]>(`/menu/list/v3`);
+  return request.get<SideMenu[]>(`/menu/list`);
 }

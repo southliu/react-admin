@@ -6,6 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
 
 node_modules
 dist
@@ -25,7 +28,9 @@ vite.config.ts.*.mjs
 __unconfig_vite.config.ts
 
 # 测试覆盖率
-/coverage/
+coverage/
 
 stats.html
 .vite
+
+public/version.json
