@@ -120,7 +120,7 @@ function Page() {
       setCreateTitle(EDIT_TITLE(t, id));
       setCreateId(id);
       setCreateLoading(true);
-      const { code, data } = await getMenuById(id as string);
+      const { code, data } = await getMenuById(id);
       if (Number(code) !== 200) return;
       setCreateData(data);
     } finally {
@@ -163,7 +163,7 @@ function Page() {
   const onDelete = async (id: string) => {
     try {
       setLoading(true);
-      const { code, message } = await deleteMenu(id as string);
+      const { code, message } = await deleteMenu(id);
       if (Number(code) === 200) {
         messageApi.success(message || t('public.successfullyDeleted'));
         getPage();

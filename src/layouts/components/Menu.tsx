@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import { Icon } from '@iconify/react';
 import { setTitle } from '@/utils/helper';
+import { getTabTitle } from '../utils/helper';
 import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -23,12 +24,13 @@ import Logo from '@/assets/images/logo.svg';
 function LayoutMenu() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const [menus, setMenus] = useState<SideMenu[]>([]);
   // 获取当前语言
   const currentLanguage = i18n.language;
 
   const {
+    tabs,
     addTabs,
     setNav,
     setActiveKey
@@ -62,10 +64,15 @@ function LayoutMenu() {
    * @param path - 路径
    */
   const handleSetTitle = useCallback((list: SideMenu[], path: string) => {
-    const title = getMenuName(list, path, i18n.language);
+    let title = getMenuName(list, path, i18n.language);
+    if (!title) {
+      const path = `${pathname}${search || ''}`;
+      // 通过路由获取标签名
+      title = getTabTitle(tabs, path);
+    }
     if (title) setTitle(t, title);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     handleSetTitle(menuList, pathname);

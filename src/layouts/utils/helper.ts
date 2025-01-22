@@ -1,5 +1,6 @@
+import type { TabsData } from "@/stores/tabs";
 import type { MessageInstance } from "antd/es/message/interface";
-import { VERSION } from "@/utils/config";
+import { LANG, VERSION } from "@/utils/config";
 import axios from "axios";
 
 /** 版本监控 */
@@ -27,4 +28,25 @@ export const versionCheck = async (messageApi: MessageInstance) => {
       }
     });
   }
+};
+
+/**
+ * 通过路由获取标签名
+ * @param tabs - 标签
+ * @param path - 路由路径
+ */
+export const getTabTitle = (tabs: TabsData[], path: string): string => {
+  const lang = localStorage.getItem(LANG);
+
+  for (let i = 0; i < tabs?.length; i++) {
+    const item = tabs[i];
+
+    if (item.key === path) {
+      const { label, labelEn, labelZh } = item;
+      const result = lang === 'en' ? labelEn : labelZh || label;
+      return result as string;
+    }
+  }
+
+  return '';
 };

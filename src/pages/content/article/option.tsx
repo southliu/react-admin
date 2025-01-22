@@ -99,7 +99,7 @@ function Page() {
     try {
       setCreateId(id);
       setLoading(true);
-      const { code, data } = await getArticleById(id as string);
+      const { code, data } = await getArticleById(id);
       if (Number(code) !== 200) return;
       setCreateData(data);
     } finally {
