@@ -116,7 +116,7 @@ function Page() {
   const onDelete = async (id: string) => {
     try {
       setLoading(true);
-      const { code, message } = await deleteArticle(id as string);
+      const { code, message } = await deleteArticle(id);
       if (Number(code) === 200) {
         messageApi.success(message || t('public.successfullyDeleted'));
         getPage();
