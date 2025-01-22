@@ -150,5 +150,6 @@ export function recursiveData<T extends RecursiveChildren<T>, U>(
  */
 export function setTitle(t: TFunction, title: string) {
   const value = `${title ? title + '-' : ''}${TITLE_SUFFIX(t)}`;
+  if (document.title === value) return;
   document.title = value;
 }

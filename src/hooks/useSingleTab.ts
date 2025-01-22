@@ -36,6 +36,8 @@ export function useSingleTab(
 
   // 处理默认展开
   useEffect(() => {
+    const title = handleGetTitle();
+    setTitle(t, title);
     const newOpenKey = getOpenMenuByRouter(fatherPath);
     if (!isPhone && !isCollapsed) {
       setOpenKeys(newOpenKey);
@@ -60,7 +62,6 @@ export function useSingleTab(
       key: uri,
       nav: handleFilterNav(nav)
     };
-    setTitle(t, title);
     setActiveKey(newTab.key);
     setNav(newTab.nav);
     addTabs(newTab);
