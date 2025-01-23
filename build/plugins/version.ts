@@ -1,45 +1,30 @@
+import type { PluginOption } from 'vite';
 import fs from 'fs';
 import path from 'path';
 
-interface configObj {
-	publicDir: string;
-}
+export const versionUpdatePlugin = (): PluginOption => {
+  let outDir = '';
 
-const writeVersion = (versionFileName: string, content: string | NodeJS.ArrayBufferView) => {
-	// 写入文件
-	fs.writeFile(versionFileName, content, (err) => {
-		if (err) throw err;
-	});
-};
+  return {
+    name: 'version-update',
+    configResolved(resolvedConfig) {
+      // 存储最终解析的配置
+      outDir = resolvedConfig?.build?.outDir || 'dist';
+    },
+    closeBundle() {
+      // 这里使用编译时间作为版本信息
+      const content = JSON.stringify({ version: new Date().getTime() });
+      // 定义 version.json 文件路径
+      const filePath = path.join(outDir, 'version.json');
 
-// 打包时获取版本信息
-const VERSION_TIME = new Date().getTime();
+      // 如果outDir目录不存在则创建
+      if (outDir && !fs.existsSync(outDir)) {
+        fs.mkdirSync(outDir, { recursive: true });
+      }
 
-export const versionUpdatePlugin = () => {
-	let config: configObj = { publicDir: '' };
-
-	return {
-		name: 'version-update',
-		configResolved(resolvedConfig: configObj) {
-			// 存储最终解析的配置
-			config = resolvedConfig;
-		},
-		buildEnd() {
-			// 生成版本信息文件路径
-			const file = config.publicDir + path.sep + 'version.json';
-
-			// 这里使用编译时间作为版本信息
-			const content = JSON.stringify({ version: VERSION_TIME });
-
-			if (fs.existsSync(config.publicDir)) {
-				writeVersion(file, content);
-			} else {
-				fs.mkdir(config.publicDir, (err) => {
-					if (err) throw err;
-					writeVersion(file, content);
-				});
-			}
-		},
-	};
+      // 将 JSON 数据写入文件
+      fs.writeFileSync(filePath, content, 'utf-8');
+    },
+  };
 };
 
