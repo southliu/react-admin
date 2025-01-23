@@ -32,5 +32,3 @@ coverage/
 
 stats.html
 .vite
-
-public/version.json

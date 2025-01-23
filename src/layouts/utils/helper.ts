@@ -14,7 +14,7 @@ export const versionCheck = async (messageApi: MessageInstance) => {
     return localStorage.setItem(VERSION, String(version));
   }
 
-  if (versionLocal !== String(version)) {
+  if (version && versionLocal !== String(version)) {
     localStorage.setItem(VERSION, String(version));
     messageApi.info({
       content: '发现新内容，自动更新中...',
