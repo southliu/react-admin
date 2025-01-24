@@ -10,7 +10,7 @@ export const versionCheck = async (messageApi: MessageInstance) => {
   const { data: { version } } = await axios.get('version.json');
 
   // 首次进入则缓存本地数据
-  if (!versionLocal) {
+  if (version && !versionLocal) {
     return localStorage.setItem(VERSION, String(version));
   }
 
