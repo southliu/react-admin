@@ -360,7 +360,8 @@ export function getFirstMenu(
     // 有权限且没有有子数据
     if (
       hasPermission(menus[i], permissions) &&
-      !hasChildren(menus[i])
+      !hasChildren(menus[i]) &&
+      !result
     ) result = menus[i].key;
   }
 
