@@ -142,7 +142,14 @@ export const useTabsStore = create<TabsState>()(
             activeKey: payload
           };
         }),
-        closeAllTab: () => set({ tabs: [] }),
+        closeAllTab: () => {
+          set({ tabs: [], activeKey: '' });
+
+          return {
+            tabs: [],
+            activeKey: '',
+          };
+        }
       }),
       {
         name: 'tabs-storage', // 存储中的项目名称，必须是唯一的
