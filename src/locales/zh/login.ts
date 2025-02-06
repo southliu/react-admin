@@ -1,6 +1,8 @@
 export default {
   login: '登录',
   systemLogin: '系统登录',
+  oldPassword: '旧密码',
+  newPassword: '新密码',
   password: '密码',
   username: '用户名',
   confirmPassword: '确认密码',

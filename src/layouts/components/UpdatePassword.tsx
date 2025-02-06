@@ -1,7 +1,7 @@
 import type { FormProps } from 'antd/es/form/Form';
 import { Ref, useImperativeHandle } from 'react';
 import { useState } from 'react';
-import { Form, Input, message } from 'antd';
+import { Form, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { updatePassword } from '@/servers/login';
 import { PASSWORD_RULE } from '@/utils/config';
@@ -39,13 +39,19 @@ function UpdatePassword(props: Props) {
     form?.submit();
   };
 
+  /** 关闭模态框 */
+  const onClose = () => {
+    setOpen(false);
+    form?.resetFields();
+  };
+
   /**
    * 提交表单
    * @param values - 表单值
    */
   const onFinish: FormProps['onFinish'] = async values => {
     // 当密码和确认密码不同时则提示错误
-    if (values.password !== values.confirmPassword) {
+    if (values.newPassword !== values.confirmPassword) {
       return messageApi.warning({
         content: t('login.confirmPasswordMessage'),
         key: 'confirmPassword'
@@ -55,7 +61,7 @@ function UpdatePassword(props: Props) {
       setLoading(true);
       const { code, message } = await updatePassword(values);
       if (Number(code) === 200) {
-        setOpen(false);
+        onClose();
         messageApi.success(message);
       }
     } finally {
@@ -71,7 +77,7 @@ function UpdatePassword(props: Props) {
         open={isOpen}
         confirmLoading={isLoading}
         onOk={onOk}
-        onCancel={() => setOpen(false)}
+        onCancel={() => onClose()}
       >
         <Form
           name="UpdatePassword"
@@ -83,16 +89,18 @@ function UpdatePassword(props: Props) {
           autoComplete="off"
         >
           <Form.Item
-            label={t('login.username')}
-            name="username"
-            rules={[{ required: true, message: t('public.pleaseEnter', { name: t('login.username') }) }]}
+            label={t('login.oldPassword')}
+            name="oldPassword"
+            rules={[
+              { required: true, message: t('public.pleaseEnter', { name: t('login.password') }) },
+              PASSWORD_RULE(t)
+            ]}
           >
-            <Input placeholder={t('public.inputPleaseEnter')} />
+            <PasswordStrength />
           </Form.Item>
-
           <Form.Item
-            label={t('login.password')}
-            name="password"
+            label={t('login.newPassword')}
+            name="newPassword"
             rules={[
               { required: true, message: t('public.pleaseEnter', { name: t('login.password') }) },
               PASSWORD_RULE(t)
