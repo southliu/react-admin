@@ -95,11 +95,6 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
     form?.resetFields();
     form?.setFieldsValue(initSearch ? { ...initSearch } : {});
     form?.submit();
-
-    // if (handleFinish) {
-    //   // 将dayjs类型转为字符串
-    //   handleFinish?.(initSearch || {});
-    // }
   };
 
   /** 获取搜索按钮flex状态 */

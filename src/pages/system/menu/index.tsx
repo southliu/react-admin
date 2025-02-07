@@ -73,8 +73,8 @@ function Page() {
       const { code, data } = res;
       if (Number(code) !== 200) return;
       const { items, total } = data;
-      setTotal(total);
-      setTableData(items);
+      setTotal(total || 0);
+      setTableData(items || []);
     } finally {
       setFetch(false);
       setLoading(false);
@@ -100,7 +100,8 @@ function Page() {
     if (pagePermission.page) getPage();
     // TODO: 重复请求测试，可删
     if (pagePermission.page) getPage();
-  }, [getPage, pagePermission.page]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pagePermission.page]);
 
   /** 点击新增 */
   const onCreate = () => {
