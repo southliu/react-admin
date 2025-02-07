@@ -1,6 +1,8 @@
 export default {
   login: 'Login',
   systemLogin: 'System Login',
+  oldPassword: 'Old password',
+  newPassword: 'New password',
   password: 'password',
   username: 'username',
   confirmPassword: 'confirm password',
