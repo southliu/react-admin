@@ -1,7 +1,7 @@
 import type { MouseEventHandler, ReactNode } from 'react';
 import type { ModalProps } from 'antd';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Modal, Tooltip } from 'antd';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
@@ -20,19 +20,31 @@ function BaseModal(props: Props) {
   const [isDisabled, setDisabled] = useState(true);
   const [isFullscreen, setFullscreen] = useState(false);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
+  const [cacheBounds, setCacheBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isFullscreen) {
+      setBounds({ left: 0, top: 0, bottom: 0, right: 0 });
+    } else {
+      setBounds(cacheBounds);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFullscreen]);
 
   /** 开始拖拽对话框 */
   const onStartMouse = (_event: DraggableEvent, uiData: DraggableData) => {
     const { clientWidth, clientHeight } = window.document.documentElement;
     const targetRect = draggleRef.current?.getBoundingClientRect?.();
     if (!targetRect) return;
-    setBounds({
+    const data = {
       left: -targetRect.left + uiData.x,
       right: clientWidth - (targetRect.right - uiData.x),
       top: -targetRect.top + uiData.y,
       bottom: clientHeight - (targetRect.bottom - uiData.y),
-    });
+    };
+    setBounds(data);
+    setCacheBounds(data);
   };
 
   /** 鼠标拖拽结束 */
@@ -44,10 +56,7 @@ function BaseModal(props: Props) {
 
   /** 最大化 */
   const onFullscreen = () => {
-    setFullscreen(value => {
-      if (!value) setBounds({ left: 0, top: 0, bottom: 0, right: 0 });
-      return !value;
-    });
+    setFullscreen(!isFullscreen);
   };
 
   /** 点击关闭 */

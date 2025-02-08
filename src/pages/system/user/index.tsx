@@ -85,8 +85,8 @@ function Page() {
       const { code, data } = await getUserPage(params);
       if (Number(code) !== 200) return;
       const { items, total } = data;
-      setTotal(total);
-      setTableData(items);
+      setTotal(total || 0);
+      setTableData(items || []);
     } finally {
       setFetch(false);
       setLoading(false);
@@ -110,7 +110,8 @@ function Page() {
   // 首次进入自动加载接口数据
   useEffect(() => {
     if (pagePermission.page) getPage();
-  }, [getPage, pagePermission.page]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pagePermission.page]);
 
   /** 开启权限 */
   const openPermission = async (id: string) => {
