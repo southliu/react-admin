@@ -120,7 +120,7 @@ function getListKeyParam(list: FormList[], key: string): string {
  * @param obj - 检测对象
  * @param list - 列表值
  */
-export function filterDayjs(obj: FormData, list: FormList[]): object {
+export function filterDayjs(obj: FormData, list: FormList[]): Record<string, unknown> {
   for (const key in obj) {
     // 判断是否是时间区间
     if (
