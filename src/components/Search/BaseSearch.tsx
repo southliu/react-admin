@@ -156,13 +156,31 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   };
 
   /**
+   * 过滤空字符串
+   * @param values - 表单值
+   */
+  const filterEmptyStr = (values: Record<string, unknown>) => {
+    const params: Record<string, unknown> = {};
+
+    Object.keys(values).forEach(key => {
+      if (values[key] !== '') {
+        params[key] = values[key];
+      }
+    });
+
+    return params;
+  };
+
+  /**
    * 提交表单
    * @param values - 表单值
    */
   const onFinish: FormProps['onFinish'] = values => {
     if (handleFinish) {
       // 将dayjs类型转为字符串
-      const params = filterDayjs(values, list as FormList[]);
+      let params = filterDayjs(values, list as FormList[]);
+      // 过滤空字符串
+      params = filterEmptyStr(params);
       handleFinish?.(params);
     }
   };

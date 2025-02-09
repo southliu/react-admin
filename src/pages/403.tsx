@@ -29,7 +29,7 @@ function Forbidden() {
       <h1 className={`${styles.animation} w-full text-6rem font-bold`}>
         403
       </h1>
-      <p className="w-full text-20px font-bold mt-15px text-dark-700">
+      <p className="w-full text-20px font-bold mt-15px">
         { t('public.notPermissionMessage') }
       </p>
       <Button className="mt-25px margin-auto" onClick={goIndex}>
