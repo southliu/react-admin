@@ -18,6 +18,7 @@ import { getFirstMenu } from '@/menus/utils/helper';
 import { useMenuStore, useUserStore } from '@/stores';
 import Logo from '@/assets/images/logo.svg';
 import I18n from '@/components/I18n';
+import Theme from '@/components/Theme';
 
 function Login() {
   const { t } = useTranslation();
@@ -164,8 +165,9 @@ function Login() {
         h-screen
         relative
       `}>
-        <div className="absolute top-5 right-5">
+        <div className="flex absolute top-5 right-5">
           <I18n />
+          <Theme />
         </div>
         <div className={`
           w-300px

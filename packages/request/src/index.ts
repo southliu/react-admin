@@ -35,14 +35,21 @@ function creteRequest(url: string, tokenKey: string) {
           const enMsg = 'Insufficient permissions, please log in again!';
           const zhMsg = '权限不足，请重新登录！';
           const msg = lang === 'en' ? enMsg : zhMsg;
-          message.error(msg);
           removeLocalInfo(tokenKey);
+          message.error({
+            content: msg,
+            key: 'error'
+          });
           console.error('错误信息:', data?.message || msg);
 
-          // 如果不是登录页则刷新页面进登录页
-          if (!window.location.href?.includes('/login')) {
+          // 跳转登录页
+          const url = window.location.href;
+          if (url.includes('#')) {
+            window.location.hash = '/login';
+          } else {
+            // window.location.href跳转会出现message无法显示情况，所以需要延时
             setTimeout(() => {
-              window.location.href = "/";
+              window.location.href = '/login';
             }, 1000);
           }
           return res;
