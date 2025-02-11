@@ -1,6 +1,6 @@
 import { useToken } from '@/hooks/useToken';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useOutlet } from 'react-router-dom';
+import { useOutlet } from 'react-router-dom';
 import { Skeleton, message } from 'antd';
 import { Icon } from '@iconify/react';
 import { debounce } from 'lodash';
@@ -18,7 +18,6 @@ import KeepAlive from 'keepalive-for-react';
 import styles from './index.module.less';
 
 function Layout() {
-  const navigate = useNavigate();
   const [getToken] = useToken();
   const { pathname, search } = useLocation();
   const token = getToken();
@@ -69,17 +68,12 @@ function Layout() {
   }, []);
 
   useEffect(() => {
-    // 如果没有token，则返回登录页
-    if (!token) {
-      navigate('/login');
-    }
-
     // 当用户信息缓存不存在时则重新获取
     if (token && !userId) {
       getUserInfo();
       getMenuData();
     }
-  }, [getUserInfo, getMenuData, navigate, token, userId]);
+  }, [getUserInfo, getMenuData, token, userId]);
 
   // 监测是否需要刷新
   useEffect(() => {
