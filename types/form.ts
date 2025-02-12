@@ -88,14 +88,14 @@ export interface ApiResult extends Omit<DefaultOptionType, 'value'> {
   value?: string | number;
 }
 
-export type ApiFn = (params?: object, params2?: object, params3?: object) => Promise<ServerResult<unknown>>
+export type ApiFn = {
+  <T extends unknown[]>(...params: T): Promise<ServerResult<unknown>>;
+}
 
 // api参数
 interface ApiParam {
   api?: ApiFn;
-  params?: object;
-  params2?: object;
-  params3?: object;
+  params?: object | unknown[];
   apiResultKey?: string;
 }
 

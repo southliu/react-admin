@@ -5,7 +5,7 @@ import axios from "axios";
 
 /** 版本监控 */
 export const versionCheck = async (messageApi: MessageInstance) => {
-  // if (import.meta.env.MODE === 'development') return;
+  if (import.meta.env.MODE === 'development') return;
   const versionLocal = localStorage.getItem(VERSION);
   const { data: { version } } = await axios.get('version.json');
 
