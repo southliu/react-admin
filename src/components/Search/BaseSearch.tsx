@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { filterDayjs } from '@/components/Dates';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { getComponent } from '@/components/Form/utils/componentMap';
-import { handleValuePropName } from '@/components/Form/utils/helper';
+import { filterFormItem, handleValuePropName } from '@/components/Form/utils/helper';
 import { SearchOutlined, ClearOutlined, DownOutlined } from '@ant-design/icons';
 
 interface Props extends FormProps {
@@ -271,6 +271,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
             {
               list?.map(item => (
                 <Form.Item
+                  {...filterFormItem(item)}
                   key={`${item.name}`}
                   label={item.label}
                   name={item.name}
@@ -300,6 +301,7 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
                   style={{ width: item.hidden ? 0 : `${100 / defaultColCount}%` }}
                 >
                   <Form.Item
+                    {...filterFormItem(item)}
                     label={item.label}
                     name={item.name}
                     className='!mb-5px'

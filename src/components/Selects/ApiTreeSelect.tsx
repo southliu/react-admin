@@ -18,19 +18,18 @@ function ApiTreeSelect(props: ApiTreeSelectProps) {
   const params: Partial<ApiTreeSelectProps> = { ...props };
   delete params.api;
   delete params.params;
-  delete params.params2;
-  delete params.params3;
   delete params.apiResultKey;
 
   /** 获取接口数据 */
   const getApiData = useCallback(async () => {
     if (!props.api) return;
     try {
-      const { api, params, params2, params3, apiResultKey } = props;
+      const { api, params, apiResultKey } = props;
 
       setLoading(true);
       if (api) {
-        const { code, data } = await api(params, params2, params3);
+        const apiFun = Array.isArray(params) ? api(...params) : api(params);
+        const { code, data } = await apiFun;
         if (Number(code) !== 200) return;
         const result = apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data;
         setOptions(result as TreeSelectProps['treeData']);

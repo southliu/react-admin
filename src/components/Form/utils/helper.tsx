@@ -100,6 +100,14 @@ export function initCompProps(
   }
 }
 
+/** 处理上传组件数据格式 */
+const handleUploadData: FormItemProps['getValueFromEvent'] = (e) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e?.fileList;
+};
+
 /**
  * 过滤表单数据
  * @param data - 表单数据
@@ -108,6 +116,11 @@ export const filterFormItem = (data: FormList): FormItemProps => {
   const result = cloneDeep(data);
   delete result.componentProps;
   delete result.render;
+
+  // 上传组建特殊处理
+  if (result.component === 'Upload' && !result?.getValueFromEvent) {
+    result.getValueFromEvent = handleUploadData;
+  }
 
   return result as FormItemProps;
 };
