@@ -117,6 +117,11 @@ export const filterFormItem = (data: FormList): FormItemProps => {
   delete result.componentProps;
   delete result.render;
 
+  // 如果当前项时隐藏且存在规则，则移除规则校验
+  if (result.hidden && result.rules?.length) {
+    result.rules = undefined;
+  }
+
   // 上传组建特殊处理
   if (result.component === 'Upload' && !result?.getValueFromEvent) {
     result.getValueFromEvent = handleUploadData;

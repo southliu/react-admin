@@ -273,13 +273,9 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
                 <Form.Item
                   {...filterFormItem(item)}
                   key={`${item.name}`}
-                  label={item.label}
-                  name={item.name}
-                  className='!mb-5px'
-                  hidden={item.hidden}
+                  className={`${item?.className || ''} !mb-5px`}
                   labelCol={getLabelCol(item)}
                   wrapperCol={getWrapperCol(item)}
-                  rules={item.rules}
                   valuePropName={handleValuePropName(item.component)}
                 >
                   { getComponent(t, item, onPressEnter) }
@@ -302,13 +298,9 @@ const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
                 >
                   <Form.Item
                     {...filterFormItem(item)}
-                    label={item.label}
-                    name={item.name}
-                    className='!mb-5px'
-                    hidden={item.hidden}
+                    className={`${item?.className || ''} !mb-5px`}
                     labelCol={getLabelCol(item)}
                     wrapperCol={getWrapperCol(item)}
-                    rules={item.rules}
                     valuePropName={handleValuePropName(item.component)}
                   >
                     { getComponent(t, item, onPressEnter) }
