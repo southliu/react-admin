@@ -89,10 +89,6 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   const renderFormItem = (item: FormList) => (
     <Form.Item
       {...filterFormItem(item)}
-      label={item.label}
-      name={item.name}
-      rules={!item.hidden ? item.rules : []}
-      className={item.hidden ? '!hidden' : ''}
       valuePropName={handleValuePropName(item.component)}
     >
       { getComponent(t, item, onPressEnter) }
