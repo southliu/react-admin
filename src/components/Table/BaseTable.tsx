@@ -2,7 +2,7 @@ import type { ResizeCallbackData } from 'react-resizable';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableColumn } from '#/public';
 import { type TableProps, Table, Button, message } from 'antd';
-import { useMemo, useState, useEffect, useRef, type ReactNode } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import { useFiler } from './hooks/useFiler';
 import { useTranslation } from 'react-i18next';
 import { EMPTY_VALUE } from '@/utils/config';
@@ -26,8 +26,8 @@ interface Props extends Omit<TableProps<object>, 'bordered'> {
   isCreate?: boolean;
   scrollX?: number;
   scrollY?: number;
-  leftContent?: ReactNode; // 左侧额外内容
-  rightContent?: ReactNode; // 右侧额外内容
+  leftContent?: JSX.Element; // 左侧额外内容
+  rightContent?: JSX.Element; // 右侧额外内容
   getPage?: () => void;
   onCreate?: () => void;
 }
@@ -126,7 +126,7 @@ function BaseTable(props: Props) {
         onResize: handleResize(index),
       }),
       render: (value: unknown, record: object, index: number) => {
-        const renderContent = col?.render?.(value, record, index);
+        const renderContent = col?.render?.(value, record, index) as JSX.Element;
         let showValue = value, color: string | undefined = undefined;
         const enumList = (col as TableColumn)?.enum;
 

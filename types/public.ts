@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import type { TableProps } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import type { ItemType } from 'antd/es/menu/interface';
@@ -63,4 +62,4 @@ export interface BaseTableProps extends Omit<TableProps, 'columns' | 'rowKey'> {
 }
 
 // 表格操作
-export type TableOptions<T = object> = (value: unknown, record: T, index?: number) => ReactNode;
+export type TableOptions<T = object> = (value: unknown, record: T, index?: number) => JSX.Element

@@ -1,10 +1,9 @@
-import type { ReactNode } from 'react';
 import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
 
 interface Props extends Omit<ButtonProps, 'loading'> {
   isLoading: boolean;
-  children?: ReactNode;
+  children?: JSX.Element | string;
 }
 
 function BaseBtn(props: Props) {
