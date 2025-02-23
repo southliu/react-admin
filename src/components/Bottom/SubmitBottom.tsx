@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 
@@ -5,7 +6,7 @@ interface Props {
   goBack: () => void;
   handleSubmit: () => void;
   isLoading?: boolean;
-  children?: JSX.Element;
+  children?: ReactNode;
 }
 
 function SubmitBottom(props: Props) {
