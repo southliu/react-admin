@@ -1,8 +1,9 @@
+import type { ReactNode } from 'react';
 import Forbidden from '@/pages/403';
 
 interface Props {
   isPermission?: boolean;
-  children: JSX.Element | JSX.Element[] | string | string[];
+  children: ReactNode;
 }
 
 function BaseContent(props: Props) {
