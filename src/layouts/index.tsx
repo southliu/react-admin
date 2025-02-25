@@ -6,15 +6,15 @@ import { Icon } from '@iconify/react';
 import { debounce } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import { versionCheck } from './utils/helper';
-import { getPermissions } from '@/servers/permissions';
-import { useMenuStore, useUserStore } from '@/stores';
-import { useCommonStore } from '@/hooks/useCommonStore';
 import { getMenuList } from '@/servers/system/menu';
+import { useMenuStore, useUserStore } from '@/stores';
+import { getPermissions } from '@/servers/permissions';
+import { useCommonStore } from '@/hooks/useCommonStore';
+import { KeepAlive, useKeepAliveRef } from "keepalive-for-react";
 import Menu from './components/Menu';
 import Header from './components/Header';
 import Tabs from './components/Tabs';
 import Forbidden from '@/pages/403';
-import KeepAlive from 'keepalive-for-react';
 import styles from './index.module.less';
 
 function Layout() {
@@ -22,6 +22,7 @@ function Layout() {
   const { pathname, search } = useLocation();
   const token = getToken();
   const outlet = useOutlet();
+  const aliveRef = useKeepAliveRef();
   const [isLoading, setLoading] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
   const { setPermissions, setUserInfo } = useUserStore(state => state);
@@ -170,9 +171,10 @@ function Layout() {
             permissions.length > 0 &&
             !isRefresh &&
             <KeepAlive
+              transition
               max={20}
-              strategy={'PRE'}
-              activeName={cacheKey}
+              aliveRef={aliveRef}
+              activeCacheKey={cacheKey}
             >
               { outlet }
             </KeepAlive>

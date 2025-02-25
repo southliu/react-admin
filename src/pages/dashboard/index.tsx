@@ -51,7 +51,7 @@ function Dashboard() {
     return () => {
       console.log('退出时执行');
     };
-  }, false, []);
+  }, []);
 
   useEffectOnActive(() => {
     console.log('第二次进入和退出时执行');
@@ -59,7 +59,7 @@ function Dashboard() {
     return () => {
       console.log('第二次退出时执行');
     };
-  }, true, []);
+  }, []);
 
   return (
     <BaseContent isPermission={isPermission}>

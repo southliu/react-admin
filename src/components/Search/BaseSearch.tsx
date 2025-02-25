@@ -1,6 +1,6 @@
 import type { ColProps, FormInstance } from 'antd';
 import type { FormData, FormList, SearchList } from '#/form';
-import { type CSSProperties, type LegacyRef, ReactNode, forwardRef, useEffect, useState } from 'react';
+import { type CSSProperties, type ReactNode, type Ref, forwardRef, useEffect, useState } from 'react';
 import { type FormProps, Button, Col, Flex } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +29,7 @@ interface Props extends FormProps {
   handleFinish: FormProps['onFinish'];
 }
 
-const BaseSearch = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
+const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
   const {
     list,
     data,

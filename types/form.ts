@@ -160,7 +160,7 @@ export interface FormList extends FormItemProps {
   wrapperWidth?: number; // 内容宽度
   component: ComponentType; // 组件
   componentProps?: ComponentProps; // 组件参数
-  render?: (props: RenderComponentProps) => JSX.Element | JSX.Element[]; // 自定义渲染
+  render?: (props: RenderComponentProps) => ReactNode; // 自定义渲染
 }
 
 // 搜索数据
