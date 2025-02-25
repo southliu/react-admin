@@ -114,6 +114,7 @@ const handleUploadData: FormItemProps['getValueFromEvent'] = (e) => {
  */
 export const filterFormItem = (data: FormList): FormItemProps => {
   const result = cloneDeep(data);
+  delete result.wrapperWidth;
   delete result.componentProps;
   delete result.render;
 

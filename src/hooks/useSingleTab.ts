@@ -74,7 +74,7 @@ export function useSingleTab(
 
   useEffectOnActive(() => {
     handleAddTab();
-  }, false, []);
+  }, []);
 
   /** 获取路由对应名称 */
   const getNameByRoute = (): string => {

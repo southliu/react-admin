@@ -100,7 +100,7 @@ function FilterButton(props: Props) {
   // 渲染内容
   const content = () => {
     return (
-      <div className='min-w-130px'>
+      <div className='min-w-130px flex flex-col'>
         <Checkbox
           className='!px-12px'
           indeterminate={indeterminate}
@@ -155,8 +155,10 @@ function FilterButton(props: Props) {
       content={content}
       trigger='click'
       placement='bottom'
-      overlayInnerStyle={{
-        padding: '12px 0 10px'
+      styles={{
+        body: {
+          padding: '12px 0 10px'
+        }
       }}
       open={isOpen}
       onOpenChange={handleClick}

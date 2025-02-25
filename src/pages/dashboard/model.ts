@@ -43,7 +43,7 @@ export const searchList = (t: TFunction): FormList[] => [
   },
   {
     label: t('dashboard.cooperativeCompany') + '2',
-    name: 'partners',
+    name: 'partners2',
     wrapperWidth: 200,
     component: 'ApiSelect',
     componentProps: {
