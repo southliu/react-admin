@@ -9,7 +9,7 @@ import { useCommonStore } from './useCommonStore';
 export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) => {
   const { isRefresh } = useCommonStore();
   const [isInit, setInit] = useState(false);
-  const echartsRef = useRef<echarts.EChartsType>();
+  const echartsRef = useRef<echarts.EChartsType>(null);
   const htmlDivRef = useRef<HTMLDivElement>(null);
 
   /** 销毁echarts */
