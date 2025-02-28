@@ -12,7 +12,7 @@ function MyEditor() {
 
   return (
     <BaseContent isPermission={isPermission}>
-      <div className='m-10px p-5 rounded-5 bg'>
+      <div className='m-10px p-5 rounded-3 bg'>
         <WangEditor
           value={html}
           onChange={content => setHtml(content)}
