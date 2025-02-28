@@ -18,7 +18,7 @@ function BaseCard(props: Props) {
         box-border
         px-5
         py-3
-        rounded-5
+        rounded-3
         ${className}
       `}
     >
