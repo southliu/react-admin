@@ -135,7 +135,6 @@ function BaseTable(props: Props) {
           if (Array.isArray(enumList)) {
             for (let i = 0; i < enumList?.length; i++) {
               const item = enumList[i];
-              debugger
               if (String(item.value) === String(showValue)) {
                 showValue = item.label;
                 color = item.color;
