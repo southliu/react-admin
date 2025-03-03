@@ -127,14 +127,15 @@ function BaseTable(props: Props) {
       }),
       render: (value: unknown, record: object, index: number) => {
         const renderContent = col?.render?.(value, record, index);
-        let showValue = value, color: string | undefined = undefined;
+        let showValue: ReactNode | string = renderContent as ReactNode;
+        let color: string | undefined = undefined;
         const enumList = (col as TableColumn)?.enum;
 
         if (enumList && typeof enumList === 'object') {
           if (Array.isArray(enumList)) {
             for (let i = 0; i < enumList?.length; i++) {
               const item = enumList[i];
-              if (item.value === value) {
+              if (String(item.value) === String(showValue)) {
                 showValue = item.label;
                 color = item.color;
                 break;
@@ -142,8 +143,8 @@ function BaseTable(props: Props) {
             }
           } else {
             for (const key in enumList) {
-              if (key === value) {
-                showValue = enumList[key];
+              if (key === String(showValue)) {
+                showValue = enumList[key] as string;
                 break;
               }
             }
