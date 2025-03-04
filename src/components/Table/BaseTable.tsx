@@ -118,6 +118,7 @@ function BaseTable(props: Props) {
     if (!newColumns) return [];
     const result = newColumns.map((col, index) => ({
       ...col,
+      ellipsis: col.ellipsis ?? true,
       // 手机端去除列固定，除非设置了isKeepFixed
       fixed: col?.fixed && !(isPhone && !(col as TableColumn)?.isKeepFixed) ? col.fixed : false,
       onHeaderCell: (column: object, i: number) => ({
@@ -125,6 +126,16 @@ function BaseTable(props: Props) {
         width: col.width,
         onResize: handleResize(index),
       }),
+      onCell: (data: object, index?: number) => {
+        return {
+          ...col?.onCell?.(data, index),
+          style: {
+            ...col?.onCell?.(data, index)?.style,
+            maxWidth: col.width,
+            width: col.width,
+          }
+        }
+      },
       render: (value: unknown, record: object, index: number) => {
         const renderContent = col?.render?.(value, record, index);
         let showValue: ReactNode | string = renderContent as ReactNode;
@@ -154,8 +165,8 @@ function BaseTable(props: Props) {
         if (!['object', 'function'].includes(typeof renderContent)) {
           return (
             <span
-              style={{ maxWidth: col.width, color }}
-              className="ellipsis break-all"
+              style={{ color }}
+              className='break-all'
               title={showValue as string}
             >
               { String(showValue ?? EMPTY_VALUE) }
