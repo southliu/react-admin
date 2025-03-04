@@ -36,7 +36,6 @@ export function initCompProps(
       return {
         allowClear: true,
         showSearch: true,
-        optionFilterProp: 'label',
         placeholder: t('public.inputPleaseSelect')
       };
 
@@ -45,7 +44,6 @@ export function initCompProps(
       return {
         allowClear: true,
         showSearch: true,
-        treeNodeFilterProp: 'label',
         placeholder: t('public.inputPleaseSelect')
       };
 
