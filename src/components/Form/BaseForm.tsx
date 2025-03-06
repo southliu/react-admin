@@ -1,7 +1,7 @@
-import type { CSSProperties, LegacyRef, ReactNode } from 'react';
+import type { CSSProperties, ReactNode, Ref } from 'react';
 import type { FormData, FormList } from '#/form';
 import type { ColProps, FormInstance } from 'antd';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 import { FormProps } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ interface Props extends FormProps {
   handleFinish: FormProps['onFinish'];
 }
 
-const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
+const BaseForm = forwardRef((props: Props, ref: Ref<FormInstance>) => {
   const {
     list,
     data,
@@ -39,6 +39,12 @@ const BaseForm = forwardRef((props: Props, ref: LegacyRef<FormInstance>) => {
   delete formProps.list;
   delete formProps.data;
   delete formProps.handleFinish;
+
+  // 监听传入表单数据，如果变化则替换表单
+  useEffect(() => {
+    form?.resetFields();
+    form?.setFieldsValue(props.data);
+  }, [form, props.data]);
 
   const validateMessages = {
     required: t('public.requiredForm', { label: '${label}' }),
