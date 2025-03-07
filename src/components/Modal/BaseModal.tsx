@@ -1,41 +1,61 @@
-import type { MouseEventHandler, ReactNode } from 'react';
+import type { MouseEventHandler, ReactNode, RefObject } from 'react';
 import type { ModalProps } from 'antd';
+import type { DraggableData, DraggableEvent } from 'react-draggable';
 import { useEffect, useRef, useState } from 'react';
 import { Modal, Tooltip } from 'antd';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
+import Draggable from 'react-draggable';
 import './index.less';
-
-interface Position {
-  x: number | undefined;
-  y: number | undefined;
-}
 
 interface Props extends Omit<ModalProps, 'onCancel'> {
   onCancel: () => void;
 }
 
 function BaseModal(props: Props) {
-  const { open, width, children, wrapClassName, onCancel } = props;
+  const { width, children, wrapClassName, onCancel } = props;
   const { t } = useTranslation();
   const { isPhone } = useCommonStore();
+  const [isDisabled, setDisabled] = useState(true);
   const [isFullscreen, setFullscreen] = useState(false);
-  const [isDragging, setDragging] = useState(false);
-  const [position, setPosition] = useState<Position>({ x: undefined, y: undefined });
-  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
-  const modalRef = useRef<HTMLDivElement>(null);
+  const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
+  const [cacheBounds, setCacheBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
+  const draggleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (open && modalRef.current) {
-      modalRef.current.style.left = isFullscreen ? '0px' : `${position.x}px`;
-      modalRef.current.style.top = isFullscreen ? '0px' : `${position.y}px`;
+    if (isFullscreen) {
+      setBounds({ left: 0, top: 0, bottom: 0, right: 0 });
+    } else {
+      setBounds(cacheBounds);
     }
-  }, [open, isFullscreen, modalRef.current]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFullscreen]);
+
+  /** 开始拖拽对话框 */
+  const onStartMouse = (_event: DraggableEvent, uiData: DraggableData) => {
+    const { clientWidth, clientHeight } = window.document.documentElement;
+    const targetRect = draggleRef.current?.getBoundingClientRect?.();
+    if (!targetRect) return;
+    const data = {
+      left: -targetRect.left + uiData.x,
+      right: clientWidth - (targetRect.right - uiData.x),
+      top: -targetRect.top + uiData.y,
+      bottom: clientHeight - (targetRect.bottom - uiData.y),
+    };
+    setBounds(data);
+    setCacheBounds(data);
+  };
+
+  /** 鼠标拖拽结束 */
+  const onMouseOver = () => {
+    if (isDisabled) {
+      setDisabled(false);
+    }
+  };
 
   /** 最大化 */
-  const onFullscreen: MouseEventHandler<HTMLDivElement> = (e) => {
-    e.stopPropagation();
+  const onFullscreen = () => {
     setFullscreen(!isFullscreen);
   };
 
@@ -82,7 +102,11 @@ function BaseModal(props: Props) {
 
   /** 自定义标题 */
   const titleRender = (
-    <div className="modal-custom-title">
+    <div
+      className="modal-custom-title"
+      onMouseOver={onMouseOver}
+      onMouseOut={() => setDisabled(true)}
+    >
       <span className='cursor-text'>
         { props.title || '' }
       </span>
@@ -91,41 +115,19 @@ function BaseModal(props: Props) {
     </div>
   );
 
-  /** 开始拖拽对话框 */
-  const handleMouseDown: MouseEventHandler = (e) => {
-    if (isFullscreen) return;
-    const currentPosition = { x: e.clientX - (position.x || 0), y: e.clientY - (position.y || 0) };
-    setDragging(true);
-    setStartPosition(currentPosition);
-  };
-
-  /** 拖拽对话框移动 */
-  const handleMouseMove: MouseEventHandler = (e) => {
-    if (isDragging && !isFullscreen && modalRef.current) {
-      const newX = e.clientX - startPosition.x;
-      const newY = e.clientY - startPosition.y;
-      setPosition({ x: newX, y: newY });
-      // 更新Modal的位置
-      modalRef.current.style.left = `${newX}px`;
-      modalRef.current.style.top = `${newY}px`;
-    }
-  };
-
-  /** 结束拖拽对话框 */
-  const handleMouseUp = () => {
-    if (isFullscreen) return;
-    setDragging(false);
-  };
-
   /** 自定义渲染对话框 */
   const modalRender = (modal: ReactNode) => (
-    <div
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
+    <Draggable
+      nodeRef={draggleRef as RefObject<HTMLElement>}
+      disabled={isDisabled}
+      onStart={onStartMouse}
+      bounds={isFullscreen ? undefined : bounds}
+      position={isFullscreen ? { x: 0, y: 0 } : undefined}
     >
-      {modal}
-    </div>
+      <div ref={draggleRef}>
+        {modal}
+      </div>
+    </Draggable>
   );
 
   return (
@@ -137,7 +139,6 @@ function BaseModal(props: Props) {
       okText={t('public.ok')}
       cancelText={t('public.cancel')}
       {...props}
-      wrapProps={{ ...props.wrapProps, ref: modalRef }}
       className={`base-modal ${props.className}`}
       title={titleRender}
       wrapClassName={isFullscreen ? 'full-modal' : wrapClassName || ''}
