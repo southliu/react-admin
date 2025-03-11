@@ -92,7 +92,7 @@ export const searchList = (t: TFunction): SearchList[] => [
     {
       title: t('public.operate'),
       dataIndex: 'operate',
-      width: 200,
+      width: 220,
       fixed: 'right',
       render: (value: unknown, record: object) => optionRender(value, record)
     },
