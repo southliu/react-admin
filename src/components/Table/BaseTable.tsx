@@ -1,7 +1,7 @@
 import type { ResizeCallbackData } from 'react-resizable';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableColumn } from '#/public';
-import { type TableProps, Table, Button, message } from 'antd';
+import { type TableProps, Table, Button, message, Tooltip } from 'antd';
 import { useMemo, useState, useEffect, useRef, type ReactNode } from 'react';
 import { useFiler } from './hooks/useFiler';
 import { useTranslation } from 'react-i18next';
@@ -164,13 +164,15 @@ function BaseTable(props: Props) {
 
         if (!['object', 'function'].includes(typeof renderContent)) {
           return (
-            <span
-              style={{ color }}
-              className='break-all'
-              title={showValue as string}
-            >
-              { String(showValue ?? EMPTY_VALUE) }
-            </span>
+            <Tooltip title={showValue} placement='topLeft'>
+              <span
+                style={{ color }}
+                className='break-all'
+                title={showValue as string}
+              >
+                { String(showValue ?? EMPTY_VALUE) }
+              </span>
+            </Tooltip>
           );
         }
 
