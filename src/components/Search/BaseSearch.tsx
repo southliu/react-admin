@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { filterDayjs } from '@/components/Dates';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { getComponent } from '@/components/Form/utils/componentMap';
-import { filterFormItem, handleValuePropName } from '@/components/Form/utils/helper';
 import { SearchOutlined, ClearOutlined, DownOutlined } from '@ant-design/icons';
+import { filterEmptyStr, filterFormItem, handleValuePropName } from '@/components/Form/utils/helper';
 
 interface Props extends FormProps {
   list: SearchList[];
@@ -156,22 +156,6 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
   };
 
   /**
-   * 过滤空字符串
-   * @param values - 表单值
-   */
-  const filterEmptyStr = (values: Record<string, unknown>) => {
-    const params: Record<string, unknown> = {};
-
-    Object.keys(values).forEach(key => {
-      if (values[key] !== '') {
-        params[key] = values[key];
-      }
-    });
-
-    return params;
-  };
-
-  /**
    * 提交表单
    * @param values - 表单值
    */
@@ -179,7 +163,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
     if (handleFinish) {
       // 将dayjs类型转为字符串
       let params = filterDayjs(values, list as FormList[]);
-      // 过滤空字符串
+      // 过滤空字符串和前后空格
       params = filterEmptyStr(params);
       handleFinish?.(params);
     }
