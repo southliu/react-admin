@@ -128,3 +128,24 @@ export const filterFormItem = (data: FormList): FormItemProps => {
 
   return result as FormItemProps;
 };
+
+/**
+ * 过滤空字符串和前后空格
+ * @param values - 表单值
+ */
+export const filterEmptyStr = (values: Record<string, unknown>) => {
+  const params: Record<string, unknown> = {};
+
+  Object.keys(values).forEach(key => {
+    // 去除前后空格
+    if(typeof values[key] === 'string') {
+      values[key] = values[key]?.trim();
+    }
+
+    if (values[key] !== '') {
+      params[key] = values[key];
+    }
+  });
+
+  return params;
+};
