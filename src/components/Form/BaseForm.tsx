@@ -6,7 +6,7 @@ import { FormProps } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { getComponent } from './utils/componentMap';
-import { filterFormItem, handleValuePropName } from './utils/helper';
+import { filterEmptyStr, filterFormItem, handleValuePropName } from './utils/helper';
 import { filterDayjs } from '../Dates/utils/helper';
 
 interface Props extends FormProps {
@@ -69,7 +69,9 @@ const BaseForm = forwardRef((props: Props, ref: Ref<FormInstance>) => {
   const onFinish: FormProps['onFinish'] = values => {
     if (handleFinish) {
       // 将dayjs类型转为字符串
-      const params = filterDayjs(values, list);
+      let params = filterDayjs(values, list);
+      // 过滤空字符串和前后空格
+      params = filterEmptyStr(params);
       handleFinish?.(params);
     }
   };
