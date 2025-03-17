@@ -23,6 +23,7 @@
     "@south/utils": "workspace:^",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-react": "^1.0.6",
+    "@wavesurfer/react": "^1.0.9",
     "antd": "^5.24.2",
     "axios": "^1.7.9",
     "crypto-js": "^4.2.0",
@@ -43,6 +44,7 @@
     "react-router-dom": "7.2.0",
     "react-virtualized-auto-sizer": "^1.0.25",
     "react-window": "^1.8.11",
+    "wavesurfer.js": "^7.9.1",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
