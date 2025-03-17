@@ -1,16 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useWavesurfer } from '@wavesurfer/react';
 import { Button, Input } from 'antd';
-import WavesurferPlayer from '@wavesurfer/react';
 import RegionsPlugin from 'wavesurfer.js/dist/plugins/regions.js';
-import WaveSurfer from 'wavesurfer.js';
+import Timeline from 'wavesurfer.js/dist/plugins/timeline.js'
 
 function Audio() {
   const [audioUrl, setAudioUrl] = useState('');
-  const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null)
-  const [isPlaying, setIsPlaying] = useState(false)
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(5);
+  const [regionStartTime, setRegionStartTime] = useState<undefined | number>(undefined);
+  const [regionEndTime, setRegionEndTime] = useState<undefined | number>(undefined);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const regionsPlugin = useMemo(() => RegionsPlugin.create(), []);
+  const timePlugin = useMemo(() => Timeline.create(), []);
+  const plugins = useMemo(() => [regionsPlugin, timePlugin], [regionsPlugin, timePlugin]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -18,18 +21,32 @@ function Audio() {
     }, 1000);
   }, [])
 
-  const onReady = (ws: WaveSurfer | null) => {
-    console.log('ws:', ws)
-    setWavesurfer(ws);
-    setIsPlaying(false);
-  }
+  const { wavesurfer, isReady, isPlaying, currentTime } = useWavesurfer({
+    container: containerRef,
+    url: audioUrl,
+    waveColor: 'purple',
+    height: 100,
+    normalize: true,
+    plugins
+  });
+
+  // 初始加载时添加默认区域
+  useEffect(() => {
+    if (wavesurfer) {
+      addRegion(0, 5);
+      if (regionsPlugin) {
+        regionsPlugin.on('region-updated', (region) => {
+          console.log('Region updated:', region.start, region.end);
+          setRegionStartTime(region.start);
+          setRegionEndTime(region.end);
+        });
+      }
+    }
+  }, [wavesurfer]);
 
   // 提取添加区域逻辑到一个函数
   const addRegion = (start: number, end: number) => {
     if (wavesurfer) {
-      const regionsPlugin = wavesurfer.getActivePlugins().find(
-        (plugin) => plugin instanceof RegionsPlugin
-      );
       if (regionsPlugin) {
         regionsPlugin.addRegion({
           start,
@@ -53,47 +70,56 @@ function Audio() {
 
   const onPlayPause = () => {
     wavesurfer && wavesurfer.playPause()
-  }
+  };
 
   return (
     <div className='p-30px'>
-      <Input
-        type="number"
-        value={startTime}
-        onChange={(e) => setStartTime(Number(e.target.value))}
-        placeholder="Start time"
-      />
-      <Input
-        type="number"
-        value={endTime}
-        onChange={(e) => setEndTime(Number(e.target.value))}
-        placeholder="End time"
-      />
-      <Button onClick={handleAddRegion}>Add Region</Button>
+      <div className='flex items-center flex-wrap'>
+        <Input
+          type="number"
+          className='!w-100px !mr-5px'
+          value={startTime}
+          onChange={(e) => setStartTime(Number(e.target.value))}
+          placeholder="开始时间"
+        />
+        <Input
+          type="number"
+          className='!w-100px !mr-5px'
+          value={endTime}
+          onChange={(e) => setEndTime(Number(e.target.value))}
+          placeholder="结束"
+        />
+        <Button onClick={handleAddRegion}>
+          添加区间
+        </Button>
+      </div>
 
       <div ref={containerRef} />
-{/*
+
       <div>
         当前时间: {currentTime}
+      </div>
+      <div>
+        区间开始时间: {regionStartTime}
+      </div>
+      <div>
+        区间结束时间: {regionEndTime}
       </div>
 
       <div>
         状态: {isReady ? '已准备好' : '未准备好'}
-      </div> */}
+      </div>
 
-      <WavesurferPlayer
-        height={100}
-        waveColor="violet"
-        url={audioUrl}
-        onReady={onReady}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-      />
-
-
-      <Button onClick={onPlayPause}>
-        {isPlaying ? 'Pause' : 'Play'}
-      </Button>
+      {
+        isReady &&
+        <Button
+          type='primary'
+          className='mt-10px'
+          onClick={onPlayPause}
+        >
+          {isPlaying ? '停止播放' : '播放'}
+        </Button>
+      }
     </div>
   )
 }
