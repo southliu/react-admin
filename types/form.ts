@@ -165,5 +165,6 @@ export interface FormList extends FormItemProps {
 
 // 搜索数据
 export interface SearchList extends FormList {
+  labelWidth?: number; // 临时使用
   // TODO...
 }

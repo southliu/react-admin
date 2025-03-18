@@ -20,6 +20,7 @@ function CopyInput(props: InputProps) {
       copyToClipboard(value);
       messageApi.success({ content: t('public.copySuccessfully'), key: 'copy' });
     } catch(e) {
+      console.error(e);
       messageApi.warning({ content: t('public.copyFailed'), key: 'copy' });
     }
   };

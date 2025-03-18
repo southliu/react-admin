@@ -134,7 +134,7 @@ function BaseTable(props: Props) {
             maxWidth: col.width,
             width: col.width,
           }
-        }
+        };
       },
       render: (value: unknown, record: object, index: number) => {
         const renderContent = col?.render?.(value, record, index);

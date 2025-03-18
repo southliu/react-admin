@@ -87,7 +87,7 @@ function SearchModal(props: Props) {
       // 添加标签
       const menuByKeyProps = { menus: menuList, permissions, key: active };
       const newTab = getMenuByKey(menuByKeyProps);
-      newTab && addTabs(newTab);
+      if (newTab) addTabs(newTab);
       setActiveKey(active);
       // 处理菜单展开
       const openKeys = getOpenMenuByRouter(active);

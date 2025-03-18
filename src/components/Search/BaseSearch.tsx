@@ -72,6 +72,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
         form.setFieldsValue({ ...data });
       }
     } catch (e) {
+      console.error(e);
       console.warn('传入的搜索数据不是一个对象');
     }
   }, [data, form, isFirst]);

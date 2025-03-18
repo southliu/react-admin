@@ -1,9 +1,6 @@
 import { HTMLAttributes } from "react";
 
-interface Props extends HTMLAttributes<unknown> {
-}
-
-function BaseCard(props: Props) {
+function BaseCard(props: HTMLAttributes<unknown>) {
   const { children, className } = props;
 
   return (

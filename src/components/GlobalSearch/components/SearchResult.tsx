@@ -33,7 +33,7 @@ function SearchResult(props: Props) {
     // 添加标签
     const menuByKeyProps = { menus: menuList, permissions, key };
     const newTab = getMenuByKey(menuByKeyProps);
-    newTab && addTabs(newTab);
+    if (newTab) addTabs(newTab);
     setActiveKey(key);
     // 处理菜单展开
     const openKeys = getOpenMenuByRouter(key);

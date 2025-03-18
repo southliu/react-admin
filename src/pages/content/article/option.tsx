@@ -76,7 +76,11 @@ function Page() {
   };
 
   useEffect(() => {
-    id ? handleUpdate(id) : handleCreate();
+    if (id) {
+      handleUpdate(id);
+    } else {
+      handleCreate();
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
