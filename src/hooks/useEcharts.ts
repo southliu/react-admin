@@ -21,22 +21,35 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
 
   /** 初始化 */
   const init = useCallback(() => {
-    setInit(false);
-    if (options) {
-      // 摧毁echarts后在初始化
-      dispose();
+    if (!htmlDivRef.current || !options) return;
 
-      // 初始化chart
-      if (htmlDivRef.current) {
-        echartsRef.current = echarts.init(htmlDivRef.current);
-        echartsRef.current.setOption(options, true);
-      }
+    try {
+      // 销毁旧实例
+      dispose();
+      // 创建新实例
+      echartsRef.current = echarts.init(htmlDivRef.current);
+      // 设置初始配置
+      echartsRef.current.setOption(options, true);
+      // 自动调整尺寸
+      echartsRef.current.resize();
+    } catch (error) {
+      console.error('ECharts初始化失败:', error);
     }
+    setInit(false);
   }, [options]);
 
+  /** 重置 */
+  const reset = () => {
+    if (echartsRef.current) {
+      // 摧毁echarts后在初始化
+      dispose();
+      init();
+    }
+  };
+
   useEffect(() => {
-    if (isInit) init();
-  }, [init, isInit]);
+    if (isInit && htmlDivRef.current) init();
+  }, [init, isInit, htmlDivRef]);
 
   // 刷新页面监听操作值
   useEffect(() => {
@@ -46,15 +59,19 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
   }, [options, isRefresh]);
 
   useEffect(() => {
-    init();
-    window.addEventListener("resize", init, false);
+    const chartInstance = echartsRef.current;
+    const resizeHandler = () => chartInstance?.resize();
+
+    if (htmlDivRef.current) {
+      init();
+      window.addEventListener("resize", resizeHandler);
+    }
 
     return () => {
-      window.removeEventListener("resize", init);
+      window.removeEventListener("resize", resizeHandler);
       dispose();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [init]);
 
   useEffect(() => {
     if (data) {
@@ -63,5 +80,5 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  return [htmlDivRef, init] as const;
+  return [htmlDivRef, reset] as const;
 };

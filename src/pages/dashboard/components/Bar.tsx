@@ -70,11 +70,11 @@ function Bar() {
     ]
   };
 
-  const [echartsRef, init] = useEcharts(option, data);
+  const [echartsRef, reset] = useEcharts(option, data);
 
   useEffect(() => {
     if (permissions.length && echartsRef.current) {
-      init();
+      reset();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [echartsRef]);

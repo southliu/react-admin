@@ -59,11 +59,11 @@ function Line() {
     ]
   };
 
-  const [echartsRef, init] = useEcharts(option);
+  const [echartsRef, reset] = useEcharts(option);
 
   useEffect(() => {
     if (permissions.length && echartsRef.current) {
-      init();
+      reset();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [echartsRef]);
