@@ -14,8 +14,9 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
 
   /** 销毁echarts */
   const dispose = () => {
-    if (htmlDivRef.current) {
-      echartsRef.current?.dispose();
+    if (echartsRef.current && !echartsRef.current.isDisposed()) {
+      echartsRef.current.dispose();
+      echartsRef.current = null; // 添加引用清除
     }
   };
 
@@ -41,8 +42,6 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
   /** 重置 */
   const reset = () => {
     if (echartsRef.current) {
-      // 摧毁echarts后在初始化
-      dispose();
       init();
     }
   };
@@ -74,8 +73,9 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
   }, [init]);
 
   useEffect(() => {
-    if (data) {
-      echartsRef?.current?.setOption(options, true);
+    // 添加实例状态检查
+    if (data && echartsRef.current && !echartsRef.current.isDisposed()) {
+      echartsRef.current.setOption(options, true);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
