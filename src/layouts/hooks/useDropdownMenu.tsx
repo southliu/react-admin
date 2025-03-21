@@ -89,7 +89,7 @@ export function useDropdownMenu(props: Props) {
 
       // 关闭当前
       case ITabEnums.CLOSE_CURRENT:
-        closeTabs(key);
+        closeTabs(key, navigate);
         break;
 
       // 关闭其他
