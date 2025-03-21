@@ -1,12 +1,9 @@
 import type { EChartsCoreOption } from 'echarts';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEcharts } from '@/hooks/useEcharts';
-import { useCommonStore } from '@/hooks/useCommonStore';
 
 function Line() {
   const { t } = useTranslation();
-  const { permissions } = useCommonStore();
 
   const option: EChartsCoreOption = {
     title: {
@@ -59,14 +56,7 @@ function Line() {
     ]
   };
 
-  const [echartsRef, reset] = useEcharts(option);
-
-  useEffect(() => {
-    if (permissions.length && echartsRef.current) {
-      reset();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [echartsRef]);
+  const [echartsRef] = useEcharts(option);
 
   return (
     <div className='h-550px border border-gray-200 rounded-10px'>
