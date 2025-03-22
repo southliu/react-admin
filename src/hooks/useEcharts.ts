@@ -35,7 +35,7 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
   const resizeHandler = () => {
     setTimeout(() => {
       echartsRef.current?.resize();
-    }, 100);
+    }, 500);
   };
 
   useEffect(() => {
