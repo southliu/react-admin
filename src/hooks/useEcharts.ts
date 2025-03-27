@@ -6,7 +6,7 @@ import * as echarts from 'echarts';
  * @param data -  数据
  */
 export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) => {
-  const echartsRef = useRef<echarts.EChartsType>(null);
+  const echartsRef = useRef<echarts.EChartsType | null>(null);
   const htmlDivRef = useRef<HTMLDivElement>(null);
 
   /** 销毁echarts */
