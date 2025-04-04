@@ -4,6 +4,7 @@ export default {
   date: '日期',
   search: '搜索',
   clear: '清除',
+  reset: '重置',
   create: '新增',
   edit: '编辑',
   delete: '删除',

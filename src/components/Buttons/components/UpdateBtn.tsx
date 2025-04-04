@@ -2,12 +2,12 @@ import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-interface Props extends Omit<ButtonProps, 'loading'> {
-  isLoading: boolean;
+interface Props extends ButtonProps {
+  isLoading?: boolean;
 }
 
 function UpdateBtn(props: Props) {
-  const { isLoading } = props;
+  const { isLoading, loading } = props;
   const { t } = useTranslation();
 
   // 清除自定义属性
@@ -18,7 +18,7 @@ function UpdateBtn(props: Props) {
     <Button
       type='primary'
       {...params}
-      loading={!!isLoading}
+      loading={!!isLoading || loading}
     >
       { t('public.edit') }
     </Button>

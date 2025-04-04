@@ -148,7 +148,6 @@ function Page() {
         pagePermission.update === true &&
         <UpdateBtn
           className='mr-5px'
-          isLoading={isLoading}
           onClick={() => onUpdate((record as RowData).id)}
         />
       }
@@ -156,7 +155,6 @@ function Page() {
         pagePermission.delete === true &&
         <DeleteBtn
           className='mr-5px'
-          isLoading={isLoading}
           handleDelete={() => onDelete((record as RowData).id)}
         />
       }

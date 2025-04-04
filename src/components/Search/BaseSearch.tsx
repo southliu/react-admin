@@ -7,16 +7,15 @@ import { useTranslation } from 'react-i18next';
 import { filterDayjs } from '@/components/Dates';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { getComponent } from '@/components/Form/utils/componentMap';
-import { SearchOutlined, ClearOutlined, DownOutlined } from '@ant-design/icons';
+import { SearchOutlined, ReloadOutlined, DownOutlined } from '@ant-design/icons';
 import { filterEmptyStr, filterFormItem, handleValuePropName } from '@/components/Form/utils/helper';
 
 interface Props extends FormProps {
   list: SearchList[];
   data: FormData;
-  initSearch?: FormData;
   isLoading?: boolean;
   isSearch?: boolean;
-  isClear?: boolean;
+  isReset?: boolean;
   style?: CSSProperties;
   className?: string;
   type?: 'default' | 'grid';
@@ -33,10 +32,10 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
   const {
     list,
     data,
-    initSearch,
+    initialValues,
     isLoading,
     isSearch = true,
-    isClear = true,
+    isReset = true,
     isRowExpand = true,
     type = 'default',
     style,
@@ -81,9 +80,8 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
   const formProps = { ...props };
   delete formProps.type;
   delete formProps.isSearch;
-  delete formProps.isClear;
+  delete formProps.isReset;
   delete formProps.isLoading;
-  delete formProps.initSearch;
   delete formProps.handleFinish;
 
   /** 回车处理 */
@@ -91,10 +89,10 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
     form?.submit();
   };
 
-  /** 点击清除 */
-  const onClear = () => {
+  /** 点击重置 */
+  const onReset = () => {
     form?.resetFields();
-    form?.setFieldsValue(initSearch ? { ...initSearch } : {});
+    form?.setFieldsValue(initialValues ? { ...initialValues } : {});
     form?.submit();
   };
 
@@ -197,14 +195,14 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
       }
 
       {
-        !!isClear &&
+        !!isReset &&
         <Form.Item>
           <Button
             className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}
-            icon={<ClearOutlined />}
-            onClick={onClear}
+            icon={<ReloadOutlined />}
+            onClick={onReset}
           >
-            { t('public.clear') }
+            { t('public.reset') }
           </Button>
         </Form.Item>
       }

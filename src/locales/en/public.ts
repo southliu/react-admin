@@ -4,6 +4,7 @@ export default {
   date: 'date',
   search: 'Search',
   clear: 'Clear',
+  reset: 'Reset',
   create: 'Create',
   edit: 'Edit',
   delete: 'Delete',

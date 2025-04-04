@@ -67,7 +67,7 @@ function Dashboard() {
         <BaseSearch
           list={searchList(t)}
           data={initSearch}
-          initSearch={initSearch}
+          initialValues={initSearch}
           isLoading={isLoading}
           handleFinish={handleSearch}
         />
