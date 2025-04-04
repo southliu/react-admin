@@ -36,11 +36,6 @@ function LayoutMenu() {
     setActiveKey
   } = useTabsStore(state => state);
   const {
-    setOpenKeys,
-    setSelectedKeys,
-    toggleCollapsed
-  } = useMenuStore(state => state);
-  const {
     isMaximize,
     isCollapsed,
     isPhone,
@@ -49,13 +44,15 @@ function LayoutMenu() {
     permissions,
     menuList
   } = useCommonStore();
+  const { toggleCollapsed } = useMenuStore(state => state);
+  const [currentOpenKeys, setCurrentOpenKeys] = useState(openKeys || []);
+  const [currentSelectedKeys, setCurrentSelectedKeys] = useState(selectedKeys ? [selectedKeys] : []);
 
   // 处理默认展开
   useEffect(() => {
     const newOpenKey = getOpenMenuByRouter(pathname);
-    setOpenKeys(newOpenKey);
-    setSelectedKeys(pathname);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setCurrentOpenKeys(newOpenKey);
+    setCurrentSelectedKeys([pathname]);
   }, [pathname]);
 
   /**
@@ -169,7 +166,7 @@ function LayoutMenu() {
       }
     }
 
-    setOpenKeys(newOpenKey);
+    setCurrentOpenKeys(newOpenKey);
   };
 
   /** 点击logo */
@@ -232,8 +229,8 @@ function LayoutMenu() {
         <Menu
           id="layout-menu"
           className="z-1000"
-          selectedKeys={[selectedKeys]}
-          openKeys={openKeys}
+          selectedKeys={currentSelectedKeys}
+          openKeys={currentOpenKeys}
           mode="inline"
           theme="dark"
           inlineCollapsed={isPhone ? false : isCollapsed}
