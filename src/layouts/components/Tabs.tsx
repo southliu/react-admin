@@ -235,7 +235,7 @@ function LayoutTabs() {
     </DefaultTabBar>
   );
 
-  return (
+  return useMemo(() => (
     <div className={`
       w-[calc(100%-5px)]
       flex
@@ -284,7 +284,10 @@ function LayoutTabs() {
         }
       </div>
     </div>
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ), [
+    activeKey,
+  ]);
 }
 
 export default LayoutTabs;
