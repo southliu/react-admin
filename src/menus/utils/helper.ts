@@ -435,7 +435,7 @@ export function handleFilterMenus(menus: SideMenu[], level = 0): SideMenu[] {
  * 转换为导航所需格式
  * @param list - 标题队列
  */
-export function handleFilterNav(list: string[]): NavData[] {
+export function handleFilterNav(list: string[], title?: string): NavData[] {
   const result: NavData[] = [];
 
   for (let i = 0; i < list?.length; i++) {
@@ -444,6 +444,14 @@ export function handleFilterNav(list: string[]): NavData[] {
       label: item,
       labelZh: item,
       labelEn: item,
+    });
+  }
+
+  if (title) {
+    result.push({
+      label: title,
+      labelZh: title,
+      labelEn: title,
     });
   }
   return result;

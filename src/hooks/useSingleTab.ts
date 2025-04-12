@@ -12,6 +12,7 @@ import { useMenuStore, useTabsStore } from '@/stores';
 /**
  * 单标签设置
  * @param fatherPath - 父级路径
+ * @param title - 标题
  * @param name - 名称
  */
 export function useSingleTab(
@@ -53,14 +54,14 @@ export function useSingleTab(
   const handleAddTab = useCallback((path = pathname) => {
     // 当值为空时匹配路由
     if (path === '/') return;
-    const title = handleGetTitle();
+    const currentTitle = handleGetTitle();
     const nav = handleGetNav();
     const newTab = {
-      label: title,
-      labelEn: title,
-      labelZh: title,
+      label: currentTitle,
+      labelEn: currentTitle,
+      labelZh: currentTitle,
       key: uri,
-      nav: handleFilterNav(nav)
+      nav: handleFilterNav(nav, title)
     };
     setActiveKey(newTab.key);
     setNav(newTab.nav);

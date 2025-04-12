@@ -5,6 +5,7 @@ import { createList } from './model';
 import { getUrlParam } from '@/utils/helper';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useSingleTab } from '@/hooks/useSingleTab';
@@ -62,9 +63,9 @@ function Page() {
   const [createData, setCreateData] = useState<FormData>(initCreate);
   const [messageApi, contextHolder] = message.useMessage();
   const { permissions } = useCommonStore();
-  const closeTabGoNext = useTabsStore(state => state.closeTabGoNext);
-  const setRefreshPage = usePublicStore(state => state.setRefreshPage);
-  useSingleTab(fatherPath);
+  const closeTabGoNext = useTabsStore(useShallow(state => state.closeTabGoNext));
+  const setRefreshPage = usePublicStore(useShallow(state => state.setRefreshPage));
+  useSingleTab(fatherPath, id ? '编辑文章管理' : '新增文章管理');
 
   // 权限前缀
   const permissionPrefix = '/content/article';
