@@ -18,7 +18,7 @@ export function useSingleTab(
   fatherPath: string,
   title?: string,
   name = 'id'
-  ) {
+) {
   const { t, i18n } = useTranslation();
   const { pathname, search } = useLocation();
   const { setOpenKeys, setSelectedKeys } = useMenuStore(state => state);
@@ -70,7 +70,8 @@ export function useSingleTab(
 
   useEffect(() => {
     handleAddTab();
-  }, [handleAddTab]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffectOnActive(() => {
     handleAddTab();
