@@ -1,19 +1,18 @@
 import '@wangeditor/editor/dist/css/style.css';
 import type { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import { FILE_API } from '@/utils/config';
 
-export interface EditorProps {
+export interface EditorProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value: string; // 富文本内容
   onChange: (value: string) => void; // 处理更改内容
   height?: number; // 富文本高度
-  className?: string;
 }
 
 function WangEditor(props: EditorProps) {
-  const { value, height, className, onChange } = props;
+  const { value, height, style, className, onChange } = props;
   const { t } = useTranslation();
 
   // editor 实例
@@ -65,7 +64,7 @@ function WangEditor(props: EditorProps) {
   return (
     <div
       className={className}
-      style={{ border: '1px solid #ccc', zIndex: 100}}
+      style={{ ...(style || {}), border: '1px solid #ccc', zIndex: 100}}
     >
       <Toolbar
         editor={editor}
