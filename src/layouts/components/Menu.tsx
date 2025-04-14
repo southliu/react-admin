@@ -1,6 +1,6 @@
 import type { MenuProps } from 'antd';
 import type { SideMenu } from '#/public';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Menu } from 'antd';
 import { Icon } from '@iconify/react';
 import { setTitle } from '@/utils/helper';
@@ -181,7 +181,7 @@ function LayoutMenu() {
     toggleCollapsed(true);
   };
 
-  return (
+  return useMemo(() => (
     <>
       <div
         className={`
@@ -256,7 +256,15 @@ function LayoutMenu() {
         />
       }
     </>
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ), [
+    currentOpenKeys,
+    currentSelectedKeys,
+    isCollapsed,
+    isMaximize,
+    isPhone,
+    menus,
+  ]);
 }
 
 export default LayoutMenu;

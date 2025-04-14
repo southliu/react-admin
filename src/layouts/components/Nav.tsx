@@ -1,6 +1,6 @@
 import type { BreadcrumbProps } from 'antd';
 import type { NavData } from '@/menus/utils/helper';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
 
@@ -38,7 +38,7 @@ function Nav(props: Props) {
     setNav(handleList(list));
   }, [handleList, list]);
 
-  return (
+  return useMemo(() => (
     <>
       {
         !isPhone &&
@@ -59,7 +59,8 @@ function Nav(props: Props) {
         </div>
       }
     </>
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ), [nav]);
 }
 
 export default Nav;

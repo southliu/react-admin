@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useKeepAliveContext } from 'keepalive-for-react';
 import { useDropdownMenu } from '../hooks/useDropdownMenu';
 import { useCommonStore } from '@/hooks/useCommonStore';
+import { useShallow } from 'zustand/react/shallow';
 import { useTranslation } from 'react-i18next';
 import { useTabsStore } from '@/stores/tabs';
 import { usePublicStore } from '@/stores';
@@ -35,7 +36,7 @@ function LayoutTabs() {
     setNav,
     toggleLock,
     switchTabsLang,
-  } = useTabsStore(state => state);
+  } = useTabsStore(useShallow(state => state));
 
   // 获取当前语言
   const currentLanguage = i18n.language;
@@ -235,7 +236,7 @@ function LayoutTabs() {
     </DefaultTabBar>
   );
 
-  return (
+  return useMemo(() => (
     <div className={`
       w-[calc(100%-5px)]
       flex
@@ -284,7 +285,10 @@ function LayoutTabs() {
         }
       </div>
     </div>
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ), [
+    activeKey,
+  ]);
 }
 
 export default LayoutTabs;

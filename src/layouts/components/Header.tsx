@@ -1,6 +1,6 @@
 import type { PasswordModal } from './UpdatePassword';
 import type { MenuProps } from 'antd';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToken } from '@/hooks/useToken';
 import { App, Dropdown } from 'antd';
@@ -98,7 +98,7 @@ function Header() {
 
   /** 右侧组件抽离减少重复渲染 */
   const RightRender = () => {
-    return (
+    return useMemo(() => (
       <div className="flex items-center">
         <Github />
         <GlobalSearch />
@@ -126,7 +126,8 @@ function Header() {
           </div>
         </Dropdown>
       </div>
-    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    ), [username]);
   };
 
   /** icon渲染 */
