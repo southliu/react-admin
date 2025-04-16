@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { getDataTrends } from '@/servers/dashboard';
 import { searchList } from './model';
 import { useTranslation } from 'react-i18next';
-import { useEffectOnActive } from 'keepalive-for-react';
+import { useActivate } from 'react-activation';
 import { checkPermission } from '@/utils/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import BaseSearch from '@/components/Search/BaseSearch';
@@ -45,21 +45,21 @@ function Dashboard() {
     handleSearch(initSearch);
   }, [handleSearch]);
 
-  useEffectOnActive(() => {
+  useActivate(() => {
     console.log('进入和退出时执行');
 
     return () => {
       console.log('退出时执行');
     };
-  }, []);
+  });
 
-  useEffectOnActive(() => {
+  useActivate(() => {
     console.log('第二次进入和退出时执行');
 
     return () => {
       console.log('第二次退出时执行');
     };
-  }, []);
+  });
 
   return (
     <BaseContent isPermission={isPermission}>

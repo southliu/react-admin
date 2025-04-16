@@ -6,6 +6,9 @@ import nprogress from 'nprogress';
 import RouterPage from './components/Router';
 import StaticMessage from '@south/message';
 
+// keepalive
+import { AliveScope } from 'react-activation';
+
 // antd
 import { theme, ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -43,7 +46,9 @@ function Page() {
       >
         <App>
           <StaticMessage />
-          <RouterPage />
+          <AliveScope>
+            <RouterPage />
+          </AliveScope>
         </App>
       </ConfigProvider>
     </Router>

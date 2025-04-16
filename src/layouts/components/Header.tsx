@@ -1,12 +1,12 @@
 import type { PasswordModal } from './UpdatePassword';
 import type { MenuProps } from 'antd';
 import { useMemo, useRef } from 'react';
+import { useAliveController } from 'react-activation';
 import { useNavigate } from 'react-router-dom';
 import { useToken } from '@/hooks/useToken';
 import { App, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
-import { useKeepAliveContext } from 'keepalive-for-react';
 import {
   useMenuStore,
   useTabsStore,
@@ -34,7 +34,7 @@ type MenuKey = 'password' | 'logout'
 function Header() {
   const [, , removeToken] = useToken();
   const { t } = useTranslation();
-  const { destroy } = useKeepAliveContext();
+  const { clear } = useAliveController();
   const { modal } = App.useApp();
   const {
     isCollapsed,
@@ -90,7 +90,7 @@ function Header() {
         closeAllTab();
         setActiveKey('');
         removeToken();
-        destroy(); // 清除keepalive缓存
+        clear(); // 清除keepalive缓存
         navigate('/login');
       }
     });
