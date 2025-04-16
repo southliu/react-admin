@@ -1,5 +1,5 @@
 import { useToken } from '@/hooks/useToken';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useOutlet } from 'react-router-dom';
 import { Skeleton, message } from 'antd';
 import { Icon } from '@iconify/react';
@@ -10,7 +10,7 @@ import { getMenuList } from '@/servers/system/menu';
 import { useMenuStore, useUserStore } from '@/stores';
 import { getPermissions } from '@/servers/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
-import { KeepAlive, useKeepAliveRef } from "keepalive-for-react";
+import KeepAlive from "react-activation";
 import Menu from './components/Menu';
 import Header from './components/Header';
 import Tabs from './components/Tabs';
@@ -20,9 +20,9 @@ import styles from './index.module.less';
 function Layout() {
   const [getToken] = useToken();
   const { pathname, search } = useLocation();
+  const uri = pathname + search;
   const token = getToken();
   const outlet = useOutlet();
-  const aliveRef = useKeepAliveRef();
   const [isLoading, setLoading] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
   const { setPermissions, setUserInfo } = useUserStore(state => state);
@@ -101,13 +101,6 @@ function Layout() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /**
-   * 用于区分不同页面以进行缓存
-   */
-  const cacheKey = useMemo(() => {
-    return pathname + search;
-  }, [pathname, search]);
-
   return (
     <div id="layout">
       { contextHolder }
@@ -170,12 +163,7 @@ function Layout() {
           {
             permissions.length > 0 &&
             !isRefresh &&
-            <KeepAlive
-              transition
-              max={20}
-              aliveRef={aliveRef}
-              activeCacheKey={cacheKey}
-            >
+            <KeepAlive id={uri} name={uri}>
               { outlet }
             </KeepAlive>
           }
