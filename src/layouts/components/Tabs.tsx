@@ -118,7 +118,7 @@ function LayoutTabs() {
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [uri]);
+  }, [activeKey, uri]);
 
   /**
    * 处理更改
