@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getMenuByKey } from '@/menus/utils/helper';
 import { message, Tabs, Dropdown } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useKeepAliveContext } from 'keepalive-for-react';
+import { useAliveController } from 'react-activation';
 import { useDropdownMenu } from '../hooks/useDropdownMenu';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useShallow } from 'zustand/react/shallow';
@@ -20,7 +20,7 @@ function LayoutTabs() {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const uri = pathname + search;
-  const { refresh } = useKeepAliveContext();
+  const { refresh } = useAliveController();
   const [messageApi, contextHolder] = message.useMessage();
   const [time, setTime] = useState<null | NodeJS.Timeout>(null);
   const [isChangeLang, setChangeLang] = useState(false); // 是否切换语言
@@ -118,7 +118,7 @@ function LayoutTabs() {
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [uri]);
+  }, [activeKey, uri]);
 
   /**
    * 处理更改
@@ -236,7 +236,7 @@ function LayoutTabs() {
     </DefaultTabBar>
   );
 
-  return useMemo(() => (
+  return (
     <div className={`
       w-[calc(100%-5px)]
       flex
@@ -286,9 +286,7 @@ function LayoutTabs() {
       </div>
     </div>
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  ), [
-    activeKey,
-  ]);
+  );
 }
 
 export default LayoutTabs;
