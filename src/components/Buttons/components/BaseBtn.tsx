@@ -8,7 +8,7 @@ interface Props extends ButtonProps {
 }
 
 function BaseBtn(props: Props) {
-  const { isLoading, loading, children } = props;
+  const { isLoading, loading, children, className } = props;
 
   // 清除自定义属性
   const params: Partial<Props> = { ...props };
@@ -18,6 +18,7 @@ function BaseBtn(props: Props) {
     <Button
       type='primary'
       {...params}
+      className={`${className} small-btn`}
       loading={!!isLoading || loading}
     >
       { children }

@@ -9,7 +9,7 @@ import {
 } from 'antd';
 import { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { UnorderedListOutlined } from '@ant-design/icons';
+import { SettingOutlined } from '@ant-design/icons';
 
 /**
  * 表格字段筛选
@@ -165,9 +165,14 @@ function FilterButton(props: Props) {
     >
       <div
         {...params}
-        className={`${className} inline-block cursor-pointer`}
+        className={`${className} inline-block`}
       >
-        <UnorderedListOutlined />
+        <Button
+          icon={<SettingOutlined />}
+          className='small-btn'
+        >
+          { t('public.columnFilter') }
+        </Button>
       </div>
     </Popover>
   );

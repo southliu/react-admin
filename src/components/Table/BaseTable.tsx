@@ -243,12 +243,12 @@ function BaseTable(props: Props) {
       {
         isOperate &&
         <div className='flex justify-between !mb-10px'>
-          <div className='flex flex-wrap items-center'>
+          <div className='flex flex-wrap items-center gap-6px'>
             {
               !!isCreate &&
               <Button
                 type="primary"
-                className='mr-10px'
+                className='small-btn'
                 icon={<PlusOutlined />}
                 onClick={onCreate}
               >
@@ -258,17 +258,23 @@ function BaseTable(props: Props) {
             { leftContent }
           </div>
 
-          <div className='flex flex-wrap items-center'>
-            { rightContent ? <div className='mr-10px'>{ rightContent }</div> : undefined }
+          <div className='flex flex-wrap items-center gap-6px'>
+            { rightContent ? <div>{ rightContent }</div> : undefined }
 
-            <RedoOutlined
-              className="mr-10px transform rotate-270 cursor-pointer"
-              disabled={!!isLoading}
+            <Button
+              className='small-btn'
+              icon={
+                <RedoOutlined
+                  className="transform rotate-270"
+                  disabled={!!isLoading}
+                />
+              }
               onClick={getPage}
-            />
+            >
+              { t('public.refresh') }
+            </Button>
 
             <TableFilter
-              className='mr-10px'
               columns={columns}
               getTableChecks={getTableChecks}
             />

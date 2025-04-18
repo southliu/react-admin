@@ -281,7 +281,7 @@ function Page() {
       {
         pagePermission.permission === true &&
         <Button
-          className='mr-2'
+          className='mr-2 small-btn'
           onClick={() => openPermission((record as RowData).id)}
         >
           { t('system.permissions') }
@@ -306,15 +306,12 @@ function Page() {
 
   /** 左侧渲染 */
   const leftContentRender = (
-    <>
-      <DeleteBtn
-        isIcon
-        isLoading={isLoading}
-        name={t('public.batchDelete')}
-        handleDelete={handleBatchDelete}
-      />
-      <div className='ml-10px'>左侧demo</div>
-    </>
+    <DeleteBtn
+      isIcon
+      isLoading={isLoading}
+      name={t('public.batchDelete')}
+      handleDelete={handleBatchDelete}
+    />
   );
 
   return (
@@ -338,7 +335,7 @@ function Page() {
           dataSource={tableData}
           rowSelection={rowSelection}
           leftContent={leftContentRender}
-          rightContent={<div>右侧demo</div>}
+          rightContent={<div>demo</div>}
           getPage={getPage}
           onCreate={onCreate}
         />

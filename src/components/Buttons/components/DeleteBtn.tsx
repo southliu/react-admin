@@ -11,7 +11,14 @@ interface Props extends ButtonProps {
 }
 
 function DeleteBtn(props: Props) {
-  const { isLoading, loading, isIcon, name, handleDelete } = props;
+  const {
+    isLoading,
+    loading,
+    isIcon,
+    name,
+    className,
+    handleDelete
+  } = props;
   const { t } = useTranslation();
   const { modal } = App.useApp();
 
@@ -40,6 +47,7 @@ function DeleteBtn(props: Props) {
       danger
       type='primary'
       {...params}
+      className={`${className} small-btn`}
       icon={params?.icon || (isIcon && <DeleteOutlined />)}
       loading={!!isLoading || loading}
       onClick={showConfirm}

@@ -7,7 +7,7 @@ interface Props extends ButtonProps {
 }
 
 function UpdateBtn(props: Props) {
-  const { isLoading, loading } = props;
+  const { isLoading, loading, className } = props;
   const { t } = useTranslation();
 
   // 清除自定义属性
@@ -18,6 +18,7 @@ function UpdateBtn(props: Props) {
     <Button
       type='primary'
       {...params}
+      className={`${className} small-btn`}
       loading={!!isLoading || loading}
     >
       { t('public.edit') }

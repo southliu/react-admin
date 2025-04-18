@@ -51,6 +51,8 @@ export default {
   name: 'name',
   creationTime: 'Creation time',
   updateTime: 'Update time',
+  columnFilter: 'Column filter',
+  refresh: 'Refresh',
   refreshSuccessfully: 'Refresh successfully',
   notSearchContent: 'There is no search content',
   switch: 'Switch',

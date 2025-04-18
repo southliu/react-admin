@@ -51,6 +51,8 @@ export default {
   name: '名称',
   creationTime: '创建时间',
   updateTime: '更新时间',
+  columnFilter: '列筛选',
+  refresh: '刷新',
   refreshSuccessfully: '刷新成功',
   notSearchContent: '暂无搜索内容',
   switch: '切换',
