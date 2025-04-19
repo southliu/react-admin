@@ -1,6 +1,5 @@
 import type { InputProps } from 'antd';
 import { Input } from 'antd';
-import { useTranslation } from 'react-i18next';
 
 /**
  * 自定义输入

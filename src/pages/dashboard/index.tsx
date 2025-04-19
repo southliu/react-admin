@@ -1,17 +1,9 @@
-import type { FormData } from '#/form';
-import { useCallback, useEffect, useState } from 'react';
-import { getDataTrends } from '@/servers/dashboard';
 import { searchList } from './model';
-import { useTranslation } from 'react-i18next';
 import { useActivate } from 'react-activation';
-import { checkPermission } from '@/utils/permissions';
-import { useCommonStore } from '@/hooks/useCommonStore';
-import BaseSearch from '@/components/Search/BaseSearch';
-import BaseContent from '@/components/Content/BaseContent';
+import { getDataTrends } from '@/servers/dashboard';
 import Bar from './components/Bar';
 import Line from './components/Line';
 import Block from './components/Block';
-import BaseCard from '@/components/Card/BaseCard';
 
 // 初始化搜索
 const initSearch = {
@@ -28,7 +20,7 @@ function Dashboard() {
    * 搜索提交
    * @param values - 表单返回数据
    */
-  const handleSearch = useCallback(async (values: FormData) => {
+  const handleSearch = useCallback(async (values: BaseFormData) => {
     // 数据转换
     values.all_pay = values.all_pay ? 1 : undefined;
 

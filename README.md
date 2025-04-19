@@ -69,7 +69,7 @@ react-admin
 ├── packages                  # monorepo子包
 │   ├── message               # 消息模块
 │   ├── request               # 请求模块
-│   ├── stylelint-config      # stylelint配置
+│   ├── stylelintConfig      # stylelint配置
 │   └── utils                 # 工具函数
 ├── public                    # 静态资源
 ├── src                       # 源代码

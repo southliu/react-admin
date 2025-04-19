@@ -1,6 +1,7 @@
 import type { PluginOption } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { timePlugin } from './time';
+import { autoImportPlugin } from './autoImport';
 import { versionUpdatePlugin } from './version';
 import react from '@vitejs/plugin-react-swc';
 import legacy from '@vitejs/plugin-legacy';
@@ -13,7 +14,9 @@ export function createVitePlugins() {
     react(),
     unocss(),
     // 版本控制
-    versionUpdatePlugin()
+    versionUpdatePlugin(),
+    // 自动导入
+    autoImportPlugin(),
   ];
 
   if (process.env.NODE_ENV === 'production') {

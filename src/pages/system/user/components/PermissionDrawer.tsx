@@ -1,8 +1,6 @@
 import type { DataNode, TreeProps } from 'antd/es/tree';
 import type { Key } from 'antd/lib/table/interface';
 import { Drawer, Tree, Button } from 'antd';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 interface Props {
   isVisible: boolean;

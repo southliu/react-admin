@@ -1,5 +1,5 @@
 import type { ColProps, FormInstance } from 'antd';
-import type { FormData, FormList, SearchList } from '#/form';
+import type { BaseFormData, BaseFormList, BaseSearchList } from '#/form';
 import { type CSSProperties, type ReactNode, type Ref, forwardRef, useEffect, useState } from 'react';
 import { type FormProps, Button, Col, Flex } from 'antd';
 import { Form } from 'antd';
@@ -11,8 +11,8 @@ import { SearchOutlined, ReloadOutlined, DownOutlined } from '@ant-design/icons'
 import { filterEmptyStr, filterFormItem, handleValuePropName } from '@/components/Form/utils/helper';
 
 interface Props extends FormProps {
-  list: SearchList[];
-  data: FormData;
+  list: BaseSearchList[];
+  data: BaseFormData;
   isLoading?: boolean;
   isSearch?: boolean;
   isReset?: boolean;
@@ -110,7 +110,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
    * 处理列表
    * @param list - 列表
    */
-  const filterList = (list: SearchList[]) => {
+  const filterList = (list: BaseSearchList[]) => {
     if (!isShowExpand) return list;
 
     // 默认显示个数
@@ -131,7 +131,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
   };
 
   /** 获取表单label宽度 */
-  const getLabelCol = (item?: SearchList) => {
+  const getLabelCol = (item?: BaseSearchList) => {
     if (item?.labelWidth) {
       return { style: { width: item.labelWidth } };
     }
@@ -143,7 +143,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
   };
 
   /** 获取输入间隙 */
-  const getWrapperCol = (item?: SearchList) => {
+  const getWrapperCol = (item?: BaseSearchList) => {
     if (item?.wrapperWidth) {
       return { style: { width: item.wrapperWidth } };
     }
@@ -161,7 +161,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
   const onFinish: FormProps['onFinish'] = values => {
     if (handleFinish) {
       // 将dayjs类型转为字符串
-      let params = filterDayjs(values, list as FormList[]);
+      let params = filterDayjs(values, list as BaseFormList[]);
       // 过滤空字符串和前后空格
       params = filterEmptyStr(params);
       handleFinish?.(params);

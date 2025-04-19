@@ -1,12 +1,9 @@
-import type { FormList, SearchList } from "#/form";
 import type { TFunction } from "i18next";
-import type { TableColumn, TableOptions } from '#/public';
-import { FORM_REQUIRED } from '@/utils/config';
 import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from '@/utils/constants';
 import { valueToLabel } from "@/utils/helper";
 
 // 搜索数据
-export const searchList = (t: TFunction): SearchList[] => [
+export const searchList = (t: TFunction): BaseSearchList[] => [
   {
     label: t('system.state'),
     name: 'status',
@@ -87,7 +84,7 @@ export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): 
 };
 
 // 新增数据
-export const createList = (t: TFunction, id: string): FormList[] => [
+export const createList = (t: TFunction, id: string): BaseFormList[] => [
   {
     label: t('public.name'),
     name: 'name',

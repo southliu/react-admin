@@ -1,5 +1,5 @@
 import type { TFunction } from 'i18next';
-import type { ComponentType, FormList } from '#/form';
+import type { ComponentType, BaseFormList } from '#/form';
 import { initCompProps } from './helper';
 import { CreateBusiness } from '@/components/Business';
 import {
@@ -62,7 +62,7 @@ CreateBusiness();
  * 获取组件
  * @param item - 表单项
  */
-export function getComponent(t: TFunction, item: FormList, onPressEnter: () => void) {
+export function getComponent(t: TFunction, item: BaseFormList, onPressEnter: () => void) {
   const { component, componentProps } = item;
 
   // 输入框渲染

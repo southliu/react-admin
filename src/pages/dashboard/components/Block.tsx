@@ -1,8 +1,5 @@
 import { Row, Col } from 'antd';
 import { Icon } from '@iconify/react';
-import { useTranslation } from 'react-i18next';
-import { useCommonStore } from '@/hooks/useCommonStore';
-import Count from '@/components/Count';
 
 function Block() {
   const { t } = useTranslation();

@@ -1,15 +1,7 @@
-import type { FormData } from '#/form';
 import type { DataNode } from 'antd/es/tree';
 import type { Key, TableRowSelection } from 'antd/es/table/interface';
-import type { PagePermission } from '#/public';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { createList, searchList, tableColumns } from './model';
 import { type FormInstance, Button, message } from 'antd';
-import { useTranslation } from 'react-i18next';
-import { checkPermission } from '@/utils/permissions';
-import { useCommonStore } from '@/hooks/useCommonStore';
-import { ADD_TITLE, EDIT_TITLE, INIT_PAGINATION } from '@/utils/config';
-import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
+import { createList, searchList, tableColumns } from './model';
 import { getPermission, savePermission } from '@/servers/system/menu';
 import {
   batchDeleteUser,
@@ -19,13 +11,6 @@ import {
   getUserPage,
   updateUser
 } from '@/servers/system/user';
-import BaseContent from '@/components/Content/BaseContent';
-import BaseSearch from '@/components/Search/BaseSearch';
-import BaseModal from '@/components/Modal/BaseModal';
-import BaseForm from '@/components/Form/BaseForm';
-import BaseTable from '@/components/Table/BaseTable';
-import BasePagination from '@/components/Pagination/BasePagination';
-import BaseCard from '@/components/Card/BaseCard';
 import PermissionDrawer from './components/PermissionDrawer';
 
 // 当前行数据
@@ -49,12 +34,12 @@ function Page() {
   const [isCreateOpen, setCreateOpen] = useState(false);
   const [createTitle, setCreateTitle] = useState(ADD_TITLE(t));
   const [createId, setCreateId] = useState('');
-  const [createData, setCreateData] = useState<FormData>(initCreate);
-  const [searchData, setSearchData] = useState<FormData>({});
+  const [createData, setCreateData] = useState<BaseFormData>(initCreate);
+  const [searchData, setSearchData] = useState<BaseFormData>({});
   const [page, setPage] = useState(INIT_PAGINATION.page);
   const [pageSize, setPageSize] = useState(INIT_PAGINATION.pageSize);
   const [total, setTotal] = useState(0);
-  const [tableData, setTableData] = useState<FormData[]>([]);
+  const [tableData, setTableData] = useState<BaseFormData[]>([]);
 
   const [promiseId, setPromiseId] = useState('');
   const [isPromiseVisible, setPromiseVisible] = useState(false);
@@ -101,7 +86,7 @@ function Page() {
    * 点击搜索
    * @param values - 表单返回数据
    */
-  const onSearch = (values: FormData) => {
+  const onSearch = (values: BaseFormData) => {
     setPage(1);
     setSearchData(values);
     setFetch(true);
@@ -194,7 +179,7 @@ function Page() {
    * 新增/编辑提交
    * @param values - 表单返回数据
    */
-  const handleCreate = async (values: FormData) => {
+  const handleCreate = async (values: BaseFormData) => {
     try {
       setCreateLoading(true);
       const functions = () => createId ? updateUser(createId, values) : createUser(values);

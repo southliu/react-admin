@@ -1,21 +1,6 @@
-import type { FormData } from '#/form';
-import type { PagePermission, TableOptions } from '#/public';
-import { useCallback, useEffect, useState } from 'react';
 import { searchList, tableColumns } from './model';
 import { message } from 'antd';
-import { usePublicStore } from '@/stores';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { checkPermission } from '@/utils/permissions';
-import { useCommonStore } from '@/hooks/useCommonStore';
-import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { getArticlePage, deleteArticle } from '@/servers/content/article';
-import { INIT_PAGINATION } from '@/utils/config';
-import BaseContent from '@/components/Content/BaseContent';
-import BaseSearch from '@/components/Search/BaseSearch';
-import BaseTable from '@/components/Table/BaseTable';
-import BasePagination from '@/components/Pagination/BasePagination';
-import BaseCard from '@/components/Card/BaseCard';
 
 // 当前行数据
 interface RowData {
@@ -28,11 +13,11 @@ function Page() {
   const { permissions } = useCommonStore();
   const [isFetch, setFetch] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [searchData, setSearchData] = useState<FormData>({});
+  const [searchData, setSearchData] = useState<BaseFormData>({});
   const [page, setPage] = useState(INIT_PAGINATION.page);
   const [pageSize, setPageSize] = useState(INIT_PAGINATION.pageSize);
   const [total, setTotal] = useState(0);
-  const [tableData, setTableData] = useState<FormData[]>([]);
+  const [tableData, setTableData] = useState<BaseFormData[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
   const setRefreshPage = usePublicStore(state => state.setRefreshPage);
   const isRefreshPage = usePublicStore(state => state.isRefreshPage);
@@ -75,7 +60,7 @@ function Page() {
    * 点击搜索
    * @param values - 表单返回数据
    */
-  const onSearch = (values: FormData) => {
+  const onSearch = (values: BaseFormData) => {
     setPage(1);
     setSearchData(values);
     setFetch(true);

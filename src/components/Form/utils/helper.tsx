@@ -1,6 +1,6 @@
 import type { TFunction } from 'i18next';
 import type { FormItemProps } from 'antd';
-import type { ComponentProps, ComponentType, FormList } from '#/form';
+import type { ComponentProps, ComponentType, BaseFormList } from '#/form';
 import { cloneDeep } from 'lodash';
 import { DATE_FORMAT, TIME_FORMAT } from '@/utils/config';
 
@@ -110,7 +110,7 @@ const handleUploadData: FormItemProps['getValueFromEvent'] = (e) => {
  * 过滤表单数据
  * @param data - 表单数据
  */
-export const filterFormItem = (data: FormList): FormItemProps => {
+export const filterFormItem = (data: BaseFormList): FormItemProps => {
   const result = cloneDeep(data);
   delete result.wrapperWidth;
   delete result.componentProps;

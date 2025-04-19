@@ -60,5 +60,6 @@
     "locize",
     "zustand",
     "wechat",
+    "unplugin",
   ]
 }

@@ -1,10 +1,10 @@
-import type { ApiFn, FormList } from "#/form";
+import type { ApiFn, BaseFormList } from "#/form";
 import type { TFunction } from "i18next";
 import { getGames } from '@/servers/platform/game';
 import { getPartnerDemo } from "@/servers/platform/partner";
 
 // 搜索数据
-export const searchList = (t: TFunction): FormList[] => [
+export const searchList = (t: TFunction): BaseFormList[] => [
   {
     label: t('public.date'),
     name: 'pay_date',

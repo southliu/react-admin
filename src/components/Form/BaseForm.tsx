@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode, Ref } from 'react';
-import type { FormData, FormList } from '#/form';
+import type { BaseFormData, BaseFormList } from '#/form';
 import type { ColProps, FormInstance } from 'antd';
 import { forwardRef, useEffect } from 'react';
 import { FormProps } from 'antd';
@@ -10,8 +10,8 @@ import { filterEmptyStr, filterFormItem, handleValuePropName } from './utils/hel
 import { filterDayjs } from '../Dates/utils/helper';
 
 interface Props extends FormProps {
-  list: FormList[];
-  data: FormData;
+  list: BaseFormList[];
+  data: BaseFormData;
   style?: CSSProperties;
   className?: string;
   children?: ReactNode;
@@ -88,7 +88,7 @@ const BaseForm = forwardRef((props: Props, ref: Ref<FormInstance>) => {
    * 渲染表单项
    * @param item - 表单项
    */
-  const renderFormItem = (item: FormList) => (
+  const renderFormItem = (item: BaseFormList) => (
     <Form.Item
       {...filterFormItem(item)}
       valuePropName={handleValuePropName(item.component)}

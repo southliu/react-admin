@@ -23,7 +23,7 @@ import type { BusinessComponents } from '@/components/Business';
 import type { EditorProps } from '@/components/WangEditor';
 
 // 数据类型
-export type FormData = Record<string, unknown>
+export type BaseFormData = Record<string, unknown>
 
 // 基础数据组件
 type DefaultDataComponents = 'Input' |
@@ -149,7 +149,7 @@ export type FormRule = RuleObject & {
 }
 
 // 表单数据
-export interface FormList extends FormItemProps {
+export interface BaseFormList extends FormItemProps {
   name: string | string[]; // 表单域字段
   label: string; // 标签
   placeholder?: string; // 占位符
@@ -164,7 +164,7 @@ export interface FormList extends FormItemProps {
 }
 
 // 搜索数据
-export interface SearchList extends FormList {
+export interface BaseSearchList extends BaseFormList {
   labelWidth?: number; // 临时使用
   // TODO...
 }

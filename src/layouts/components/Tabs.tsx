@@ -8,8 +8,6 @@ import { useDropdownMenu } from '../hooks/useDropdownMenu';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useShallow } from 'zustand/react/shallow';
 import { useTranslation } from 'react-i18next';
-import { useTabsStore } from '@/stores/tabs';
-import { usePublicStore } from '@/stores';
 import styles from '../index.module.less';
 import TabRefresh from './TabRefresh';
 import TabMaximize from './TabMaximize';
@@ -285,7 +283,6 @@ function LayoutTabs() {
         }
       </div>
     </div>
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   );
 }
 

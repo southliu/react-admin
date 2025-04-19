@@ -1,6 +1,6 @@
 import type { Key } from 'react';
 import type { DataNode } from 'antd/es/tree';
-import type { FormData } from '#/form';
+import type { BaseFormData } from '#/form';
 import type { PageServerResult, PaginationData, SideMenu } from '#/public';
 import { request } from '@/utils/request';
 
@@ -12,8 +12,8 @@ enum API {
  * 获取分页数据
  * @param data - 请求数据
  */
-export function getMenuPage(data: Partial<FormData> & PaginationData) {
-  return request.get<PageServerResult<FormData[]>>(
+export function getMenuPage(data: Partial<BaseFormData> & PaginationData) {
+  return request.get<PageServerResult<BaseFormData[]>>(
     `${API.URL}/page`,
     { params: data }
   );
@@ -24,14 +24,14 @@ export function getMenuPage(data: Partial<FormData> & PaginationData) {
  * @param id - ID
  */
 export function getMenuById(id: string) {
-  return request.get<FormData>(`${API.URL}/detail?id=${id}`);
+  return request.get<BaseFormData>(`${API.URL}/detail?id=${id}`);
 }
 
 /**
  * 新增数据
  * @param data - 请求数据
  */
-export function createMenu(data: FormData) {
+export function createMenu(data: BaseFormData) {
   return request.post(API.URL, data);
 }
 
@@ -40,7 +40,7 @@ export function createMenu(data: FormData) {
  * @param id - 修改id值
  * @param data - 请求数据
  */
-export function updateMenu(id: string, data: FormData) {
+export function updateMenu(id: string, data: BaseFormData) {
   return request.put(`${API.URL}/${id}`, data);
 }
 

@@ -1,32 +1,12 @@
-import type { FormData } from '#/form';
-import type { PagePermission } from '#/public';
 import { type FormInstance, message, Spin } from 'antd';
 import { createList } from './model';
 import { getUrlParam } from '@/utils/helper';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
-import { checkPermission } from '@/utils/permissions';
-import { useCommonStore } from '@/hooks/useCommonStore';
-import { useSingleTab } from '@/hooks/useSingleTab';
-import { usePublicStore, useTabsStore } from '@/stores';
-import { addComponent } from '@/components/Form/utils/componentMap';
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState
-} from 'react';
 import {
   getArticleById,
   createArticle,
   updateArticle,
 } from '@/servers/content/article';
-import BaseForm from '@/components/Form/BaseForm';
-import BaseContent from '@/components/Content/BaseContent';
-import SubmitBottom from '@/components/Bottom/SubmitBottom';
-import BaseCard from '@/components/Card/BaseCard';
-import WangEditor from '@/components/WangEditor';
 
 interface RecordType {
   key: string;
@@ -60,7 +40,7 @@ function Page() {
   const createFormRef = useRef<FormInstance>(null);
   const [isLoading, setLoading] = useState(false);
   const [createId, setCreateId] = useState('');
-  const [createData, setCreateData] = useState<FormData>(initCreate);
+  const [createData, setCreateData] = useState<BaseFormData>(initCreate);
   const [messageApi, contextHolder] = message.useMessage();
   const { permissions } = useCommonStore();
   const closeTabGoNext = useTabsStore(useShallow(state => state.closeTabGoNext));
@@ -135,7 +115,7 @@ function Page() {
    * 新增/编辑提交
    * @param values - 表单返回数据
    */
-  const handleFinish = async (values: FormData) => {
+  const handleFinish = async (values: BaseFormData) => {
     try {
       setLoading(true);
       const functions = () => createId ? updateArticle(createId, values) : createArticle(values);

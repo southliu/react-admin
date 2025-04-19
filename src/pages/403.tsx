@@ -1,9 +1,5 @@
 import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
 import { Button } from 'antd';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { useCommonStore } from '@/hooks/useCommonStore';
-import { useTabsStore } from '@/stores';
 import styles from './all.module.less';
 
 function Forbidden() {

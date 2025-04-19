@@ -1,6 +1,4 @@
 import type { EChartsCoreOption } from 'echarts';
-import { useTranslation } from 'react-i18next';
-import { useEcharts } from '@/hooks/useEcharts';
 
 const data = [
   962,

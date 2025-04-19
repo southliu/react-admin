@@ -1,10 +1,7 @@
-import type { FormList, SearchList } from '#/form';
 import type { TFunction } from 'i18next';
-import type { TableColumn, TableOptions } from '#/public';
-import { FORM_REQUIRED } from '@/utils/config';
 import { OPEN_CLOSE } from '@/utils/constants';
 
-const otherSearch: SearchList[] = [];
+const otherSearch: BaseSearchList[] = [];
 
 for (let i = 0; i < 32; i++) {
   otherSearch.push({
@@ -18,7 +15,7 @@ for (let i = 0; i < 32; i++) {
 }
 
 // 搜索数据
-export const searchList = (t: TFunction): SearchList[] => [
+export const searchList = (t: TFunction): BaseSearchList[] => [
   {
     label: t('system.age'),
     name: 'age',
@@ -100,7 +97,7 @@ export const searchList = (t: TFunction): SearchList[] => [
 };
 
 // 新增数据
-export const createList = (t: TFunction): FormList[] => [
+export const createList = (t: TFunction): BaseFormList[] => [
   {
     label: t('login.username'),
     name: 'username',

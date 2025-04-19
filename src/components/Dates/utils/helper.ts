@@ -1,6 +1,6 @@
 import type { Dayjs } from 'dayjs';
 import type { DatePickerProps } from 'antd';
-import type { FormData, FormList } from '#/form';
+import type { BaseFormData, BaseFormList } from '#/form';
 import type { RangeValueType } from 'rc-picker/lib/PickerInput/RangePicker';
 import { DATE_FORMAT } from '@/utils/config';
 import dayjs from 'dayjs';
@@ -104,7 +104,7 @@ export function stringRang2DayjsRang(
  * @param list - 列表值
  * @param key - 键值
  */
-function getListKeyParam(list: FormList[], key: string): string {
+function getListKeyParam(list: BaseFormList[], key: string): string {
   for (let i = 0; i < list.length; i++) {
     if (list[i].name === key) {
       return (list[i].componentProps as DatePickerProps)?.format as string
@@ -120,7 +120,7 @@ function getListKeyParam(list: FormList[], key: string): string {
  * @param obj - 检测对象
  * @param list - 列表值
  */
-export function filterDayjs(obj: FormData, list: FormList[]): Record<string, unknown> {
+export function filterDayjs(obj: BaseFormData, list: BaseFormList[]): Record<string, unknown> {
   for (const key in obj) {
     // 判断是否是时间区间
     if (

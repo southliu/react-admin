@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import BaseTable from '@/components/Table/BaseTable';
 
 function VirtualTable() {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+   
   const { t } = useTranslation();
 
   const columns: TableColumn[] = [
