@@ -162,7 +162,6 @@ function Layout() {
           }
           {
             permissions.length > 0 &&
-            !isRefresh &&
             <KeepAlive id={uri} name={uri}>
               { outlet }
             </KeepAlive>
