@@ -24,6 +24,7 @@ function Layout() {
   const token = getToken();
   const outlet = useOutlet();
   const [isLoading, setLoading] = useState(true);
+  const [isContentVisible, setContentVisible] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
   const { setPermissions, setUserInfo } = useUserStore(state => state);
   const { setMenuList, toggleCollapsed, togglePhone } = useMenuStore(state => state);
@@ -101,10 +102,15 @@ function Layout() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /** 更新内容可视状态 */
+  const handleChangeContentVisible = (state: boolean) => {
+    setContentVisible(state);
+  };
+
   return (
     <div id="layout">
       { contextHolder }
-      <Menu />
+      <Menu changeContentVisible={handleChangeContentVisible} />
       <div className={styles.layout_right}>
         <div
           id='header'
@@ -163,7 +169,11 @@ function Layout() {
           {
             permissions.length > 0 &&
             <KeepAlive id={uri} name={uri}>
-              { outlet }
+              <div
+                className={`content-transition ${isContentVisible ? 'content-visible' : 'content-hidden'}`}
+              >
+                { outlet }
+              </div>
             </KeepAlive>
           }
         </div>
