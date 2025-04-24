@@ -123,9 +123,9 @@ function LayoutMenu() {
    */
   const onClickMenu: MenuProps['onClick'] = e => {
     startTransition(() => {
-      goPath(e.key);
       setCurrentSelectedKeys([e.key]);
       if (isPhone) hiddenMenu();
+      goPath(e.key);
     });
   };
 
