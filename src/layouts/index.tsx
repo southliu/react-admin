@@ -170,11 +170,28 @@ function Layout() {
             permissions.length > 0 &&
             <KeepAlive id={uri} name={uri}>
               <div
-                className={`content-transition ${isContentVisible ? 'content-visible' : 'content-hidden'}`}
+                className={`
+                  content-transition
+                  ${isContentVisible ? 'content-visible' : 'content-hidden'}
+                `}
               >
                 { outlet }
               </div>
             </KeepAlive>
+          }
+          {
+            permissions.length > 0 &&
+            <Skeleton
+              active
+              className={`
+                p-30px
+                absolute
+                top-0
+                content-transition
+                ${!isContentVisible ? 'content-visible' : 'content-hidden'}
+              `}
+              paragraph={{ rows: 10 }}
+            />
           }
         </div>
       </div>
