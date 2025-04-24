@@ -121,9 +121,12 @@ function LayoutMenu() {
    * 点击菜单
    * @param e - 菜单事件
    */
-  const onClick: MenuProps['onClick'] = e => {
-    goPath(e.key);
-    if (isPhone) hiddenMenu();
+  const onClickMenu: MenuProps['onClick'] = e => {
+    startTransition(() => {
+      goPath(e.key);
+      setCurrentSelectedKeys([e.key]);
+      if (isPhone) hiddenMenu();
+    });
   };
 
   /**
@@ -149,24 +152,26 @@ function LayoutMenu() {
    * @param openKeys - 展开键值
    */
   const onOpenChange = (openKeys: string[]) => {
-    const newOpenKey: string[] = [];
-    let last = ''; // 最后一个目录结构
+    startTransition(() => {
+      const newOpenKey: string[] = [];
+      let last = ''; // 最后一个目录结构
 
-    // 当目录有展开值
-    if (openKeys.length > 0) {
-      last = openKeys[openKeys.length - 1];
-      const lastArr: string[] = splitPath(last);
-      newOpenKey.push(last);
+      // 当目录有展开值
+      if (openKeys.length > 0) {
+        last = openKeys[openKeys.length - 1];
+        const lastArr: string[] = splitPath(last);
+        newOpenKey.push(last);
 
-      // 对比当前展开目录是否是同一层级
-      for (let i = openKeys.length - 2; i >= 0; i--) {
-        const arr = splitPath(openKeys[i]);
-        const hasOpenKey = diffOpenMenu(arr, lastArr);
-        if (hasOpenKey) newOpenKey.unshift(openKeys[i]);
+        // 对比当前展开目录是否是同一层级
+        for (let i = openKeys.length - 2; i >= 0; i--) {
+          const arr = splitPath(openKeys[i]);
+          const hasOpenKey = diffOpenMenu(arr, lastArr);
+          if (hasOpenKey) newOpenKey.unshift(openKeys[i]);
+        }
       }
-    }
 
-    setCurrentOpenKeys(newOpenKey);
+      setCurrentOpenKeys(newOpenKey);
+    });
   };
 
   /** 点击logo */
@@ -235,7 +240,7 @@ function LayoutMenu() {
           theme="dark"
           inlineCollapsed={isPhone ? false : isCollapsed}
           items={handleFilterMenus(menus)}
-          onClick={onClick}
+          onClick={onClickMenu}
           onOpenChange={onOpenChange}
         />
       </div>
