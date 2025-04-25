@@ -181,6 +181,7 @@ function Layout() {
           }
           {
             permissions.length > 0 &&
+            !['production', 'test'].includes(String(process.env.NODE_ENV)) &&
             <Skeleton
               active
               className={`
