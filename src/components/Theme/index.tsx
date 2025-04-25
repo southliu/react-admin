@@ -1,9 +1,10 @@
 import { ThemeType, usePublicStore } from '@/stores/public';
 import { Tooltip } from 'antd';
 import { Icon } from '@iconify/react';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { THEME_KEY } from '@/utils/config';
+import './index.module.less';
 
 function Theme() {
   const { t } = useTranslation();
@@ -26,7 +27,39 @@ function Theme() {
    * 处理更新
    * @param type - 主题类型
    */
-  const onChange = (type: ThemeType) => {
+  const onChange = (e: MouseEvent, type: ThemeType) => {
+    const transition = document.startViewTransition(() => {
+      toggleThemeScheme(type);
+    });
+
+    transition.ready.then(() => {
+      // 获取鼠标的坐标
+      const { clientX, clientY } = e;
+
+      // 计算最大半径
+      const radius = Math.hypot(
+        Math.max(clientX, innerWidth - clientX),
+        Math.max(clientY, innerHeight - clientY)
+      );
+
+      // 圆形动画扩散
+      document.documentElement.animate(
+        [
+          { clipPath: `circle(0% at ${clientX}px ${clientY}px)` },
+          { clipPath: `circle(${radius}px at ${clientX}px ${clientY}px)` }
+        ],
+        {
+          duration: 400,
+          pseudoElement: "::view-transition-new(root)"
+        }
+      );
+    });
+  };
+
+  /**
+   * 切换主题
+   */
+  const toggleThemeScheme = (type: ThemeType) => {
     localStorage.setItem(THEME_KEY, type);
     setThemeValue(type);
     setTheme(type);
@@ -44,20 +77,20 @@ function Theme() {
 
   return (
     <Tooltip title={t('public.themes')}>
-      <div className="flex items-center justify-center text-lg mr-4 cursor-pointer">
+      <div
+        className={"flex items-center justify-center text-lg mr-4 cursor-pointer"}
+      >
         {
           theme === 'light' &&
-          <Icon
-            icon="mdi-white-balance-sunny"
-            onClick={() => onChange('dark')}
-          />
+          <div onClick={e => onChange(e, 'dark')}>
+            <Icon icon="mdi-white-balance-sunny" />
+          </div>
         }
         {
           theme !== 'light' &&
-          <Icon
-            icon="mdi-moon-waning-crescent"
-            onClick={() => onChange('light')}
-          />
+          <div onClick={e => onChange(e, 'light')}>
+            <Icon icon="mdi-moon-waning-crescent" />
+          </div>
         }
       </div>
     </Tooltip>
