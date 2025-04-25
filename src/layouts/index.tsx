@@ -181,15 +181,17 @@ function Layout() {
           }
           {
             permissions.length > 0 &&
+            !isContentVisible &&
             !['production', 'test'].includes(String(process.env.NODE_ENV)) &&
             <Skeleton
               active
               className={`
                 p-30px
                 absolute
-                top-0
                 content-transition
-                ${!isContentVisible ? 'content-visible' : 'content-hidden'}
+                z-0
+                top-0
+                content-visible
               `}
               paragraph={{ rows: 10 }}
             />
