@@ -151,7 +151,7 @@ function LayoutTabs() {
    */
   const remove = (targetKey: string) => {
     toggleLock(true);
-    closeTabs(targetKey);
+    closeTabs(targetKey, refresh);
   };
 
   /**
