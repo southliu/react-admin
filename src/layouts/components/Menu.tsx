@@ -97,6 +97,15 @@ function LayoutMenu(props: Props) {
     setCurrentSelectedKeys([e.key]);
     if (isPhone) hiddenMenu();
 
+    // 如果是生产环境和测试环境则直接跳转
+    if (['production', 'test'].includes(String(process.env.NODE_ENV))) {
+      goPath(e.key);
+      setTimeout(() => {
+        changeContentVisible(true);
+      }, 100);
+      return;
+    }
+
     startTransition(() => {
       setTimeout(() => {
         goPath(e.key);
