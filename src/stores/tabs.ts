@@ -1,5 +1,6 @@
 import type { TabPaneProps } from 'antd';
 import type { NavData } from '@/menus/utils/helper';
+import type { AliveController } from 'react-activation';
 import type { NavigateFunction } from 'react-router-dom';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { create } from 'zustand';
@@ -17,6 +18,7 @@ interface TabsGoNext {
   key: string,
   nextPath: string;
   navigate: NavigateFunction;
+  refresh: AliveController['refresh']
 }
 
 interface TabsState {
@@ -31,11 +33,11 @@ interface TabsState {
   setNav: (nav: NavData[]) => void;
   switchTabsLang: (label: string) => void;
   addTabs: (payload: TabsData) => void;
-  closeTabs: (payload: string) => void;
+  closeTabs: (payload: string, refresh: AliveController['refresh']) => void;
   closeTabGoNext: (payload: TabsGoNext) => void;
-  closeLeft: (payload: string) => void;
-  closeRight: (payload: string) => void;
-  closeOther: (payload: string, navigate: NavigateFunction) => void;
+  closeLeft: (payload: string, refresh: AliveController['refresh']) => void;
+  closeRight: (payload: string, refresh: AliveController['refresh']) => void;
+  closeOther: (payload: string, navigate: NavigateFunction, refresh: AliveController['refresh']) => void;
   closeAllTab: () => void;
 }
 
@@ -69,7 +71,7 @@ export const useTabsStore = create<TabsState>()(
 
           return { tabs };
         }),
-        closeTabs: (payload) => set((state) => {
+        closeTabs: (payload, refresh) => set((state) => {
           const { tabs } = state;
           const index = tabs.findIndex(item => item.key === payload);
           if (index >= 0) tabs.splice(index, 1);
@@ -86,11 +88,14 @@ export const useTabsStore = create<TabsState>()(
 
           if (tabs.length) tabs[0].closable = tabs.length > 1;
 
+          // 清除当前标签的keepalive缓存
+          refresh(payload);
+
           return { tabs };
         }),
         closeTabGoNext: (payload) => set((state) => {
           const { tabs } = state;
-          const { key, nextPath, navigate } = payload;
+          const { key, nextPath, navigate, refresh } = payload;
           const index = tabs.findIndex(item => item.key === key);
           if (index >= 0) tabs.splice(index, 1);
 
@@ -101,9 +106,12 @@ export const useTabsStore = create<TabsState>()(
 
           if (tabs.length) tabs[0].closable = tabs.length > 1;
 
+          // 清除非当前的keepalive缓存
+          refresh(key);
+
           return { tabs };
         }),
-        closeLeft: (payload) => set((state) => {
+        closeLeft: (payload, refresh) => set((state) => {
           const { tabs } = state;
           const index = tabs.findIndex(item => item.key === payload);
           if (index >= 0) tabs.splice(0, index);
@@ -111,9 +119,17 @@ export const useTabsStore = create<TabsState>()(
 
           if (tabs.length) tabs[0].closable = tabs.length > 1;
 
+          // 清除非当前的keepalive缓存
+          for (let i = 0; i < tabs?.length; i++) {
+            const item = tabs[i];
+            if (item.key !== payload) {
+              refresh(item.key);
+            }
+          }
+
           return { tabs };
         }),
-        closeRight: (payload) => set((state) => {
+        closeRight: (payload, refresh) => set((state) => {
           const { tabs } = state;
           const index = tabs.findIndex(item => item.key === payload);
           if (index >= 0) tabs.splice(index + 1, tabs.length - index - 1);
@@ -121,12 +137,34 @@ export const useTabsStore = create<TabsState>()(
 
           if (tabs.length) tabs[0].closable = tabs.length > 1;
 
+          // 清除非当前的keepalive缓存
+          for (let i = 0; i < tabs?.length; i++) {
+            const item = tabs[i];
+            if (item.key !== payload) {
+              refresh(item.key);
+            }
+          }
+
           return { tabs };
         }),
-        closeOther: (payload, navigate) => set((state) => {
+        closeOther: (payload, navigate, refresh) => set((state) => {
           const { tabs, activeKey } = state;
           // 保留当前标签，关闭其他标签
-          const filteredTabs = tabs.filter((item) => item.key === payload);
+          const filteredTabs: TabsData[] = [];
+
+          for (let i = 0; i < tabs?.length; i++) {
+            const item = tabs[i];
+
+            // 如果当前标签不是要关闭的标签，就保留
+            if (item.key === payload) {
+              filteredTabs.push(item);
+            } else {
+              // 清除非当前的keepalive缓存
+              refresh(item.key);
+            }
+          }
+
+          tabs.filter((item) => item.key === payload);
 
           // 如果当前标签不是要关闭的标签，就导航到要关闭的标签
           if (activeKey !== payload) {
