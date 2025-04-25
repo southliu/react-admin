@@ -8,6 +8,8 @@ import { useDropdownMenu } from '../hooks/useDropdownMenu';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useShallow } from 'zustand/react/shallow';
 import { useTranslation } from 'react-i18next';
+import { getTabTitle } from '../utils/helper';
+import { setTitle } from '@/utils/helper';
 import styles from '../index.module.less';
 import TabRefresh from './TabRefresh';
 import TabMaximize from './TabMaximize';
@@ -74,7 +76,8 @@ function LayoutTabs() {
 
   useEffect(() => {
     handleAddTab();
-  }, [handleAddTab, permissions, menuList]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [permissions, menuList]);
 
   useEffect(() => {
     switchTabsLang(currentLanguage);
@@ -90,6 +93,8 @@ function LayoutTabs() {
   }, [isChangeLang]);
 
   useEffect(() => {
+    handleSetTitle();
+
     return () => {
       if (time) {
         clearTimeout(time);
@@ -109,6 +114,7 @@ function LayoutTabs() {
     if (activeKey !== uri) {
       const key = isLock ? activeKey : uri;
       handleAddTab(key);
+      handleSetTitle();
 
       if (isLock) {
         navigate(key);
@@ -117,6 +123,19 @@ function LayoutTabs() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeKey, uri]);
+
+  /**
+   * 设置浏览器标签
+   * @param list - 菜单列表
+   * @param path - 路径
+   */
+  const handleSetTitle = useCallback(() => {
+    const path = `${pathname}${search || ''}`;
+    // 通过路由获取标签名
+    const title = getTabTitle(tabs, path);
+    if (title) setTitle(t, title);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   /**
    * 处理更改
@@ -131,7 +150,8 @@ function LayoutTabs() {
    * @param targetKey - 目标key值
    */
   const remove = (targetKey: string) => {
-    closeTabs(targetKey, navigate);
+    toggleLock(true);
+    closeTabs(targetKey);
   };
 
   /**
