@@ -111,7 +111,7 @@ function LayoutMenu(props: Props) {
 
       setTimeout(() => {
         changeContentVisible(true);
-      }, 800);
+      }, 500);
     });
   };
 
