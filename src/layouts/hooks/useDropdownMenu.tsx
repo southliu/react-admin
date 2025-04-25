@@ -8,6 +8,7 @@ import {
   VerticalAlignMiddleOutlined
 } from '@ant-design/icons';
 import { getMenuByKey } from '@/menus/utils/helper';
+import { useAliveController } from 'react-activation';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useTabsStore } from '@/stores';
 
@@ -29,6 +30,7 @@ export function useDropdownMenu(props: Props) {
   const { t } = useTranslation();
   const { activeKey, onOpenChange, handleRefresh } = props;
   const { pathname } = useLocation();
+  const { refresh } = useAliveController();
   const { tabs, permissions, menuList } = useCommonStore();
   const {
     closeLeft,
@@ -91,17 +93,17 @@ export function useDropdownMenu(props: Props) {
       // 关闭当前
       case ITabEnums.CLOSE_CURRENT:
         toggleLock(true);
-        closeTabs(key);
+        closeTabs(key, refresh);
         break;
 
       // 关闭其他
       case ITabEnums.CLOSE_OTHER:
-        closeOther(key, navigate);
+        closeOther(key, navigate, refresh);
         break;
 
       // 关闭左侧
       case ITabEnums.CLOSE_LEFT:
-        closeLeft(key);
+        closeLeft(key, refresh);
         if (pathname !== key) {
           const menuByKeyProps = {
             menus: menuList,
@@ -118,7 +120,7 @@ export function useDropdownMenu(props: Props) {
 
       // 关闭右侧
       case ITabEnums.CLOSE_RIGHT:
-        closeRight(key);
+        closeRight(key, refresh);
         if (pathname !== key) {
           const menuByKeyProps = {
             menus: menuList,
