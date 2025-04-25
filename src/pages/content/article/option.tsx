@@ -2,6 +2,7 @@ import { type FormInstance, message, Spin } from 'antd';
 import { createList } from './model';
 import { getUrlParam } from '@/utils/helper';
 import { useShallow } from 'zustand/react/shallow';
+import { useAliveController } from 'react-activation';
 import {
   getArticleById,
   createArticle,
@@ -43,6 +44,7 @@ function Page() {
   const [createData, setCreateData] = useState<BaseFormData>(initCreate);
   const [messageApi, contextHolder] = message.useMessage();
   const { permissions } = useCommonStore();
+  const { refresh } = useAliveController();
   const closeTabGoNext = useTabsStore(useShallow(state => state.closeTabGoNext));
   const setRefreshPage = usePublicStore(useShallow(state => state.setRefreshPage));
   useSingleTab(fatherPath, id ? '编辑文章管理' : '新增文章管理');
@@ -107,7 +109,8 @@ function Page() {
     closeTabGoNext({
       key: uri,
       nextPath: fatherPath,
-      navigate
+      navigate,
+      refresh
     });
   };
 
