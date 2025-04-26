@@ -3,17 +3,13 @@ import type { SideMenu } from '#/public';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Menu } from 'antd';
 import { Icon } from '@iconify/react';
-import { setTitle } from '@/utils/helper';
-import { getTabTitle } from '../utils/helper';
 import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useMenuStore, useTabsStore } from '@/stores';
+import { useMenuStore } from '@/stores';
 import {
   filterMenus,
   getFirstMenu,
-  getMenuByKey,
-  getMenuName,
   getOpenMenuByRouter,
   handleFilterMenus,
   splitPath
@@ -21,20 +17,19 @@ import {
 import styles from '../index.module.less';
 import Logo from '@/assets/images/logo.svg';
 
-function LayoutMenu() {
+interface Props {
+  changeContentVisible: (state: boolean) => void;
+}
+
+function LayoutMenu(props: Props) {
+  const { changeContentVisible } = props;
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const { pathname, search } = useLocation();
+  const { pathname } = useLocation();
   const [menus, setMenus] = useState<SideMenu[]>([]);
   // 获取当前语言
   const currentLanguage = i18n.language;
 
-  const {
-    tabs,
-    addTabs,
-    setNav,
-    setActiveKey
-  } = useTabsStore(state => state);
   const {
     isMaximize,
     isCollapsed,
@@ -54,26 +49,6 @@ function LayoutMenu() {
     setCurrentOpenKeys(newOpenKey);
     setCurrentSelectedKeys([pathname]);
   }, [pathname]);
-
-  /**
-   * 设置浏览器标签
-   * @param list - 菜单列表
-   * @param path - 路径
-   */
-  const handleSetTitle = useCallback((list: SideMenu[], path: string) => {
-    let title = getMenuName(list, path, i18n.language);
-    if (!title) {
-      const path = `${pathname}${search || ''}`;
-      // 通过路由获取标签名
-      title = getTabTitle(tabs, path);
-    }
-    if (title) setTitle(t, title);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
-
-  useEffect(() => {
-    handleSetTitle(menuList, pathname);
-  }, [pathname, menuList, handleSetTitle]);
 
   /**
    * 转换菜单icon格式
@@ -108,22 +83,36 @@ function LayoutMenu() {
    */
   const goPath = (path: string) => {
     navigate(path);
-    const menuByKeyProps = { menus, permissions, key: path };
-    const newTab = getMenuByKey(menuByKeyProps);
-    if (newTab) {
-      setActiveKey(newTab.key);
-      setNav(newTab.nav);
-      addTabs(newTab);
-    }
   };
 
   /**
    * 点击菜单
    * @param e - 菜单事件
    */
-  const onClick: MenuProps['onClick'] = e => {
-    goPath(e.key);
+  const onClickMenu: MenuProps['onClick'] = e => {
+    // 如果点击的菜单是当前菜单则退出
+    if (e.key === pathname) return;
+
+    changeContentVisible(false);
+    setCurrentSelectedKeys([e.key]);
     if (isPhone) hiddenMenu();
+
+    // 如果是生产环境和测试环境则直接跳转
+    if (['production', 'test'].includes(String(process.env.NODE_ENV))) {
+      goPath(e.key);
+      changeContentVisible(true);
+      return;
+    }
+
+    startTransition(() => {
+      setTimeout(() => {
+        goPath(e.key);
+      }, 300);
+
+      setTimeout(() => {
+        changeContentVisible(true);
+      }, 500);
+    });
   };
 
   /**
@@ -149,24 +138,26 @@ function LayoutMenu() {
    * @param openKeys - 展开键值
    */
   const onOpenChange = (openKeys: string[]) => {
-    const newOpenKey: string[] = [];
-    let last = ''; // 最后一个目录结构
+    startTransition(() => {
+      const newOpenKey: string[] = [];
+      let last = ''; // 最后一个目录结构
 
-    // 当目录有展开值
-    if (openKeys.length > 0) {
-      last = openKeys[openKeys.length - 1];
-      const lastArr: string[] = splitPath(last);
-      newOpenKey.push(last);
+      // 当目录有展开值
+      if (openKeys.length > 0) {
+        last = openKeys[openKeys.length - 1];
+        const lastArr: string[] = splitPath(last);
+        newOpenKey.push(last);
 
-      // 对比当前展开目录是否是同一层级
-      for (let i = openKeys.length - 2; i >= 0; i--) {
-        const arr = splitPath(openKeys[i]);
-        const hasOpenKey = diffOpenMenu(arr, lastArr);
-        if (hasOpenKey) newOpenKey.unshift(openKeys[i]);
+        // 对比当前展开目录是否是同一层级
+        for (let i = openKeys.length - 2; i >= 0; i--) {
+          const arr = splitPath(openKeys[i]);
+          const hasOpenKey = diffOpenMenu(arr, lastArr);
+          if (hasOpenKey) newOpenKey.unshift(openKeys[i]);
+        }
       }
-    }
 
-    setCurrentOpenKeys(newOpenKey);
+      setCurrentOpenKeys(newOpenKey);
+    });
   };
 
   /** 点击logo */
@@ -233,9 +224,10 @@ function LayoutMenu() {
           openKeys={currentOpenKeys}
           mode="inline"
           theme="dark"
+          forceSubMenuRender
           inlineCollapsed={isPhone ? false : isCollapsed}
           items={handleFilterMenus(menus)}
-          onClick={onClick}
+          onClick={onClickMenu}
           onOpenChange={onOpenChange}
         />
       </div>

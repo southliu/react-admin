@@ -90,3 +90,17 @@ body,
     font-size: 13px;
   }
 }
+
+.content-transition {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.content-hidden {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.content-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
