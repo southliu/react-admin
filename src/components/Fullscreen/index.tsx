@@ -16,8 +16,14 @@ function Fullscreen() {
         className="flex items-center justify-center text-lg mr-3 cursor-pointer"
         onClick={toggleFullscreen}
       >
-        { isFullscreen && <Icon icon="gridicons-fullscreen-exit" /> }
-        { !isFullscreen && <Icon icon="gridicons-fullscreen" /> }
+        <Icon
+          icon="gridicons-fullscreen-exit"
+          style={{ display: isFullscreen ? 'block' : 'none' }}
+        />
+        <Icon
+          icon="gridicons-fullscreen"
+          style={{ display: !isFullscreen ? 'block' : 'none' }}
+        />
       </div>
     </Tooltip>
   );

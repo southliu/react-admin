@@ -80,18 +80,18 @@ function Theme() {
       <div
         className={"flex items-center justify-center text-lg mr-4 cursor-pointer"}
       >
-        {
-          theme === 'light' &&
-          <div onClick={e => onChange(e, 'dark')}>
-            <Icon icon="mdi-white-balance-sunny" />
-          </div>
-        }
-        {
-          theme !== 'light' &&
-          <div onClick={e => onChange(e, 'light')}>
-            <Icon icon="mdi-moon-waning-crescent" />
-          </div>
-        }
+        <div
+          style={{ display: theme === 'light' ? 'block' : 'none' }}
+          onClick={e => onChange(e, 'dark')}
+        >
+          <Icon icon="mdi-white-balance-sunny" />
+        </div>
+        <div
+          style={{ display: theme !== 'light' ? 'block' : 'none' }}
+          onClick={e => onChange(e, 'light')}
+        >
+          <Icon icon="mdi-moon-waning-crescent" />
+        </div>
       </div>
     </Tooltip>
   );

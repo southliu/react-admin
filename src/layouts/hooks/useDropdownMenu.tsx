@@ -30,14 +30,13 @@ export function useDropdownMenu(props: Props) {
   const { t } = useTranslation();
   const { activeKey, onOpenChange, handleRefresh } = props;
   const { pathname } = useLocation();
-  const { refresh } = useAliveController();
+  const { dropScope } = useAliveController();
   const { tabs, permissions, menuList } = useCommonStore();
   const {
     closeLeft,
     closeOther,
     closeRight,
     closeTabs,
-    toggleLock,
     setNav
   } = useTabsStore(state => state);
   const navigate = useNavigate();
@@ -92,18 +91,17 @@ export function useDropdownMenu(props: Props) {
 
       // 关闭当前
       case ITabEnums.CLOSE_CURRENT:
-        toggleLock(true);
-        closeTabs(key, refresh);
+        closeTabs(key, dropScope);
         break;
 
       // 关闭其他
       case ITabEnums.CLOSE_OTHER:
-        closeOther(key, navigate, refresh);
+        closeOther(key, dropScope);
         break;
 
       // 关闭左侧
       case ITabEnums.CLOSE_LEFT:
-        closeLeft(key, refresh);
+        closeLeft(key, dropScope);
         if (pathname !== key) {
           const menuByKeyProps = {
             menus: menuList,
@@ -120,7 +118,7 @@ export function useDropdownMenu(props: Props) {
 
       // 关闭右侧
       case ITabEnums.CLOSE_RIGHT:
-        closeRight(key, refresh);
+        closeRight(key, dropScope);
         if (pathname !== key) {
           const menuByKeyProps = {
             menus: menuList,

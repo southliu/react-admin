@@ -13,17 +13,19 @@ function TabMaximize() {
   };
 
   return (
-    <Icon
-      className={`
-        flex
-        items-center
-        justify-center
-        text-lg
-        cursor-pointer
-      `}
-      icon={ isMaximize ? "ant-design:compress-outlined" : "ant-design:expand-outlined" }
-      onClick={onClick}
-    />
+    <div className='text-lg cursor-pointer'>
+      <Icon
+        style={{ display: isMaximize ? 'block' : 'none' }}
+        icon='ant-design:compress-outlined'
+        onClick={onClick}
+      />
+
+      <Icon
+        style={{ display: !isMaximize ? 'block' : 'none' }}
+        icon='ant-design:expand-outlined'
+        onClick={onClick}
+      />
+    </div>
   );
 }
 

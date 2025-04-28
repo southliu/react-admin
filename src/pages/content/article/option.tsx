@@ -1,7 +1,6 @@
 import { type FormInstance, message, Spin } from 'antd';
 import { createList } from './model';
 import { getUrlParam } from '@/utils/helper';
-import { useShallow } from 'zustand/react/shallow';
 import { useAliveController } from 'react-activation';
 import {
   getArticleById,
@@ -35,7 +34,6 @@ const fatherPath = '/content/article';
 function Page() {
   const { t } = useTranslation();
   const { pathname, search } = useLocation();
-  const navigate = useNavigate();
   const uri = pathname + search;
   const id = getUrlParam(search, 'id');
   const createFormRef = useRef<FormInstance>(null);
@@ -44,9 +42,9 @@ function Page() {
   const [createData, setCreateData] = useState<BaseFormData>(initCreate);
   const [messageApi, contextHolder] = message.useMessage();
   const { permissions } = useCommonStore();
-  const { refresh } = useAliveController();
-  const closeTabGoNext = useTabsStore(useShallow(state => state.closeTabGoNext));
-  const setRefreshPage = usePublicStore(useShallow(state => state.setRefreshPage));
+  const { dropScope } = useAliveController();
+  const closeTabGoNext = useTabsStore(state => state.closeTabGoNext);
+  const setRefreshPage = usePublicStore(state => state.setRefreshPage);
   useSingleTab(fatherPath, id ? '编辑文章管理' : '新增文章管理');
 
   // 权限前缀
@@ -109,8 +107,7 @@ function Page() {
     closeTabGoNext({
       key: uri,
       nextPath: fatherPath,
-      navigate,
-      refresh
+      dropScope
     });
   };
 

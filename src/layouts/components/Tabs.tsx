@@ -20,7 +20,7 @@ function LayoutTabs() {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const uri = pathname + search;
-  const { refresh } = useAliveController();
+  const { refresh, dropScope } = useAliveController();
   const [messageApi, contextHolder] = message.useMessage();
   const [time, setTime] = useState<null | NodeJS.Timeout>(null);
   const [isChangeLang, setChangeLang] = useState(false); // 是否切换语言
@@ -28,13 +28,13 @@ function LayoutTabs() {
   const setRefresh = usePublicStore(state => state.setRefresh);
   const {
     tabs,
-    isLock,
+    isCloseTabsLock,
     activeKey, // 选中的标签值
     setActiveKey,
     addTabs,
     closeTabs,
     setNav,
-    toggleLock,
+    toggleCloseTabsLock,
     switchTabsLang,
   } = useTabsStore(useShallow(state => state));
 
@@ -112,13 +112,15 @@ function LayoutTabs() {
   useEffect(() => {
     // 当选中贴标签不等于当前路由则跳转
     if (activeKey !== uri) {
-      const key = isLock ? activeKey : uri;
-      handleAddTab(key);
+      const key = isCloseTabsLock ? activeKey : uri;
       handleSetTitle();
 
-      if (isLock) {
+      // 如果是关闭标签则直接跳转
+      if (isCloseTabsLock) {
         navigate(key);
-        toggleLock(false);
+        toggleCloseTabsLock(false);
+      } else {
+        handleAddTab(key);
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,8 +152,7 @@ function LayoutTabs() {
    * @param targetKey - 目标key值
    */
   const remove = (targetKey: string) => {
-    toggleLock(true);
-    closeTabs(targetKey, refresh);
+    closeTabs(targetKey, dropScope);
   };
 
   /**
