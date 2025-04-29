@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { handleRoutes } from "../utils/helper";
 import { useLocation, useRoutes } from "react-router-dom";
 import Login from '@/pages/login';
+import Forget from '@/pages/forget';
 import NotFound from '@/pages/404';
 import nprogress from 'nprogress';
 import Guards from './Guards';
@@ -16,6 +17,10 @@ const newRoutes: RouteObject[] = [
   {
     path: "login",
     element: <Login />
+  },
+  {
+    path: "forget",
+    element: <Forget />
   },
   {
     path: "",

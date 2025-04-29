@@ -1,21 +1,26 @@
 import type { LoginData } from './model';
 import type { FormProps } from 'antd';
-import { message } from 'antd';
+import { Checkbox, message } from 'antd';
 import { Form, Button, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login } from '@/servers/login';
 import { getMenuList } from '@/servers/system/menu';
 import { getPermissions } from '@/servers/permissions';
+import { encryption, decryption } from '@south/utils';
 import { getFirstMenu } from '@/menus/utils/helper';
 import Logo from '@/assets/images/logo.svg';
-import I18n from '@/components/I18n';
-import Theme from '@/components/Theme';
+
+const CHECK_REMEMBER = 'remember-me';
+const USER_USERNAME = 'login-username';
+const USER_PASSWORD = 'login-password';
 
 function Login() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [form] = Form.useForm();
   const [getToken, setToken] = useToken();
   const [isLoading, setLoading] = useState(false);
+  const [isRemember, setRemember] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
   const { search } = useLocation();
   const { permissions, menuList } = useCommonStore();
@@ -45,6 +50,18 @@ function Login() {
         // 有权限则直接跳转
         handleGoMenu(permissions);
       }
+    }
+
+    // 如果存在记住我缓存
+    const remember = localStorage.getItem(CHECK_REMEMBER);
+    setRemember(remember !== 'false');
+
+    // 如果存在账号密码缓存，则自动填充
+    const username = localStorage.getItem(USER_USERNAME);
+    const password = localStorage.getItem((USER_PASSWORD));
+    if (username && password) {
+      const newPassword = decryption(password);
+      form.setFieldsValue({ username, password: newPassword.value });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -126,6 +143,10 @@ function Login() {
       if (Number(code) !== 200) return;
       const { token, user, permissions } = data;
 
+      // 处理记住我逻辑
+      const passwordObj = { value: values.password, expire: 0 };
+      handleRemember(values.username, encryption(passwordObj));
+
       if (!permissions?.length || !token) {
         return messageApi.error({ content: t('login.notPermissions'), key: 'permissions' });
       }
@@ -147,6 +168,30 @@ function Login() {
     console.error('错误信息:', errors);
   };
 
+  /** 点击记住我 */
+  const onRemember = () => {
+    setRemember(!isRemember);
+    localStorage.setItem(CHECK_REMEMBER, isRemember ? 'false' : 'true');
+  };
+
+  /**
+   * 记住我逻辑
+   */
+  const handleRemember = (username: string, password: string) => {
+    if (isRemember) {
+      localStorage.setItem(USER_USERNAME, username);
+      localStorage.setItem(USER_PASSWORD, password);
+    } else {
+      localStorage.removeItem(USER_USERNAME);
+      localStorage.removeItem(USER_PASSWORD);
+    }
+  };
+
+  /** 点击忘记密码 */
+  const onForgetPassword = () => {
+    navigate(`/forget${search}`);
+  };
+
   return (
     <>
       { contextHolder }
@@ -162,8 +207,8 @@ function Login() {
         </div>
         <div className={`
           w-300px
-          h-290px
           p-30px
+          pb-10px
           rounded-5px
           ${themeCache === 'dark' ? 'bg-black bg-dark-200' : 'bg-white'}
           box-border
@@ -186,6 +231,7 @@ function Login() {
             </span>
           </div>
           <Form
+            form={form}
             name="horizontal_login"
             autoComplete="on"
             onFinish={handleFinish}
@@ -220,6 +266,22 @@ function Login() {
                 addonBefore={<LockOutlined className='change' />}
               />
             </Form.Item>
+
+            <div className='flex justify-between items-center mb-10px'>
+              <Checkbox
+                checked={isRemember}
+                onChange={onRemember}
+              >
+                { t('login.rememberMe') }
+              </Checkbox>
+
+              <div
+                className="text-blue-500 cursor-pointer"
+                onClick={onForgetPassword}
+              >
+                { t('login.forgetPassword') }
+              </div>
+            </div>
 
             <Form.Item>
               <Button
