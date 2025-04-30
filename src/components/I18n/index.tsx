@@ -1,14 +1,17 @@
 import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
-import { useTranslation } from 'react-i18next';
 import { LANG } from '@/utils/config';
-import { useEffect } from 'react';
+import { setTitle } from '@/utils/helper';
+import { getTabTitle } from '@/layouts/utils/helper';
+import { useShallow } from 'zustand/react/shallow';
 
 export type Langs = 'zh' | 'en'
 
 function I18n() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { pathname, search } = useLocation();
+  const { tabs } = useTabsStore(useShallow(state => state));
 
   useEffect(() => {
     const lang = localStorage.getItem(LANG);
@@ -36,10 +39,24 @@ function I18n() {
     },
   ];
 
-  /** 点击菜单更换语言 */
+  /**
+   * 设置浏览器标签
+   * @param list - 菜单列表
+   * @param path - 路径
+   */
+  const handleSetTitle = useCallback(() => {
+    const path = `${pathname}${search || ''}`;
+    // 通过路由获取标签名
+    const title = getTabTitle(tabs, path);
+    if (title) setTitle(t, title);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  /** 点击更换语言 */
   const onClick: MenuProps['onClick'] = e => {
     i18n.changeLanguage(e.key as Langs);
     localStorage.setItem(LANG, e.key);
+    handleSetTitle();
   };
 
   return (

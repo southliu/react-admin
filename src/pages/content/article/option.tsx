@@ -45,7 +45,11 @@ function Page() {
   const { dropScope } = useAliveController();
   const closeTabGoNext = useTabsStore(state => state.closeTabGoNext);
   const setRefreshPage = usePublicStore(state => state.setRefreshPage);
-  useSingleTab(fatherPath, id ? '编辑文章管理' : '新增文章管理');
+  useSingleTab({
+    fatherPath,
+    zhTitle: id ? '编辑文章管理' : '新增文章管理',
+    enTitle: id ? 'Edit Article Management' : 'Add Article Management',
+  });
 
   // 权限前缀
   const permissionPrefix = '/content/article';
@@ -132,19 +136,21 @@ function Page() {
   return (
     <BaseContent isPermission={id ? pagePermission.update : pagePermission.create}>
       { contextHolder }
-      <BaseCard>
-        <div className='mb-50px'>
-          <Spin spinning={isLoading}>
-            <BaseForm
-              ref={createFormRef}
-              list={createList(t)}
-              data={createData}
-              labelCol={{ span: 5 }}
-              handleFinish={handleFinish}
-            />
-          </Spin>
-        </div>
-      </BaseCard>
+      <div className='!h-[calc(100vh-98px)] '>
+        <BaseCard>
+          <div className='mb-50px'>
+            <Spin spinning={isLoading}>
+              <BaseForm
+                ref={createFormRef}
+                list={createList(t)}
+                data={createData}
+                labelCol={{ span: 5 }}
+                handleFinish={handleFinish}
+              />
+            </Spin>
+          </div>
+        </BaseCard>
+      </div>
 
       <SubmitBottom
         isLoading={isLoading}

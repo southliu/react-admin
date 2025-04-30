@@ -1,6 +1,5 @@
-import type { SideMenu } from '#/public';
 import { useTranslation } from 'react-i18next';
-import { getMenuName, getOpenMenuByRouter, handleFilterNav } from '@/menus/utils/helper';
+import { getMenuByKey, getMenuName, getOpenMenuByRouter } from '@/menus/utils/helper';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import { setTitle } from '@/utils/helper';
 import { useCommonStore } from './useCommonStore';
@@ -9,17 +8,21 @@ import { useCallback, useEffect } from 'react';
 import { useActivate } from 'react-activation';
 import { useMenuStore, useTabsStore } from '@/stores';
 
+interface Props {
+  fatherPath: string,
+  zhTitle: string,
+  enTitle: string,
+  name?: string;
+}
+
 /**
  * 单标签设置
  * @param fatherPath - 父级路径
  * @param title - 标题
  * @param name - 名称
  */
-export function useSingleTab(
-  fatherPath: string,
-  title?: string,
-  name = 'id'
-) {
+export function useSingleTab(props: Props) {
+  const { fatherPath, zhTitle, enTitle, name } = props;
   const { t, i18n } = useTranslation();
   const { pathname, search } = useLocation();
   const { setOpenKeys, setSelectedKeys } = useMenuStore(state => state);
@@ -29,9 +32,10 @@ export function useSingleTab(
     setActiveKey,
   } = useTabsStore(state => state);
   const {
-    menuList,
     isPhone,
-    isCollapsed
+    isCollapsed,
+    menuList,
+    permissions,
   } = useCommonStore();
   const uri = pathname + search;
 
@@ -54,14 +58,26 @@ export function useSingleTab(
   const handleAddTab = useCallback((path = pathname) => {
     // 当值为空时匹配路由
     if (path === '/') return;
+    const title = i18n.language === 'zh' ? zhTitle : enTitle;
     const currentTitle = handleGetTitle();
-    const nav = handleGetNav();
+    const menuByKeyProps = {
+      menus: menuList,
+      permissions,
+      key: fatherPath
+    };
+    const newNav = getMenuByKey(menuByKeyProps)?.nav || [];
+    newNav.push({
+      label: title,
+      labelZh: zhTitle,
+      labelEn: enTitle,
+    });
+
     const newTab = {
       label: currentTitle,
-      labelEn: currentTitle,
-      labelZh: currentTitle,
+      labelEn: enTitle,
+      labelZh: zhTitle,
       key: uri,
-      nav: handleFilterNav(nav, title)
+      nav: newNav
     };
     setActiveKey(newTab.key);
     setNav(newTab.nav);
@@ -100,6 +116,7 @@ export function useSingleTab(
   const handleGetTitle = () => {
     let result = '', newUpdateTitle = '', newCreateTitle = '';
     const routeName = getNameByRoute();
+    const title = i18n.language === 'zh' ? zhTitle : enTitle;
 
     if (!title) {
       const menuName = getMenuName(menuList, fatherPath, i18n.language);
@@ -111,38 +128,6 @@ export function useSingleTab(
        newUpdateTitle = `${title}${label}`;
     }
     result = routeName ? newUpdateTitle : newCreateTitle;
-    return result;
-  };
-
-  /** 获取导航栏 */
-  const handleGetNav = () => {
-    let result: string[] = [];
-
-    const deepData = (list: SideMenu[], path: string, fatherName: string[] = []) => {
-      if (result?.length || !list?.length || !path) return result;
-
-      for (let i = 0; i < list?.length; i++) {
-        const item = list[i];
-        const newNav = fatherName.concat([item.label]);
-
-        if (item.key === path) {
-          result = newNav;
-          return result;
-        }
-
-        if (item.children?.length) {
-          const childResult = deepData(item.children, path, newNav);
-          if (childResult?.length) {
-            result = childResult;
-            return result;
-          }
-        }
-      }
-
-      return result;
-    };
-    deepData(menuList, fatherPath);
-
     return result;
   };
 

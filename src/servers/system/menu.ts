@@ -1,7 +1,5 @@
 import type { Key } from 'react';
 import type { DataNode } from 'antd/es/tree';
-import type { BaseFormData } from '#/form';
-import type { PageServerResult, PaginationData, SideMenu } from '#/public';
 import { request } from '@/utils/request';
 
 enum API {
