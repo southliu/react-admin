@@ -213,7 +213,7 @@ function Login() {
         </div>
         <div className={`
           ${themeCache === 'dark' ? 'bg-black bg-dark-200' : 'bg-white'}
-          w-350px
+          w-340px
           p-1.8rem
           rounded-10px
           box-border
@@ -224,7 +224,7 @@ function Login() {
           -translate-y-1/2
           shadow-[2px_5px_20px_rgba(0,0,0,0.1)]
         `}>
-         <div className="pb-25px pt-10px flex items-center justify-center">
+         <div className="pb-20px pt-10px flex items-center justify-center">
             <img
               className="mr-2 object-contain"
               width="32"
@@ -248,7 +248,7 @@ function Login() {
               password: 'admin123456'
             }}
           >
-            <div className='text-#AAA6A6 text-15px mb-8px'>
+            <div className='text-#AAA6A6 text-14px mb-8px'>
               { t('login.username') }
             </div>
 
@@ -258,14 +258,13 @@ function Login() {
               rules={[{ required: true, message: t('public.pleaseEnter', { name: t('login.username') }) }]}
             >
               <Input
-                size="large"
                 allow-clear="true"
                 placeholder={t('public.pleaseEnter', { name: t('login.username') })}
                 autoComplete="username"
               />
             </Form.Item>
 
-            <div className='text-#AAA6A6 text-15px mb-8px'>
+            <div className='text-#AAA6A6 text-14px mb-8px'>
               { t('login.password') }
             </div>
 
@@ -278,14 +277,12 @@ function Login() {
               ]}
             >
               <Input.Password
-                size="large"
                 placeholder={t('public.pleaseEnter', { name: t('login.password') })}
                 autoComplete="current-password"
               />
             </Form.Item>
 
             <Button
-              size="large"
               type="primary"
               htmlType="submit"
               className="w-full mt-15px mb-25px rounded-5px tracking-2px"
@@ -295,7 +292,7 @@ function Login() {
             </Button>
           </Form>
 
-          <div className='flex justify-between items-center'>
+          <div className='flex justify-between items-center mb-5px px-1px'>
             <Checkbox
               checked={isRemember}
               onChange={onRemember}

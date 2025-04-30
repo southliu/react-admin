@@ -153,12 +153,12 @@ function Forget() {
          <div className="pb-30px flex items-center justify-center">
             <img
               className="mr-2 object-contain"
-              width="34"
-              height="34"
+              width="32"
+              height="32"
               src={Logo}
               alt="LOGO"
             />
-            <span className="text-23px font-bold tracking-2px">
+            <span className="text-22px font-bold tracking-2px">
               { t('login.resetPassword') }
             </span>
           </div>
@@ -174,7 +174,6 @@ function Forget() {
               rules={[{ required: true, message: t('public.pleaseEnter', { name: t('login.username') }) }]}
             >
               <Input
-                size="large"
                 allow-clear="true"
                 placeholder={t('login.username')}
                 autoComplete="username"
@@ -189,7 +188,6 @@ function Forget() {
               ]}
             >
               <PasswordStrength
-                size="large"
                 placeholder={t('login.password')}
                 autoComplete="current-password"
               />
@@ -203,7 +201,6 @@ function Forget() {
               ]}
             >
               <PasswordStrength
-                size="large"
                 placeholder={t('login.confirmPassword')}
                 autoComplete="current-password"
               />
@@ -218,7 +215,6 @@ function Forget() {
             >
               <InputNumber
                 controls={false}
-                size="large"
                 className='!w-full'
                 placeholder={t('login.phoneNumber')}
                 autoComplete="phone"
@@ -232,14 +228,12 @@ function Forget() {
               >
                 <InputNumber
                   controls={false}
-                  size="large"
                   className='!w-210px'
                   placeholder={t('login.verificationCode')}
                 />
               </Form.Item>
 
               <Button
-                size="large"
                 type='primary'
                 className='w-120px'
                 disabled={verificationTime > 0}
@@ -254,7 +248,6 @@ function Forget() {
             </div>
 
             <Button
-              size="large"
               type="primary"
               htmlType="submit"
               className="w-full mt-5px rounded-5px tracking-2px"
@@ -265,9 +258,8 @@ function Forget() {
           </Form>
 
           <Button
-            size="large"
             htmlType="submit"
-            className="w-full mt-15px mb-10px rounded-5px tracking-2px"
+            className="w-full mt-12px mb-10px rounded-5px tracking-2px"
             onClick={() => navigate(`/login${search}`)}
           >
             { t('public.back') }
