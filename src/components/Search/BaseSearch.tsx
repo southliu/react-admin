@@ -61,7 +61,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
       const showNum = defaultColCount * defaultRowExpand;
       setShowExpand(showNum < list.length);
     }
-  }, [defaultColCount, defaultRowExpand, isRowExpand, list.length]);
+  }, [defaultColCount, defaultRowExpand, isPhone, isRowExpand, list.length]);
 
   // 初始化内容
   useEffect(() => {
@@ -178,47 +178,40 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
 
   /** 渲染按钮列表 */
   const renderBtnList = (
-    <div className='flex items-center flex-wrap'>
+    <div className='flex items-center flex-wrap gap-10px'>
       {
         !!isSearch &&
-        <Form.Item>
-          <Button
-            type='primary'
-            htmlType='submit'
-            className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}
-            loading={isLoading}
-            icon={<SearchOutlined />}
-          >
-            { t('public.search') }
-          </Button>
-        </Form.Item>
+        <Button
+          type='primary'
+          htmlType='submit'
+          className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}
+          loading={isLoading}
+          icon={<SearchOutlined />}
+        >
+          { t('public.search') }
+        </Button>
       }
 
       {
         !!isReset &&
-        <Form.Item>
-          <Button
-            className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}
-            icon={<ReloadOutlined />}
-            onClick={onReset}
-          >
-            { t('public.reset') }
-          </Button>
-        </Form.Item>
+        <Button
+          className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}
+          icon={<ReloadOutlined />}
+          onClick={onReset}
+        >
+          { t('public.reset') }
+        </Button>
       }
 
       {
         children &&
-        <Form.Item>
-          <div className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}>
-            { children }
-          </div>
-        </Form.Item>
+        <div className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}>
+          { children }
+        </div>
       }
 
       {
         type === 'grid' &&
-        !isPhone &&
         !!isShowExpand &&
         <div
           className='text-12px cursor-pointer color-#1677ff hover:color-#69b1ff'
@@ -249,7 +242,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
         autoComplete="off"
       >
         {
-          (type === 'default' || isPhone) &&
+          type === 'default' &&
           <>
             {
               list?.map(item => (
@@ -271,13 +264,12 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
 
         {
           type === 'grid' &&
-          !isPhone &&
           <Flex wrap className='w-full'>
             {
               filterList(list)?.map(item => (
                 <div
                   key={`${item.name}`}
-                  style={{ width: item.hidden ? 0 : `${100 / defaultColCount}%` }}
+                  style={{ width: item.hidden ? 0 : `${100 / (isPhone ? 1 : defaultColCount)}%` }}
                 >
                   <Form.Item
                     {...filterFormItem(item)}

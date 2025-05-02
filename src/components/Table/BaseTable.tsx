@@ -258,7 +258,7 @@ function BaseTable(props: Props) {
             { leftContent }
           </div>
 
-          <div className='flex flex-wrap items-center gap-6px'>
+          <div className='flex flex-wrap items-center justify-end gap-6px'>
             { rightContent ? <div>{ rightContent }</div> : undefined }
 
             <Button
