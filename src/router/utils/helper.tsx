@@ -54,23 +54,18 @@ export function handleRoutes(routes: Record<string, () => Promise<DefaultCompone
   return layouts;
 }
 
+// 预处理正则表达式，避免重复创建
+const ROUTER_EXCLUDE_REGEX = new RegExp(
+  ROUTER_EXCLUDE.map((item) => (!item.includes('.') ? `/${item}/` : item)).join('|'),
+  'i'
+);
+
 /**
  * 匹配路由是否在排查名单中
  * @param path - 路径
  */
 function handleRouterExclude(path: string): boolean {
-  for (let i = 0; i < ROUTER_EXCLUDE.length; i++) {
-    let item = ROUTER_EXCLUDE[i];
-
-    // 如果不是文件类型则转为文件夹
-    if (!item.includes('.')) {
-      item = `/${item}/`;
-    }
-
-    if (path.includes(item)) return true;
-  }
-
-  return false;
+  return ROUTER_EXCLUDE_REGEX.test(path);
 }
 
 /**
