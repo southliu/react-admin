@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { debounce } from 'lodash';
 import * as echarts from 'echarts';
 /**
  * 使用Echarts
@@ -33,37 +34,29 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
       echartsRef.current.setOption(options);
 
       // 使用 ResizeObserver 监听容器尺寸变化
-      resizeObserverRef.current = new ResizeObserver(() => {
-        if (echartsRef.current) {
-          echartsRef.current.resize();
-        }
-      });
+      resizeObserverRef.current = new ResizeObserver(
+        debounce(() => {
+          echartsRef.current?.resize({
+            animation: {
+              duration: 500,
+            }
+          });
+        }, 50)
+      );
       resizeObserverRef.current.observe(htmlDivRef.current);
     }
   }, [options]);
 
-  /** 监听窗口大小变化，自适应图表 */
-  const resizeHandler = () => {
-    echartsRef.current?.resize();
-  };
-
   useEffect(() => {
     if (htmlDivRef.current) {
       init();
-      window.addEventListener('resize', resizeHandler, false);
-
-      // 确保在组件挂载后立即调整大小
-      const timer = setTimeout(() => {
-        resizeHandler();
-      }, 100);
 
       return () => {
-        window.removeEventListener('resize', resizeHandler);
-        clearTimeout(timer);
         dispose();
       };
     }
-  }, [init]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (data && echartsRef.current) {
