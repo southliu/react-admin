@@ -119,6 +119,7 @@ function LayoutTabs() {
       if (isCloseTabsLock) {
         navigate(key);
         toggleCloseTabsLock(false);
+        handleUpdateBreadcrumb(key);
       } else {
         handleAddTab(key);
       }
@@ -145,6 +146,25 @@ function LayoutTabs() {
    */
   const onChange = (key: string) => {
     navigate(key);
+  };
+
+  /**
+   * 更新面包屑
+   * @param key - 菜单
+   */
+  const handleUpdateBreadcrumb = (key: string) => {
+    if (pathname !== key) {
+      const menuByKeyProps = {
+        menus: menuList,
+        permissions,
+        key
+      };
+      const newItems = getMenuByKey(menuByKeyProps);
+      if (newItems?.key) {
+        navigate(key);
+        setNav(newItems.nav);
+      }
+    }
   };
 
   /**

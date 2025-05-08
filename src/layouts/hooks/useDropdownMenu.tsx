@@ -1,5 +1,5 @@
 import type { MenuProps } from 'antd';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   RedoOutlined,
@@ -7,7 +7,6 @@ import {
   VerticalAlignTopOutlined,
   VerticalAlignMiddleOutlined
 } from '@ant-design/icons';
-import { getMenuByKey } from '@/menus/utils/helper';
 import { useAliveController } from 'react-activation';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useTabsStore } from '@/stores';
@@ -31,15 +30,13 @@ export function useDropdownMenu(props: Props) {
   const { activeKey, onOpenChange, handleRefresh } = props;
   const { pathname } = useLocation();
   const { dropScope } = useAliveController();
-  const { tabs, permissions, menuList } = useCommonStore();
+  const { tabs } = useCommonStore();
   const {
     closeLeft,
     closeOther,
     closeRight,
     closeTabs,
-    setNav
   } = useTabsStore(state => state);
-  const navigate = useNavigate();
 
   // 菜单项
   const items: (key?: string) => MenuProps['items'] = (key = activeKey) => {
@@ -102,35 +99,11 @@ export function useDropdownMenu(props: Props) {
       // 关闭左侧
       case ITabEnums.CLOSE_LEFT:
         closeLeft(key, dropScope);
-        if (pathname !== key) {
-          const menuByKeyProps = {
-            menus: menuList,
-            permissions,
-            key
-          };
-          const newItems = getMenuByKey(menuByKeyProps);
-          if (newItems?.key) {
-            navigate(key);
-            setNav(newItems.nav);
-          }
-        }
         break;
 
       // 关闭右侧
       case ITabEnums.CLOSE_RIGHT:
         closeRight(key, dropScope);
-        if (pathname !== key) {
-          const menuByKeyProps = {
-            menus: menuList,
-            permissions,
-            key
-          };
-          const newItems = getMenuByKey(menuByKeyProps);
-          if (newItems?.key) {
-            navigate(key);
-            setNav(newItems.nav);
-          }
-        }
         break;
 
       default:
