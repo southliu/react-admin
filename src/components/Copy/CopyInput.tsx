@@ -8,7 +8,7 @@ const { Search } = Input;
 function CopyInput(props: InputProps) {
   const { t } = useTranslation();
   const [messageApi, contextHolder] = message.useMessage();
-  const [, copyToClipboard] = useClipboard();
+  const [isCopied, error, copyText] = useClipboard();
 
   /**
    * 处理复制
@@ -17,11 +17,15 @@ function CopyInput(props: InputProps) {
   const handleCopy = (value: string) => {
     if (!value) return messageApi.warning({ content: t('public.inputPleaseEnter'), key: 'copy' });
     try {
-      copyToClipboard(value);
-      messageApi.success({ content: t('public.copySuccessfully'), key: 'copy' });
+      copyText(value);
+      if (isCopied) {
+        messageApi.success({ content: t('public.copySuccessfully'), key: 'copy' });
+      } else {
+        messageApi.warning({ content: error || t('public.copyFailed'), key: 'copy' });
+      }
     } catch(e) {
       console.error(e);
-      messageApi.warning({ content: t('public.copyFailed'), key: 'copy' });
+      messageApi.warning({ content: error || t('public.copyFailed'), key: 'copy' });
     }
   };
 

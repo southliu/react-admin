@@ -1,54 +1,51 @@
-import { useCallback, useRef } from "react";
+import { useState, useEffect } from 'react';
 
-export function useClipboard() {
-  const ref = useRef(null);
+type CopyHandler = (text: string) => Promise<boolean>;
 
-  /**
-   * 剪切板
-   * @param text - 内容
-   */
-  const copyToClipboard = useCallback((text?: string | number | null) => {
-    return new Promise<string | number>((res, rej) => {
-      try {
-        let copyText = text;
+export function useClipboard(): [boolean, string, CopyHandler] {
+  const [isCopied, setIsCopied] = useState(false);
+  const [error, setError] = useState('');
 
-        // 没有内容则获取ref元素的值
-        if (!copyText) {
-          copyText = (ref.current as unknown as HTMLInputElement)?.value;
-        }
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isCopied) {
+      timer = setTimeout(() => setIsCopied(false), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [isCopied]);
 
-        // 没有内容则退出
-        if (!copyText) {
-          const error = '复制的内容不能为空';
-          rej(error);
-          return;
-        }
-
-        // 值类型判断
-        if (typeof copyText !== 'string' && typeof copyText !== 'number') {
-          const error = '复制的内容必须是字符串或数字';
-          rej(error);
-          return;
-        }
-
-        navigator.clipboard
-          .writeText(copyText.toString())
-          .then(() => {
-            res(copyText as string | number);
-          })
-          .catch((err) => {
-            rej(err);
-          });
-      } catch (error) {
-        rej(error);
+  const copyText: CopyHandler = async (text) => {
+    try {
+      // 现代Clipboard API
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        setIsCopied(true);
+        return true;
       }
-    });
-  }, []);
 
-  /** 获取剪切板数据 */
-  const getClipboard = useCallback(() => {
-    return navigator.clipboard.readText();
-  }, []);
+      // 兼容旧浏览器的execCommand方法
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed'; // 避免滚动
+      document.body.appendChild(textArea);
+      textArea.select();
 
-  return [ref, copyToClipboard, getClipboard] as const;
+      const success = document.execCommand('copy');
+      document.body.removeChild(textArea);
+
+      if (success) {
+        setIsCopied(true);
+        return true;
+      }
+
+      throw new Error('复制失败，请手动复制');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : '复制操作被拒绝';
+      setError(message);
+      setIsCopied(false);
+      return false;
+    }
+  };
+
+  return [isCopied, error, copyText];
 }
