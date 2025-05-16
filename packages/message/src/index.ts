@@ -16,6 +16,7 @@ let modal: Omit<ModalStaticFunctions, "warn"> = resetFns;
 
 /**
  * 该组件提供静态方法
+ * 作用：跨页面message显示
  */
 function StaticMessage() {
   const staticFunctions = App.useApp();

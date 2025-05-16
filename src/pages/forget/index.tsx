@@ -2,6 +2,7 @@ import type { FormProps } from 'antd';
 import { InputNumber, message } from 'antd';
 import { Form, Button, Input } from 'antd';
 import { setTitle } from '@/utils/helper';
+import { message as globalMessage } from '@south/message';
 import { forgetPassword } from '@/servers/login';
 import Logo from '@/assets/images/logo.svg';
 
@@ -70,7 +71,7 @@ function Forget() {
       const { code } = await forgetPassword(values);
       if (Number(code) !== 200) return;
 
-      messageApi.success({
+      globalMessage.success({
         content: t('login.verificationPassed'),
         key: 'success'
       });
