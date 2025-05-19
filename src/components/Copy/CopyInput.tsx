@@ -10,6 +10,17 @@ function CopyInput(props: InputProps) {
   const [messageApi, contextHolder] = message.useMessage();
   const [isCopied, error, copyText] = useClipboard();
 
+  useEffect(() => {
+    if (isCopied && !error) {
+      messageApi.success({ content: t('public.copySuccessfully'), key: 'copy'});
+    }
+
+    if (error) {
+      messageApi.warning({ content: error || t('public.copyFailed'), key: 'copy' });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCopied, error]);
+
   /**
    * 处理复制
    * @param value - 复制内容
@@ -18,14 +29,9 @@ function CopyInput(props: InputProps) {
     if (!value) return messageApi.warning({ content: t('public.inputPleaseEnter'), key: 'copy' });
     try {
       copyText(value);
-      if (isCopied) {
-        messageApi.success({ content: t('public.copySuccessfully'), key: 'copy' });
-      } else {
-        messageApi.warning({ content: error || t('public.copyFailed'), key: 'copy' });
-      }
     } catch(e) {
       console.error(e);
-      messageApi.warning({ content: error || t('public.copyFailed'), key: 'copy' });
+      messageApi.warning({ content: t('public.copyFailed'), key: 'copy' });
     }
   };
 
