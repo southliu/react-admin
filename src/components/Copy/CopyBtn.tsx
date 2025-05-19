@@ -44,7 +44,7 @@ function CopyBtn(props: Props) {
         icon={<Icon icon="ant-design:copy-outlined" />}
         onClick={onClick}
       >
-        { text }123
+        { text }
       </Button>
     </>
   );
