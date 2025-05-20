@@ -7,6 +7,7 @@
 export {}
 declare global {
   const ADD_TITLE: typeof import('../src/utils/config')['ADD_TITLE']
+  const ApiPageSelect: typeof import('../src/components/Selects/ApiPageSelect')['default']
   const ApiSelect: typeof import('../src/components/Selects/index')['ApiSelect']
   const ApiTreeSelect: typeof import('../src/components/Selects/index')['ApiTreeSelect']
   const BaseBtn: typeof import('../src/components/Buttons/index')['BaseBtn']
@@ -140,7 +141,7 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { ThemeType, TabsData, FC, BusinessComponents, RangeValue, SearchModalProps, Langs, InitTableState, TableAction, EditorProps, FormData, FormList, SearchList } from './autoImports.d'
+  export type { ApiPageSelectProps, ThemeType, TabsData, FC, BusinessComponents, RangeValue, SearchModalProps, Langs, InitTableState, TableAction, EditorProps, FormData, FormList, SearchList } from './autoImports.d'
   import('./autoImports.d')
   // @ts-ignore
   export type { BaseFormData, ComponentType, ApiResult, ApiFn, ApiSelectProps, ApiTreeSelectProps, ComponentProps, RenderComponentProps, FormRule, BaseFormList, BaseSearchList } from './form'
