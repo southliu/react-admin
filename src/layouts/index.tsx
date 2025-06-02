@@ -1,5 +1,5 @@
 import { useToken } from '@/hooks/useToken';
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useOutlet } from 'react-router-dom';
 import { Skeleton, message } from 'antd';
 import { Icon } from '@iconify/react';
@@ -24,7 +24,6 @@ function Layout() {
   const token = getToken();
   const outlet = useOutlet();
   const [isLoading, setLoading] = useState(true);
-  const [isContentVisible, setContentVisible] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
   const { setPermissions, setUserInfo } = useUserStore(state => state);
   const { setMenuList, toggleCollapsed, togglePhone } = useMenuStore(state => state);
@@ -102,15 +101,10 @@ function Layout() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /** 更新内容可视状态 */
-  const handleChangeContentVisible = (state: boolean) => {
-    setContentVisible(state);
-  };
-
   return (
     <div id="layout">
       { contextHolder }
-      <Menu changeContentVisible={handleChangeContentVisible} />
+      <Menu />
       <div className={styles.layout_right}>
         <div
           id='header'
@@ -172,29 +166,22 @@ function Layout() {
               <div
                 className={`
                   content-transition
-                  ${isContentVisible ? 'content-visible' : 'content-hidden'}
                 `}
               >
-                { outlet }
+                <Suspense
+                  fallback={(
+                    <div className='p-30px'>
+                      <Skeleton
+                        active
+                        paragraph={{ rows: 10 }}
+                      />
+                    </div>
+                  )}
+                >
+                  { outlet }
+                </Suspense>
               </div>
             </KeepAlive>
-          }
-          {
-            permissions.length > 0 &&
-            !isContentVisible &&
-            !['production', 'test'].includes(String(process.env.NODE_ENV)) &&
-            <Skeleton
-              active
-              className={`
-                p-30px
-                absolute
-                content-transition
-                z-0
-                top-0
-                content-visible
-              `}
-              paragraph={{ rows: 10 }}
-            />
           }
         </div>
       </div>

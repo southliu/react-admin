@@ -17,12 +17,7 @@ import {
 import styles from '../index.module.less';
 import Logo from '@/assets/images/logo.svg';
 
-interface Props {
-  changeContentVisible: (state: boolean) => void;
-}
-
-function LayoutMenu(props: Props) {
-  const { changeContentVisible } = props;
+function LayoutMenu() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
@@ -93,26 +88,10 @@ function LayoutMenu(props: Props) {
     // 如果点击的菜单是当前菜单则退出
     if (e.key === pathname) return;
 
-    changeContentVisible(false);
     setCurrentSelectedKeys([e.key]);
     if (isPhone) hiddenMenu();
 
-    // 如果是生产环境和测试环境则直接跳转
-    if (['production', 'test'].includes(String(process.env.NODE_ENV))) {
-      goPath(e.key);
-      changeContentVisible(true);
-      return;
-    }
-
-    startTransition(() => {
-      setTimeout(() => {
-        goPath(e.key);
-      }, 300);
-
-      setTimeout(() => {
-        changeContentVisible(true);
-      }, 500);
-    });
+    goPath(e.key);
   };
 
   /**
