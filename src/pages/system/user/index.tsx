@@ -9,7 +9,7 @@ import {
   deleteUser,
   getUserById,
   getUserPage,
-  updateUser
+  updateUser,
 } from '@/servers/system/user';
 import PermissionDrawer from './components/PermissionDrawer';
 
@@ -20,7 +20,7 @@ interface RowData {
 
 // 初始化新增数据
 const initCreate = {
-  status: 1
+  status: 1,
 };
 
 function Page() {
@@ -58,7 +58,7 @@ function Page() {
     create: checkPermission(`${permissionPrefix}/create`, permissions),
     update: checkPermission(`${permissionPrefix}/update`, permissions),
     delete: checkPermission(`${permissionPrefix}/delete`, permissions),
-    permission: checkPermission(`${permissionPrefix}/authority`, permissions)
+    permission: checkPermission(`${permissionPrefix}/authority`, permissions),
   };
 
   /** 获取表格数据 */
@@ -95,7 +95,7 @@ function Page() {
   // 首次进入自动加载接口数据
   useEffect(() => {
     if (pagePermission.page) getPage();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagePermission.page]);
 
   /** 开启权限 */
@@ -128,7 +128,7 @@ function Page() {
       setLoading(true);
       const params = {
         menuIds: checked,
-        userId: promiseId
+        userId: promiseId,
       };
       const { code, message } = await savePermission(params);
       if (Number(code) !== 200) return;
@@ -182,7 +182,7 @@ function Page() {
   const handleCreate = async (values: BaseFormData) => {
     try {
       setCreateLoading(true);
-      const functions = () => createId ? updateUser(createId, values) : createUser(values);
+      const functions = () => (createId ? updateUser(createId, values) : createUser(values));
       const { code, message } = await functions();
       if (Number(code) !== 200) return;
       messageApi.success(message || t('public.successfulOperation'));
@@ -262,31 +262,21 @@ function Page() {
    * @param record - 当前行参数
    */
   function optionRender(_: unknown, record: object) {
-    return <>
-      {
-        pagePermission.permission === true &&
-        <Button
-          className='mr-2 small-btn'
-          onClick={() => openPermission((record as RowData).id)}
-        >
-          { t('system.permissions') }
-        </Button>
-      }
-      {
-        pagePermission.update === true &&
-        <UpdateBtn
-          className='mr-5px'
-          onClick={() => onUpdate((record as RowData).id)}
-        />
-      }
-      {
-        pagePermission.delete === true &&
-        <DeleteBtn
-          className='mr-5px'
-          handleDelete={() => onDelete((record as RowData).id)}
-        />
-      }
-    </>;
+    return (
+      <>
+        {pagePermission.permission === true && (
+          <Button className="mr-2 small-btn" onClick={() => openPermission((record as RowData).id)}>
+            {t('system.permissions')}
+          </Button>
+        )}
+        {pagePermission.update === true && (
+          <UpdateBtn className="mr-5px" onClick={() => onUpdate((record as RowData).id)} />
+        )}
+        {pagePermission.delete === true && (
+          <DeleteBtn className="mr-5px" handleDelete={() => onDelete((record as RowData).id)} />
+        )}
+      </>
+    );
   }
 
   /** 左侧渲染 */
@@ -301,18 +291,18 @@ function Page() {
 
   return (
     <BaseContent isPermission={pagePermission.page}>
-      { contextHolder }
+      {contextHolder}
       <BaseCard>
         <BaseSearch
           list={searchList(t)}
           data={searchData}
-          type='grid'
+          type="grid"
           isLoading={isLoading}
           handleFinish={onSearch}
         />
       </BaseCard>
 
-      <BaseCard className='mt-10px'>
+      <BaseCard className="mt-10px">
         <BaseTable
           isLoading={isLoading}
           isCreate={pagePermission.create}

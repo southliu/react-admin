@@ -13,14 +13,12 @@
       "}).finally(() => {",
       "  setLoading(false)",
       "});",
-    ]
+    ],
   },
   "loadHook": {
     "prefix": "loadhook",
     "description": "loading hook数据",
-    "body": [
-      "const [isLoading, setLoading] = useState(false);"
-    ]
+    "body": ["const [isLoading, setLoading] = useState(false);"],
   },
   "fetchHook": {
     "prefix": "fetchhook",
@@ -34,7 +32,7 @@
       "    fetchData();",
       "  }",
       "}, [isFetch]);",
-    ]
+    ],
   },
   "pageHook": {
     "prefix": "pagehook",
@@ -42,7 +40,7 @@
     "body": [
       "const [page, setPage] = useState(1);",
       "const [pageSize, setPageSize] = useState(20);",
-    ]
+    ],
   },
   "demoPage": {
     "prefix": "demoPage",
@@ -300,7 +298,7 @@
       "",
       "export default Page;",
       "",
-    ]
+    ],
   },
   "demoModel": {
     "prefix": "demoModel",

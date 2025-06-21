@@ -17,7 +17,7 @@ export function useFiler() {
     }
 
     for (let i = 0; i < columns?.length; i++) {
-      const item = columns[i] as { dataIndex: string; hidden: boolean; };
+      const item = columns[i] as { dataIndex: string; hidden: boolean };
       item.hidden = !checks.includes(item.dataIndex);
     }
 

@@ -1,5 +1,5 @@
-import { TreeSelect, type TreeSelectProps } from "antd";
-import { useTranslation } from "react-i18next";
+import { TreeSelect, type TreeSelectProps } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { MAX_TAG_COUNT } from './index';
 
 function BaseTreeSelect(props: TreeSelectProps) {

@@ -1,9 +1,8 @@
-
 export interface InitTableState {
-  rowHeight: number
-  curScrollTop: number
-  scrollHeight: number
-  tableScrollY: number
+  rowHeight: number;
+  curScrollTop: number;
+  scrollHeight: number;
+  tableScrollY: number;
 }
 
 export interface TableAction extends Partial<InitTableState> {
@@ -35,12 +34,12 @@ export function reducer(state: InitTableState, action: TableAction) {
       if (state.scrollHeight && curScrollTop > state.scrollHeight) {
         curScrollTop = state.scrollHeight;
       }
-      
+
       return {
         ...state,
         curScrollTop,
         scrollHeight,
-        tableScrollY
+        tableScrollY,
       };
 
     // 重置
@@ -48,7 +47,7 @@ export function reducer(state: InitTableState, action: TableAction) {
       return {
         ...state,
         curScrollTop: 0,
-        scrollHeight: 0
+        scrollHeight: 0,
       };
 
     default:

@@ -39,9 +39,9 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
           echartsRef.current?.resize({
             animation: {
               duration: 500,
-            }
+            },
           });
-        }, 50)
+        }, 50),
       );
       resizeObserverRef.current.observe(htmlDivRef.current);
     }
@@ -55,7 +55,7 @@ export const useEcharts = (options: echarts.EChartsCoreOption, data?: unknown) =
         dispose();
       };
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

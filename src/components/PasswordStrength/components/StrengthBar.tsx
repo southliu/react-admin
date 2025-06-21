@@ -9,11 +9,10 @@ function StrengthBar(props: Props) {
 
   return (
     <div className="flex items-center">
-      {
-        arr.map(item => (
-          <div
-            key={item}
-            className={`
+      {arr.map((item) => (
+        <div
+          key={item}
+          className={`
               w-19%
               h-5px
               mt-5px
@@ -24,9 +23,8 @@ function StrengthBar(props: Props) {
               ${item <= strength && strength === 3 ? '!bg-yellow-400' : ''}
               ${item <= strength && strength < 3 ? '!bg-red-400' : ''}
             `}
-          ></div>
-        ))
-      }
+        ></div>
+      ))}
     </div>
   );
 }

@@ -27,13 +27,7 @@ function BasePagination(props: PaginationProps) {
         z-999
       `}
     >
-      <Pagination
-        showSizeChanger
-        showQuickJumper
-        size="small"
-        showTotal={showTotal}
-        {...props}
-      />
+      <Pagination showSizeChanger showQuickJumper size="small" showTotal={showTotal} {...props} />
     </div>
   );
 }

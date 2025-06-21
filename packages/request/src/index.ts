@@ -38,7 +38,7 @@ function creteRequest(url: string, tokenKey: string) {
           removeLocalInfo(tokenKey);
           message.error({
             content: msg,
-            key: 'error'
+            key: 'error',
           });
           console.error('错误信息:', data?.message || msg);
 
@@ -65,15 +65,15 @@ function creteRequest(url: string, tokenKey: string) {
       },
       responseInterceptorsCatch(err) {
         // 取消重复请求则不报错
-        if(axios.isCancel(err)) {
+        if (axios.isCancel(err)) {
           err.data = err.data || {};
           return err;
         }
 
         handleError('服务器错误！');
         return err;
-      }
-    }
+      },
+    },
   });
 }
 
@@ -86,7 +86,7 @@ const handleError = (error: string, content?: string) => {
   console.error('错误信息:', error);
   message.error({
     content: content || error || '服务器错误',
-    key: 'error'
+    key: 'error',
   });
 };
 

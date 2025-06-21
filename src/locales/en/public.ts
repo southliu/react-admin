@@ -59,8 +59,10 @@ export default {
   content: 'Content',
   title: 'title',
   returnHome: 'Return home',
-  notPermissionMessage: 'The current page cannot be accessed, it may not have permission or has been deleted!',
-  notFindMessage: 'The current page cannot be accessed, it may not have permission or has been deleted',
+  notPermissionMessage:
+    'The current page cannot be accessed, it may not have permission or has been deleted!',
+  notFindMessage:
+    'The current page cannot be accessed, it may not have permission or has been deleted',
   requiredForm: '{{label}} is required!',
   validateEmail: '{{label}} is not a valid email!',
   validateNumber: '{{label}} is not a valid number!',

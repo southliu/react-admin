@@ -17,15 +17,7 @@ export function useWatermark() {
    * @param options - 操作值
    */
   const Watermark = (options: Option) => {
-    const {
-      content,
-      height,
-      width,
-      rotate,
-      color,
-      fontSize,
-      opacity
-    } = options;
+    const { content, height, width, rotate, color, fontSize, opacity } = options;
 
     // 判断水印是否存在，如果存在，那么不执行
     if (document.getElementById('south_watermark') !== null) {
@@ -53,7 +45,7 @@ export function useWatermark() {
     const DivLine = document.createElement('div');
     DivLine.innerHTML = StrLine;
 
-    const TpColumn = (Math.floor(document.body.clientHeight / height) * 2) || 4; // 一列显示几行
+    const TpColumn = Math.floor(document.body.clientHeight / height) * 2 || 4; // 一列显示几行
 
     let StrColumn = '';
     for (let i = 0; i < TpColumn; i++) {
@@ -77,7 +69,7 @@ export function useWatermark() {
     // 判断水印是否存在，如果存在，那么执行
     if (document.getElementById('south_watermark') === null) {
       return;
-    } 
+    }
     if (document.getElementById('south_watermark') !== null) {
       const element = document.getElementById('south_watermark');
       document.body.removeChild(element as HTMLElement);

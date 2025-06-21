@@ -10,7 +10,7 @@ function PartnerSelect(props: SelectProps) {
     <ApiSelect
       {...props}
       api={getPartner}
-      mode='multiple'
+      mode="multiple"
       fieldNames={{ label: 'name', value: 'id' }}
     />
   );

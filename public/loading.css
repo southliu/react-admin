@@ -31,7 +31,7 @@
 }
 
 .ma-line-scale > div:nth-child(2) {
-  -webkit-animation:line-scale-data 1s cubic-bezier(.2,.68,.18,1.08) -.3s infinite;
+  -webkit-animation: line-scale-data 1s cubic-bezier(0.2, 0.68, 0.18, 1.08) -0.3s infinite;
   animation: line-scale-data 1s cubic-bezier(0.2, 0.68, 0.18, 1.08) -0.3s infinite;
 }
 

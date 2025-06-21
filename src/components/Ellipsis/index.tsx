@@ -14,13 +14,7 @@ interface Props {
 }
 
 function Ellipsis(props: Props) {
-  const {
-    tooltip,
-    length,
-    lines,
-    fullWidthRecognition,
-    children
-  } = props;
+  const { tooltip, length, lines, fullWidthRecognition, children } = props;
   const [content, setContent] = useState('');
 
   useEffect(() => {
@@ -46,11 +40,12 @@ function Ellipsis(props: Props) {
    * @returns
    */
   const countFullWidthChars = (str: string, len: number) => {
-    let count = 0, result = '';
+    let count = 0,
+      result = '';
     for (let i = 0; i < str.length; i++) {
       const charCode = str.charCodeAt(i);
       // 判断是否为全角字符（这里只判断了基本的中文字符范围，如果需要更精确的判断，可以扩展范围）
-      if ((charCode >= 0x4e00 && charCode <= 0x9fa5)) {
+      if (charCode >= 0x4e00 && charCode <= 0x9fa5) {
         count += 2;
       } else {
         count += 1;
@@ -66,33 +61,23 @@ function Ellipsis(props: Props) {
   };
 
   const renderContent = (
-    <div className='inline-block'>
+    <div className="inline-block">
       <span
-        className='line-clamp-1'
+        className="line-clamp-1"
         style={{
           lineClamp: lines || 1,
           WebkitLineClamp: lines || 1,
         }}
       >
-        { content }
+        {content}
       </span>
     </div>
   );
 
   return (
     <>
-      {
-        tooltip &&
-        <Tooltip title={children}>
-          { renderContent }
-        </Tooltip>
-      }
-      {
-        !tooltip &&
-        <>
-          { renderContent }
-        </>
-      }
+      {tooltip && <Tooltip title={children}>{renderContent}</Tooltip>}
+      {!tooltip && <>{renderContent}</>}
     </>
   );
 }

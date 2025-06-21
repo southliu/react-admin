@@ -10,17 +10,14 @@ import dayjs from 'dayjs';
  */
 
 // 区间值
-type EventValue<T> = T | null
-export type RangeValue<T> = [EventValue<T>, EventValue<T>] | null
+type EventValue<T> = T | null;
+export type RangeValue<T> = [EventValue<T>, EventValue<T>] | null;
 
 /**
  * dayjs类型转字符串类型
  * @param value - dayjs时间类型值
  */
- export function dayjs2String(
-  value: Dayjs | string,
-  format = DATE_FORMAT
-): string {
+export function dayjs2String(value: Dayjs | string, format = DATE_FORMAT): string {
   if (dayjs.isDayjs(value)) {
     return value.format(format);
   }
@@ -42,21 +39,11 @@ export function string2Dayjs(value: Dayjs | string): Dayjs {
  * dayjs数组类型转字符串类型
  * @param value - dayjs时间类型值
  */
-export function dayjsRang2StringRang(
-  value: RangeValue<Dayjs>,
-  format = DATE_FORMAT
-) {
+export function dayjsRang2StringRang(value: RangeValue<Dayjs>, format = DATE_FORMAT) {
   if (!value) return undefined;
 
-  if (
-    value?.length > 1 &&
-    dayjs.isDayjs(value?.[0]) &&
-    dayjs.isDayjs(value?.[1])
-  ) {
-    return [
-      value[0].format(format),
-      value[1].format(format)
-    ];
+  if (value?.length > 1 && dayjs.isDayjs(value?.[0]) && dayjs.isDayjs(value?.[1])) {
+    return [value[0].format(format), value[1].format(format)];
   }
   return value;
 }
@@ -66,34 +53,22 @@ export function dayjsRang2StringRang(
  * @param value - 字符串
  */
 export function stringRang2DayjsRang(
-  value: RangeValueType<string> | RangeValueType<Dayjs>
+  value: RangeValueType<string> | RangeValueType<Dayjs>,
 ): RangeValue<Dayjs> | undefined {
   if (!value) return undefined;
 
   // 当第一个数据都不为Dayjs
-  if (
-    value?.length > 1 &&
-    !dayjs.isDayjs(value?.[0]) &&
-    dayjs.isDayjs(value?.[1])
-  ) {
+  if (value?.length > 1 && !dayjs.isDayjs(value?.[0]) && dayjs.isDayjs(value?.[1])) {
     return [dayjs(value[0]), value[1]];
   }
 
   // 当最后一个数据都不为Dayjs
-  if (
-    value?.length > 1 &&
-    dayjs.isDayjs(value?.[0]) &&
-    !dayjs.isDayjs(value?.[1])
-  ) {
+  if (value?.length > 1 && dayjs.isDayjs(value?.[0]) && !dayjs.isDayjs(value?.[1])) {
     return [value[0], dayjs(value[1])];
   }
 
   // 当两个数据都不为Dayjs
-  if (
-    value?.length > 1 &&
-    !dayjs.isDayjs(value?.[0]) &&
-    !dayjs.isDayjs(value?.[1])
-  ) {
+  if (value?.length > 1 && !dayjs.isDayjs(value?.[0]) && !dayjs.isDayjs(value?.[1])) {
     return [dayjs(value[0]), dayjs(value[1])];
   }
   return value as RangeValue<Dayjs>;
@@ -107,8 +82,7 @@ export function stringRang2DayjsRang(
 function getListKeyParam(list: BaseFormList[], key: string): string {
   for (let i = 0; i < list.length; i++) {
     if (list[i].name === key) {
-      return (list[i].componentProps as DatePickerProps)?.format as string
-              || DATE_FORMAT;
+      return ((list[i].componentProps as DatePickerProps)?.format as string) || DATE_FORMAT;
     }
   }
 
@@ -129,10 +103,7 @@ export function filterDayjs(obj: BaseFormData, list: BaseFormList[]): Record<str
       dayjs.isDayjs((obj[key] as [Dayjs, Dayjs])[1])
     ) {
       const format = getListKeyParam(list, key);
-      obj[key] = dayjsRang2StringRang(
-        obj[key] as [Dayjs, Dayjs],
-        format
-      );
+      obj[key] = dayjsRang2StringRang(obj[key] as [Dayjs, Dayjs], format);
     }
 
     // 如果是Dayjs类型则转换成字符串

@@ -6,12 +6,12 @@ import { setTitle } from '@/utils/helper';
 import { getTabTitle } from '@/layouts/utils/helper';
 import { useShallow } from 'zustand/react/shallow';
 
-export type Langs = 'zh' | 'en'
+export type Langs = 'zh' | 'en';
 
 function I18n() {
   const { t, i18n } = useTranslation();
   const { pathname, search } = useLocation();
-  const { tabs } = useTabsStore(useShallow(state => state));
+  const { tabs } = useTabsStore(useShallow((state) => state));
 
   useEffect(() => {
     const lang = localStorage.getItem(LANG);
@@ -24,18 +24,18 @@ function I18n() {
     } else if (currentLanguage !== lang) {
       i18n.changeLanguage(lang);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 下拉菜单内容
   const items: MenuProps['items'] = [
     {
       key: 'zh',
-      label: (<span>中文</span>),
+      label: <span>中文</span>,
     },
     {
       key: 'en',
-      label: (<span>English</span>),
+      label: <span>English</span>,
     },
   ];
 
@@ -49,29 +49,25 @@ function I18n() {
     // 通过路由获取标签名
     const title = getTabTitle(tabs, path);
     if (title) setTitle(t, title);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   /** 点击更换语言 */
-  const onClick: MenuProps['onClick'] = e => {
+  const onClick: MenuProps['onClick'] = (e) => {
     i18n.changeLanguage(e.key as Langs);
     localStorage.setItem(LANG, e.key);
     handleSetTitle();
   };
 
   return (
-    <Dropdown
-      placement="bottom"
-      trigger={['click']}
-      menu={{ items, onClick }}
-    >
+    <Dropdown placement="bottom" trigger={['click']} menu={{ items, onClick }}>
       <div
         className="ant-dropdown-link flex items-center cursor-pointer"
-        onClick={e => e.preventDefault()}
+        onClick={(e) => e.preventDefault()}
       >
         <Icon
           className="flex items-center justify-center text-lg mr-3 cursor-pointer"
-          icon='cil:language'
+          icon="cil:language"
         />
       </div>
     </Dropdown>

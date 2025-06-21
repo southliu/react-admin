@@ -12,16 +12,16 @@ i18n
     debug: true,
     fallbackLng: 'zh',
     interpolation: {
-      escapeValue: false
+      escapeValue: false,
     },
     resources: {
       zh: {
-        translation: getZhLang()
+        translation: getZhLang(),
       },
       en: {
-        translation: getEnLang()
+        translation: getEnLang(),
       },
-    }
+    },
   });
 
 export default i18n;

@@ -30,13 +30,13 @@ function WangEditor(props: EditorProps) {
     MENU_CONF: {
       uploadImage: {
         // 上传图片地址
-        server: FILE_API
+        server: FILE_API,
       },
       uploadVideo: {
         // 上传视频地址
-        server: FILE_API
-      }
-    }
+        server: FILE_API,
+      },
+    },
   };
 
   // 监听值变化
@@ -62,10 +62,7 @@ function WangEditor(props: EditorProps) {
   };
 
   return (
-    <div
-      className={className}
-      style={{ ...(style || {}), border: '1px solid #ccc', zIndex: 100}}
-    >
+    <div className={className} style={{ ...(style || {}), border: '1px solid #ccc', zIndex: 100 }}>
       <Toolbar
         editor={editor}
         defaultConfig={toolbarConfig}

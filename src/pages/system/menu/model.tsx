@@ -1,6 +1,6 @@
-import type { TFunction } from "i18next";
+import type { TFunction } from 'i18next';
 import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from '@/utils/constants';
-import { valueToLabel } from "@/utils/helper";
+import { valueToLabel } from '@/utils/helper';
 
 // 搜索数据
 export const searchList = (t: TFunction): BaseSearchList[] => [
@@ -10,8 +10,8 @@ export const searchList = (t: TFunction): BaseSearchList[] => [
     wrapperWidth: 100,
     component: 'Select',
     componentProps: {
-      options: MENU_STATUS(t)
-    }
+      options: MENU_STATUS(t),
+    },
   },
   {
     label: t('system.module'),
@@ -19,14 +19,14 @@ export const searchList = (t: TFunction): BaseSearchList[] => [
     wrapperWidth: 170,
     component: 'Select',
     componentProps: {
-      options: MENU_MODULE(t)
-    }
+      options: MENU_MODULE(t),
+    },
   },
   {
     label: t('system.controller'),
     name: 'controller',
-    component: 'Input'
-  }
+    component: 'Input',
+  },
 ];
 
 /**
@@ -38,47 +38,45 @@ export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): 
     {
       title: 'ID',
       dataIndex: 'id',
-      width: 200
+      width: 200,
     },
     {
       title: t('public.name'),
       dataIndex: 'name',
-      width: 200
+      width: 200,
     },
     {
       title: t('system.state'),
       dataIndex: 'status',
       width: 200,
-      render: (value: number) => (
-        <span>{ valueToLabel(value, MENU_STATUS(t)) }</span>
-      )
+      render: (value: number) => <span>{valueToLabel(value, MENU_STATUS(t))}</span>,
     },
     {
       title: t('system.module'),
       dataIndex: 'module',
-      width: 200
+      width: 200,
     },
     {
       title: t('system.controller'),
       dataIndex: 'controller',
-      width: 200
+      width: 200,
     },
     {
       title: t('public.creationTime'),
       dataIndex: 'created_at',
-      width: 200
+      width: 200,
     },
     {
       title: t('public.updateTime'),
       dataIndex: 'updated_at',
-      width: 200
+      width: 200,
     },
     {
       title: t('public.operate'),
       dataIndex: 'operate',
       width: 200,
       fixed: 'right',
-      render: (value: unknown, record: object) => optionRender(value, record)
+      render: (value: unknown, record: object) => optionRender(value, record),
     },
   ];
 };
@@ -89,7 +87,7 @@ export const createList = (t: TFunction, id: string): BaseFormList[] => [
     label: t('public.name'),
     name: 'name',
     rules: FORM_REQUIRED,
-    component: 'Input'
+    component: 'Input',
   },
   {
     label: t('system.state'),
@@ -97,8 +95,8 @@ export const createList = (t: TFunction, id: string): BaseFormList[] => [
     rules: FORM_REQUIRED,
     component: 'Select',
     componentProps: {
-      options: MENU_STATUS(t)
-    }
+      options: MENU_STATUS(t),
+    },
   },
   {
     label: t('system.module'),
@@ -106,14 +104,14 @@ export const createList = (t: TFunction, id: string): BaseFormList[] => [
     rules: FORM_REQUIRED,
     component: 'Select',
     componentProps: {
-      options: MENU_MODULE(t)
-    }
+      options: MENU_MODULE(t),
+    },
   },
   {
     label: t('system.controller'),
     name: 'controller',
     rules: FORM_REQUIRED,
-    component: 'Input'
+    component: 'Input',
   },
   {
     label: t('system.createMenu'),
@@ -121,7 +119,7 @@ export const createList = (t: TFunction, id: string): BaseFormList[] => [
     hidden: !!id,
     component: 'CheckboxGroup',
     componentProps: {
-      options: MENU_ACTIONS(t)
-    }
-  }
+      options: MENU_ACTIONS(t),
+    },
+  },
 ];

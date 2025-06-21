@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import BaseTable from '@/components/Table/BaseTable';
 
 function VirtualTable() {
-   
   const { t } = useTranslation();
 
   const columns: TableColumn[] = [
@@ -25,13 +24,7 @@ function VirtualTable() {
   }
 
   return (
-    <BaseTable
-      isVirtual
-      columns={columns}
-      dataSource={data}
-      scrollY={500}
-      isOperate={false}
-    />
+    <BaseTable isVirtual columns={columns} dataSource={data} scrollY={500} isOperate={false} />
   );
 }
 

@@ -17,12 +17,10 @@ function Page() {
     // 跳转第一个有效菜单路径
     goFirstMenu();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menuList, permissions]);
 
-  return (
-    <div></div>
-  );
+  return <div></div>;
 }
 
 export default Page;

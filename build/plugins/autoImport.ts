@@ -20,7 +20,7 @@ export const autoImportPlugin = (): PluginOption => {
       'react-router',
       'react-router-dom',
       'react-i18next',
-      { from: 'react', imports: ['FC'], type: true }
+      { from: 'react', imports: ['FC'], type: true },
     ],
     dts: 'types/autoImports.d.ts',
     include: [/\.[tj]sx?$/],
@@ -29,10 +29,10 @@ export const autoImportPlugin = (): PluginOption => {
         // 处理 @/ 开头的路径别名
         if (name.startsWith('@/')) {
           return {
-            from: name.replace('@/', path.resolve(__dirname, 'src/') + '/')
+            from: name.replace('@/', path.resolve(__dirname, 'src/') + '/'),
           };
         }
-      }
+      },
     ],
   });
 };

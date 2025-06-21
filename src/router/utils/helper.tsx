@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
-import type { DefaultComponent } from "@loadable/component";
+import type { DefaultComponent } from '@loadable/component';
 import { Skeleton } from 'antd';
 import { ROUTER_EXCLUDE } from './config';
 import loadable from '@loadable/component';
@@ -26,7 +26,9 @@ export function layoutRoutes(routes: RouteObject[]): RouteObject[] {
  * 处理路由
  * @param routes - 路由数据
  */
-export function handleRoutes(routes: Record<string, () => Promise<DefaultComponent<unknown>>>): RouteObject[] {
+export function handleRoutes(
+  routes: Record<string, () => Promise<DefaultComponent<unknown>>>,
+): RouteObject[] {
   const layouts: RouteObject[] = []; // layout内部组件
 
   for (const key in routes) {
@@ -38,16 +40,12 @@ export function handleRoutes(routes: Record<string, () => Promise<DefaultCompone
     if (path === '/login') continue;
 
     const ComponentNode = loadable(routes[key], {
-      fallback: <Skeleton
-        active
-        className='p-30px'
-        paragraph={{ rows: 10 }}
-       />
+      fallback: <Skeleton active className="p-30px" paragraph={{ rows: 10 }} />,
     });
 
     layouts.push({
       path,
-      element: <ComponentNode />
+      element: <ComponentNode />,
     });
   }
 
@@ -57,7 +55,7 @@ export function handleRoutes(routes: Record<string, () => Promise<DefaultCompone
 // 预处理正则表达式，避免重复创建
 const ROUTER_EXCLUDE_REGEX = new RegExp(
   ROUTER_EXCLUDE.map((item) => (!item.includes('.') ? `/${item}/` : item)).join('|'),
-  'i'
+  'i',
 );
 
 /**

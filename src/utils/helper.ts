@@ -1,6 +1,6 @@
 import type { ArrayData } from '#/public';
 import type { Constant } from './constants';
-import type { TFunction } from "i18next";
+import type { TFunction } from 'i18next';
 import { TITLE_SUFFIX } from '@/utils/config';
 
 /**
@@ -25,9 +25,9 @@ export function amountFormatter(amount: number) {
  * @param min - 最小值
  * @param max - 最大值
  */
- export function randomNum(min: number, max: number): number {
-	const num = Math.floor(Math.random() * (min - max) + max);
-	return num;
+export function randomNum(min: number, max: number): number {
+  const num = Math.floor(Math.random() * (min - max) + max);
+  return num;
 }
 
 /**
@@ -78,7 +78,7 @@ export function getUrlParam(search: string, key: string) {
  * 过滤空数据
  * @param obj - 传入对象
  */
-type EmptyData = Record<string, unknown>
+type EmptyData = Record<string, unknown>;
 export function filterEmptyValue(obj: EmptyData): EmptyData {
   const res: EmptyData = {};
 
@@ -93,22 +93,13 @@ export function filterEmptyValue(obj: EmptyData): EmptyData {
     if (obj[key] === null) continue;
 
     // 空数组过滤
-    if (
-      obj[key]?.constructor === Array &&
-      (obj[key] as ArrayData).length === 0
-    ) continue;
+    if (obj[key]?.constructor === Array && (obj[key] as ArrayData).length === 0) continue;
 
     // 空字符串过滤
-    if (
-      obj[key]?.constructor === String &&
-      (obj[key] as string).length === 0
-    ) continue;
+    if (obj[key]?.constructor === String && (obj[key] as string).length === 0) continue;
 
     // 空对象过滤
-    if (
-      obj[key]?.constructor === Object &&
-      Object.keys(obj[key] as object).length === 0
-    ) continue;
+    if (obj[key]?.constructor === Object && Object.keys(obj[key] as object).length === 0) continue;
 
     // 去除字符串多余空格
     if (obj[key]?.constructor === String) {
@@ -125,12 +116,14 @@ export function filterEmptyValue(obj: EmptyData): EmptyData {
  * 递归数据
  * @param data - 数据源
  */
-interface RecursiveChildren<T> { children?: T[] }
+interface RecursiveChildren<T> {
+  children?: T[];
+}
 export function recursiveData<T extends RecursiveChildren<T>, U>(
   data: T[],
-  callback: (data: T) => U
+  callback: (data: T) => U,
 ): U[] {
-  if (data. length === 0) return [];
+  if (data.length === 0) return [];
   const res: U[] = [];
 
   for (let i = 0; i < data.length; i++) {

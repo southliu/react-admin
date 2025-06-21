@@ -31,7 +31,7 @@ export const useMenuStore = create<MenuState>()(
     }),
     {
       enabled: process.env.NODE_ENV === 'development',
-      name: 'menuStore'
-    }
-  )
+      name: 'menuStore',
+    },
+  ),
 );

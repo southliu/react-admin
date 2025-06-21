@@ -10,7 +10,7 @@ import { getMenuList } from '@/servers/system/menu';
 import { useMenuStore, useUserStore } from '@/stores';
 import { getPermissions } from '@/servers/permissions';
 import { useCommonStore } from '@/hooks/useCommonStore';
-import KeepAlive from "react-activation";
+import KeepAlive from 'react-activation';
 import Menu from './components/Menu';
 import Header from './components/Header';
 import Tabs from './components/Tabs';
@@ -25,17 +25,10 @@ function Layout() {
   const outlet = useOutlet();
   const [isLoading, setLoading] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
-  const { setPermissions, setUserInfo } = useUserStore(state => state);
-  const { setMenuList, toggleCollapsed, togglePhone } = useMenuStore(state => state);
+  const { setPermissions, setUserInfo } = useUserStore((state) => state);
+  const { setMenuList, toggleCollapsed, togglePhone } = useMenuStore((state) => state);
 
-  const {
-    permissions,
-    userId,
-    isMaximize,
-    isCollapsed,
-    isPhone,
-    isRefresh
-  } = useCommonStore();
+  const { permissions, userId, isMaximize, isCollapsed, isPhone, isRefresh } = useCommonStore();
 
   /** 获取用户信息和权限 */
   const getUserInfo = useCallback(async () => {
@@ -46,13 +39,13 @@ function Layout() {
       const { user, permissions } = data;
       setUserInfo(user);
       setPermissions(permissions);
-    } catch(err) {
+    } catch (err) {
       console.error('获取用户数据失败:', err);
       setPermissions([]);
     } finally {
       setLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /** 获取菜单数据 */
@@ -65,7 +58,7 @@ function Layout() {
     } finally {
       setLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -79,7 +72,7 @@ function Layout() {
   // 监测是否需要刷新
   useEffect(() => {
     versionCheck(messageApi);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   /** 判断是否是手机端 */
@@ -98,16 +91,16 @@ function Layout() {
     return () => {
       window.removeEventListener('resize', handleIsPhone);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div id="layout">
-      { contextHolder }
+      {contextHolder}
       <Menu />
       <div className={styles.layout_right}>
         <div
-          id='header'
+          id="header"
           className={`
             border-bottom
             transition-all
@@ -131,37 +124,24 @@ function Layout() {
             ${isPhone ? `!left-0 !w-full` : ''}
           `}
         >
-          {
-            isLoading &&
-            permissions.length === 0 &&
-            <Skeleton
-              active
-              className='p-30px'
-              paragraph={{ rows: 10 }}
-            />
-          }
-          {
-            !isLoading &&
-            permissions.length === 0 &&
-            <Forbidden />
-          }
-          {
-            isRefresh &&
-            <div className={`
+          {isLoading && permissions.length === 0 && (
+            <Skeleton active className="p-30px" paragraph={{ rows: 10 }} />
+          )}
+          {!isLoading && permissions.length === 0 && <Forbidden />}
+          {isRefresh && (
+            <div
+              className={`
               absolute
               left-50%
               top-50%
               -rotate-x-50%
               -rotate-y-50%
-            `}>
-              <Icon
-                className='text-40px animate-spin'
-                icon='ri:loader-2-fill'
-              />
+            `}
+            >
+              <Icon className="text-40px animate-spin" icon="ri:loader-2-fill" />
             </div>
-          }
-          {
-            permissions.length > 0 &&
+          )}
+          {permissions.length > 0 && (
             <KeepAlive id={uri} name={uri}>
               <div
                 className={`
@@ -169,20 +149,17 @@ function Layout() {
                 `}
               >
                 <Suspense
-                  fallback={(
-                    <div className='p-30px'>
-                      <Skeleton
-                        active
-                        paragraph={{ rows: 10 }}
-                      />
+                  fallback={
+                    <div className="p-30px">
+                      <Skeleton active paragraph={{ rows: 10 }} />
                     </div>
-                  )}
+                  }
                 >
-                  { outlet }
+                  {outlet}
                 </Suspense>
               </div>
             </KeepAlive>
-          }
+          )}
         </div>
       </div>
     </div>

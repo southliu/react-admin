@@ -1,6 +1,13 @@
 import type { ColProps, FormInstance } from 'antd';
 import type { BaseFormData, BaseFormList, BaseSearchList } from '#/form';
-import { type CSSProperties, type ReactNode, type Ref, forwardRef, useEffect, useState } from 'react';
+import {
+  type CSSProperties,
+  type ReactNode,
+  type Ref,
+  forwardRef,
+  useEffect,
+  useState,
+} from 'react';
 import { type FormProps, Button, Col, Flex } from 'antd';
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +15,11 @@ import { filterDayjs } from '@/components/Dates';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { getComponent } from '@/components/Form/utils/componentMap';
 import { SearchOutlined, ReloadOutlined, DownOutlined } from '@ant-design/icons';
-import { filterEmptyStr, filterFormItem, handleValuePropName } from '@/components/Form/utils/helper';
+import {
+  filterEmptyStr,
+  filterFormItem,
+  handleValuePropName,
+} from '@/components/Form/utils/helper';
 
 interface Props extends FormProps {
   list: BaseSearchList[];
@@ -45,7 +56,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
     wrapperCol,
     defaultColCount = 4,
     defaultRowExpand = 2,
-    handleFinish
+    handleFinish,
   } = props;
   const { t } = useTranslation();
   const { isPhone } = useCommonStore();
@@ -158,7 +169,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
    * 提交表单
    * @param values - 表单值
    */
-  const onFinish: FormProps['onFinish'] = values => {
+  const onFinish: FormProps['onFinish'] = (values) => {
     if (handleFinish) {
       // 将dayjs类型转为字符串
       let params = filterDayjs(values, list as BaseFormList[]);
@@ -172,66 +183,53 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
    * 表单提交失败处理
    * @param errorInfo - 错误信息
    */
-  const onFinishFailed: FormProps['onFinishFailed'] = errorInfo => {
+  const onFinishFailed: FormProps['onFinishFailed'] = (errorInfo) => {
     console.warn('搜索错误:', errorInfo);
   };
 
   /** 渲染按钮列表 */
   const renderBtnList = (
-    <div className='flex items-center flex-wrap gap-10px'>
-      {
-        !!isSearch &&
+    <div className="flex items-center flex-wrap gap-10px">
+      {!!isSearch && (
         <Button
-          type='primary'
-          htmlType='submit'
+          type="primary"
+          htmlType="submit"
           className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}
           loading={isLoading}
           icon={<SearchOutlined />}
         >
-          { t('public.search') }
+          {t('public.search')}
         </Button>
-      }
+      )}
 
-      {
-        !!isReset &&
+      {!!isReset && (
         <Button
           className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}
           icon={<ReloadOutlined />}
           onClick={onReset}
         >
-          { t('public.reset') }
+          {t('public.reset')}
         </Button>
-      }
+      )}
 
-      {
-        children &&
-        <div className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}>
-          { children }
-        </div>
-      }
+      {children && <div className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}>{children}</div>}
 
-      {
-        type === 'grid' &&
-        !!isShowExpand &&
+      {type === 'grid' && !!isShowExpand && (
         <div
-          className='text-12px cursor-pointer color-#1677ff hover:color-#69b1ff'
+          className="text-12px cursor-pointer color-#1677ff hover:color-#69b1ff"
           onClick={() => {
             setExpand(!isExpand);
           }}
         >
-          <DownOutlined rotate={ isExpand ? 180 : 0 } />
-          { isExpand ? '收缩' : '展开' }
+          <DownOutlined rotate={isExpand ? 180 : 0} />
+          {isExpand ? '收缩' : '展开'}
         </div>
-      }
+      )}
     </div>
   );
 
   return (
-    <div
-      id="searches"
-      style={style}
-      className={className}
-    >
+    <div id="searches" style={style} className={className}>
       <Form
         layout={isPhone ? 'horizontal' : 'inline'}
         {...formProps}
@@ -241,56 +239,48 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        {
-          type === 'default' &&
+        {type === 'default' && (
           <>
-            {
-              list?.map(item => (
+            {list?.map((item) => (
+              <Form.Item
+                {...filterFormItem(item)}
+                key={`${item.name}`}
+                className={`${item?.className || ''} !mb-5px`}
+                labelCol={getLabelCol(item)}
+                wrapperCol={getWrapperCol(item)}
+                valuePropName={handleValuePropName(item.component)}
+              >
+                {getComponent(t, item, onPressEnter)}
+              </Form.Item>
+            ))}
+            {renderBtnList}
+          </>
+        )}
+
+        {type === 'grid' && (
+          <Flex wrap className="w-full">
+            {filterList(list)?.map((item) => (
+              <div
+                key={`${item.name}`}
+                style={{ width: item.hidden ? 0 : `${100 / (isPhone ? 1 : defaultColCount)}%` }}
+              >
                 <Form.Item
                   {...filterFormItem(item)}
-                  key={`${item.name}`}
                   className={`${item?.className || ''} !mb-5px`}
                   labelCol={getLabelCol(item)}
                   wrapperCol={getWrapperCol(item)}
                   valuePropName={handleValuePropName(item.component)}
                 >
-                  { getComponent(t, item, onPressEnter) }
+                  {getComponent(t, item, onPressEnter)}
                 </Form.Item>
-              ))
-            }
-            { renderBtnList }
-          </>
-        }
-
-        {
-          type === 'grid' &&
-          <Flex wrap className='w-full'>
-            {
-              filterList(list)?.map(item => (
-                <div
-                  key={`${item.name}`}
-                  style={{ width: item.hidden ? 0 : `${100 / (isPhone ? 1 : defaultColCount)}%` }}
-                >
-                  <Form.Item
-                    {...filterFormItem(item)}
-                    className={`${item?.className || ''} !mb-5px`}
-                    labelCol={getLabelCol(item)}
-                    wrapperCol={getWrapperCol(item)}
-                    valuePropName={handleValuePropName(item.component)}
-                  >
-                    { getComponent(t, item, onPressEnter) }
-                  </Form.Item>
-                </div>
-              ))
-            }
+              </div>
+            ))}
 
             <Col flex={getFlexCol()}>
-              <Flex justify='flex-end'>
-                { renderBtnList }
-              </Flex>
+              <Flex justify="flex-end">{renderBtnList}</Flex>
             </Col>
           </Flex>
-        }
+        )}
       </Form>
     </div>
   );

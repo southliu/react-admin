@@ -32,21 +32,15 @@ function SearchModal(props: Props) {
   const [active, setActive] = useState(''); // 选中值
   const [list, setList] = useState<SideMenu[]>([]);
   const [isOpen, setOpen] = useState(false);
-  const setOpenKeys = useMenuStore(state => state.setOpenKeys);
-  const {
-    addTabs,
-    setActiveKey,
-  } = useTabsStore(state => state);
+  const setOpenKeys = useMenuStore((state) => state.setOpenKeys);
+  const { addTabs, setActiveKey } = useTabsStore((state) => state);
 
   // 抛出外部方法
-  useImperativeHandle(
-    modalRef,
-    () => ({
-      toggle: () => {
-        setOpen(!isOpen);
-      }
-    })
-  );
+  useImperativeHandle(modalRef, () => ({
+    toggle: () => {
+      setOpen(!isOpen);
+    },
+  }));
 
   // 聚焦输入框
   useLayoutEffect(() => {
@@ -54,17 +48,17 @@ function SearchModal(props: Props) {
       // 转为宏任务防止聚焦失效
       setTimeout(() => {
         inputRef.current?.focus({
-          cursor: 'end'
+          cursor: 'end',
         });
       }, 0);
     }
 
     // 退出时清空数据
-    return (() => {
+    return () => {
       setValue('');
       setActive('');
       setList([]);
-    });
+    };
   }, [isOpen]);
 
   /**
@@ -117,7 +111,7 @@ function SearchModal(props: Props) {
    * 防抖处理值变化值变化
    * @param event - 输入框参数
    */
-  const onChange: InputProps['onChange'] = event => {
+  const onChange: InputProps['onChange'] = (event) => {
     const { value } = event.target;
     setValue(value);
     debounceSearch(value);
@@ -127,7 +121,7 @@ function SearchModal(props: Props) {
   const onArrowUp = () => {
     // 列表为空则退出
     if (!list.length) return null;
-    const index = list.findIndex(item => item.key === active);
+    const index = list.findIndex((item) => item.key === active);
     // 最上层则不操作
     if (index === 0) return null;
     const newActive = list[index - 1].key;
@@ -139,7 +133,7 @@ function SearchModal(props: Props) {
     // 列表为空则退出
     if (!list.length) return null;
     const len = list.length - 1;
-    const index = list.findIndex(item => item.key === active);
+    const index = list.findIndex((item) => item.key === active);
     // 最下层则不操作
     if (index === len) return null;
     const newActive = list[index + 1].key;
@@ -159,10 +153,10 @@ function SearchModal(props: Props) {
       // 监听按键
       window.addEventListener('keydown', onKeyDown);
 
-      return (() => {
+      return () => {
         // 退出清空监听
         window.removeEventListener('keydown', onKeyDown);
-      });
+      };
     }
   }, [list, active, onKeyDown]);
 
@@ -179,20 +173,12 @@ function SearchModal(props: Props) {
         value={value}
         placeholder={t('public.menuSearchPlaceholder')}
         allowClear={true}
-        prefix={<Icon
-          className="text-lg text-warm-gray-400"
-          icon="ant-design:search-outlined"
-        />}
+        prefix={<Icon className="text-lg text-warm-gray-400" icon="ant-design:search-outlined" />}
         onChange={onChange}
         onPressEnter={onPressEnter}
       />
 
-      <SearchResult
-        list={list}
-        active={active}
-        onCancel={onClose}
-        changActive={changActive}
-      />
+      <SearchResult list={list} active={active} onCancel={onClose} changActive={changActive} />
     </Modal>
   );
 }

@@ -12,20 +12,15 @@ import {
   Rate,
   Slider,
   Upload,
-  type InputProps
+  type InputProps,
 } from 'antd';
 import {
   BaseDatePicker,
   BaseRangePicker,
   BaseTimePicker,
-  BaseTimeRangePicker
+  BaseTimeRangePicker,
 } from '@/components/Dates';
-import {
-  BaseSelect,
-  BaseTreeSelect,
-  ApiSelect,
-  ApiTreeSelect
-} from '@/components/Selects';
+import { BaseSelect, BaseTreeSelect, ApiSelect, ApiTreeSelect } from '@/components/Selects';
 import BaseTransfer from '@/components/Transfer/BaseTransfer';
 import PasswordStrength from '@/components/PasswordStrength';
 
@@ -87,10 +82,7 @@ export function getComponent(t: TFunction, item: BaseFormList, onPressEnter: () 
 
   return (
     <>
-      <Comp
-        {...initCompProps(t, component, onPressEnter)}
-        {...componentProps}
-      />
+      <Comp {...initCompProps(t, component, onPressEnter)} {...componentProps} />
     </>
   );
 }

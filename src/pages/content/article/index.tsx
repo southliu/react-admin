@@ -19,8 +19,8 @@ function Page() {
   const [total, setTotal] = useState(0);
   const [tableData, setTableData] = useState<BaseFormData[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
-  const setRefreshPage = usePublicStore(state => state.setRefreshPage);
-  const isRefreshPage = usePublicStore(state => state.isRefreshPage);
+  const setRefreshPage = usePublicStore((state) => state.setRefreshPage);
+  const isRefreshPage = usePublicStore((state) => state.isRefreshPage);
 
   // 权限前缀
   const permissionPrefix = '/content/article';
@@ -30,7 +30,7 @@ function Page() {
     page: checkPermission(`${permissionPrefix}/index`, permissions),
     create: checkPermission(`${permissionPrefix}/create`, permissions),
     update: checkPermission(`${permissionPrefix}/update`, permissions),
-    delete: checkPermission(`${permissionPrefix}/delete`, permissions)
+    delete: checkPermission(`${permissionPrefix}/delete`, permissions),
   };
 
   /** 获取表格数据 */
@@ -69,16 +69,16 @@ function Page() {
   // 首次进入自动加载接口数据
   useEffect(() => {
     if (pagePermission.page && !isRefreshPage) getPage();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagePermission.page]);
 
   // 如果是新增或编辑成功重新加载页面
   useEffect(() => {
     if (isRefreshPage) {
-     setRefreshPage(false);
+      setRefreshPage(false);
       getPage();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRefreshPage]);
 
   /** 点击新增 */
@@ -129,26 +129,18 @@ function Page() {
    */
   const optionRender: TableOptions<object> = (_, record) => (
     <>
-      {
-        pagePermission.update === true &&
-        <UpdateBtn
-          className='mr-5px'
-          onClick={() => onUpdate((record as RowData).id)}
-        />
-      }
-      {
-        pagePermission.delete === true &&
-        <DeleteBtn
-          className='mr-5px'
-          handleDelete={() => onDelete((record as RowData).id)}
-        />
-      }
+      {pagePermission.update === true && (
+        <UpdateBtn className="mr-5px" onClick={() => onUpdate((record as RowData).id)} />
+      )}
+      {pagePermission.delete === true && (
+        <DeleteBtn className="mr-5px" handleDelete={() => onDelete((record as RowData).id)} />
+      )}
     </>
   );
 
   return (
     <BaseContent isPermission={pagePermission.page}>
-      { contextHolder }
+      {contextHolder}
       <BaseCard>
         <BaseSearch
           list={searchList(t)}
@@ -158,7 +150,7 @@ function Page() {
         />
       </BaseCard>
 
-      <BaseCard className='mt-10px'>
+      <BaseCard className="mt-10px">
         <BaseTable
           isLoading={isLoading}
           isCreate={pagePermission.create}

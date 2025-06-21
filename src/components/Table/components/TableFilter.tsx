@@ -7,7 +7,7 @@ import {
   Checkbox,
   message,
 } from 'antd';
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SettingOutlined } from '@ant-design/icons';
 
@@ -52,7 +52,8 @@ function FilterButton(props: Props) {
    */
   const filterColumns = (columns: TableProps['columns']) => {
     if (!columns?.length) return [];
-    const result: CheckboxList[] = [], currentOptions: string[] = [];
+    const result: CheckboxList[] = [],
+      currentOptions: string[] = [];
 
     for (let i = 0; i < columns?.length; i++) {
       const item = columns[i];
@@ -64,7 +65,7 @@ function FilterButton(props: Props) {
 
       result.push({
         label: item.title as string,
-        value: dataIndex
+        value: dataIndex,
       });
     }
 
@@ -93,56 +94,42 @@ function FilterButton(props: Props) {
   };
 
   const onCheckAllChange: CheckboxProps['onChange'] = (e) => {
-    const checkedList = e.target.checked ? list.map(item => item.value) : [];
+    const checkedList = e.target.checked ? list.map((item) => item.value) : [];
     setCheckedList(checkedList);
   };
 
   // 渲染内容
   const content = () => {
     return (
-      <div className='min-w-130px flex flex-col'>
+      <div className="min-w-130px flex flex-col">
         <Checkbox
-          className='!px-12px'
+          className="!px-12px"
           indeterminate={indeterminate}
           onChange={onCheckAllChange}
           checked={checkAll}
         >
-          { t('public.checkAll') }
+          {t('public.checkAll')}
         </Checkbox>
         <Checkbox.Group
-          className='flex flex-col !px-12px'
+          className="flex flex-col !px-12px"
           value={checkedList}
           onChange={onChangeCheckbox}
         >
-          {
-            list?.map(item => (
-              <div key={item.value}>
-                <Checkbox
-                  value={item.value}
-                >
-                  { item.label }
-                </Checkbox>
-              </div>
-            ))
-          }
+          {list?.map((item) => (
+            <div key={item.value}>
+              <Checkbox value={item.value}>{item.label}</Checkbox>
+            </div>
+          ))}
         </Checkbox.Group>
 
-        <Divider className='!mt-10px !mb-5px' />
+        <Divider className="!mt-10px !mb-5px" />
 
-        <div className='flex justify-end px-10px'>
-          <Button
-            size='small'
-            className='mr-5px'
-            onClick={handleClick}
-          >
+        <div className="flex justify-end px-10px">
+          <Button size="small" className="mr-5px" onClick={handleClick}>
             取消
           </Button>
 
-          <Button
-            type='primary'
-            size='small'
-            onClick={handleFilter}
-          >
+          <Button type="primary" size="small" onClick={handleFilter}>
             筛选
           </Button>
         </div>
@@ -153,25 +140,19 @@ function FilterButton(props: Props) {
   return (
     <Popover
       content={content}
-      trigger='click'
-      placement='bottom'
+      trigger="click"
+      placement="bottom"
       styles={{
         body: {
-          padding: '12px 0 10px'
-        }
+          padding: '12px 0 10px',
+        },
       }}
       open={isOpen}
       onOpenChange={handleClick}
     >
-      <div
-        {...params}
-        className={`${className} inline-block`}
-      >
-        <Button
-          icon={<SettingOutlined />}
-          className='small-btn'
-        >
-          { t('public.columnFilter') }
+      <div {...params} className={`${className} inline-block`}>
+        <Button icon={<SettingOutlined />} className="small-btn">
+          {t('public.columnFilter')}
         </Button>
       </div>
     </Popover>

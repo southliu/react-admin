@@ -8,11 +8,11 @@ function Github() {
   };
 
   return (
-    <Tooltip title='Github'>
+    <Tooltip title="Github">
       <div onClick={goGithub}>
         <Icon
           className="flex items-center justify-center text-lg mr-3 cursor-pointer"
-          icon='mdi:github'
+          icon="mdi:github"
         />
       </div>
     </Tooltip>

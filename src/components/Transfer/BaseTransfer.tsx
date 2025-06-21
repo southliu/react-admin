@@ -21,13 +21,7 @@ function BaseTransfer(props: Props) {
     props?.onChange?.(targetKeys as string[]);
   };
 
-  return (
-    <Transfer
-      {...props}
-      targetKeys={targetKeys}
-      onChange={onChange}
-    />
-  );
+  return <Transfer {...props} targetKeys={targetKeys} onChange={onChange} />;
 }
 
 export default BaseTransfer;

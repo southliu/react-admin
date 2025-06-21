@@ -2,9 +2,9 @@ import type { DetailedHTMLProps, HTMLAttributes, ReactNode } from 'react';
 import { useContext } from 'react';
 import { ScrollContext } from '../utils/state';
 
-type Props = DetailedHTMLProps<HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement>
+type Props = DetailedHTMLProps<HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement>;
 
- function VirtualWrapper(props: Props): ReactNode {
+function VirtualWrapper(props: Props): ReactNode {
   const { children, ...restProps } = props;
   const { renderLen, start, offsetStart } = useContext(ScrollContext);
   let tempNode = null;
@@ -15,15 +15,14 @@ type Props = DetailedHTMLProps<HTMLAttributes<HTMLTableSectionElement>, HTMLTabl
     if (Array.isArray(contents) && contents.length) {
       tempNode = [
         (children as ReactNode[])?.[0],
-        contents.slice(start, start + renderLen).map(item => {
+        contents.slice(start, start + renderLen).map((item) => {
           if (Array.isArray(item)) {
             // 兼容antd v4.3.5 --- rc-table 7.8.1及以下
             return item[0];
           }
           // 处理antd ^v4.4.0  --- rc-table ^7.8.2
           return item;
-
-        })
+        }),
       ];
     } else {
       tempNode = children;
@@ -31,10 +30,7 @@ type Props = DetailedHTMLProps<HTMLAttributes<HTMLTableSectionElement>, HTMLTabl
   }
 
   return (
-    <tbody
-      {...restProps}
-      style={{ transform: `translateY(-${offsetStart}px)` }}
-    >
+    <tbody {...restProps} style={{ transform: `translateY(-${offsetStart}px)` }}>
       {tempNode}
     </tbody>
   );

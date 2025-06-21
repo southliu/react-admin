@@ -8,18 +8,11 @@ interface Props {
   checkedKeys: Key[];
   title?: string;
   onClose: () => void;
-  onSubmit: (checked: Key[]) => Promise<void>
+  onSubmit: (checked: Key[]) => Promise<void>;
 }
 
 function PermissionDrawer(props: Props) {
-  const {
-    title,
-    isVisible,
-    treeData,
-    checkedKeys,
-    onClose,
-    onSubmit
-  } = props;
+  const { title, isVisible, treeData, checkedKeys, onClose, onSubmit } = props;
   const { t } = useTranslation();
   const [treeCheckedKeys, setTreeCheckedKeys] = useState(checkedKeys);
 
@@ -35,7 +28,7 @@ function PermissionDrawer(props: Props) {
   /** 右上角渲染 */
   const extraRender = (
     <Button type="primary" onClick={handleSubmit}>
-      { t('public.submit') }
+      {t('public.submit')}
     </Button>
   );
 
@@ -43,7 +36,7 @@ function PermissionDrawer(props: Props) {
    * 处理勾选
    * @param checked - 勾选值
    */
-  const handleCheck: TreeProps['onCheck'] = checked => {
+  const handleCheck: TreeProps['onCheck'] = (checked) => {
     setTreeCheckedKeys(checked as Key[]);
   };
 
@@ -55,12 +48,7 @@ function PermissionDrawer(props: Props) {
       extra={extraRender}
       onClose={onClose}
     >
-      <Tree
-        checkable
-        checkedKeys={treeCheckedKeys}
-        treeData={treeData}
-        onCheck={handleCheck}
-      />
+      <Tree checkable checkedKeys={treeCheckedKeys} treeData={treeData} onCheck={handleCheck} />
     </Drawer>
   );
 }

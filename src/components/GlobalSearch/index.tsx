@@ -27,9 +27,7 @@ function GlobalSearch() {
         />
       </Tooltip>
 
-      <SearchModal
-        modalRef={modalRef}
-      />
+      <SearchModal modalRef={modalRef} />
     </>
   );
 }

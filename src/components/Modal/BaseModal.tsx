@@ -29,7 +29,7 @@ function BaseModal(props: Props) {
     } else {
       setBounds(cacheBounds);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFullscreen]);
 
   /** 开始拖拽对话框 */
@@ -73,28 +73,20 @@ function BaseModal(props: Props) {
         placement="bottom"
         title={!isFullscreen ? t('public.maximize') : t('public.exitMaximized')}
       >
-        <div
-          className='p-10px mt-3px cursor-pointer'
-          onClick={onFullscreen}
-        >
+        <div className="p-10px mt-3px cursor-pointer" onClick={onFullscreen}>
           <Icon
             className="text-lg"
-            icon={!isFullscreen ? 'ant-design:fullscreen-outlined' : 'ant-design:fullscreen-exit-outlined'}
+            icon={
+              !isFullscreen
+                ? 'ant-design:fullscreen-outlined'
+                : 'ant-design:fullscreen-exit-outlined'
+            }
           />
         </div>
       </Tooltip>
-      <Tooltip
-        placement="bottom"
-        title={t('public.close')}
-      >
-        <div
-          className='p-10px mt-3px cursor-pointer'
-          onClick={handleCancel}
-        >
-          <Icon
-            className="text-lg"
-            icon="ant-design:close-outlined"
-          />
+      <Tooltip placement="bottom" title={t('public.close')}>
+        <div className="p-10px mt-3px cursor-pointer" onClick={handleCancel}>
+          <Icon className="text-lg" icon="ant-design:close-outlined" />
         </div>
       </Tooltip>
     </div>
@@ -107,11 +99,9 @@ function BaseModal(props: Props) {
       onMouseOver={onMouseOver}
       onMouseOut={() => setDisabled(true)}
     >
-      <span className='cursor-text'>
-        { props.title || '' }
-      </span>
+      <span className="cursor-text">{props.title || ''}</span>
 
-      { CloseRender() }
+      {CloseRender()}
     </div>
   );
 
@@ -124,9 +114,7 @@ function BaseModal(props: Props) {
       bounds={isFullscreen ? undefined : bounds}
       position={isFullscreen ? { x: 0, y: 0 } : undefined}
     >
-      <div ref={draggleRef}>
-        {modal}
-      </div>
+      <div ref={draggleRef}>{modal}</div>
     </Draggable>
   );
 
@@ -144,9 +132,7 @@ function BaseModal(props: Props) {
       wrapClassName={isFullscreen ? 'full-modal' : wrapClassName || ''}
       width={isFullscreen ? '100%' : width || 520}
     >
-      <div className='base-modal-content'>
-        { children }
-      </div>
+      <div className="base-modal-content">{children}</div>
     </Modal>
   );
 }

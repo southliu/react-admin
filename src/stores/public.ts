@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-export type ThemeType = 'dark' | 'light'
+export type ThemeType = 'dark' | 'light';
 
 interface PublicState {
   theme: ThemeType; // 主题
@@ -28,11 +28,11 @@ export const usePublicStore = create<PublicState>()(
       setThemeValue: (theme: ThemeType) => set({ theme }),
       setFullscreen: (isFullscreen: boolean) => set({ isFullscreen }),
       setRefresh: (isRefresh: boolean) => set({ isRefresh }),
-      setRefreshPage: (isRefreshPage: boolean) => set({ isRefreshPage })
+      setRefreshPage: (isRefreshPage: boolean) => set({ isRefreshPage }),
     }),
     {
       enabled: process.env.NODE_ENV === 'development',
-      name: 'publicStore'
-    }
-  )
+      name: 'publicStore',
+    },
+  ),
 );

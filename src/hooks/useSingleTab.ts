@@ -9,9 +9,9 @@ import { useActivate } from 'react-activation';
 import { useMenuStore, useTabsStore } from '@/stores';
 
 interface Props {
-  fatherPath: string,
-  zhTitle: string,
-  enTitle: string,
+  fatherPath: string;
+  zhTitle: string;
+  enTitle: string;
   name?: string;
 }
 
@@ -25,18 +25,9 @@ export function useSingleTab(props: Props) {
   const { fatherPath, zhTitle, enTitle, name } = props;
   const { t, i18n } = useTranslation();
   const { pathname, search } = useLocation();
-  const { setOpenKeys, setSelectedKeys } = useMenuStore(state => state);
-  const {
-    addTabs,
-    setNav,
-    setActiveKey,
-  } = useTabsStore(state => state);
-  const {
-    isPhone,
-    isCollapsed,
-    menuList,
-    permissions,
-  } = useCommonStore();
+  const { setOpenKeys, setSelectedKeys } = useMenuStore((state) => state);
+  const { addTabs, setNav, setActiveKey } = useTabsStore((state) => state);
+  const { isPhone, isCollapsed, menuList, permissions } = useCommonStore();
   const uri = pathname + search;
 
   // 处理默认展开
@@ -48,46 +39,49 @@ export function useSingleTab(props: Props) {
       setOpenKeys(newOpenKey);
       setSelectedKeys(fatherPath);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**
    * 添加标签
    * @param path - 路径
    */
-  const handleAddTab = useCallback((path = pathname) => {
-    // 当值为空时匹配路由
-    if (path === '/') return;
-    const title = i18n.language === 'zh' ? zhTitle : enTitle;
-    const currentTitle = handleGetTitle();
-    const menuByKeyProps = {
-      menus: menuList,
-      permissions,
-      key: fatherPath
-    };
-    const newNav = getMenuByKey(menuByKeyProps)?.nav || [];
-    newNav.push({
-      label: title,
-      labelZh: zhTitle,
-      labelEn: enTitle,
-    });
+  const handleAddTab = useCallback(
+    (path = pathname) => {
+      // 当值为空时匹配路由
+      if (path === '/') return;
+      const title = i18n.language === 'zh' ? zhTitle : enTitle;
+      const currentTitle = handleGetTitle();
+      const menuByKeyProps = {
+        menus: menuList,
+        permissions,
+        key: fatherPath,
+      };
+      const newNav = getMenuByKey(menuByKeyProps)?.nav || [];
+      newNav.push({
+        label: title,
+        labelZh: zhTitle,
+        labelEn: enTitle,
+      });
 
-    const newTab = {
-      label: currentTitle,
-      labelEn: enTitle,
-      labelZh: zhTitle,
-      key: uri,
-      nav: newNav
-    };
-    setActiveKey(newTab.key);
-    setNav(newTab.nav);
-    addTabs(newTab);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, search]);
+      const newTab = {
+        label: currentTitle,
+        labelEn: enTitle,
+        labelZh: zhTitle,
+        key: uri,
+        nav: newNav,
+      };
+      setActiveKey(newTab.key);
+      setNav(newTab.nav);
+      addTabs(newTab);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [pathname, search],
+  );
 
   useEffect(() => {
     handleAddTab();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useActivate(() => {
@@ -114,7 +108,9 @@ export function useSingleTab(props: Props) {
 
   /** 设置标题 */
   const handleGetTitle = () => {
-    let result = '', newUpdateTitle = '', newCreateTitle = '';
+    let result = '',
+      newUpdateTitle = '',
+      newCreateTitle = '';
     const routeName = getNameByRoute();
     const title = i18n.language === 'zh' ? zhTitle : enTitle;
 
@@ -124,8 +120,8 @@ export function useSingleTab(props: Props) {
       newUpdateTitle = `${EDIT_TITLE(t, routeName, menuName)}`;
     } else {
       const label = routeName ? `(${routeName})` : '';
-       newCreateTitle = `${title || ADD_TITLE(t)}${label}`;
-       newUpdateTitle = `${title}${label}`;
+      newCreateTitle = `${title || ADD_TITLE(t)}${label}`;
+      newUpdateTitle = `${title}${label}`;
     }
     result = routeName ? newUpdateTitle : newCreateTitle;
     return result;

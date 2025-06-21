@@ -9,8 +9,8 @@ for (let i = 0; i < 32; i++) {
     name: `label${i + 1}`,
     component: 'Input',
     componentProps: {
-      maxLength: 200
-    }
+      maxLength: 200,
+    },
   });
 }
 
@@ -19,12 +19,12 @@ export const searchList = (t: TFunction): BaseSearchList[] => [
   {
     label: t('system.age'),
     name: 'age',
-    component: 'InputNumber'
+    component: 'InputNumber',
   },
   {
     label: t('public.name'),
     name: 'keyword',
-    component: 'Input'
+    component: 'Input',
   },
   ...otherSearch,
 ];
@@ -33,39 +33,39 @@ export const searchList = (t: TFunction): BaseSearchList[] => [
  * 表格数据
  * @param optionRender - 渲染操作函数
  */
- export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): TableColumn[] => {
+export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): TableColumn[] => {
   return [
     {
       title: 'ID',
       dataIndex: 'id',
       width: 200,
-      fixed: 'left'
+      fixed: 'left',
     },
     {
       title: t('login.username'),
       dataIndex: 'username',
       width: 200,
-      fixed: 'left'
+      fixed: 'left',
     },
     {
       title: t('public.name'),
       dataIndex: 'real_name',
-      width: 200
+      width: 200,
     },
     {
       title: 'URL',
       dataIndex: 'url',
-      width: 400
+      width: 400,
     },
     {
       title: t('system.role'),
       dataIndex: 'roles_name',
-      width: 200
+      width: 200,
     },
     {
       title: t('system.phone'),
       dataIndex: 'phone',
-      width: 200
+      width: 200,
     },
     {
       title: t('system.state'),
@@ -73,8 +73,8 @@ export const searchList = (t: TFunction): BaseSearchList[] => [
       width: 200,
       enum: [
         { label: '启用', value: 1, color: 'green' },
-        { label: '禁用', value: 0, color: 'red' }
-      ]
+        { label: '禁用', value: 0, color: 'red' },
+      ],
     },
     {
       title: t('system.module'),
@@ -83,15 +83,15 @@ export const searchList = (t: TFunction): BaseSearchList[] => [
       enum: {
         user: '用户模块',
         menu: '菜单模块',
-        role: '角色模块'
-      }
+        role: '角色模块',
+      },
     },
     {
       title: t('public.operate'),
       dataIndex: 'operate',
       width: 240,
       fixed: 'right',
-      render: (value: unknown, record: object) => optionRender(value, record)
+      render: (value: unknown, record: object) => optionRender(value, record),
     },
   ];
 };
@@ -102,19 +102,19 @@ export const createList = (t: TFunction): BaseFormList[] => [
     label: t('login.username'),
     name: 'username',
     rules: FORM_REQUIRED,
-    component: 'Input'
+    component: 'Input',
   },
   {
     label: t('public.name'),
     name: 'real_name',
     rules: FORM_REQUIRED,
-    component: 'Input'
+    component: 'Input',
   },
   {
     label: t('system.role'),
     name: 'roles_name',
     rules: FORM_REQUIRED,
-    component: 'Input'
+    component: 'Input',
   },
   {
     label: t('system.state'),
@@ -122,7 +122,7 @@ export const createList = (t: TFunction): BaseFormList[] => [
     rules: FORM_REQUIRED,
     component: 'Select',
     componentProps: {
-      options: OPEN_CLOSE(t)
-    }
-  }
+      options: OPEN_CLOSE(t),
+    },
+  },
 ];

@@ -1,11 +1,11 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes } from 'react';
 
 function BaseCard(props: HTMLAttributes<unknown>) {
   const { children, className } = props;
 
   return (
     <div
-      { ...props }
+      {...props}
       id="card"
       className={`
         h-full
@@ -19,7 +19,7 @@ function BaseCard(props: HTMLAttributes<unknown>) {
         ${className}
       `}
     >
-      { children }
+      {children}
     </div>
   );
 }

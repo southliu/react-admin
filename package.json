@@ -12,7 +12,8 @@
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.23.0",
@@ -76,6 +77,7 @@
     "husky": "^9.1.7",
     "jsdom": "^26.1.0",
     "less": "^4.3.0",
+    "prettier": "^3.3.3",
     "rc-picker": "^4.11.3",
     "rollup-plugin-external-globals": "^0.13.0",
     "rollup-plugin-visualizer": "^5.14.0",

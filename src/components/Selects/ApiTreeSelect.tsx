@@ -31,11 +31,13 @@ function ApiTreeSelect(props: ApiTreeSelectProps) {
         const apiFun = Array.isArray(params) ? api(...params) : api(params);
         const { code, data } = await apiFun;
         if (Number(code) !== 200) return;
-        const result = apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data;
+        const result = apiResultKey
+          ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey]
+          : data;
         setOptions(result as TreeSelectProps['treeData']);
       }
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   }, [props]);
 
@@ -44,7 +46,7 @@ function ApiTreeSelect(props: ApiTreeSelectProps) {
     if (props.value && options?.length === 0) {
       getApiData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.value]);
 
   /**

@@ -3,7 +3,7 @@ import type { PageServerResult, PaginationData } from '#/public';
 import { request } from '@/utils/request';
 
 enum API {
-  URL = '/content/article'
+  URL = '/content/article',
 }
 
 /**
@@ -11,10 +11,7 @@ enum API {
  * @param data - 请求数据
  */
 export function getArticlePage(data: Partial<BaseFormData> & PaginationData) {
-  return request.get<PageServerResult<BaseFormData[]>>(
-    `${API.URL}/page`,
-    { params: data }
-  );
+  return request.get<PageServerResult<BaseFormData[]>>(`${API.URL}/page`, { params: data });
 }
 
 /**

@@ -24,9 +24,9 @@ function Login() {
   const [messageApi, contextHolder] = message.useMessage();
   const { search } = useLocation();
   const { permissions, menuList } = useCommonStore();
-  const setMenuList = useMenuStore(state => state.setMenuList);
-  const setThemeValue = usePublicStore(state => state.setThemeValue);
-  const { setPermissions, setUserInfo } = useUserStore(state => state);
+  const setMenuList = useMenuStore((state) => state.setMenuList);
+  const setThemeValue = usePublicStore((state) => state.setThemeValue);
+  const { setPermissions, setUserInfo } = useUserStore((state) => state);
   const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType;
 
   useEffect(() => {
@@ -58,18 +58,18 @@ function Login() {
 
     // 如果存在账号密码缓存，则自动填充
     const username = localStorage.getItem(USER_USERNAME);
-    const password = localStorage.getItem((USER_PASSWORD));
+    const password = localStorage.getItem(USER_PASSWORD);
     if (username && password) {
       const newPassword = decryption(password);
       form.setFieldsValue({ username, password: newPassword.value });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 语言切换修改title
   useEffect(() => {
     setTitle(t, t('login.login'));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i18n.language]);
 
   /** 获取用户权限 */
@@ -118,7 +118,7 @@ function Login() {
   const handleGoMenu = async (permissions: string[]) => {
     let menuData: SideMenu[] = menuList;
     if (!menuData?.length) {
-      menuData = await getMenuData() as SideMenu[];
+      menuData = (await getMenuData()) as SideMenu[];
     }
 
     // 如果存在重定向
@@ -170,7 +170,7 @@ function Login() {
    * 处理失败
    * @param errors - 错误信息
    */
-  const handleFinishFailed: FormProps['onFinishFailed'] = errors => {
+  const handleFinishFailed: FormProps['onFinishFailed'] = (errors) => {
     console.error('错误信息:', errors);
   };
 
@@ -200,18 +200,21 @@ function Login() {
 
   return (
     <>
-      { contextHolder }
-      <div className={`
+      {contextHolder}
+      <div
+        className={`
         ${themeCache === 'dark' ? 'bg-black text-white' : 'bg-light-400'}
         w-screen
         h-screen
         relative
-      `}>
+      `}
+      >
         <div className="flex absolute top-5 right-5">
           <I18n />
           <Theme />
         </div>
-        <div className={`
+        <div
+          className={`
           ${themeCache === 'dark' ? 'bg-black bg-dark-200' : 'bg-white'}
           w-340px
           p-1.8rem
@@ -223,18 +226,11 @@ function Login() {
           -translate-x-1/2
           -translate-y-1/2
           shadow-[2px_5px_20px_rgba(0,0,0,0.1)]
-        `}>
-         <div className="pb-20px pt-10px flex items-center justify-center">
-            <img
-              className="mr-2 object-contain"
-              width="32"
-              height="32"
-              src={Logo}
-              alt="LOGO"
-            />
-            <span className="text-22px font-bold tracking-2px">
-              { t('login.systemLogin') }
-            </span>
+        `}
+        >
+          <div className="pb-20px pt-10px flex items-center justify-center">
+            <img className="mr-2 object-contain" width="32" height="32" src={Logo} alt="LOGO" />
+            <span className="text-22px font-bold tracking-2px">{t('login.systemLogin')}</span>
           </div>
           <Form
             form={form}
@@ -245,17 +241,17 @@ function Login() {
             onFinishFailed={handleFinishFailed}
             initialValues={{
               username: 'admin',
-              password: 'admin123456'
+              password: 'admin123456',
             }}
           >
-            <div className='text-#AAA6A6 text-14px mb-8px'>
-              { t('login.username') }
-            </div>
+            <div className="text-#AAA6A6 text-14px mb-8px">{t('login.username')}</div>
 
             <Form.Item
               name="username"
               className="!mb-15px"
-              rules={[{ required: true, message: t('public.pleaseEnter', { name: t('login.username') }) }]}
+              rules={[
+                { required: true, message: t('public.pleaseEnter', { name: t('login.username') }) },
+              ]}
             >
               <Input
                 allow-clear="true"
@@ -264,16 +260,14 @@ function Login() {
               />
             </Form.Item>
 
-            <div className='text-#AAA6A6 text-14px mb-8px'>
-              { t('login.password') }
-            </div>
+            <div className="text-#AAA6A6 text-14px mb-8px">{t('login.password')}</div>
 
             <Form.Item
               name="password"
               className="!mb-15px"
               rules={[
                 { required: true, message: t('public.pleaseEnter', { name: t('login.password') }) },
-                PASSWORD_RULE(t)
+                PASSWORD_RULE(t),
               ]}
             >
               <Input.Password
@@ -288,23 +282,17 @@ function Login() {
               className="w-full mt-15px mb-25px rounded-5px tracking-2px"
               loading={isLoading}
             >
-              { t('login.login') }
+              {t('login.login')}
             </Button>
           </Form>
 
-          <div className='flex justify-between items-center mb-5px px-1px'>
-            <Checkbox
-              checked={isRemember}
-              onChange={onRemember}
-            >
-              { t('login.rememberMe') }
+          <div className="flex justify-between items-center mb-5px px-1px">
+            <Checkbox checked={isRemember} onChange={onRemember}>
+              {t('login.rememberMe')}
             </Checkbox>
 
-            <div
-              className="text-blue-500 cursor-pointer"
-              onClick={onForgetPassword}
-            >
-              { t('login.forgetPassword') }
+            <div className="text-blue-500 cursor-pointer" onClick={onForgetPassword}>
+              {t('login.forgetPassword')}
             </div>
           </div>
         </div>

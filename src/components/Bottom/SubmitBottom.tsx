@@ -14,7 +14,8 @@ function SubmitBottom(props: Props) {
   const { goBack, handleSubmit, isLoading, children } = props;
 
   return (
-    <div className={`
+    <div
+      className={`
       w-full
       bg
       fixed
@@ -28,22 +29,15 @@ function SubmitBottom(props: Props) {
       box-border
       shadow
       shadow-gray-500
-    `}>
-      { children }
+    `}
+    >
+      {children}
 
-      <Button
-        className='mr-10px'
-        danger
-        onClick={goBack}
-      >
-        { t('public.back') }
+      <Button className="mr-10px" danger onClick={goBack}>
+        {t('public.back')}
       </Button>
-      <Button
-        loading={!!isLoading}
-        type="primary"
-        onClick={handleSubmit}
-      >
-        { t('public.submit') }
+      <Button loading={!!isLoading} type="primary" onClick={handleSubmit}>
+        {t('public.submit')}
       </Button>
     </div>
   );

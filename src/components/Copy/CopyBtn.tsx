@@ -17,20 +17,20 @@ function CopyBtn(props: Props) {
 
   useEffect(() => {
     if (isCopied && !error) {
-      messageApi.success({ content: t('public.copySuccessfully'), key: 'copy'});
+      messageApi.success({ content: t('public.copySuccessfully'), key: 'copy' });
     }
 
     if (error) {
       messageApi.warning({ content: error || t('public.copyFailed'), key: 'copy' });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCopied, error]);
 
   /** 点击处理 */
   const onClick = () => {
     try {
       copyText(value);
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       messageApi.warning({ content: t('public.copyFailed'), key: 'copy' });
     }
@@ -38,13 +38,9 @@ function CopyBtn(props: Props) {
 
   return (
     <>
-      { contextHolder }
-      <Button
-        {...props}
-        icon={<Icon icon="ant-design:copy-outlined" />}
-        onClick={onClick}
-      >
-        { text }
+      {contextHolder}
+      <Button {...props} icon={<Icon icon="ant-design:copy-outlined" />} onClick={onClick}>
+        {text}
       </Button>
     </>
   );

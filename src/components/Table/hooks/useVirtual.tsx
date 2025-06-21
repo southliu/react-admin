@@ -1,13 +1,7 @@
 import type { InitTableState } from '../utils/reducer';
 import type { CSSProperties, ReactNode } from 'react';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
-import {
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-  useMemo
-} from 'react';
+import { useEffect, useReducer, useRef, useState, useMemo } from 'react';
 import { reducer } from '../utils/reducer';
 import { isNumber } from '@/utils/is';
 import { ScrollContext } from '../utils/state';
@@ -19,16 +13,17 @@ const initialState: InitTableState = {
   rowHeight: 38, // 行高度
   curScrollTop: 0, // 当前的滚动高度
   scrollHeight: 0, // 可滚动区域的高度
-  tableScrollY: 0 // 可滚动区域值
+  tableScrollY: 0, // 可滚动区域值
 };
 
-type Children = ReactNode & Array<{
-  props: {
-    data: {
-      length: number
-    }
-  }
-}>
+type Children = ReactNode &
+  Array<{
+    props: {
+      data: {
+        length: number;
+      };
+    };
+  }>;
 
 interface VirtualTableProps {
   style?: CSSProperties;
@@ -134,7 +129,7 @@ function VirtualTable(props: VirtualTableProps) {
         type: 'changeScroll',
         curScrollTop: scrollTop,
         scrollHeight,
-        tableScrollY
+        tableScrollY,
       });
     }
   }, 60);
@@ -143,30 +138,24 @@ function VirtualTable(props: VirtualTableProps) {
     const ref = wrapTableRef?.current?.parentNode as HTMLElement;
 
     if (ref) {
-      ref.addEventListener('scroll', e => throttleScroll(e));
+      ref.addEventListener('scroll', (e) => throttleScroll(e));
     }
 
     return () => {
-      ref.removeEventListener('scroll', e => throttleScroll(e));
+      ref.removeEventListener('scroll', (e) => throttleScroll(e));
     };
-  }, [
-    wrapTableRef,
-    state.curScrollTop,
-    tableScrollY,
-    state.scrollHeight,
-    throttleScroll
-  ]);
+  }, [wrapTableRef, state.curScrollTop, tableScrollY, state.scrollHeight, throttleScroll]);
 
   return (
     <div
-      className='virtualTable'
+      className="virtualTable"
       ref={wrapTableRef}
       style={{
         width: '100%',
         position: 'relative',
         height: tableHeight,
         boxSizing: 'border-box',
-        paddingTop: state.curScrollTop
+        paddingTop: state.curScrollTop,
       }}
     >
       <ScrollContext.Provider
@@ -176,7 +165,7 @@ function VirtualTable(props: VirtualTableProps) {
           start,
           offsetStart,
           renderLen,
-          totalLen
+          totalLen,
         }}
       >
         <table
@@ -185,10 +174,10 @@ function VirtualTable(props: VirtualTableProps) {
           style={{
             ...restStyle,
             width,
-            position: 'relative'
+            position: 'relative',
           }}
         >
-          { children }
+          {children}
         </table>
       </ScrollContext.Provider>
     </div>
@@ -197,7 +186,7 @@ function VirtualTable(props: VirtualTableProps) {
 
 interface Props {
   height: number | string;
-  size: SizeType
+  size: SizeType;
 }
 
 export default function useVirtualTable(props: Props) {
@@ -208,7 +197,7 @@ export default function useVirtualTable(props: Props) {
   return {
     table: VirtualTable,
     body: {
-      wrapper: VirtualWrapper
-    }
+      wrapper: VirtualWrapper,
+    },
   };
 }

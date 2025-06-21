@@ -10,9 +10,7 @@ function CustomizeInput(props: InputProps) {
   return (
     <>
       <Input {...props} placeholder={t('public.inputPleaseEnter')} />
-      <div className='mb-5px text-red'>
-        { t('content.sensitiveInfo') }
-      </div>
+      <div className="mb-5px text-red">{t('content.sensitiveInfo')}</div>
     </>
   );
 }

@@ -14,7 +14,7 @@ import useVirtualTable from './hooks/useVirtual';
 import TableFilter from './components/TableFilter';
 import './index.less';
 
-type Components = TableProps<object>['components']
+type Components = TableProps<object>['components'];
 
 interface Props extends Omit<TableProps<object>, 'bordered'> {
   isLoading?: boolean; // 是否加载
@@ -48,7 +48,7 @@ function BaseTable(props: Props) {
     leftContent,
     rightContent,
     getPage,
-    onCreate
+    onCreate,
   } = props;
   const { t } = useTranslation();
   const { isPhone } = useCommonStore();
@@ -75,7 +75,7 @@ function BaseTable(props: Props) {
     if (isCreate && !onCreate) {
       message.warning(t('public.createMethodWarning'));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCreate]);
 
   // 添加分页缺少方法警告
@@ -83,7 +83,7 @@ function BaseTable(props: Props) {
     if (isOperate && !getPage) {
       message.warning(t('public.getPageWarning'));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getPage]);
 
   // 表格高度
@@ -133,7 +133,7 @@ function BaseTable(props: Props) {
             ...col?.onCell?.(data, index)?.style,
             maxWidth: col.width,
             width: col.width,
-          }
+          },
         };
       },
       render: (value: unknown, record: object, index: number) => {
@@ -164,13 +164,9 @@ function BaseTable(props: Props) {
 
         if (!['object', 'function'].includes(typeof renderContent)) {
           return (
-            <Tooltip title={showValue} placement='topLeft'>
-              <span
-                style={{ color }}
-                className='break-all'
-                title={showValue as string}
-              >
-                { String(showValue ?? EMPTY_VALUE) }
+            <Tooltip title={showValue} placement="topLeft">
+              <span style={{ color }} className="break-all" title={showValue as string}>
+                {String(showValue ?? EMPTY_VALUE)}
               </span>
             </Tooltip>
           );
@@ -186,7 +182,7 @@ function BaseTable(props: Props) {
   // 虚拟滚动操作值
   const virtualOptions = useVirtualTable({
     height: tableHeight, // 设置可视高度
-    size: size || 'small'
+    size: size || 'small',
   });
 
   // 虚拟滚动组件
@@ -196,18 +192,20 @@ function BaseTable(props: Props) {
         cell: ResizableTitle,
       },
       body: {
-        wrapper: virtualOptions.body.wrapper
+        wrapper: virtualOptions.body.wrapper,
       },
-      table: virtualOptions.table
+      table: virtualOptions.table,
     } as Components;
   }, [virtualOptions]);
 
   // 只带拖拽功能组件
-  const components: Components = isVirtual ? virtualComponents : {
-    header: {
-      cell: ResizableTitle,
-    }
-  };
+  const components: Components = isVirtual
+    ? virtualComponents
+    : {
+        header: {
+          cell: ResizableTitle,
+        },
+      };
 
   // 滚动
   const scroll = {
@@ -222,10 +220,10 @@ function BaseTable(props: Props) {
   const handleRowClassName: TableProps<object>['rowClassName'] = (
     record: object,
     index: number,
-    indent: number
+    indent: number,
   ) => {
-    const className = typeof rowClassName === 'string' ?
-                      rowClassName : rowClassName?.(record, index, indent);
+    const className =
+      typeof rowClassName === 'string' ? rowClassName : rowClassName?.(record, index, indent);
     const rowSize = `!h-${handleRowHeight(size)}px`;
 
     return `${className || ''} ${rowSize}`;
@@ -240,51 +238,41 @@ function BaseTable(props: Props) {
         ${isZebra !== false ? 'zebra' : ''}
       `}
     >
-      {
-        isOperate &&
-        <div className='flex justify-between !mb-10px'>
-          <div className='flex flex-wrap items-center gap-6px'>
-            {
-              !!isCreate &&
+      {isOperate && (
+        <div className="flex justify-between !mb-10px">
+          <div className="flex flex-wrap items-center gap-6px">
+            {!!isCreate && (
               <Button
                 type="primary"
-                className='small-btn'
+                className="small-btn"
                 icon={<PlusOutlined />}
                 onClick={onCreate}
               >
-                { t('public.create') }
+                {t('public.create')}
               </Button>
-            }
-            { leftContent }
+            )}
+            {leftContent}
           </div>
 
-          <div className='flex flex-wrap items-center justify-end gap-6px'>
-            { rightContent ? <div>{ rightContent }</div> : undefined }
+          <div className="flex flex-wrap items-center justify-end gap-6px">
+            {rightContent ? <div>{rightContent}</div> : undefined}
 
             <Button
-              className='small-btn'
-              icon={
-                <RedoOutlined
-                  className="transform rotate-270"
-                  disabled={!!isLoading}
-                />
-              }
+              className="small-btn"
+              icon={<RedoOutlined className="transform rotate-270" disabled={!!isLoading} />}
               onClick={getPage}
             >
-              { t('public.refresh') }
+              {t('public.refresh')}
             </Button>
 
-            <TableFilter
-              columns={columns}
-              getTableChecks={getTableChecks}
-            />
+            <TableFilter columns={columns} getTableChecks={getTableChecks} />
           </div>
         </div>
-      }
+      )}
       <div ref={tableRef}>
         <Table
-          size='small'
-          rowKey='id'
+          size="small"
+          rowKey="id"
           pagination={false}
           loading={isLoading}
           {...props}
@@ -294,7 +282,7 @@ function BaseTable(props: Props) {
             borderRight: '1px solid rgba(0, 0, 0, .05)',
             borderBottom: '1px solid rgba(0, 0, 0, .05)',
             overflow: 'auto',
-            ...props.style
+            ...props.style,
           }}
           bordered={isBordered !== false}
           scroll={scroll}

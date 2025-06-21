@@ -25,7 +25,7 @@ function LayoutTabs() {
   const [time, setTime] = useState<null | NodeJS.Timeout>(null);
   const [isChangeLang, setChangeLang] = useState(false); // 是否切换语言
   const [refreshTime, seRefreshTime] = useState<null | NodeJS.Timeout>(null);
-  const setRefresh = usePublicStore(state => state.setRefresh);
+  const setRefresh = usePublicStore((state) => state.setRefresh);
   const {
     tabs,
     isCloseTabsLock,
@@ -36,52 +36,51 @@ function LayoutTabs() {
     setNav,
     toggleCloseTabsLock,
     switchTabsLang,
-  } = useTabsStore(useShallow(state => state));
+  } = useTabsStore(useShallow((state) => state));
 
   // 获取当前语言
   const currentLanguage = i18n.language;
 
-  const {
-    permissions,
-    isMaximize,
-    menuList
-  } = useCommonStore();
+  const { permissions, isMaximize, menuList } = useCommonStore();
 
   /**
    * 添加标签
    * @param path - 路径
    */
-  const handleAddTab = useCallback((path = uri) => {
-    // 当值为空时匹配路由
-    if (permissions.length > 0) {
-      if (path === '/') return;
-      const menuByKeyProps = {
-        menus: menuList,
-        permissions,
-        key: path
-      };
-      const newItems = getMenuByKey(menuByKeyProps);
-      if (newItems?.key) {
-        setActiveKey(newItems.key);
-        setNav(newItems.nav);
-        addTabs(newItems);
-        // 初始化Tabs时，更新文案语言类型
-        setChangeLang(true);
-      } else {
-        setActiveKey(path);
+  const handleAddTab = useCallback(
+    (path = uri) => {
+      // 当值为空时匹配路由
+      if (permissions.length > 0) {
+        if (path === '/') return;
+        const menuByKeyProps = {
+          menus: menuList,
+          permissions,
+          key: path,
+        };
+        const newItems = getMenuByKey(menuByKeyProps);
+        if (newItems?.key) {
+          setActiveKey(newItems.key);
+          setNav(newItems.nav);
+          addTabs(newItems);
+          // 初始化Tabs时，更新文案语言类型
+          setChangeLang(true);
+        } else {
+          setActiveKey(path);
+        }
       }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [permissions, menuList]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [permissions, menuList],
+  );
 
   useEffect(() => {
     handleAddTab();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [permissions, menuList]);
 
   useEffect(() => {
     switchTabsLang(currentLanguage);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLanguage]);
 
   useEffect(() => {
@@ -89,7 +88,7 @@ function LayoutTabs() {
       switchTabsLang(currentLanguage);
       setChangeLang(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isChangeLang]);
 
   useEffect(() => {
@@ -106,7 +105,7 @@ function LayoutTabs() {
         seRefreshTime(null);
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -124,7 +123,7 @@ function LayoutTabs() {
         handleAddTab(key);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeKey, uri]);
 
   /**
@@ -137,7 +136,7 @@ function LayoutTabs() {
     // 通过路由获取标签名
     const title = getTabTitle(tabs, path);
     if (title) setTitle(t, title);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   /**
@@ -157,7 +156,7 @@ function LayoutTabs() {
       const menuByKeyProps = {
         menus: menuList,
         permissions,
-        key
+        key,
       };
       const newItems = getMenuByKey(menuByKeyProps);
       if (newItems?.key) {
@@ -190,53 +189,46 @@ function LayoutTabs() {
    * 点击重新加载
    * @param key - 点击值
    */
-   const onClickRefresh = useCallback((key = activeKey) => {
-    // 如果key不是字符串格式则退出
-    if (typeof key !== 'string') return;
+  const onClickRefresh = useCallback(
+    (key = activeKey) => {
+      // 如果key不是字符串格式则退出
+      if (typeof key !== 'string') return;
 
-    // 定时器没有执行时运行
-    if (!time) {
-      setRefresh(true);
-      refresh(key);
+      // 定时器没有执行时运行
+      if (!time) {
+        setRefresh(true);
+        refresh(key);
 
-      setTime(
-        setTimeout(() => {
-          messageApi.success({
-            content: t('public.refreshSuccessfully'),
-            key: 'refresh'
-          });
-          setRefresh(false);
-          setTime(null);
-        }, 100)
-      );
+        setTime(
+          setTimeout(() => {
+            messageApi.success({
+              content: t('public.refreshSuccessfully'),
+              key: 'refresh',
+            });
+            setRefresh(false);
+            setTime(null);
+          }, 100),
+        );
 
-      seRefreshTime(
-        setTimeout(() => {
-          seRefreshTime(null);
-        }, 1000)
-      );
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeKey, time]);
+        seRefreshTime(
+          setTimeout(() => {
+            seRefreshTime(null);
+          }, 1000),
+        );
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [activeKey, time],
+  );
 
   // 渲染重新加载
   const RefreshRender = useMemo(() => {
-    return (
-      <TabRefresh
-        isRefresh={!!refreshTime}
-        onClick={onClickRefresh}
-      />
-    );
+    return <TabRefresh isRefresh={!!refreshTime} onClick={onClickRefresh} />;
   }, [refreshTime, onClickRefresh]);
 
   // 渲染标签操作
   const TabOptionsRender = useMemo(() => {
-    return (
-      <TabOptions
-        activeKey={activeKey}
-        handleRefresh={onClickRefresh}
-      />
-    );
+    return <TabOptions activeKey={activeKey} handleRefresh={onClickRefresh} />;
   }, [activeKey, onClickRefresh]);
 
   // 渲染最大化操作
@@ -248,7 +240,7 @@ function LayoutTabs() {
   const tabOptions = [
     { element: RefreshRender },
     { element: TabOptionsRender },
-    { element: TabMaximizeRender }
+    { element: TabMaximizeRender },
   ];
 
   // 下拉菜单
@@ -258,25 +250,24 @@ function LayoutTabs() {
   /** 二次封装标签 */
   const renderTabBar: TabsProps['renderTabBar'] = (tabBarProps, DefaultTabBar) => (
     <DefaultTabBar {...tabBarProps}>
-      { node => (
+      {(node) => (
         <Dropdown
           key={node.key}
           menu={{
             items: items(node.key as string),
-            onClick: e => onClick(e.key, node.key as string)
+            onClick: (e) => onClick(e.key, node.key as string),
           }}
           trigger={['contextMenu']}
         >
-          <div className='mr-1px'>
-            { node }
-          </div>
+          <div className="mr-1px">{node}</div>
         </Dropdown>
-      ) }
+      )}
     </DefaultTabBar>
   );
 
   return (
-    <div className={`
+    <div
+      className={`
       w-[calc(100%-5px)]
       flex
       items-center
@@ -284,10 +275,10 @@ function LayoutTabs() {
       mx-2
       transition-all
       ${isMaximize ? styles['con-maximize'] : ''}
-    `}>
-      { contextHolder }
-      {
-        tabs.length > 0 ?
+    `}
+    >
+      {contextHolder}
+      {tabs.length > 0 ? (
         <Tabs
           hideAdd
           className={`w-[calc(100%-110px)] h-30px py-0 ${styles['layout-tabs']}`}
@@ -298,15 +289,15 @@ function LayoutTabs() {
           onEdit={onEdit}
           renderTabBar={renderTabBar}
         />
-        : <span></span>
-      }
+      ) : (
+        <span></span>
+      )}
 
-      <div className='flex'>
-        {
-          tabOptions?.map((item, index) => (
-            <div
-              key={index}
-              className={`
+      <div className="flex">
+        {tabOptions?.map((item, index) => (
+          <div
+            key={index}
+            className={`
                 left-divide-tab
                 change
                 divide-solid
@@ -317,11 +308,10 @@ function LayoutTabs() {
                 place-content-center
                 items-center
               `}
-            >
-              { item.element }
-            </div>
-          ))
-        }
+          >
+            {item.element}
+          </div>
+        ))}
       </div>
     </div>
   );

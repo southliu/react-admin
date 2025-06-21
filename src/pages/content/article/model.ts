@@ -1,4 +1,4 @@
-import type { TFunction } from "i18next";
+import type { TFunction } from 'i18next';
 import CustomizeInput from './components/CustomizeInput';
 
 // 搜索数据
@@ -6,13 +6,13 @@ export const searchList = (t: TFunction): BaseSearchList[] => [
   {
     label: t('login.username'),
     name: 'username',
-    component: 'Input'
+    component: 'Input',
   },
   {
     label: t('public.title'),
     name: 'title',
-    component: 'Input'
-  }
+    component: 'Input',
+  },
 ];
 
 /**
@@ -34,19 +34,19 @@ export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): 
     {
       title: t('public.title'),
       dataIndex: 'title',
-      width: 400
+      width: 400,
     },
     {
       title: t('public.content'),
       dataIndex: 'content',
-      width: 400
+      width: 400,
     },
     {
       title: t('public.operate'),
       dataIndex: 'operate',
       width: 200,
       fixed: 'right',
-      render: (value: unknown, record: object) => optionRender(value, record)
+      render: (value: unknown, record: object) => optionRender(value, record),
     },
   ];
 };
@@ -61,9 +61,9 @@ export const createList = (t: TFunction): BaseFormList[] => [
     component: 'Input',
     componentProps: {
       style: {
-        width: '80%'
-      }
-    }
+        width: '80%',
+      },
+    },
   },
   {
     label: t('content.nestedData'),
@@ -73,9 +73,9 @@ export const createList = (t: TFunction): BaseFormList[] => [
     unit: '单位',
     componentProps: {
       style: {
-        width: '80%'
-      }
-    }
+        width: '80%',
+      },
+    },
   },
   {
     label: t('public.title'),
@@ -85,9 +85,9 @@ export const createList = (t: TFunction): BaseFormList[] => [
     render: CustomizeInput,
     componentProps: {
       style: {
-        width: '80%'
-      }
-    }
+        width: '80%',
+      },
+    },
   },
   {
     label: t('public.content'),
@@ -95,8 +95,8 @@ export const createList = (t: TFunction): BaseFormList[] => [
     component: 'RichEditor',
     componentProps: {
       style: {
-        width: '80%'
-      }
-    }
-  }
+        width: '80%',
+      },
+    },
+  },
 ];

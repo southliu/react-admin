@@ -7,7 +7,7 @@ import {
   getMenuById,
   createMenu,
   updateMenu,
-  deleteMenu
+  deleteMenu,
 } from '@/servers/system/menu';
 
 // 当前行数据
@@ -17,7 +17,7 @@ interface RowData {
 
 // 初始化新增数据
 const initCreate = {
-  status: 1
+  status: 1,
 };
 
 function Page() {
@@ -47,7 +47,7 @@ function Page() {
     page: checkPermission(`${permissionPrefix}/index`, permissions),
     create: checkPermission(`${permissionPrefix}/create`, permissions),
     update: checkPermission(`${permissionPrefix}/update`, permissions),
-    delete: checkPermission(`${permissionPrefix}/delete`, permissions)
+    delete: checkPermission(`${permissionPrefix}/delete`, permissions),
   };
 
   /** 获取表格数据 */
@@ -87,7 +87,7 @@ function Page() {
     if (pagePermission.page) getPage();
     // TODO: 重复请求测试，可删
     if (pagePermission.page) getPage();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagePermission.page]);
 
   /** 点击新增 */
@@ -133,7 +133,7 @@ function Page() {
   const handleCreate = async (values: BaseFormData) => {
     try {
       setCreateLoading(true);
-      const functions = () => createId ? updateMenu(createId, values) : createMenu(values);
+      const functions = () => (createId ? updateMenu(createId, values) : createMenu(values));
       const { code, message } = await functions();
       if (Number(code) !== 200) return;
       messageApi.success(message || t('public.successfulOperation'));
@@ -178,27 +178,21 @@ function Page() {
    * @param record - 当前行参数
    */
   function optionRender(_: unknown, record: object) {
-    return <>
-      {
-        pagePermission.update === true &&
-        <UpdateBtn
-          className='mr-5px'
-          onClick={() => onUpdate((record as RowData).id)}
-        />
-      }
-      {
-        pagePermission.delete === true &&
-        <DeleteBtn
-          className='mr-5px'
-          handleDelete={() => onDelete((record as RowData).id)}
-        />
-      }
-    </>;
+    return (
+      <>
+        {pagePermission.update === true && (
+          <UpdateBtn className="mr-5px" onClick={() => onUpdate((record as RowData).id)} />
+        )}
+        {pagePermission.delete === true && (
+          <DeleteBtn className="mr-5px" handleDelete={() => onDelete((record as RowData).id)} />
+        )}
+      </>
+    );
   }
 
   return (
     <BaseContent isPermission={pagePermission.page}>
-      { contextHolder }
+      {contextHolder}
       <BaseCard>
         <BaseSearch
           list={searchList(t)}
@@ -208,7 +202,7 @@ function Page() {
         />
       </BaseCard>
 
-      <BaseCard className='mt-10px'>
+      <BaseCard className="mt-10px">
         <BaseTable
           isLoading={isLoading}
           isCreate={pagePermission.create}

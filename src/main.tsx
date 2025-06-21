@@ -23,12 +23,9 @@ import 'dayjs/locale/zh-cn';
 dayjs.locale('zh-cn');
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <StyleProvider
-    hashPriority='high'
-    transformers={[legacyLogicalPropertiesTransformer]}
-  >
+  <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
     <Router />
-  </StyleProvider>
+  </StyleProvider>,
 );
 
 // 关闭loading

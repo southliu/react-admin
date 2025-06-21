@@ -8,7 +8,8 @@ import { LANG } from '@/utils/config';
  * @param router - 路由
  */
 export function getOpenMenuByRouter(router: string): string[] {
-  const arr = splitPath(router), result: string[] = [];
+  const arr = splitPath(router),
+    result: string[] = [];
 
   // 取第一个单词大写为新展开菜单key
   if (arr.length > 0) result.push(`/${arr[0]}`);
@@ -30,7 +31,7 @@ export function getOpenMenuByRouter(router: string): string[] {
  * @param path - 路径
  * @param arr - 路径经过数组
  */
-function matchPath(lang: Langs,path: string, arr: MenuPath[]): string[] {
+function matchPath(lang: Langs, path: string, arr: MenuPath[]): string[] {
   const result: string[] = [];
 
   // 分割路径
@@ -80,11 +81,11 @@ interface MenuPath {
   path: string[];
 }
 interface SearchMenuProps {
-  menus: SideMenu[] | undefined,
-  permissions: string[],
-  value: string,
-  currentPath?: MenuPath[],
-  result?: SideMenu[]
+  menus: SideMenu[] | undefined;
+  permissions: string[];
+  value: string;
+  currentPath?: MenuPath[];
+  result?: SideMenu[];
 }
 
 /**
@@ -100,20 +101,14 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
   const lang = localStorage.getItem(LANG);
 
   for (let i = 0; i < menus.length; i++) {
-    const {
-      key,
-      label,
-      labelZh,
-      labelEn,
-      children
-    } = menus[i];
+    const { key, label, labelZh, labelEn, children } = menus[i];
     // 如果存在子数组则递归
     if (hasChildren(menus[i])) {
       currentPath.push({
         label,
         labelZh: labelZh || label,
         labelEn,
-        path: splitPath(key)
+        path: splitPath(key),
       });
 
       // 递归子数组，返回结果
@@ -122,7 +117,7 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
         permissions,
         value,
         currentPath,
-        result
+        result,
       };
       const childResult = searchMenuValue(childrenData);
 
@@ -133,10 +128,11 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
         currentPath.pop();
       }
     } else if (
-      (
-        lang === 'en' && menus[i]?.labelEn?.toLocaleUpperCase()?.includes(value?.toLocaleUpperCase()) ||
-        lang !== 'en' && (menus[i]?.labelZh?.includes(value) || menus[i]?.label?.includes(value))
-      ) && hasPermission(menus[i], permissions)
+      ((lang === 'en' &&
+        menus[i]?.labelEn?.toLocaleUpperCase()?.includes(value?.toLocaleUpperCase())) ||
+        (lang !== 'en' &&
+          (menus[i]?.labelZh?.includes(value) || menus[i]?.label?.includes(value)))) &&
+      hasPermission(menus[i], permissions)
     ) {
       // 匹配到value值时添加到result中
       const { label, labelZh, labelEn, key } = menus[i];
@@ -144,7 +140,7 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
         label: label,
         labelZh: labelZh || label,
         labelEn: labelEn,
-        path: splitPath(key)
+        path: splitPath(key),
       });
       const nav = matchPath(lang as Langs, key, currentPath);
       result.push({ label, labelZh, labelEn, key, nav });
@@ -167,11 +163,11 @@ interface GetMenuByKeyResult {
   nav: NavData[];
 }
 interface GetMenuByKeyProps {
-  menus: SideMenu[] | undefined,
-  permissions: string[],
-  key: string,
-  fatherNav?: NavData[],
-  result?: GetMenuByKeyResult
+  menus: SideMenu[] | undefined;
+  permissions: string[];
+  key: string;
+  fatherNav?: NavData[];
+  result?: GetMenuByKeyResult;
 }
 
 /**
@@ -188,13 +184,14 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
   let { fatherNav, result } = data;
   if (!menus?.length) return result;
   if (!fatherNav) fatherNav = [];
-  if (!result?.key) result = {
-    key: '',
-    label: '',
-    labelZh: '',
-    labelEn: '',
-    nav: []
-  };
+  if (!result?.key)
+    result = {
+      key: '',
+      label: '',
+      labelZh: '',
+      labelEn: '',
+      nav: [],
+    };
 
   for (let i = 0; i < menus.length; i++) {
     if (!key || (result as GetMenuByKeyResult).key) return result;
@@ -216,7 +213,7 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
         permissions,
         key,
         fatherNav,
-        result
+        result,
       };
       const childResult = getMenuByKey(childProps);
 
@@ -227,23 +224,21 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
         // 下次递归前删除面包屑前一步错误路径
         fatherNav.pop();
       }
-    } else if (
-      menus[i]?.key === key &&
-      hasPermission(menus[i], permissions)
-    ) {
+    } else if (menus[i]?.key === key && hasPermission(menus[i], permissions)) {
       const { key } = menus[i];
       fatherNav.push({
         label: currentLabel,
         labelZh: labelZh || label,
         labelEn,
       });
-      if (key) result = {
-        label,
-        labelZh: labelZh || label,
-        labelEn,
-        key,
-        nav: fatherNav
-      };
+      if (key)
+        result = {
+          label,
+          labelZh: labelZh || label,
+          labelEn,
+          key,
+          nav: fatherNav,
+        };
     }
   }
 
@@ -291,10 +286,7 @@ export const getMenuName = (list: SideMenu[], path: string, lang: string) => {
  * @param menus - 菜单
  * @param permissions - 权限列表
  */
-export function filterMenus(
-  menus: SideMenu[],
-  permissions: string[]
-): SideMenu[] {
+export function filterMenus(menus: SideMenu[], permissions: string[]): SideMenu[] {
   const result: SideMenu[] = [];
   const newMenus = cloneDeep(menus);
   const lang = localStorage.getItem(LANG);
@@ -303,20 +295,14 @@ export function filterMenus(
     const item = newMenus[i];
     // 处理子数组
     if (hasChildren(item)) {
-      const result = filterMenus(
-        item.children as SideMenu[],
-        permissions
-      );
+      const result = filterMenus(item.children as SideMenu[], permissions);
 
       // 有子权限数据则保留
       item.children = result?.length ? result : undefined;
     }
 
     // 有权限或有子数据累加
-    if (
-      hasPermission(item, permissions) ||
-      hasChildren(item)
-    ) {
+    if (hasPermission(item, permissions) || hasChildren(item)) {
       if (lang === 'en') {
         item.labelZh = item.labelZh || item.label;
         item.label = item.labelEn;
@@ -333,22 +319,14 @@ export function filterMenus(
  * @param menus - 菜单
  * @param permissions - 权限
  */
-export function getFirstMenu(
- menus: SideMenu[],
- permissions: string[],
- result = ''
-): string {
+export function getFirstMenu(menus: SideMenu[], permissions: string[], result = ''): string {
   // 有结构时直接返回
   if (result) return result;
 
   for (let i = 0; i < menus.length; i++) {
     // 处理子数组
     if (hasChildren(menus[i]) && !result) {
-      const childResult = getFirstMenu(
-        menus[i].children as SideMenu[],
-        permissions,
-        result
-      );
+      const childResult = getFirstMenu(menus[i].children as SideMenu[], permissions, result);
 
       // 有结果则赋值
       if (childResult) {
@@ -358,11 +336,8 @@ export function getFirstMenu(
     }
 
     // 有权限且没有有子数据
-    if (
-      hasPermission(menus[i], permissions) &&
-      !hasChildren(menus[i]) &&
-      !result
-    ) result = menus[i].key;
+    if (hasPermission(menus[i], permissions) && !hasChildren(menus[i]) && !result)
+      result = menus[i].key;
   }
 
   return result;

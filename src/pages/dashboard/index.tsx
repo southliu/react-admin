@@ -7,7 +7,7 @@ import Block from './components/Block';
 
 // 初始化搜索
 const initSearch = {
-  pay_date: ['2022-10-19', '2022-10-29']
+  pay_date: ['2022-10-19', '2022-10-29'],
 };
 
 function Dashboard() {
@@ -65,16 +65,16 @@ function Dashboard() {
         />
       </BaseCard>
 
-      <BaseCard className='mt-10px'>
-        <div className='pt-10px'>
+      <BaseCard className="mt-10px">
+        <div className="pt-10px">
           <Block />
         </div>
 
-        <div className='flex flex-wrap justify-between w-full'>
-          <div className={`mb-10px ${ isPhone ? 'w-full' : 'w-49.5%' }`}>
+        <div className="flex flex-wrap justify-between w-full">
+          <div className={`mb-10px ${isPhone ? 'w-full' : 'w-49.5%'}`}>
             <Line />
           </div>
-          <div className={`mb-10px ${ isPhone ? 'w-full' : 'w-49.5%' }`}>
+          <div className={`mb-10px ${isPhone ? 'w-full' : 'w-49.5%'}`}>
             <Bar />
           </div>
         </div>

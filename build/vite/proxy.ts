@@ -1,8 +1,8 @@
 import type { ProxyOptions } from 'vite';
 
-type ProxyList = [string, string][]
+type ProxyList = [string, string][];
 
-type ProxyTargetList = Record<string, ProxyOptions>
+type ProxyTargetList = Record<string, ProxyOptions>;
 
 /**
  * 创建跨域
@@ -10,12 +10,12 @@ type ProxyTargetList = Record<string, ProxyOptions>
  */
 export function createProxy(list: ProxyList = []) {
   const res: ProxyTargetList = {};
-  
+
   for (const [prefix, target] of list) {
     res[`^${prefix}`] = {
       target,
       changeOrigin: true,
-      rewrite: path => path.replace(new RegExp(`^${prefix}`), ''),
+      rewrite: (path) => path.replace(new RegExp(`^${prefix}`), ''),
     };
   }
 

@@ -1,8 +1,8 @@
-import type { RouteObject } from "react-router-dom";
-import type { DefaultComponent } from "@loadable/component";
-import { useEffect } from "react";
-import { handleRoutes } from "../utils/helper";
-import { useLocation, useRoutes } from "react-router-dom";
+import type { RouteObject } from 'react-router-dom';
+import type { DefaultComponent } from '@loadable/component';
+import { useEffect } from 'react';
+import { handleRoutes } from '../utils/helper';
+import { useLocation, useRoutes } from 'react-router-dom';
 import Login from '@/pages/login';
 import Forget from '@/pages/forget';
 import NotFound from '@/pages/404';
@@ -15,22 +15,22 @@ const layouts = handleRoutes(pages);
 
 const newRoutes: RouteObject[] = [
   {
-    path: "login",
-    element: <Login />
+    path: 'login',
+    element: <Login />,
   },
   {
-    path: "forget",
-    element: <Forget />
+    path: 'forget',
+    element: <Forget />,
   },
   {
-    path: "",
+    path: '',
     element: <Guards />,
-    children: layouts
+    children: layouts,
   },
   {
-    path: "*",
+    path: '*',
     element: <NotFound />,
-  }
+  },
 ];
 
 function App() {
@@ -49,11 +49,7 @@ function App() {
     };
   }, [location]);
 
-  return (
-    <>
-      { useRoutes(newRoutes) }
-    </>
-  );
+  return <>{useRoutes(newRoutes)}</>;
 }
 
 export default App;

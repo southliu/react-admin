@@ -41,16 +41,13 @@ function PasswordStrength(props: InputProps) {
         placeholder={t('public.inputPleaseEnter')}
         autoComplete="password"
         {...props}
-        onChange={e => {
+        onChange={(e) => {
           props.onChange?.(e);
           handleStrength(e.target.value);
         }}
       />
 
-      {
-        !!strength &&
-        <StrengthBar strength={strength} />
-      }
+      {!!strength && <StrengthBar strength={strength} />}
     </>
   );
 }

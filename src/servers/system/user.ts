@@ -1,7 +1,7 @@
 import { request } from '@/utils/request';
 
 enum API {
-  URL = '/authority/user'
+  URL = '/authority/user',
 }
 
 /**
@@ -9,10 +9,7 @@ enum API {
  * @param data - 请求数据
  */
 export function getUserPage(data: Partial<BaseFormData> & PaginationData) {
-  return request.get<PageServerResult<BaseFormData[]>>(
-    `${API.URL}/page`,
-    { params: data }
-  );
+  return request.get<PageServerResult<BaseFormData[]>>(`${API.URL}/page`, { params: data });
 }
 
 /**
@@ -55,4 +52,3 @@ export function deleteUser(id: string) {
 export function batchDeleteUser(data: BaseFormData) {
   return request.post(`${API.URL}/batchDelete`, data);
 }
-

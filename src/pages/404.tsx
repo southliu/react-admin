@@ -22,14 +22,10 @@ function NotFound() {
 
   return (
     <div className="absolute left-50% top-50% -translate-x-1/2 -translate-y-1/2 text-center">
-      <h1 className={`${styles.animation} w-full text-6rem font-bold`}>
-        404
-      </h1>
-      <p className="w-full text-20px font-bold mt-15px">
-        { t('public.notFindMessage') }
-      </p>
+      <h1 className={`${styles.animation} w-full text-6rem font-bold`}>404</h1>
+      <p className="w-full text-20px font-bold mt-15px">{t('public.notFindMessage')}</p>
       <Button className="mt-25px margin-auto" onClick={goIndex}>
-        { t('public.returnHome') }
+        {t('public.returnHome')}
       </Button>
     </div>
   );

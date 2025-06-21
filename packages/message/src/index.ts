@@ -1,18 +1,18 @@
-import type { MessageInstance } from "antd/es/message/interface";
-import type { NotificationInstance } from "antd/es/notification/interface";
-import type { ModalStaticFunctions } from "antd/es/modal/confirm";
+import type { MessageInstance } from 'antd/es/message/interface';
+import type { NotificationInstance } from 'antd/es/notification/interface';
+import type { ModalStaticFunctions } from 'antd/es/modal/confirm';
 import {
   message as antdMessage,
   notification as antdNotification,
   Modal as antdModal,
   App,
-} from "antd";
+} from 'antd';
 
 let message: MessageInstance = antdMessage;
 let notification: NotificationInstance = antdNotification;
 
 const { ...resetFns } = antdModal;
-let modal: Omit<ModalStaticFunctions, "warn"> = resetFns;
+let modal: Omit<ModalStaticFunctions, 'warn'> = resetFns;
 
 /**
  * 该组件提供静态方法
@@ -28,10 +28,6 @@ function StaticMessage() {
   return null;
 }
 
-export {
-  message,
-  notification,
-  modal,
-};
+export { message, notification, modal };
 
 export default StaticMessage;

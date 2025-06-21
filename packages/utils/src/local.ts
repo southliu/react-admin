@@ -19,7 +19,11 @@ interface StorageData {
  * @param value - 缓存值
  * @param expire - 缓存期限
  */
-export function setLocalInfo(key: string, value: unknown, expire: number | null = DEFAULT_CACHE_TIME) {
+export function setLocalInfo(
+  key: string,
+  value: unknown,
+  expire: number | null = DEFAULT_CACHE_TIME,
+) {
   // 缓存时间
   const time = expire !== null ? new Date().getTime() + expire * 1000 : null;
   // 缓存数据

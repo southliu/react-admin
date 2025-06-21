@@ -25,7 +25,7 @@ export function getTableHeight(element: HTMLDivElement | null): number {
  * @param size - 大小
  */
 export function handleRowHeight(size: SizeType): number {
-  switch(size) {
+  switch (size) {
     case 'large':
       return 54;
 

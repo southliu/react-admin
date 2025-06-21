@@ -24,20 +24,21 @@ export const useUserStore = create<UserState>()(
         id: 0,
         username: '',
         email: '',
-        phone: ''
+        phone: '',
       },
       /** 设置用户信息 */
       setPermissions: (permissions) => set({ permissions }),
       /** 设置权限 */
       setUserInfo: (userInfo) => set({ userInfo }),
       /** 清除用户信息 */
-      clearInfo: () => set({
-        userInfo: { id: 0, username: '', email: '', phone: '' }
-      })
+      clearInfo: () =>
+        set({
+          userInfo: { id: 0, username: '', email: '', phone: '' },
+        }),
     }),
     {
       enabled: process.env.NODE_ENV === 'development',
-      name: 'userStore'
-    }
-  )
+      name: 'userStore',
+    },
+  ),
 );

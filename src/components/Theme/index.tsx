@@ -10,7 +10,7 @@ function Theme() {
   const { t } = useTranslation();
   const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType;
   const [theme, setTheme] = useState<ThemeType>(themeCache);
-  const setThemeValue = usePublicStore(state => state.setThemeValue);
+  const setThemeValue = usePublicStore((state) => state.setThemeValue);
 
   useEffect(() => {
     if (!themeCache) {
@@ -20,7 +20,7 @@ function Theme() {
       document.body.className = 'theme-dark';
     }
     setThemeValue(themeCache === 'dark' ? 'dark' : 'light');
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [themeCache]);
 
   /**
@@ -39,19 +39,19 @@ function Theme() {
       // 计算最大半径
       const radius = Math.hypot(
         Math.max(clientX, innerWidth - clientX),
-        Math.max(clientY, innerHeight - clientY)
+        Math.max(clientY, innerHeight - clientY),
       );
 
       // 圆形动画扩散
       document.documentElement.animate(
         [
           { clipPath: `circle(0% at ${clientX}px ${clientY}px)` },
-          { clipPath: `circle(${radius}px at ${clientX}px ${clientY}px)` }
+          { clipPath: `circle(${radius}px at ${clientX}px ${clientY}px)` },
         ],
         {
           duration: 400,
-          pseudoElement: "::view-transition-new(root)"
-        }
+          pseudoElement: '::view-transition-new(root)',
+        },
       );
     });
   };
@@ -77,18 +77,16 @@ function Theme() {
 
   return (
     <Tooltip title={t('public.themes')}>
-      <div
-        className={"flex items-center justify-center text-lg mr-4 cursor-pointer"}
-      >
+      <div className={'flex items-center justify-center text-lg mr-4 cursor-pointer'}>
         <div
           style={{ display: theme === 'light' ? 'block' : 'none' }}
-          onClick={e => onChange(e, 'dark')}
+          onClick={(e) => onChange(e, 'dark')}
         >
           <Icon icon="mdi-white-balance-sunny" />
         </div>
         <div
           style={{ display: theme !== 'light' ? 'block' : 'none' }}
-          onClick={e => onChange(e, 'light')}
+          onClick={(e) => onChange(e, 'light')}
         >
           <Icon icon="mdi-moon-waning-crescent" />
         </div>

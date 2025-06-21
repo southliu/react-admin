@@ -10,9 +10,7 @@ function Page() {
 
   return (
     <BaseContent isPermission={isPermission}>
-      <div className="m-30px">
-        { t('content.threeTierStructure') }
-      </div>
+      <div className="m-30px">{t('content.threeTierStructure')}</div>
     </BaseContent>
   );
 }

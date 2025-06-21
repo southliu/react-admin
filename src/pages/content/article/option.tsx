@@ -2,11 +2,7 @@ import { type FormInstance, message, Spin } from 'antd';
 import { createList } from './model';
 import { getUrlParam } from '@/utils/helper';
 import { useAliveController } from 'react-activation';
-import {
-  getArticleById,
-  createArticle,
-  updateArticle,
-} from '@/servers/content/article';
+import { getArticleById, createArticle, updateArticle } from '@/servers/content/article';
 
 interface RecordType {
   key: string;
@@ -25,7 +21,7 @@ const initialTargetKeys = mockData.filter((item) => Number(item.key) > 10).map((
 // 初始化新增数据
 const initCreate = {
   content: '<h4>初始化内容</h4>',
-  transfer: initialTargetKeys
+  transfer: initialTargetKeys,
 };
 
 // 父路径
@@ -43,8 +39,8 @@ function Page() {
   const [messageApi, contextHolder] = message.useMessage();
   const { permissions } = useCommonStore();
   const { dropScope } = useAliveController();
-  const closeTabGoNext = useTabsStore(state => state.closeTabGoNext);
-  const setRefreshPage = usePublicStore(state => state.setRefreshPage);
+  const closeTabGoNext = useTabsStore((state) => state.closeTabGoNext);
+  const setRefreshPage = usePublicStore((state) => state.setRefreshPage);
   useSingleTab({
     fatherPath,
     zhTitle: id ? '编辑文章管理' : '新增文章管理',
@@ -66,7 +62,7 @@ function Page() {
     } else {
       handleCreate();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 异步添加富文本组件
@@ -84,7 +80,7 @@ function Page() {
    * 处理编辑
    * @param id - 唯一值
    */
-   const handleUpdate = async (id: string) => {
+  const handleUpdate = async (id: string) => {
     try {
       setCreateId(id);
       setLoading(true);
@@ -111,7 +107,7 @@ function Page() {
     closeTabGoNext({
       key: uri,
       nextPath: fatherPath,
-      dropScope
+      dropScope,
     });
   };
 
@@ -122,7 +118,7 @@ function Page() {
   const handleFinish = async (values: BaseFormData) => {
     try {
       setLoading(true);
-      const functions = () => createId ? updateArticle(createId, values) : createArticle(values);
+      const functions = () => (createId ? updateArticle(createId, values) : createArticle(values));
       const { code, message } = await functions();
       if (Number(code) !== 200) return;
       messageApi.success(message || t('public.successfulOperation'));
@@ -135,10 +131,10 @@ function Page() {
 
   return (
     <BaseContent isPermission={id ? pagePermission.update : pagePermission.create}>
-      { contextHolder }
-      <div className='!h-[calc(100vh-98px)] '>
+      {contextHolder}
+      <div className="!h-[calc(100vh-98px)] ">
         <BaseCard>
-          <div className='mb-50px'>
+          <div className="mb-50px">
             <Spin spinning={isLoading}>
               <BaseForm
                 ref={createFormRef}
@@ -152,11 +148,7 @@ function Page() {
         </BaseCard>
       </div>
 
-      <SubmitBottom
-        isLoading={isLoading}
-        goBack={() => goBack()}
-        handleSubmit={handleSubmit}
-      />
+      <SubmitBottom isLoading={isLoading} goBack={() => goBack()} handleSubmit={handleSubmit} />
     </BaseContent>
   );
 }

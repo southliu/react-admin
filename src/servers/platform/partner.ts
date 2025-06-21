@@ -14,10 +14,7 @@ interface Result {
  * @param data - 请求数据
  */
 export function getPartner(data?: unknown) {
-  return request.get<Result[]>(
-    API.URL,
-    { params: data }
-  );
+  return request.get<Result[]>(API.URL, { params: data });
 }
 
 /**
@@ -25,8 +22,5 @@ export function getPartner(data?: unknown) {
  * @param data - 请求数据
  */
 export function getPartnerDemo(url: string, data?: unknown) {
-  return request.get<Result[]>(
-    url,
-    { params: data }
-  );
+  return request.get<Result[]>(url, { params: data });
 }

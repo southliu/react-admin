@@ -12,13 +12,13 @@ function CopyInput(props: InputProps) {
 
   useEffect(() => {
     if (isCopied && !error) {
-      messageApi.success({ content: t('public.copySuccessfully'), key: 'copy'});
+      messageApi.success({ content: t('public.copySuccessfully'), key: 'copy' });
     }
 
     if (error) {
       messageApi.warning({ content: error || t('public.copyFailed'), key: 'copy' });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCopied, error]);
 
   /**
@@ -29,7 +29,7 @@ function CopyInput(props: InputProps) {
     if (!value) return messageApi.warning({ content: t('public.inputPleaseEnter'), key: 'copy' });
     try {
       copyText(value);
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       messageApi.warning({ content: t('public.copyFailed'), key: 'copy' });
     }
@@ -37,7 +37,7 @@ function CopyInput(props: InputProps) {
 
   return (
     <>
-      { contextHolder }
+      {contextHolder}
       <Search
         {...props}
         placeholder={t('public.inputPleaseEnter')}

@@ -15,8 +15,5 @@ interface Result {
  * @param data - 请求数据
  */
 export function getGames(data?: unknown) {
-  return request.get<Result[]>(
-    `${API.COMMON_URL}/games`,
-    { params: data }
-  );
+  return request.get<Result[]>(`${API.COMMON_URL}/games`, { params: data });
 }

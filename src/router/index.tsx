@@ -41,7 +41,7 @@ function Page() {
       <ConfigProvider
         locale={currentLanguage === 'en' ? enUS : zhCN}
         theme={{
-          algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm]
+          algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm],
         }}
       >
         <App>

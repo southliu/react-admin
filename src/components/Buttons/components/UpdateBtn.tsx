@@ -16,12 +16,12 @@ function UpdateBtn(props: Props) {
 
   return (
     <Button
-      type='primary'
+      type="primary"
       {...params}
       className={`${className} small-btn`}
       loading={!!isLoading || loading}
     >
-      { t('public.edit') }
+      {t('public.edit')}
     </Button>
   );
 }

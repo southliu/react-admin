@@ -1,4 +1,4 @@
-import { Spin } from "antd";
+import { Spin } from 'antd';
 
 function Loading() {
   return (

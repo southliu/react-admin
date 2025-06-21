@@ -16,9 +16,11 @@ function Count(props: Props) {
     const count = end - start;
     const time = 2 * 60;
     const add = Math.floor(count / time) || 1;
-    setTimer(setInterval(() => {
-      setNum(num => num + add);
-    }));
+    setTimer(
+      setInterval(() => {
+        setNum((num) => num + add);
+      }),
+    );
   }, [end, start]);
 
   useEffect(() => {
@@ -42,7 +44,10 @@ function Count(props: Props) {
   }, [timer]);
 
   return (
-    <span>{ prefix }{ amountFormatter(num) }</span>
+    <span>
+      {prefix}
+      {amountFormatter(num)}
+    </span>
   );
 }
 

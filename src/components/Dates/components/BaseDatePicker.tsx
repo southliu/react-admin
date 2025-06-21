@@ -4,16 +4,12 @@ import { string2Dayjs } from '../utils/helper';
 
 function BaseDatePicker(props: DatePickerProps) {
   const { value } = props;
-  const params = {...props};
+  const params = { ...props };
 
   // 如果值不是dayjs类型则进行转换
   if (value) params.value = string2Dayjs(value);
 
-  return (
-    <DatePicker
-      {...params}
-    />
-  );
+  return <DatePicker {...params} />;
 }
 
 export default BaseDatePicker;

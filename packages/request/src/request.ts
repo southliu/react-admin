@@ -3,13 +3,9 @@ import type {
   AxiosResponse,
   AxiosInstance,
   InternalAxiosRequestConfig,
-  AxiosRequestConfig
+  AxiosRequestConfig,
 } from 'axios';
-import type {
-  RequestInterceptors,
-  CreateRequestConfig,
-  ServerResult
-} from './types';
+import type { RequestInterceptors, CreateRequestConfig, ServerResult } from './types';
 
 class AxiosRequest {
   // axios 实例
@@ -46,7 +42,7 @@ class AxiosRequest {
           for (const key in obj) {
             url += `#${key}=${obj[key]}`;
           }
-        } 
+        }
 
         // 如果存在则删除该请求
         if (this.abortControllerMap.get(url)) {
@@ -55,7 +51,7 @@ class AxiosRequest {
         } else {
           this.abortControllerMap.set(url, controller);
         }
-        
+
         return res;
       },
       (err: object) => err,
@@ -102,7 +98,7 @@ class AxiosRequest {
     }
   }
   /**
-   * get请求  
+   * get请求
    * @param url - 链接
    * @param options - 参数
    */

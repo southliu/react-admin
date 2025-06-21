@@ -29,7 +29,7 @@ function TabOptions(props: Props) {
       trigger={['click']}
       menu={{
         items: items(),
-        onClick: e => onClick(e.key)
+        onClick: (e) => onClick(e.key),
       }}
       onOpenChange={onOpenChange}
     >

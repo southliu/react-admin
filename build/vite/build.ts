@@ -26,8 +26,8 @@ export function buildOptions(): BuildOptions {
           if (id.includes('node_modules')) {
             return splitJSModules(id);
           }
-        }
-      }
-    }
+        },
+      },
+    },
   };
 }

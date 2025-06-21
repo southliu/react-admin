@@ -10,11 +10,7 @@ import Loading from './components/Loading';
  * @description: 根据API获取数据下拉组件
  */
 function ApiPageSelect(props: ApiPageSelectProps) {
-  const {
-    pageKey = 'page',
-    pageSizeKey = 'pageSize',
-    pageSize = 20,
-  } = props;
+  const { pageKey = 'page', pageSizeKey = 'pageSize', pageSize = 20 } = props;
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState(false);
   const [options, setOptions] = useState<DefaultOptionType[]>([]);
@@ -43,7 +39,9 @@ function ApiPageSelect(props: ApiPageSelectProps) {
         const apiFun = Array.isArray(params) ? api(...params) : api(params);
         const { code, data } = await apiFun;
         if (Number(code) !== 200) return;
-        const result = apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data;
+        const result = apiResultKey
+          ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey]
+          : data;
         setOptions(result as DefaultOptionType[]);
       }
     } finally {
@@ -56,7 +54,7 @@ function ApiPageSelect(props: ApiPageSelectProps) {
     if (props.value && options.length === 0) {
       getApiData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.value]);
 
   /**

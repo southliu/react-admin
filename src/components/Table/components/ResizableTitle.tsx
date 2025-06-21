@@ -5,8 +5,8 @@ import { Resizable } from 'react-resizable';
 /** 自定义拖拽  */
 function ResizableTitle(
   props: React.HTMLAttributes<unknown> & {
-    onResize: (e: React.SyntheticEvent<Element>, data: ResizeCallbackData) => void
-    width: number
+    onResize: (e: React.SyntheticEvent<Element>, data: ResizeCallbackData) => void;
+    width: number;
   },
 ) {
   const { onResize, width, ...restProps } = props;
@@ -22,7 +22,7 @@ function ResizableTitle(
       handle={
         <span
           className="react-resizable-handle"
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation();
           }}
         />

@@ -13,7 +13,7 @@ export const defaultMenus: SideMenu[] = [
     labelEn: 'Dashboard',
     icon: 'la:tachometer-alt',
     key: '/dashboard',
-    rule: '/dashboard'
+    rule: '/dashboard',
   },
-  ...demo as SideMenu[],
+  ...(demo as SideMenu[]),
 ];

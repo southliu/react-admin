@@ -3,7 +3,7 @@ import type { DataNode } from 'antd/es/tree';
 import { request } from '@/utils/request';
 
 enum API {
-  URL = '/authority/menu'
+  URL = '/authority/menu',
 }
 
 /**
@@ -11,10 +11,7 @@ enum API {
  * @param data - 请求数据
  */
 export function getMenuPage(data: Partial<BaseFormData> & PaginationData) {
-  return request.get<PageServerResult<BaseFormData[]>>(
-    `${API.URL}/page`,
-    { params: data }
-  );
+  return request.get<PageServerResult<BaseFormData[]>>(`${API.URL}/page`, { params: data });
 }
 
 /**

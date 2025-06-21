@@ -4,9 +4,4 @@ import BaseTimePicker from './components/BaseTimePicker';
 import BaseTimeRangePicker from './components/BaseTimeRangePicker';
 
 export * from './utils/helper';
-export {
-  BaseDatePicker,
-  BaseRangePicker,
-  BaseTimePicker,
-  BaseTimeRangePicker,
-};
+export { BaseDatePicker, BaseRangePicker, BaseTimePicker, BaseTimeRangePicker };

@@ -11,21 +11,16 @@ function BaseContent(props: Props) {
 
   return (
     <>
-      {
-        isPermission !== false &&
-        <div
-          id="content"
-          className="p-10px"
-        >
-            { children }
+      {isPermission !== false && (
+        <div id="content" className="p-10px">
+          {children}
         </div>
-      }
-      {
-        isPermission === false &&
+      )}
+      {isPermission === false && (
         <div className="h-full p-10px box-border overflow-auto">
           <Forbidden />
         </div>
-      }
+      )}
     </>
   );
 }

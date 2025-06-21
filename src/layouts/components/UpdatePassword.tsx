@@ -25,14 +25,11 @@ function UpdatePassword(props: Props) {
   const [isLoading, setLoading] = useState(false);
 
   // 抛出外部方法
-  useImperativeHandle(
-    passwordRef,
-    () => ({
-      open: () => {
-        setOpen(true);
-      }
-    })
-  );
+  useImperativeHandle(passwordRef, () => ({
+    open: () => {
+      setOpen(true);
+    },
+  }));
 
   /** 点击模态框确定 */
   const onOk = () => {
@@ -49,12 +46,12 @@ function UpdatePassword(props: Props) {
    * 提交表单
    * @param values - 表单值
    */
-  const onFinish: FormProps['onFinish'] = async values => {
+  const onFinish: FormProps['onFinish'] = async (values) => {
     // 当密码和确认密码不同时则提示错误
     if (values.newPassword !== values.confirmPassword) {
       return messageApi.warning({
         content: t('login.confirmPasswordMessage'),
-        key: 'confirmPassword'
+        key: 'confirmPassword',
       });
     }
     try {
@@ -71,7 +68,7 @@ function UpdatePassword(props: Props) {
 
   return (
     <>
-      { contextHolder }
+      {contextHolder}
       <BaseModal
         title={t('public.changePassword')}
         open={isOpen}
@@ -93,7 +90,7 @@ function UpdatePassword(props: Props) {
             name="oldPassword"
             rules={[
               { required: true, message: t('public.pleaseEnter', { name: t('login.password') }) },
-              PASSWORD_RULE(t)
+              PASSWORD_RULE(t),
             ]}
           >
             <PasswordStrength />
@@ -103,7 +100,7 @@ function UpdatePassword(props: Props) {
             name="newPassword"
             rules={[
               { required: true, message: t('public.pleaseEnter', { name: t('login.password') }) },
-              PASSWORD_RULE(t)
+              PASSWORD_RULE(t),
             ]}
           >
             <PasswordStrength />
@@ -113,8 +110,11 @@ function UpdatePassword(props: Props) {
             label={t('login.confirmPassword')}
             name="confirmPassword"
             rules={[
-              { required: true, message: t('public.pleaseEnter', { name: t('login.confirmPassword') })},
-              PASSWORD_RULE(t)
+              {
+                required: true,
+                message: t('public.pleaseEnter', { name: t('login.confirmPassword') }),
+              },
+              PASSWORD_RULE(t),
             ]}
           >
             <PasswordStrength />

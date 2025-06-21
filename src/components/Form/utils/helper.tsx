@@ -28,7 +28,7 @@ export function handleValuePropName(component: ComponentType): string {
 export function initCompProps(
   t: TFunction,
   component: ComponentType,
-  onPressEnter: () => void
+  onPressEnter: () => void,
 ): ComponentProps {
   switch (component) {
     // 下拉框
@@ -36,7 +36,7 @@ export function initCompProps(
       return {
         allowClear: true,
         showSearch: true,
-        placeholder: t('public.inputPleaseSelect')
+        placeholder: t('public.inputPleaseSelect'),
       };
 
     // 树形下拉框
@@ -44,14 +44,14 @@ export function initCompProps(
       return {
         allowClear: true,
         showSearch: true,
-        placeholder: t('public.inputPleaseSelect')
+        placeholder: t('public.inputPleaseSelect'),
       };
 
     // 数字框
     case 'InputNumber':
       return {
         placeholder: t('public.inputPleaseEnter'),
-        onPressEnter
+        onPressEnter,
       };
 
     // 勾选框
@@ -136,9 +136,9 @@ export const filterFormItem = (data: BaseFormList): FormItemProps => {
 export const filterEmptyStr = (values: Record<string, unknown>) => {
   const params: Record<string, unknown> = {};
 
-  Object.keys(values).forEach(key => {
+  Object.keys(values).forEach((key) => {
     // 去除前后空格
-    if(typeof values[key] === 'string') {
+    if (typeof values[key] === 'string') {
       values[key] = values[key]?.trim();
     }
 

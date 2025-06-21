@@ -16,14 +16,14 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': '/src',
-        '#': '/types'
-      }
+        '#': '/types',
+      },
     },
     css: {
       preprocessorOptions: {
         less: {
           javascriptEnabled: true,
-          charset: false
+          charset: false,
         },
       },
     },
@@ -31,8 +31,8 @@ export default defineConfig(({ mode }) => {
       open: true,
       port: VITE_SERVER_PORT,
       // 跨域处理
-      proxy: createProxy(VITE_PROXY)
+      proxy: createProxy(VITE_PROXY),
     },
-    build: buildOptions()
+    build: buildOptions(),
   };
 });

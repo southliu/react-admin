@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { useToken } from "@/hooks/useToken";
-import { useLocation, useNavigate, useOutlet } from "react-router-dom";
+import { useEffect } from 'react';
+import { useToken } from '@/hooks/useToken';
+import { useLocation, useNavigate, useOutlet } from 'react-router-dom';
 import nprogress from 'nprogress';
-import Layout from "@/layouts";
+import Layout from '@/layouts';
 
 function Guards() {
   const [getToken] = useToken();
@@ -27,7 +27,8 @@ function Guards() {
   useEffect(() => {
     // 无权限退出
     if (location.pathname !== '/login' && !token) {
-      const param = location.pathname?.length > 1 ? `?redirect=${location.pathname}${location.search}` : '';
+      const param =
+        location.pathname?.length > 1 ? `?redirect=${location.pathname}${location.search}` : '';
       navigate(`/login${param}`);
     }
   }, [location, navigate, token]);
@@ -35,15 +36,13 @@ function Guards() {
   /** 渲染页面 */
   const renderPage = () => {
     if (token && location.pathname === '/login') {
-      return <div>{ outlet }</div>;
+      return <div>{outlet}</div>;
     }
 
     return <Layout />;
   };
 
-  return (
-    <>{ renderPage() }</>
-  );
+  return <>{renderPage()}</>;
 }
 
 export default Guards;

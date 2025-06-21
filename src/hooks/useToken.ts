@@ -1,8 +1,4 @@
-import {
-  setLocalInfo,
-  getLocalInfo,
-  removeLocalInfo,
-} from '@south/utils';
+import { setLocalInfo, getLocalInfo, removeLocalInfo } from '@south/utils';
 import { TOKEN } from '@/utils/config';
 
 /**
@@ -23,7 +19,7 @@ export function useToken() {
   };
 
   /** 删除token */
-   const removeToken = () => {
+  const removeToken = () => {
     removeLocalInfo(TOKEN);
   };
 

@@ -1,13 +1,15 @@
-import type { TabsData } from "@/stores/tabs";
-import type { MessageInstance } from "antd/es/message/interface";
-import { LANG, VERSION } from "@/utils/config";
-import axios from "axios";
+import type { TabsData } from '@/stores/tabs';
+import type { MessageInstance } from 'antd/es/message/interface';
+import { LANG, VERSION } from '@/utils/config';
+import axios from 'axios';
 
 /** 版本监控 */
 export const versionCheck = async (messageApi: MessageInstance) => {
   if (import.meta.env.MODE === 'development') return;
   const versionLocal = localStorage.getItem(VERSION);
-  const { data: { version } } = await axios.get('version.json');
+  const {
+    data: { version },
+  } = await axios.get('version.json');
 
   // 首次进入则缓存本地数据
   if (version && !versionLocal) {
@@ -25,7 +27,7 @@ export const versionCheck = async (messageApi: MessageInstance) => {
           timer = null;
           window.location.reload();
         }, 60000);
-      }
+      },
     });
   }
 };

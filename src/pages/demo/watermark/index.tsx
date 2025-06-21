@@ -19,7 +19,7 @@ function Watermark() {
       rotate: -20,
       color: '#000',
       fontSize: 30,
-      opacity: .07
+      opacity: 0.07,
     });
   };
 
@@ -30,11 +30,9 @@ function Watermark() {
   return (
     <BaseContent isPermission={isPermission}>
       <div className="p-30px bg">
-        <Button onClick={openWatermark}>
-          { t('content.openWatermark') }
-        </Button>
+        <Button onClick={openWatermark}>{t('content.openWatermark')}</Button>
         <Button danger onClick={hidWatermark}>
-          { t('content.hideWatermark') }
+          {t('content.hideWatermark')}
         </Button>
       </div>
     </BaseContent>

@@ -18,8 +18,8 @@ function SearchResult(props: Props) {
   const { list, active, onCancel, changActive } = props;
   const { t, i18n } = useTranslation();
   const { permissions, menuList } = useCommonStore();
-  const { addTabs, setActiveKey } = useTabsStore(state => state);
-  const setOpenKeys = useMenuStore(state => state.setOpenKeys);
+  const { addTabs, setActiveKey } = useTabsStore((state) => state);
+  const setOpenKeys = useMenuStore((state) => state.setOpenKeys);
   const navigate = useNavigate();
   // 获取当前语言
   const currentLanguage = i18n.language;
@@ -52,25 +52,15 @@ function SearchResult(props: Props) {
 
   return (
     <>
-      {
-        !list?.length &&
-        <div
-          className="flex flex-col items-center pt-5 text-warm-gray-400"
-        >
-          <Icon
-            className="text-40px"
-            icon="mdi:archive-cancel-outline"
-          />
-          <span className="mt-1">
-            { t('public.notSearchContent') }
-          </span>
+      {!list?.length && (
+        <div className="flex flex-col items-center pt-5 text-warm-gray-400">
+          <Icon className="text-40px" icon="mdi:archive-cancel-outline" />
+          <span className="mt-1">{t('public.notSearchContent')}</span>
         </div>
-      }
-      {
-        list?.length > 0 &&
+      )}
+      {list?.length > 0 && (
         <div className="mt-5">
-          {
-            list?.map(item => (
+          {list?.map((item) => (
             <div
               key={item.key}
               className={`
@@ -90,30 +80,23 @@ function SearchResult(props: Props) {
               onClick={() => onClick(item.key)}
               onMouseEnter={() => onMouseEnter(item.key)}
             >
-            <div className="flex items-center">
-              <Icon className="text-lg mr-1" icon="gg:menu-boxed" />
-                {
-                  item.nav && item.nav?.length > 0 &&
+              <div className="flex items-center">
+                <Icon className="text-lg mr-1" icon="gg:menu-boxed" />
+                {item.nav &&
+                  item.nav?.length > 0 &&
                   item.nav.map((item, index) => (
                     <Fragment key={item}>
-                      {
-                        index > 0 &&
-                        <span className='mx-5px'>&gt;</span>
-                      }
-                      <span>{ item }</span>
+                      {index > 0 && <span className="mx-5px">&gt;</span>}
+                      <span>{item}</span>
                     </Fragment>
-                  ))
-                }
-                {
-                  !item.nav &&
-                  <span>{ currentLanguage === 'en' ? item.labelEn : item.label }</span>
-                }
+                  ))}
+                {!item.nav && <span>{currentLanguage === 'en' ? item.labelEn : item.label}</span>}
               </div>
               <Icon className="icon text-20px p-2px mr-5px" icon="ant-design:enter-outlined" />
             </div>
-          )) }
+          ))}
         </div>
-      }
+      )}
     </>
   );
 }

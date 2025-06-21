@@ -17,5 +17,5 @@ export const ScrollContext = createContext<ScrollContextProps>({
   start: 0,
   offsetStart: 0,
   rowHeight: 46,
-  totalLen: 0
+  totalLen: 0,
 });

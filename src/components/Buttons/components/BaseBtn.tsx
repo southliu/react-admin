@@ -16,12 +16,12 @@ function BaseBtn(props: Props) {
 
   return (
     <Button
-      type='primary'
+      type="primary"
       {...params}
       className={`${className} small-btn`}
       loading={!!isLoading || loading}
     >
-      { children }
+      {children}
     </Button>
   );
 }

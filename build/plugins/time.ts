@@ -12,11 +12,11 @@ export const timePlugin = (): PluginOption => {
       console.time('打包时间');
     },
     buildEnd: () => {
-        // console.timeEnd('\n模块转义完成时间')
+      // console.timeEnd('\n模块转义完成时间')
     },
     // 在服务器关闭时被调用
     closeBundle: () => {
-        console.timeEnd('打包时间');
-    }
+      console.timeEnd('打包时间');
+    },
   };
 };

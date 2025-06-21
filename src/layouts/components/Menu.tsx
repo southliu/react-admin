@@ -12,7 +12,7 @@ import {
   getFirstMenu,
   getOpenMenuByRouter,
   handleFilterMenus,
-  splitPath
+  splitPath,
 } from '@/menus/utils/helper';
 import styles from '../index.module.less';
 import Logo from '@/assets/images/logo.svg';
@@ -25,18 +25,13 @@ function LayoutMenu() {
   // 获取当前语言
   const currentLanguage = i18n.language;
 
-  const {
-    isMaximize,
-    isCollapsed,
-    isPhone,
-    openKeys,
-    selectedKeys,
-    permissions,
-    menuList
-  } = useCommonStore();
-  const { toggleCollapsed } = useMenuStore(state => state);
+  const { isMaximize, isCollapsed, isPhone, openKeys, selectedKeys, permissions, menuList } =
+    useCommonStore();
+  const { toggleCollapsed } = useMenuStore((state) => state);
   const [currentOpenKeys, setCurrentOpenKeys] = useState(openKeys || []);
-  const [currentSelectedKeys, setCurrentSelectedKeys] = useState(selectedKeys ? [selectedKeys] : []);
+  const [currentSelectedKeys, setCurrentSelectedKeys] = useState(
+    selectedKeys ? [selectedKeys] : [],
+  );
 
   // 处理默认展开
   useEffect(() => {
@@ -52,9 +47,7 @@ function LayoutMenu() {
   const filterMenuIcon = useCallback((menus: SideMenu[]) => {
     for (let i = 0; i < menus.length; i++) {
       if (menus[i]?.icon) {
-        menus[i].icon = (
-          <Icon icon={menus[i].icon as string} />
-        );
+        menus[i].icon = <Icon icon={menus[i].icon as string} />;
       }
 
       if (menus[i]?.children?.length) {
@@ -84,7 +77,7 @@ function LayoutMenu() {
    * 点击菜单
    * @param e - 菜单事件
    */
-  const onClickMenu: MenuProps['onClick'] = e => {
+  const onClickMenu: MenuProps['onClick'] = (e) => {
     // 如果点击的菜单是当前菜单则退出
     if (e.key === pathname) return;
 
@@ -151,10 +144,11 @@ function LayoutMenu() {
     toggleCollapsed(true);
   };
 
-  return useMemo(() => (
-    <>
-      <div
-        className={`
+  return useMemo(
+    () => (
+      <>
+        <div
+          className={`
           transition-all
           overflow-auto
           z-2
@@ -163,9 +157,9 @@ function LayoutMenu() {
           ${isMaximize || (isPhone && isCollapsed) ? styles['menu-none'] : ''}
           ${isPhone ? '!z-1002' : ''}
         `}
-      >
-        <div
-          className={`
+        >
+          <div
+            className={`
             text-white
             flex
             content-center
@@ -174,47 +168,42 @@ function LayoutMenu() {
             cursor-pointer
             ${isCollapsed ? 'justify-center' : ''}
           `}
-          onClick={onClickLogo}
-        >
-          <img
-            src={Logo}
-            width={30}
-            height={30}
-            className="object-contain"
-            alt="logo"
-          />
+            onClick={onClickLogo}
+          >
+            <img src={Logo} width={30} height={30} className="object-contain" alt="logo" />
 
-          <span className={`
+            <span
+              className={`
             text-white
             ml-3
             text-xl
             font-bold
             truncate
             ${isCollapsed ? 'hidden' : ''}
-          `}>
-            { t('public.currentName') }
-          </span>
+          `}
+            >
+              {t('public.currentName')}
+            </span>
+          </div>
+
+          <Menu
+            id="layout-menu"
+            className="z-1000"
+            selectedKeys={currentSelectedKeys}
+            openKeys={currentOpenKeys}
+            mode="inline"
+            theme="dark"
+            forceSubMenuRender
+            inlineCollapsed={isPhone ? false : isCollapsed}
+            items={handleFilterMenus(menus)}
+            onClick={onClickMenu}
+            onOpenChange={onOpenChange}
+          />
         </div>
 
-        <Menu
-          id="layout-menu"
-          className="z-1000"
-          selectedKeys={currentSelectedKeys}
-          openKeys={currentOpenKeys}
-          mode="inline"
-          theme="dark"
-          forceSubMenuRender
-          inlineCollapsed={isPhone ? false : isCollapsed}
-          items={handleFilterMenus(menus)}
-          onClick={onClickMenu}
-          onOpenChange={onOpenChange}
-        />
-      </div>
-
-      {
-        isPhone && !isCollapsed &&
-        <div
-          className={`
+        {isPhone && !isCollapsed && (
+          <div
+            className={`
             ${styles.cover}
             fixed
             w-full
@@ -223,19 +212,14 @@ function LayoutMenu() {
             bg-opacity-10
             z-1001
           `}
-          onClick={hiddenMenu}
-        />
-      }
-    </>
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  ), [
-    currentOpenKeys,
-    currentSelectedKeys,
-    isCollapsed,
-    isMaximize,
-    isPhone,
-    menus,
-  ]);
+            onClick={hiddenMenu}
+          />
+        )}
+      </>
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    ),
+    [currentOpenKeys, currentSelectedKeys, isCollapsed, isMaximize, isPhone, menus],
+  );
 }
 
 export default LayoutMenu;

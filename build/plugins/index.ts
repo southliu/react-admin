@@ -26,9 +26,9 @@ export function createVitePlugins() {
       gzipSize: true,
       brotliSize: true,
     }),
-    // 兼容低版本
-    legacy({
-      targets: [
+      // 兼容低版本
+      legacy({
+        targets: [
           'Android > 39',
           'Chrome >= 60',
           'Safari >= 10.1',
@@ -37,11 +37,11 @@ export function createVitePlugins() {
           'Edge >= 15',
         ],
         additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
-    }),
-    // 打包时间
-    timePlugin(),
-    // 压缩包
-    vitePlugins.push(viteCompression());
+      }),
+      // 打包时间
+      timePlugin(),
+      // 压缩包
+      vitePlugins.push(viteCompression());
   }
 
   return vitePlugins;
