@@ -77,7 +77,7 @@ function Theme() {
 
   return (
     <Tooltip title={t('public.themes')}>
-      <div className={'flex items-center justify-center text-lg mr-4 cursor-pointer'}>
+      <div className={'flex items-center justify-center text-17px mr-4 cursor-pointer'}>
         <div
           style={{ display: theme === 'light' ? 'block' : 'none' }}
           onClick={(e) => onChange(e, 'dark')}
