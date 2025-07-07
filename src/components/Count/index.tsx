@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { amountFormatter } from '@/utils/helper';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -10,38 +10,43 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 function Count(props: Props) {
   const { prefix, start, end } = props;
   const [num, setNum] = useState(start);
-  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    // 清除之前的定时器
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+
+    // 设置新的定时器
     const count = end - start;
     const time = 2 * 60;
     const add = Math.floor(count / time) || 1;
-    setTimer(
-      setInterval(() => {
-        setNum((num) => num + add);
-      }),
-    );
-  }, [end, start]);
 
-  useEffect(() => {
-    if (num >= end) {
-      if (timer) {
-        clearInterval(timer as NodeJS.Timeout);
-        setTimer(null);
-      }
+    timerRef.current = setInterval(() => {
+      setNum((prevNum) => {
+        const nextNum = prevNum + add;
+        // 如果达到或超过目标值，清除定时器并设置为最终值
+        if (nextNum >= end) {
+          if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+          }
+          return end;
+        }
+        return nextNum;
+      });
+    });
 
-      setNum(end);
-    }
-  }, [end, num, timer]);
-
-  useEffect(() => {
+    // 组件卸载时清除定时器
     return () => {
-      if (timer) {
-        clearInterval(timer as NodeJS.Timeout);
-        setTimer(null);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
       }
     };
-  }, [timer]);
+  }, [end, start]);
 
   return (
     <span>
