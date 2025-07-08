@@ -22,9 +22,9 @@ function LayoutTabs() {
   const uri = pathname + search;
   const { refresh, dropScope } = useAliveController();
   const [messageApi, contextHolder] = message.useMessage();
-  const [time, setTime] = useState<null | NodeJS.Timeout>(null);
   const [isChangeLang, setChangeLang] = useState(false); // 是否切换语言
   const [refreshTime, seRefreshTime] = useState<null | NodeJS.Timeout>(null);
+  const timer = useRef<null | NodeJS.Timeout>(null);
   const setRefresh = usePublicStore((state) => state.setRefresh);
   const {
     tabs,
@@ -68,8 +68,8 @@ function LayoutTabs() {
           setActiveKey(path);
         }
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [permissions, menuList],
   );
 
@@ -95,9 +95,9 @@ function LayoutTabs() {
     handleSetTitle();
 
     return () => {
-      if (time) {
-        clearTimeout(time);
-        setTime(null);
+      if (timer.current) {
+        clearTimeout(timer.current);
+        timer.current = null;
       }
 
       if (refreshTime) {
@@ -195,20 +195,18 @@ function LayoutTabs() {
       if (typeof key !== 'string') return;
 
       // 定时器没有执行时运行
-      if (!time) {
+      if (!timer.current) {
         setRefresh(true);
         refresh(key);
 
-        setTime(
-          setTimeout(() => {
-            messageApi.success({
-              content: t('public.refreshSuccessfully'),
-              key: 'refresh',
-            });
-            setRefresh(false);
-            setTime(null);
-          }, 100),
-        );
+        timer.current = setTimeout(() => {
+          messageApi.success({
+            content: t('public.refreshSuccessfully'),
+            key: 'refresh',
+          });
+          setRefresh(false);
+          timer.current = null;
+        }, 100);
 
         seRefreshTime(
           setTimeout(() => {
@@ -216,9 +214,9 @@ function LayoutTabs() {
           }, 1000),
         );
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [activeKey, time],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [activeKey, timer],
   );
 
   // 渲染重新加载
