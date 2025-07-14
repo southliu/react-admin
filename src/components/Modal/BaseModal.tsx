@@ -47,7 +47,7 @@ function BaseModal(props: Props) {
     setCacheBounds(data);
   };
 
-  /** 鼠标拖拽结束 */
+  /** 鼠标拖拽移动 */
   const onMouseOver = () => {
     if (isDisabled) {
       setDisabled(false);
@@ -62,11 +62,12 @@ function BaseModal(props: Props) {
   /** 点击关闭 */
   const handleCancel: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
+    e.preventDefault();
     onCancel?.();
   };
 
   /** 自定义关闭和放大图标 */
-  const CloseRender = () => (
+  const CloseRender = (
     <div className="flex items-center justify-end absolute right-15px">
       <Tooltip
         className="hover:text-#404040"
@@ -94,14 +95,15 @@ function BaseModal(props: Props) {
 
   /** 自定义标题 */
   const titleRender = (
-    <div
-      className="modal-custom-title"
-      onMouseOver={onMouseOver}
-      onMouseOut={() => setDisabled(true)}
-    >
-      <span className="cursor-text">{props.title || ''}</span>
-
-      {CloseRender()}
+    <div className="flex items-center">
+      <div
+        className="modal-custom-title"
+        onMouseOver={onMouseOver}
+        onMouseOut={() => setDisabled(true)}
+      >
+        <span className="cursor-text">{props.title || ''}</span>
+      </div>
+      {CloseRender}
     </div>
   );
 
@@ -120,7 +122,7 @@ function BaseModal(props: Props) {
 
   return (
     <Modal
-      destroyOnClose
+      destroyOnHidden
       closable={false}
       maskClosable={false}
       modalRender={!isPhone ? modalRender : undefined}
