@@ -74,8 +74,8 @@ export function useSingleTab(props: Props) {
       setActiveKey(newTab.key);
       setNav(newTab.nav);
       addTabs(newTab);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [pathname, search],
   );
 

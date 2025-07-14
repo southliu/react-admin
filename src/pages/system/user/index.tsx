@@ -335,7 +335,8 @@ function Page() {
           ref={createFormRef}
           list={createList(t)}
           data={createData}
-          labelCol={{ span: 6 }}
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 17 }}
           handleFinish={handleCreate}
         />
       </BaseModal>

@@ -216,8 +216,8 @@ function LayoutMenu() {
           />
         )}
       </>
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentOpenKeys, currentSelectedKeys, isCollapsed, isMaximize, isPhone, menus],
   );
 }

@@ -115,8 +115,8 @@ function Header() {
             </div>
           </Dropdown>
         </div>
-        // eslint-disable-next-line react-hooks/exhaustive-deps
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [username],
     );
   };
