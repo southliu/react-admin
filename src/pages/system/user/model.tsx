@@ -1,5 +1,6 @@
 import type { TFunction } from 'i18next';
 import { OPEN_CLOSE } from '@/utils/constants';
+import { getUserPageSelect } from '@/servers/system/user';
 
 const otherSearch: BaseSearchList[] = [];
 
@@ -16,6 +17,21 @@ for (let i = 0; i < 32; i++) {
 
 // 搜索数据
 export const searchList = (t: TFunction): BaseSearchList[] => [
+  {
+    label: t('login.username'),
+    name: 'username',
+    wrapperWidth: 200,
+    component: 'ApiPageSelect',
+    componentProps: {
+      api: getUserPageSelect as ApiFn,
+      params: [
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      ],
+    },
+  },
   {
     label: t('system.age'),
     name: 'age',

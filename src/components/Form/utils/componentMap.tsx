@@ -20,7 +20,13 @@ import {
   BaseTimePicker,
   BaseTimeRangePicker,
 } from '@/components/Dates';
-import { BaseSelect, BaseTreeSelect, ApiSelect, ApiTreeSelect } from '@/components/Selects';
+import {
+  BaseSelect,
+  BaseTreeSelect,
+  ApiSelect,
+  ApiTreeSelect,
+  ApiPageSelect,
+} from '@/components/Selects';
 import BaseTransfer from '@/components/Transfer/BaseTransfer';
 import PasswordStrength from '@/components/PasswordStrength';
 
@@ -48,6 +54,7 @@ componentMap.set('TimePicker', BaseTimePicker);
 componentMap.set('TimeRangePicker', BaseTimeRangePicker);
 componentMap.set('ApiSelect', ApiSelect);
 componentMap.set('ApiTreeSelect', ApiTreeSelect);
+componentMap.set('ApiPageSelect', ApiPageSelect);
 componentMap.set('PasswordStrength', PasswordStrength);
 
 // 业务组件注入

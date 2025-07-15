@@ -53,10 +53,10 @@ function ApiTreeSelect(props: ApiTreeSelectProps) {
    * 展开下拉回调
    * @param open - 是否展开
    */
-  const onDropdownVisibleChange = (open: boolean) => {
+  const onOpenChange = (open: boolean) => {
     if (open) getApiData();
 
-    props.onDropdownVisibleChange?.(open);
+    props.onOpenChange?.(open);
   };
 
   return (
@@ -70,7 +70,7 @@ function ApiTreeSelect(props: ApiTreeSelectProps) {
       loading={isLoading}
       treeData={options}
       notFoundContent={isLoading && <Loading />}
-      onDropdownVisibleChange={onDropdownVisibleChange}
+      onOpenChange={onOpenChange}
     />
   );
 }

@@ -52,3 +52,11 @@ export function deleteUser(id: string) {
 export function batchDeleteUser(data: BaseFormData) {
   return request.post(`${API.URL}/batchDelete`, data);
 }
+
+/**
+ * 获取分页下拉框数据
+ * @param data - 请求数据
+ */
+export function getUserPageSelect(data: { page: number; pageSize: number; query: string }) {
+  return request.get(`${API.URL}/pageList`, { params: data });
+}

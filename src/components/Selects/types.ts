@@ -12,8 +12,10 @@ interface ApiParam {
 
 // 带分页的api参数
 interface ApiPageParam extends Omit<ApiParam, 'params'> {
-  pageSizeKey?: string;
   pageKey?: string;
+  pageSizeKey?: string;
+  queryKey?: string;
+  page?: number;
   pageSize?: number;
   params?: object & {
     [key: string]: number;

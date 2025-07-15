@@ -14,6 +14,11 @@ import type {
   TransferProps,
   FormItemProps,
 } from 'antd';
+import type {
+  ApiSelectProps,
+  ApiTreeSelectProps,
+  ApiPageSelectProps,
+} from '@/components/Selects/types';
 import type { Key, ReactNode } from 'react';
 import type { RangePickerProps } from 'antd/lib/date-picker';
 import type { DefaultOptionType } from 'antd/lib/select';
@@ -35,7 +40,7 @@ type DefaultDataComponents =
   | 'customize';
 
 // 下拉组件
-type SelectComponents = 'Select' | 'TreeSelect' | 'ApiSelect' | 'ApiTreeSelect';
+type SelectComponents = 'Select' | 'TreeSelect' | 'ApiSelect' | 'ApiTreeSelect' | 'ApiPageSelect';
 
 // 复选框组件
 type CheckboxComponents = 'Checkbox' | 'CheckboxGroup';
@@ -94,19 +99,6 @@ export type ApiFn = {
   <T extends unknown[]>(...params: T): Promise<ServerResult<unknown>>;
 };
 
-// api参数
-interface ApiParam {
-  api?: ApiFn;
-  params?: object | unknown[];
-  apiResultKey?: string;
-}
-
-// ApiSelect
-export type ApiSelectProps = ApiParam & SelectProps;
-
-// ApiTreeSelect
-export type ApiTreeSelectProps = ApiParam & TreeSelectProps;
-
 // 组件参数
 export type ComponentProps =
   | InputProps
@@ -125,6 +117,7 @@ export type ComponentProps =
   | RangePickerProps
   | ApiSelectProps
   | ApiTreeSelectProps
+  | ApiPageSelectProps
   | EditorProps;
 
 // 组件参数
@@ -144,6 +137,7 @@ export type RenderComponentProps = InputProps &
   RangePickerProps &
   ApiSelectProps &
   ApiTreeSelectProps &
+  ApiPageSelectProps &
   EditorProps;
 
 // 表单规则

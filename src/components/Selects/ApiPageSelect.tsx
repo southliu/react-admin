@@ -1,19 +1,30 @@
 import type { ApiPageSelectProps } from './types';
-import type { DefaultOptionType } from 'antd/es/select';
-import { Select } from 'antd';
+import type { DefaultOptionType, SelectProps } from 'antd/es/select';
+import { debounce } from 'lodash';
+import { Select, Spin } from 'antd';
+import { MAX_TAG_COUNT } from './index';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useCallback } from 'react';
-import { MAX_TAG_COUNT } from './index';
 import Loading from './components/Loading';
 
 /**
- * @description: 根据API获取数据下拉组件
+ * @description: 根据API获取分页数据下拉组件
  */
 function ApiPageSelect(props: ApiPageSelectProps) {
-  const { pageKey = 'page', pageSizeKey = 'pageSize', pageSize = 20 } = props;
+  const {
+    pageKey = 'page',
+    pageSizeKey = 'pageSize',
+    queryKey = 'query',
+    page = 1,
+    pageSize = 20,
+  } = props;
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(page);
+  const [hasMore, setMore] = useState(true);
   const [options, setOptions] = useState<DefaultOptionType[]>([]);
+  const [isFetch, setFetch] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
   // 清除自定义属性
   const params: Partial<ApiPageSelectProps> = { ...props };
@@ -23,31 +34,55 @@ function ApiPageSelect(props: ApiPageSelectProps) {
   delete params.pageKey;
   delete params.pageSizeKey;
 
+  useEffect(() => {
+    if (isFetch) {
+      setFetch(false);
+      getApiData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetch]);
+
   /** 获取接口数据 */
   const getApiData = useCallback(async () => {
-    if (!props.api) return;
+    if (!props.api || !hasMore) return;
     try {
       const { api, params, apiResultKey } = props;
 
-      if (typeof params === 'object' && !Array.isArray(params)) {
-        params[pageKey] = 1;
-        params[pageSizeKey] = pageSize;
+      const apiPageFun = {
+        [pageKey]: currentPage,
+        [pageSizeKey]: pageSize,
+        [queryKey]: searchValue || undefined,
+      };
+
+      if (Array.isArray(params)) {
+        for (let i = 0; i < params?.length; i++) {
+          const item = params[i];
+
+          if (item.constructor === Object) {
+            params[i] = { ...item, ...apiPageFun };
+          }
+        }
       }
 
       setLoading(true);
       if (api) {
-        const apiFun = Array.isArray(params) ? api(...params) : api(params);
+        const apiFun = Array.isArray(params) ? api(...params) : api({ ...params, ...apiPageFun });
         const { code, data } = await apiFun;
         if (Number(code) !== 200) return;
-        const result = apiResultKey
-          ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey]
-          : data;
-        setOptions(result as DefaultOptionType[]);
+        const result = (
+          apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data
+        ) as DefaultOptionType[];
+        if (result?.length) {
+          const newOption = options.concat(result);
+          setOptions(newOption);
+        }
+        setMore(!!result?.length);
       }
     } finally {
       setLoading(false);
     }
-  }, [pageKey, pageSize, pageSizeKey, props]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, searchValue]);
 
   useEffect(() => {
     // 当有值且列表为空时，自动获取接口
@@ -61,11 +96,52 @@ function ApiPageSelect(props: ApiPageSelectProps) {
    * 展开下拉回调
    * @param open - 是否展开
    */
-  const onDropdownVisibleChange = (open: boolean) => {
-    if (open) getApiData();
+  const onOpenChange = (open: boolean) => {
+    if (open && !options?.length) getApiData();
 
-    props.onDropdownVisibleChange?.(open);
+    props.onOpenChange?.(open);
   };
+
+  /** 滚动事件处理 */
+  const handleScroll = useCallback(
+    async (e: React.UIEvent<HTMLDivElement>) => {
+      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+      const threshold = 10; // 距离底部阈值
+
+      // 触底判断
+      if (scrollTop + clientHeight >= scrollHeight - threshold && !isLoading && hasMore) {
+        setCurrentPage(currentPage + 1);
+        setFetch(true);
+      }
+    },
+    [isLoading, hasMore, currentPage],
+  );
+
+  /** 自定义下拉框内容 */
+  const popupRender = (menu: React.ReactNode) => (
+    <>
+      {menu}
+      <div className="py-3px text-center">
+        {isLoading && hasMore && !!options?.length && <Spin size="small" spinning />}
+      </div>
+    </>
+  );
+
+  /** 初始化 */
+  const handleInit = () => {
+    setOptions([]);
+    setCurrentPage(page);
+    setMore(true);
+  };
+
+  /** 处理搜索 */
+  const handleSearch: SelectProps['onSearch'] = debounce((value) => {
+    props?.onSearch?.(value);
+
+    handleInit();
+    setSearchValue(value);
+    setFetch(true);
+  }, 200);
 
   return (
     <Select
@@ -75,10 +151,13 @@ function ApiPageSelect(props: ApiPageSelectProps) {
       placeholder={t('public.inputPleaseSelect')}
       optionFilterProp={params?.fieldNames?.label || 'label'}
       {...params}
+      onSearch={handleSearch}
+      onPopupScroll={handleScroll}
+      popupRender={popupRender}
       loading={isLoading}
       options={options}
       notFoundContent={isLoading && <Loading />}
-      onDropdownVisibleChange={onDropdownVisibleChange}
+      onOpenChange={onOpenChange}
     />
   );
 }
