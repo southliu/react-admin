@@ -56,6 +56,7 @@ function BaseTable(props: Props) {
   const [columns, setColumns] = useState(filterTableColumns(props.columns as TableColumn[]));
   const tableRef = useRef<HTMLDivElement>(null);
   const [tableFilters, setTableFilters] = useState<string[]>([]);
+  const [sortList, setSortList] = useState<string[]>([]);
 
   // 清除自定义属性
   const params: Partial<Props> = { ...props };
@@ -67,7 +68,11 @@ function BaseTable(props: Props) {
   delete (params as TableColumn).enum;
 
   useEffect(() => {
-    setColumns(filterTableColumns(props.columns as TableColumn[]));
+    const newColumns = filterTableColumns(props.columns as TableColumn[]);
+    const columnKeys = newColumns?.map((col) => col.dataIndex).filter(Boolean) as string[];
+    setColumns(newColumns);
+    setTableFilters(columnKeys);
+    setSortList(columnKeys);
   }, [props.columns]);
 
   // 添加新增缺少方法警告
@@ -93,8 +98,9 @@ function BaseTable(props: Props) {
    * 获取勾选表格数据
    * @param checks - 勾选
    */
-  const getTableChecks = (checks: string[]) => {
+  const getTableChecks = (checks: string[], newSortList: string[]) => {
     setTableFilters(checks);
+    setSortList(newSortList);
   };
 
   /**
@@ -114,7 +120,7 @@ function BaseTable(props: Props) {
 
   // 合并列表
   const mergeColumns = () => {
-    const newColumns = handleFilterTable(columns, tableFilters);
+    const newColumns = handleFilterTable(columns, tableFilters, sortList);
     if (!newColumns) return [];
     const result = newColumns.map((col, index) => ({
       ...col,

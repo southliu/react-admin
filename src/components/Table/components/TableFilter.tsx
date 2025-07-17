@@ -1,15 +1,9 @@
-import {
-  type TableProps,
-  type CheckboxProps,
-  Button,
-  Popover,
-  Divider,
-  Checkbox,
-  message,
-} from 'antd';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { type TableProps, type CheckboxProps, Button, Popover, Divider, Checkbox } from 'antd';
+import { type RefObject, useEffect, useState, useRef, createRef } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react';
+import Draggable from 'react-draggable';
 
 /**
  * 表格字段筛选
@@ -23,8 +17,10 @@ interface CheckboxList {
 interface Props {
   columns: TableProps['columns'];
   className?: string;
-  getTableChecks: (checks: string[]) => void;
+  getTableChecks: (checks: string[], sortList: string[]) => void;
 }
+
+type DraggleRef = { [key: string]: RefObject<HTMLDivElement | null> };
 
 function FilterButton(props: Props) {
   const { columns, className, getTableChecks } = props;
@@ -32,9 +28,11 @@ function FilterButton(props: Props) {
   const [isOpen, setOpen] = useState(false);
   const [list, setList] = useState<CheckboxList[]>([]);
   const [checkedList, setCheckedList] = useState<string[]>([]);
+  const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const checkAll = list.length === checkedList.length;
   const indeterminate = checkedList.length > 0 && checkedList.length < list.length;
   const params: Partial<Props> = { ...props };
+  const draggleRefs = useRef<DraggleRef>({});
   delete params.getTableChecks;
 
   useEffect(() => {
@@ -53,7 +51,8 @@ function FilterButton(props: Props) {
   const filterColumns = (columns: TableProps['columns']) => {
     if (!columns?.length) return [];
     const result: CheckboxList[] = [],
-      currentOptions: string[] = [];
+      currentOptions: string[] = [],
+      newDraggleRefs: DraggleRef = {};
 
     for (let i = 0; i < columns?.length; i++) {
       const item = columns[i];
@@ -63,6 +62,8 @@ function FilterButton(props: Props) {
         currentOptions?.push(dataIndex);
       }
 
+      newDraggleRefs[dataIndex] = createRef<HTMLDivElement>();
+
       result.push({
         label: item.title as string,
         value: dataIndex,
@@ -70,6 +71,7 @@ function FilterButton(props: Props) {
     }
 
     setList(result);
+    draggleRefs.current = newDraggleRefs;
     setCheckedList(currentOptions);
   };
 
@@ -79,60 +81,103 @@ function FilterButton(props: Props) {
    */
   const onChangeCheckbox = (checkedValue: string[]) => {
     setCheckedList(checkedValue);
+    handleFilter(checkedValue);
   };
 
   /** 处理筛选 */
-  const handleFilter = () => {
-    if (!checkedList?.length) {
-      return message.warning({
-        content: t('public.checkAllWarning'),
-        key: 'filter',
-      });
-    }
-    handleClick();
-    getTableChecks(checkedList);
+  const handleFilter = (checkedList: string[], currentList = list) => {
+    getTableChecks(
+      checkedList,
+      currentList.map((item) => item.value),
+    );
   };
 
+  /** 全选 */
   const onCheckAllChange: CheckboxProps['onChange'] = (e) => {
     const checkedList = e.target.checked ? list.map((item) => item.value) : [];
     setCheckedList(checkedList);
+    handleFilter(checkedList);
+  };
+
+  /**
+   * 拖拽排序处理
+   * @param index - 当前索引
+   * @param deltaY - Y轴偏移量
+   */
+  const handleDrag = (index: number, deltaY: number) => {
+    const itemHeight = 28; // 每项高度
+    // 计算目标索引
+    let targetIndex = index + Math.round(deltaY / itemHeight);
+    if (targetIndex < 0) targetIndex = 0;
+    if (targetIndex >= list.length) targetIndex = list.length - 1;
+    const newList = [...list];
+    const [moved] = newList.splice(index, 1);
+    newList.splice(targetIndex, 0, moved);
+    setList(newList);
+
+    // checkedList顺序也按新顺序调整
+    const newCheckedList = newList
+      .map((item) => item.value)
+      .filter((value) => checkedList.includes(value));
+    setCheckedList(newCheckedList);
+    handleFilter(newCheckedList, newList);
+    setDraggingIndex(null);
   };
 
   // 渲染内容
   const content = () => {
     return (
       <div className="min-w-130px flex flex-col">
-        <Checkbox
-          className="!px-12px"
-          indeterminate={indeterminate}
-          onChange={onCheckAllChange}
-          checked={checkAll}
-        >
-          {t('public.checkAll')}
-        </Checkbox>
+        <div className="px-5px">
+          <Checkbox
+            className="w-full !pl-10px !py-3px hover:bg-blue-200 border-rd-5px"
+            indeterminate={indeterminate}
+            onChange={onCheckAllChange}
+            checked={checkAll}
+          >
+            {t('public.checkAll')}
+          </Checkbox>
+        </div>
+        <Divider className="!my-5px" />
         <Checkbox.Group
-          className="flex flex-col !px-12px"
+          className="flex flex-col !px-5px !pb-5px relative"
           value={checkedList}
           onChange={onChangeCheckbox}
         >
-          {list?.map((item) => (
-            <div key={item.value}>
-              <Checkbox value={item.value}>{item.label}</Checkbox>
-            </div>
+          {list?.map((item, idx) => (
+            <Draggable
+              key={item.value}
+              nodeRef={draggleRefs.current?.[item.value] as RefObject<HTMLDivElement>}
+              axis="y"
+              position={{ x: 0, y: idx }}
+              bounds="parent"
+              handle=".drag-handle"
+              onStart={() => setDraggingIndex(idx)}
+              onStop={(_event, data) => handleDrag(idx, data.y)}
+            >
+              <div
+                ref={draggleRefs.current?.[item.value]}
+                className={`
+                  h-28px
+                  flex
+                  items-center
+                  pl-5px
+                  hover:bg-blue-200
+                  border-rd-5px
+                  ${draggingIndex === idx ? 'bg-blue-100 z-10' : ''}
+                `}
+                style={{ transition: 'background 0.2s' }}
+              >
+                <div className="h-28px pr-5px cursor-move flex items-center justify-center drag-handle">
+                  <Icon icon="icon-park-outline:drag" />
+                </div>
+                <Checkbox value={item.value} className="flex-1">
+                  {item.label}
+                </Checkbox>
+              </div>
+            </Draggable>
           ))}
         </Checkbox.Group>
-
-        <Divider className="!mt-10px !mb-5px" />
-
-        <div className="flex justify-end px-10px">
-          <Button size="small" className="mr-5px" onClick={handleClick}>
-            取消
-          </Button>
-
-          <Button type="primary" size="small" onClick={handleFilter}>
-            筛选
-          </Button>
-        </div>
       </div>
     );
   };
