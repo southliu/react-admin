@@ -2,6 +2,7 @@ import type { MenuProps } from 'antd';
 import type { SideMenu } from '#/public';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Menu } from 'antd';
+import { isUrl } from '@/utils/is';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import { useCommonStore } from '@/hooks/useCommonStore';
@@ -80,10 +81,15 @@ function LayoutMenu() {
   const onClickMenu: MenuProps['onClick'] = (e) => {
     // 如果点击的菜单是当前菜单则退出
     if (e.key === pathname) return;
-
-    setCurrentSelectedKeys([e.key]);
     if (isPhone) hiddenMenu();
 
+    // 如果是外链则跳转
+    if (isUrl(e.key)) {
+      window.open(e.key, '_blank');
+      return;
+    }
+
+    setCurrentSelectedKeys([e.key]);
     goPath(e.key);
   };
 
