@@ -3,6 +3,7 @@ import { type RefObject, useEffect, useState, useRef, createRef } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
+import { TableColumn } from '#/public';
 import Draggable from 'react-draggable';
 
 /**
@@ -16,14 +17,15 @@ interface CheckboxList {
 
 interface Props {
   columns: TableProps['columns'];
+  cacheColumns: TableProps['columns'];
   className?: string;
   getTableChecks: (checks: string[], sortList: string[]) => void;
 }
 
 type DraggleRef = { [key: string]: RefObject<HTMLDivElement | null> };
 
-function FilterButton(props: Props) {
-  const { columns, className, getTableChecks } = props;
+function TableFilter(props: Props) {
+  const { columns, cacheColumns, className, getTableChecks } = props;
   const { t } = useTranslation();
   const [isOpen, setOpen] = useState(false);
   const [list, setList] = useState<CheckboxList[]>([]);
@@ -34,6 +36,7 @@ function FilterButton(props: Props) {
   const params: Partial<Props> = { ...props };
   const draggleRefs = useRef<DraggleRef>({});
   delete params.getTableChecks;
+  delete params.cacheColumns;
 
   useEffect(() => {
     filterColumns(columns);
@@ -99,6 +102,26 @@ function FilterButton(props: Props) {
     handleFilter(checkedList);
   };
 
+  /** 重置列表 */
+  const handleReset = () => {
+    const newList: CheckboxList[] = [];
+    const allCheckedList = (cacheColumns as TableColumn[])
+      ?.map((item) => (item as { dataIndex: string })?.dataIndex)
+      ?.filter(Boolean);
+
+    for (let i = 0; i < (cacheColumns as TableColumn[])?.length; i++) {
+      const item = (cacheColumns as TableColumn[])[i];
+      newList.push({
+        label: item.title as string,
+        value: item.dataIndex as string,
+      });
+    }
+
+    setCheckedList(allCheckedList);
+    setList(newList);
+    handleFilter(allCheckedList, newList);
+  };
+
   /**
    * 拖拽排序处理
    * @param index - 当前索引
@@ -127,10 +150,10 @@ function FilterButton(props: Props) {
   // 渲染内容
   const content = () => {
     return (
-      <div className="min-w-130px flex flex-col">
+      <div className="min-w-140px flex flex-col">
         <div className="px-5px">
           <Checkbox
-            className="w-full !pl-10px !py-3px hover:bg-blue-200 border-rd-5px"
+            className="w-full !pl-10px !py-3px hover:bg-blue-100 border-rd-5px"
             indeterminate={indeterminate}
             onChange={onCheckAllChange}
             checked={checkAll}
@@ -138,7 +161,9 @@ function FilterButton(props: Props) {
             {t('public.checkAll')}
           </Checkbox>
         </div>
+
         <Divider className="!my-5px" />
+
         <Checkbox.Group
           className="flex flex-col !px-5px !pb-5px relative"
           value={checkedList}
@@ -162,7 +187,7 @@ function FilterButton(props: Props) {
                   flex
                   items-center
                   pl-5px
-                  hover:bg-blue-200
+                  hover:bg-blue-100
                   border-rd-5px
                   ${draggingIndex === idx ? 'bg-blue-100 z-10' : ''}
                 `}
@@ -178,6 +203,12 @@ function FilterButton(props: Props) {
             </Draggable>
           ))}
         </Checkbox.Group>
+
+        <Divider className="!mt-10px !mb-5px" />
+
+        <Button className="flex-1 text-center" type="link" size="small" onClick={handleReset}>
+          {t('public.reset')}
+        </Button>
       </div>
     );
   };
@@ -189,7 +220,7 @@ function FilterButton(props: Props) {
       placement="bottom"
       styles={{
         body: {
-          padding: '12px 0 10px',
+          padding: '8px 0 5px',
         },
       }}
       open={isOpen}
@@ -204,4 +235,4 @@ function FilterButton(props: Props) {
   );
 }
 
-export default FilterButton;
+export default TableFilter;

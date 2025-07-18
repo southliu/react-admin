@@ -271,7 +271,11 @@ function BaseTable(props: Props) {
               {t('public.refresh')}
             </Button>
 
-            <TableFilter columns={columns} getTableChecks={getTableChecks} />
+            <TableFilter
+              columns={columns}
+              cacheColumns={props.columns}
+              getTableChecks={getTableChecks}
+            />
           </div>
         </div>
       )}

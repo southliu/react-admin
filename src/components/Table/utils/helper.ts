@@ -1,6 +1,7 @@
 import type { TableColumn } from '#/public';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { EMPTY_VALUE } from '@/utils/config';
+import { cloneDeep } from 'lodash';
 
 /** 计算表格高度 */
 export function getTableHeight(element: HTMLDivElement | null): number {
@@ -42,8 +43,10 @@ export function handleRowHeight(size: SizeType): number {
  * @param columns - 表格数据
  */
 export function filterTableColumns(columns: TableColumn[]) {
-  for (let i = 0; i < columns?.length; i++) {
-    const element = columns[i];
+  const newColumns = cloneDeep(columns);
+
+  for (let i = 0; i < newColumns?.length; i++) {
+    const element = newColumns[i];
     if (element.ellipsis === undefined) {
       element.ellipsis = true;
     }
@@ -54,5 +57,5 @@ export function filterTableColumns(columns: TableColumn[]) {
     }
   }
 
-  return columns;
+  return newColumns;
 }
