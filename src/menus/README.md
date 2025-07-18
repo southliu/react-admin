@@ -28,3 +28,9 @@ import { defaultMenus } from '@/menus';
 // 菜单数据
 const menuList = defaultMenus;
 ```
+
+### 菜单icon：
+参考 [iconify官方地址](https://icon-sets.iconify.design/)
+
+### 外链菜单：
+将key设为一个url地址，前缀为`http`或`https`，则视为外链菜单，点击后直接跳转。
