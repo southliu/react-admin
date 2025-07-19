@@ -85,7 +85,9 @@ function Page() {
   // 首次进入自动加载接口数据
   useEffect(() => {
     if (pagePermission.page) getPage();
+    
     // TODO: 重复请求测试，可删
+    setLoading(true);
     if (pagePermission.page) getPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagePermission.page]);
@@ -139,6 +141,8 @@ function Page() {
       messageApi.success(message || t('public.successfulOperation'));
       setCreateOpen(false);
       getPage();
+    } catch (e) {
+      console.log(e);
     } finally {
       setCreateLoading(false);
     }
