@@ -1,3 +1,4 @@
+import type { TabsData } from '@/stores/tabs';
 import { useTranslation } from 'react-i18next';
 import { getMenuByKey, getMenuName, getOpenMenuByRouter } from '@/menus/utils/helper';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
@@ -28,7 +29,6 @@ export function useSingleTab(props: Props) {
   const { setOpenKeys, setSelectedKeys } = useMenuStore((state) => state);
   const { addTabs, setNav, setActiveKey } = useTabsStore((state) => state);
   const { isPhone, isCollapsed, menuList, permissions } = useCommonStore();
-  const uri = pathname + search;
 
   // 处理默认展开
   useEffect(() => {
@@ -64,12 +64,13 @@ export function useSingleTab(props: Props) {
         labelEn: enTitle,
       });
 
-      const newTab = {
+      const newTab: TabsData = {
         label: currentTitle,
         labelEn: enTitle,
         labelZh: zhTitle,
-        key: uri,
+        key: pathname,
         nav: newNav,
+        urlParams: search,
       };
       setActiveKey(newTab.key);
       setNav(newTab.nav);

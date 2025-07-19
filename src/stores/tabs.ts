@@ -11,6 +11,7 @@ export interface TabsData extends Omit<TabPaneProps, 'tab'> {
   labelZh: React.ReactNode;
   labelEn: React.ReactNode;
   nav: NavData[];
+  urlParams?: string; // url参数
 }
 
 interface TabsGoNext {

@@ -18,8 +18,7 @@ import TabOptions from './TabOptions';
 function LayoutTabs() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { pathname, search } = useLocation();
-  const uri = pathname + search;
+  const { pathname } = useLocation();
   const { refresh, dropScope } = useAliveController();
   const [messageApi, contextHolder] = message.useMessage();
   const [isChangeLang, setChangeLang] = useState(false); // 是否切换语言
@@ -48,7 +47,7 @@ function LayoutTabs() {
    * @param path - 路径
    */
   const handleAddTab = useCallback(
-    (path = uri) => {
+    (path = pathname) => {
       // 当值为空时匹配路由
       if (permissions.length > 0) {
         if (path === '/') return;
@@ -108,23 +107,42 @@ function LayoutTabs() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /** 根据路由匹配对应的urlParams */
+  const getUrlParamsByRouterKey = (key: string) => {
+    for (let i = 0; i < tabs?.length; i++) {
+      const item = tabs[i];
+
+      if (item.key === key) {
+        return item?.urlParams || '';
+      }
+    }
+
+    return '';
+  };
+
+  /** 跳转页面 */
+  const handleNavigateTo = (key: string) => {
+    const urlParams = getUrlParamsByRouterKey(key);
+    navigate(`${key}${urlParams}`);
+  };
+
   useEffect(() => {
     // 当选中贴标签不等于当前路由则跳转
-    if (activeKey !== uri) {
-      const key = isCloseTabsLock ? activeKey : uri;
+    if (activeKey !== pathname) {
+      const key = isCloseTabsLock ? activeKey : pathname;
       handleSetTitle();
 
       // 如果是关闭标签则直接跳转
       if (isCloseTabsLock) {
-        navigate(key);
         toggleCloseTabsLock(false);
         handleUpdateBreadcrumb(key);
+        handleNavigateTo(key);
       } else {
         handleAddTab(key);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeKey, uri]);
+  }, [activeKey, pathname]);
 
   /**
    * 设置浏览器标签
@@ -132,9 +150,7 @@ function LayoutTabs() {
    * @param path - 路径
    */
   const handleSetTitle = useCallback(() => {
-    const path = `${pathname}${search || ''}`;
-    // 通过路由获取标签名
-    const title = getTabTitle(tabs, path);
+    const title = getTabTitle(tabs, pathname);
     if (title) setTitle(t, title);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
@@ -144,7 +160,7 @@ function LayoutTabs() {
    * @param key - 唯一值
    */
   const onChange = (key: string) => {
-    navigate(key);
+    handleNavigateTo(key);
   };
 
   /**
@@ -160,7 +176,6 @@ function LayoutTabs() {
       };
       const newItems = getMenuByKey(menuByKeyProps);
       if (newItems?.key) {
-        navigate(key);
         setNav(newItems.nav);
       }
     }

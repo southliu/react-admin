@@ -26,6 +26,7 @@ const initCreate = {
 function Page() {
   const { t } = useTranslation();
   const createFormRef = useRef<FormInstance>(null);
+  const [, setSearchParams] = useSearchParams();
   const columns = tableColumns(t, optionRender);
   const [messageApi, contextHolder] = message.useMessage();
   const [isFetch, setFetch] = useState(false);
@@ -87,8 +88,13 @@ function Page() {
    * @param values - 表单返回数据
    */
   const onSearch = (values: BaseFormData) => {
+    // 去除 values 中值为 undefined 的属性
+    const filteredValues = Object.fromEntries(
+      Object.entries(values).filter(([, value]) => value !== undefined),
+    );
     setPage(1);
     setSearchData(values);
+    setSearchParams(filteredValues as Record<string, string>);
     setFetch(true);
   };
 
@@ -310,7 +316,7 @@ function Page() {
           dataSource={tableData}
           rowSelection={rowSelection}
           leftContent={leftContentRender}
-          rightContent={<div>demo</div>}
+          rightContent={<div>（搜索将参数放入url）</div>}
           getPage={getPage}
           onCreate={onCreate}
         />

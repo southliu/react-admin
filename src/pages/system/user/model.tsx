@@ -54,13 +54,13 @@ export const tableColumns = (t: TFunction, optionRender: TableOptions<object>): 
     {
       title: 'ID',
       dataIndex: 'id',
-      width: 200,
+      width: 80,
       fixed: 'left',
     },
     {
       title: t('login.username'),
       dataIndex: 'username',
-      width: 200,
+      width: 100,
       fixed: 'left',
     },
     {

@@ -19,8 +19,7 @@ import styles from './index.module.less';
 
 function Layout() {
   const [getToken] = useToken();
-  const { pathname, search } = useLocation();
-  const uri = pathname + search;
+  const { pathname } = useLocation();
   const token = getToken();
   const outlet = useOutlet();
   const [isLoading, setLoading] = useState(true);
@@ -142,7 +141,7 @@ function Layout() {
             </div>
           )}
           {permissions.length > 0 && (
-            <KeepAlive id={uri} name={uri}>
+            <KeepAlive id={pathname} name={pathname}>
               <div
                 className={`
                   content-transition

@@ -83,7 +83,7 @@ function Page() {
 
   /** 点击新增 */
   const onCreate = () => {
-    navigate('/content/article/option?type=create');
+    navigate('/content/article/create');
   };
 
   /**
@@ -91,7 +91,7 @@ function Page() {
    * @param id - 唯一值
    */
   const onUpdate = (id: string) => {
-    navigate(`/content/article/option?type=update&id=${id}`);
+    navigate(`/content/article/update?id=${id}`);
   };
 
   /**

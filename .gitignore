@@ -32,3 +32,4 @@ coverage/
 
 stats.html
 .vite
+types/autoImports.d.ts

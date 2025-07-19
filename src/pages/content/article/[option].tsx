@@ -30,9 +30,10 @@ const fatherPath = '/content/article';
 function Page() {
   const { t } = useTranslation();
   const { pathname, search } = useLocation();
-  const uri = pathname + search;
+  const currentPathname = useRef(pathname);
   const id = getUrlParam(search, 'id');
   const createFormRef = useRef<FormInstance>(null);
+  const currentId = useRef('');
   const [isLoading, setLoading] = useState(false);
   const [createId, setCreateId] = useState('');
   const [createData, setCreateData] = useState<BaseFormData>(initCreate);
@@ -57,13 +58,15 @@ function Page() {
   };
 
   useEffect(() => {
+    if (currentPathname.current !== pathname) return;
+
     if (id) {
       handleUpdate(id);
+      currentId.current = id;
     } else {
       handleCreate();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id, pathname]);
 
   // 异步添加富文本组件
   useLayoutEffect(() => {
@@ -105,7 +108,7 @@ function Page() {
     createFormRef.current?.resetFields();
     if (isRefresh) setRefreshPage(true);
     closeTabGoNext({
-      key: uri,
+      key: pathname,
       nextPath: fatherPath,
       dropScope,
     });
