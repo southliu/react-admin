@@ -64,15 +64,12 @@ CreateBusiness();
  * 获取组件
  * @param item - 表单项
  */
-export function getComponent(t: TFunction, item: BaseFormList, onPressEnter: () => void) {
+export function getComponent(t: TFunction, item: BaseFormList) {
   const { component, componentProps } = item;
 
   // 输入框渲染
   const renderInput = (
-    <Input
-      {...(initCompProps(t, 'Input', onPressEnter) as InputProps)}
-      {...(componentProps as InputProps)}
-    />
+    <Input {...(initCompProps(t, 'Input') as InputProps)} {...(componentProps as InputProps)} />
   );
 
   // 当组件类型为自定义时
@@ -89,7 +86,7 @@ export function getComponent(t: TFunction, item: BaseFormList, onPressEnter: () 
 
   return (
     <>
-      <Comp {...initCompProps(t, component, onPressEnter)} {...componentProps} />
+      <Comp {...initCompProps(t, component)} {...componentProps} />
     </>
   );
 }

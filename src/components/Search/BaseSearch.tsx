@@ -95,11 +95,6 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
   delete formProps.isLoading;
   delete formProps.handleFinish;
 
-  /** 回车处理 */
-  const onPressEnter = () => {
-    form?.submit();
-  };
-
   /** 点击重置 */
   const onReset = () => {
     form?.resetFields();
@@ -250,7 +245,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
                 wrapperCol={getWrapperCol(item)}
                 valuePropName={handleValuePropName(item.component)}
               >
-                {getComponent(t, item, onPressEnter)}
+                {getComponent(t, item)}
               </Form.Item>
             ))}
             {renderBtnList}
@@ -271,7 +266,7 @@ const BaseSearch = forwardRef((props: Props, ref: Ref<FormInstance>) => {
                   wrapperCol={getWrapperCol(item)}
                   valuePropName={handleValuePropName(item.component)}
                 >
-                  {getComponent(t, item, onPressEnter)}
+                  {getComponent(t, item)}
                 </Form.Item>
               </div>
             ))}

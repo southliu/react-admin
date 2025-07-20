@@ -48,11 +48,6 @@ const BaseForm = forwardRef((props: Props, ref: Ref<FormInstance>) => {
     },
   };
 
-  /** 回车处理 */
-  const onPressEnter = () => {
-    form?.submit();
-  };
-
   /**
    * 提交表单
    * @param values - 表单值
@@ -81,7 +76,7 @@ const BaseForm = forwardRef((props: Props, ref: Ref<FormInstance>) => {
    */
   const renderFormItem = (item: BaseFormList) => (
     <Form.Item {...filterFormItem(item)} valuePropName={handleValuePropName(item.component)}>
-      {getComponent(t, item, onPressEnter)}
+      {getComponent(t, item)}
     </Form.Item>
   );
 
