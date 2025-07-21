@@ -10,9 +10,9 @@ import { encryption, decryption } from '@south/utils';
 import { getFirstMenu } from '@/menus/utils/helper';
 import Logo from '@/assets/images/logo.svg';
 
-const CHECK_REMEMBER = 'remember-me';
-const USER_USERNAME = 'login-username';
-const USER_PASSWORD = 'login-password';
+const CHECK_REMEMBER = 'remember_me';
+const USER_USERNAME = 'login_username';
+const USER_PASSWORD = 'login_password';
 
 function Login() {
   const { t, i18n } = useTranslation();
