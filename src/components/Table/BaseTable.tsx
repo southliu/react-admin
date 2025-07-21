@@ -189,6 +189,7 @@ function BaseTable(props: Props) {
   const virtualOptions = useVirtualTable({
     height: tableHeight, // 设置可视高度
     size: size || 'small',
+    total: props.dataSource?.length || 0,
   });
 
   // 虚拟滚动组件
