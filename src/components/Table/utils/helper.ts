@@ -28,13 +28,13 @@ export function getTableHeight(element: HTMLDivElement | null): number {
 export function handleRowHeight(size: SizeType): number {
   switch (size) {
     case 'large':
-      return 54;
+      return 62;
 
     case 'middle':
-      return 46;
+      return 54;
 
     default:
-      return 38;
+      return 46;
   }
 }
 
