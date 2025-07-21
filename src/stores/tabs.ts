@@ -206,7 +206,7 @@ export const useTabsStore = create<TabsState>()(
         },
       }),
       {
-        name: 'tabs-storage', // 存储中的项目名称，必须是唯一的
+        name: 'tabs_storage', // 存储中的项目名称，必须是唯一的
         storage: createJSONStorage(() => localStorage), // 使用sessionStorage作为存储
       },
     ),
