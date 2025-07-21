@@ -3,6 +3,7 @@ export interface InitTableState {
   curScrollTop: number;
   scrollHeight: number;
   tableScrollY: number;
+  total: number;
 }
 
 export interface TableAction extends Partial<InitTableState> {

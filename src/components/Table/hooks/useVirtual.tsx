@@ -1,7 +1,7 @@
 import type { InitTableState } from '../utils/reducer';
 import type { CSSProperties, ReactNode } from 'react';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
-import { useEffect, useReducer, useRef, useState, useMemo } from 'react';
+import { useEffect, useReducer, useRef, useMemo } from 'react';
 import { reducer } from '../utils/reducer';
 import { isNumber } from '@/utils/is';
 import { ScrollContext } from '../utils/state';
@@ -14,6 +14,7 @@ const initialState: InitTableState = {
   curScrollTop: 0, // 当前的滚动高度
   scrollHeight: 0, // 可滚动区域的高度
   tableScrollY: 0, // 可滚动区域值
+  total: 0, // 数据的总条数
 };
 
 type Children = ReactNode &
@@ -44,21 +45,14 @@ function VirtualTable(props: VirtualTableProps) {
 
   const wrapTableRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
-
-  // 数据的总条数
-  const [totalLen, setTotalLen] = useState<number>(children?.[2]?.props?.data?.length ?? 0);
-
-  useEffect(() => {
-    if (isNumber(children?.[1]?.props?.data?.length)) {
-      setTotalLen(children?.[1]?.props?.data?.length);
-    }
-  }, [children]);
+  const totalLen = initialState.total;
 
   // table总高度
   const tableHeight = useMemo<string | number>(() => {
+    // 数据的总条数
     let temp: string | number = 'auto';
     if (state.rowHeight && totalLen) {
-      temp = state.rowHeight * totalLen;
+      temp = state.rowHeight * (totalLen + 1);
     }
     return temp;
   }, [state.rowHeight, totalLen]);
@@ -187,12 +181,14 @@ function VirtualTable(props: VirtualTableProps) {
 interface Props {
   height: number | string;
   size: SizeType;
+  total: number;
 }
 
 export default function useVirtualTable(props: Props) {
-  const { height, size } = props;
+  const { height, size, total } = props;
   scrollY = height;
   initialState.rowHeight = handleRowHeight(size);
+  initialState.total = total;
 
   return {
     table: VirtualTable,

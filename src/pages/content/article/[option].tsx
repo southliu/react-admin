@@ -1,7 +1,7 @@
 import { type FormInstance, message, Spin } from 'antd';
 import { createList } from './model';
 import { getUrlParam } from '@/utils/helper';
-import { useAliveController } from 'react-activation';
+import { useActivate, useAliveController } from 'react-activation';
 import { getArticleById, createArticle, updateArticle } from '@/servers/content/article';
 
 interface RecordType {
@@ -30,10 +30,9 @@ const fatherPath = '/content/article';
 function Page() {
   const { t } = useTranslation();
   const { pathname, search } = useLocation();
-  const currentPathname = useRef(pathname);
   const id = getUrlParam(search, 'id');
+  const currentId = useRef(id);
   const createFormRef = useRef<FormInstance>(null);
-  const currentId = useRef('');
   const [isLoading, setLoading] = useState(false);
   const [createId, setCreateId] = useState('');
   const [createData, setCreateData] = useState<BaseFormData>(initCreate);
@@ -58,15 +57,28 @@ function Page() {
   };
 
   useEffect(() => {
-    if (currentPathname.current !== pathname) return;
-
     if (id) {
       handleUpdate(id);
-      currentId.current = id;
     } else {
       handleCreate();
     }
-  }, [id, pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useActivate(() => {
+    const { href } = window.location;
+    const newId = href.split('?')[1]?.split('=')[1];
+
+    // 获取url参数
+    if (currentId.current !== newId) {
+      if (newId) {
+        handleUpdate(newId);
+      } else {
+        handleCreate();
+      }
+      currentId.current = newId || '';
+    }
+  });
 
   // 异步添加富文本组件
   useLayoutEffect(() => {

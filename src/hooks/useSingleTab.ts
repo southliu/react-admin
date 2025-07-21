@@ -27,8 +27,8 @@ export function useSingleTab(props: Props) {
   const { t, i18n } = useTranslation();
   const { pathname, search } = useLocation();
   const { setOpenKeys, setSelectedKeys } = useMenuStore((state) => state);
-  const { addTabs, setNav, setActiveKey } = useTabsStore((state) => state);
   const { isPhone, isCollapsed, menuList, permissions } = useCommonStore();
+  const { activeKey, addTabs, setNav, setActiveKey } = useTabsStore((state) => state);
 
   // 处理默认展开
   useEffect(() => {
@@ -49,7 +49,7 @@ export function useSingleTab(props: Props) {
   const handleAddTab = useCallback(
     (path = pathname) => {
       // 当值为空时匹配路由
-      if (path === '/') return;
+      if (path === '/' || activeKey !== pathname) return;
       const title = i18n.language === 'zh' ? zhTitle : enTitle;
       const currentTitle = handleGetTitle();
       const menuByKeyProps = {
