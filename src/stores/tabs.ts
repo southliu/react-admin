@@ -32,6 +32,7 @@ interface TabsState {
   setNav: (nav: NavData[]) => void;
   switchTabsLang: (label: string) => void;
   addTabs: (payload: TabsData) => void;
+  setTabs: (key: string, searchParams?: string) => void;
   closeTabs: (payload: string, dropScope: AliveController['dropScope']) => void;
   closeTabGoNext: (payload: TabsGoNext) => void;
   closeLeft: (payload: string, dropScope: AliveController['dropScope']) => void;
@@ -70,6 +71,15 @@ export const useTabsStore = create<TabsState>()(
 
             if (tabs.length) tabs[0].closable = tabs.length > 1;
 
+            return { tabs };
+          }),
+        setTabs: (key, searchParams) =>
+          set((state) => {
+            const { tabs } = state;
+            const has = tabs.find((item) => item.key === key);
+            if (has) {
+              has.urlParams = searchParams;
+            }
             return { tabs };
           }),
         closeTabs: (payload, dropScope) =>
