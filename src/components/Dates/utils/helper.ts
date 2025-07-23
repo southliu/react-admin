@@ -95,7 +95,15 @@ function getListKeyParam(list: BaseFormList[], key: string): string {
  * @param list - 列表值
  */
 export function filterDayjs(obj: BaseFormData, list: BaseFormList[]): Record<string, unknown> {
+  // 获取自定义组件的key
+  const customizeList = list
+    .filter((item) => item.component === 'customize')
+    .map((item) => item.name);
+
   for (const key in obj) {
+    // 自定义组件不处理
+    if (customizeList?.includes(key)) continue;
+
     // 判断是否是时间区间
     if (
       (obj[key] as [Dayjs, Dayjs])?.length === 2 &&
