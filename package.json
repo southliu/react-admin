@@ -1,9 +1,9 @@
 {
-  "name": "react-admin",
+  "name": "south-admin",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/southliu/react-admin",
+  "homepage": "https://github.com/southliu/south-admin",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
